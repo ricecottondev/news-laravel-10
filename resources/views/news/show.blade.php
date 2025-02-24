@@ -1,7 +1,4 @@
-{{-- resources/views/news/show.blade.php --}}
-
-@extends('layouts.app')
-
+@extends('back/layouts.layout')
 @section('content')
 <div class="container">
     <h1>{{ $news->title }}</h1>
