@@ -1,4 +1,4 @@
-# SDA PRISM
+# NEWS-Laravel-10
 - git clone
 - php artisan key:generate
 - php artisan optimize:clear
