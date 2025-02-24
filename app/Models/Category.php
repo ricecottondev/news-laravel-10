@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class News extends Model
+class Category extends Model
 {
     use HasFactory;
 
@@ -14,7 +14,7 @@ class News extends Model
      *
      * @var string
      */
-    protected $table = 'news';
+    protected $table = 'categories';
 
     /**
      * The attributes that are mass assignable.
@@ -22,13 +22,8 @@ class News extends Model
      * @var array
      */
     protected $fillable = [
-        'category_id',
-        'title',
-        'short_desc',
-        'content',
-        'author',
-        'slug',
-        'status',
+        'name',
+        'description',
     ];
 
     /**
@@ -42,12 +37,12 @@ class News extends Model
     ];
 
     /**
-     * Define a relationship with Category.
+     * Define a relationship with NewsItem.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function category()
+    public function newsItems()
     {
-        return $this->belongsTo(Category::class);
+        return $this->hasMany(News::class);
     }
 }
