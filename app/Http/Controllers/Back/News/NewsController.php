@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Back\News;
 
 use App\Models\News;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Controllers\Controller;
 
 class NewsController extends Controller
 {
@@ -17,7 +18,7 @@ class NewsController extends Controller
     public function index()
     {
         $news = News::with('category')->get();
-        return view('news.index', compact('news'));
+        return view('back.news.index', compact('news'));
     }
 
     /**
@@ -28,7 +29,7 @@ class NewsController extends Controller
     public function create()
     {
         $categories = Category::all();
-        return view('news.create', compact('categories'));
+        return view('back.news.create', compact('categories'));
     }
 
     /**
@@ -66,7 +67,7 @@ class NewsController extends Controller
      */
     public function show(News $news)
     {
-        return view('news.show', compact('news'));
+        return view('back.news.show', compact('news'));
     }
 
     /**
@@ -78,7 +79,7 @@ class NewsController extends Controller
     public function edit(News $news)
     {
         $categories = Category::all();
-        return view('news.edit', compact('news', 'categories'));
+        return view('back.news.edit', compact('news', 'categories'));
     }
 
     /**

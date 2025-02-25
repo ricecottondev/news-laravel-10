@@ -78,8 +78,8 @@ use App\Http\Controllers\QrCode\GenerateUniqueCodeController;
 
 use App\Http\Controllers\Admin\FileController;
 
-use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\NewsController;
+use App\Http\Controllers\Back\Categories\CategoryController;
+use App\Http\Controllers\Back\News\NewsController;
 
 
 

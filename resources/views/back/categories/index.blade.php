@@ -9,7 +9,7 @@
                     <div id="kt_app_toolbar_container" class="app-container container-xxl d-flex flex-stack">
                         <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
                             <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">
-                                News List</h1>
+                                Brand List</h1>
                             <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-0 pt-1">
                                 <li class="breadcrumb-item text-muted">
                                     <a href="../../demo1/dist/index.html" class="text-muted text-hover-primary">Master</a>
@@ -17,12 +17,15 @@
                                 <li class="breadcrumb-item">
                                     <span class="bullet bg-gray-400 w-5px h-2px"></span>
                                 </li>
-                                <li class="breadcrumb-item text-muted">News</li>
+                                <li class="breadcrumb-item text-muted">Categories</li>
                             </ul>
                         </div>
                         <div class="d-flex align-items-center gap-2 gap-lg-3">
-                            <a href="{{ route('news.create') }}" class="btn btn-sm btn-primary"><i
-                                    class="ki-duotone ki-plus "></i>Add News</a>
+                            @if (session('success'))
+                                <div class="alert alert-success">{{ session('success') }}</div>
+                            @endif
+                            <a href="{{ route('categories.create') }}" class="btn btn-sm btn-primary"><i
+                                    class="ki-duotone ki-plus "></i>Add Categories</a>
                         </div>
                     </div>
                 </div>
@@ -52,31 +55,30 @@
                             <div class="card-body pt-0">
 
                                 <table class="table align-middle table-row-dashed fs-6 gy-5" id="kt_ecommerce_sales_table">
+
                                     <thead>
                                         <tr>
-                                            <th>Judul</th>
-                                            <th>Deskripsi Singkat</th>
-                                            <th>Penulis</th>
-                                            <th>Status</th>
-                                            <th>Aksi</th>
+                                            <th>Name</th>
+                                            <th>Description</th>
+                                            <th>Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($news as $item)
-                                        <tr>
-                                            <td>{{ $item->title }}</td>
-                                            <td>{{ $item->short_desc }}</td>
-                                            <td>{{ $item->author }}</td>
-                                            <td>{{ $item->status }}</td>
-                                            <td>
-                                                <a href="{{ route('news.edit', $item->id) }}" class="btn btn-warning">Edit</a>
-                                                <form action="{{ route('news.destroy', $item->id) }}" method="POST" style="display:inline;">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" class="btn btn-danger">Hapus</button>
-                                                </form>
-                                            </td>
-                                        </tr>
+                                        @foreach ($categories as $category)
+                                            <tr>
+                                                <td>{{ $category->name }}</td>
+                                                <td>{{ $category->description }}</td>
+                                                <td>
+                                                    <a href="{{ route('categories.edit', $category) }}"
+                                                        class="btn btn-warning">Edit</a>
+                                                    <form action="{{ route('categories.destroy', $category) }}"
+                                                        method="POST" style="display:inline;">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="btn btn-danger">Delete</button>
+                                                    </form>
+                                                </td>
+                                            </tr>
                                         @endforeach
                                     </tbody>
                                 </table>

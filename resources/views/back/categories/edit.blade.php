@@ -9,7 +9,7 @@
                     <div id="kt_app_toolbar_container" class="app-container container-xxl d-flex flex-stack">
                         <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
                             <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">
-                                Edit News</h1>
+                                Category List</h1>
                             <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-0 pt-1">
                                 <li class="breadcrumb-item text-muted">
                                     <a href="../../demo1/dist/index.html" class="text-muted text-hover-primary">Master</a>
@@ -17,13 +17,13 @@
                                 <li class="breadcrumb-item">
                                     <span class="bullet bg-gray-400 w-5px h-2px"></span>
                                 </li>
-                                <li class="breadcrumb-item text-muted">News</li>
+                                <li class="breadcrumb-item text-muted">Categories</li>
                             </ul>
                         </div>
                         <div class="d-flex align-items-center gap-2 gap-lg-3">
                             <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal"
                                 data-bs-target="#kt_modal_add_user">
-                                <i class="ki-duotone ki-plus "></i>Edit News</button>
+                                <i class="ki-duotone ki-plus "></i>Add Categories</button>
                         </div>
                     </div>
                 </div>
@@ -52,45 +52,16 @@
                                 </div>
                             </div>
                             <div class="card-body pt-0">
-                                <form action="{{ route('news.update', $news->id) }}" method="POST">
+                                <form action="{{ route('categories.update', $category) }}" method="POST">
                                     @csrf
                                     @method('PUT')
                                     <div class="form-group">
-                                        <label for="title">Judul</label>
-                                        <input type="text" class="form-control" id="title" name="title" value="{{ $news->title }}" required>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label for="category_id">Category</label>
-                                        <select name="category_id" id="category_id" class="form-control" required>
-                                            <option value="">Select Category</option>
-                                            @foreach ($categories as $category)
-                                                <option value="{{ $category->id }}" {{$news->category_id == $category->id ? "selected": ""}}>{{ $category->name }}</option>
-                                            @endforeach
-                                        </select>
+                                        <label for="name">Name</label>
+                                        <input type="text" name="name" class="form-control" value="{{ $category->name }}" required>
                                     </div>
                                     <div class="form-group">
-                                        <label for="short_desc">Deskripsi Singkat</label>
-                                        <input type="text" class="form-control" id="short_desc" name="short_desc" value="{{ $news->short_desc }}" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="content">Konten</label>
-                                        <textarea class="form-control" id="content" name="content" rows="5" required>{{ $news->content }}</textarea>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="author">Penulis</label>
-                                        <input type="text" class="form-control" id="author" name="author" value="{{ $news->author }}" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="slug">Slug</label>
-                                        <input type="text" class="form-control" id="slug" name="slug" value="{{ $news->slug }}" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="status">Status</label>
-                                        <select class="form-control" id="status" name="status" required>
-                                            <option value="published" {{ $news->status == 'published' ? 'selected' : '' }}>Published</option>
-                                            <option value="draft" {{ $news->status == 'draft' ? 'selected' : '' }}>Draf</option>
-                                        </select>
+                                        <label for="description">Description</label>
+                                        <textarea name="description" class="form-control">{{ $category->description }}</textarea>
                                     </div>
                                     <button type="submit" class="btn btn-primary">Update</button>
                                 </form>

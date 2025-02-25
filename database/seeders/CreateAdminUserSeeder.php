@@ -16,6 +16,8 @@ class CreateAdminUserSeeder extends Seeder
      */
     public function run()
     {
+
+
         $user = User::create([
         	'name' => 'superadmin',
         	'email' => 'superadmin@gmail.com',
@@ -28,6 +30,7 @@ class CreateAdminUserSeeder extends Seeder
 
         $role->syncPermissions($permissions);
 
-        $user->assignRole([$role->id]);
+        // $user->assignRole([$role->id]);
+        $user->assignRole('Admin');
     }
 }

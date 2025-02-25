@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Back\Categories;
 
 use App\Models\Category;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class CategoryController extends Controller
 {
@@ -14,8 +15,9 @@ class CategoryController extends Controller
      */
     public function index()
     {
+
         $categories = Category::all();
-        return view('categories.index', compact('categories'));
+        return view('back.categories.index', compact('categories'));
     }
 
     /**
@@ -25,7 +27,9 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        return view('categories.create');
+
+        return view('back.categories.create'); // Kirim kategori ke view
+
     }
 
     /**
@@ -54,7 +58,7 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
-        return view('categories.show', compact('category'));
+        return view('back.categories.show', compact('category'));
     }
 
     /**
@@ -65,7 +69,7 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        return view('categories.edit', compact('category'));
+        return view('back.categories.edit', compact('category'));
     }
 
     /**
