@@ -80,5 +80,5 @@ Route::get('news/{id}', [NewsController::class, 'show']); // GET: Menampilkan be
 Route::post('news', [NewsController::class, 'store']); // POST: Menambahkan berita baru
 Route::put('news/{id}', [NewsController::class, 'update']); // PUT: Memperbarui berita berdasarkan ID
 Route::delete('news/{id}', [NewsController::class, 'destroy']); // DELETE: Menghapus berita berdasarkan ID
-
+Route::get('news/search', [NewsController::class, 'getSearchNews']);
 

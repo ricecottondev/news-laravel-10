@@ -57,4 +57,31 @@ class NewsController extends Controller
         $news->delete();
         return response()->json(null, 204);
     }
+
+    public function getSearchNews(Request $request)
+    {
+        $query = $request->input('query');
+
+        // Mencari berita berdasarkan judul dan konten
+        $newsItems = News::where('title', 'LIKE', "%{$query}%")
+            ->orWhere('content', 'LIKE', "%{$query}%")
+            ->get();
+
+        if ($newsItems->isEmpty()) {
+            return response()->json(['message' => 'No news items found.'], 404);
+        }
+
+        return response()->json($newsItems, 200);
+    }
+
+    public function getDetailNews($id)
+    {
+        $news = News::find($id);
+
+        if (!$news) {
+            return response()->json(['message' => 'News not found'], 404);
+        }
+
+        return response()->json($news, 200);
+    }
 }
