@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class News extends Model
+class CountriesCategoriesNews extends Model
 {
     use HasFactory;
 
@@ -14,7 +14,7 @@ class News extends Model
      *
      * @var string
      */
-    protected $table = 'news';
+    protected $table = 'countries_categories_news';
 
     /**
      * The attributes that are mass assignable.
@@ -22,24 +22,21 @@ class News extends Model
      * @var array
      */
     protected $fillable = [
+        'country_id',
         'category_id',
-        'title',
-        'short_desc',
-        'content',
-        'author',
-        'slug',
+        'news_id',
         'status',
     ];
 
     /**
-     * The attributes that should be hidden for arrays.
+     * Define a relationship with Country.
      *
-     * @var array
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    protected $hidden = [
-        'created_at',
-        'updated_at',
-    ];
+    public function country()
+    {
+        return $this->belongsTo(Country::class);
+    }
 
     /**
      * Define a relationship with Category.
@@ -51,13 +48,13 @@ class News extends Model
         return $this->belongsTo(Category::class);
     }
 
-    public function countriesCategories()
+    /**
+     * Define a relationship with News.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function news()
     {
-        return $this->hasMany(CountriesCategories::class);
-    }
-
-    public function countriesCategoriesNews()
-    {
-        return $this->hasMany(CountriesCategoriesNews::class);
+        return $this->belongsTo(News::class);
     }
 }

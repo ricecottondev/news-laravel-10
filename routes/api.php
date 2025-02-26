@@ -51,6 +51,7 @@ use App\Http\Controllers\Api\Member\UpdateTokenFirebaseController;
 
 use App\Http\Controllers\Api\News\CategoryController;
 use App\Http\Controllers\Api\News\NewsController;
+use App\Http\Controllers\Api\News\CountryController;
 
 
 
@@ -68,17 +69,20 @@ use App\Http\Controllers\Api\News\NewsController;
  */
 
 // Rute untuk kategori
-Route::get('categories', [CategoryController::class, 'index']); // GET: Menampilkan semua kategori
+Route::get('getCategories', [CategoryController::class, 'index']); // GET: Menampilkan semua kategori
 Route::get('categories/{id}', [CategoryController::class, 'show']); // GET: Menampilkan kategori berdasarkan ID
 Route::post('categories', [CategoryController::class, 'store']); // POST: Menambahkan kategori baru
 Route::put('categories/{id}', [CategoryController::class, 'update']); // PUT: Memperbarui kategori berdasarkan ID
 Route::delete('categories/{id}', [CategoryController::class, 'destroy']); // DELETE: Menghapus kategori berdasarkan ID
 
 // Rute untuk berita
-Route::get('news', [NewsController::class, 'index']); // GET: Menampilkan semua berita
-Route::get('news/{id}', [NewsController::class, 'show']); // GET: Menampilkan berita berdasarkan ID
+Route::get('getAllNews', [NewsController::class, 'index']); // GET: Menampilkan semua berita
+Route::get('getDetailNews/{id}', [NewsController::class, 'show']); // GET: Menampilkan berita berdasarkan ID
 Route::post('news', [NewsController::class, 'store']); // POST: Menambahkan berita baru
 Route::put('news/{id}', [NewsController::class, 'update']); // PUT: Memperbarui berita berdasarkan ID
 Route::delete('news/{id}', [NewsController::class, 'destroy']); // DELETE: Menghapus berita berdasarkan ID
-Route::get('news/search', [NewsController::class, 'getSearchNews']);
+Route::get('getSearchNews', [NewsController::class, 'getSearchNews']);
+
+// Rute untuk country
+Route::get('getAllCountries', [CountryController::class, 'index']); // GET: Menampilkan semua country
 

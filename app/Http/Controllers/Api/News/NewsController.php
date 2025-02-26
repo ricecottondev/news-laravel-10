@@ -8,9 +8,36 @@ use App\Http\Controllers\Controller;
 
 class NewsController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        return News::with('category')->get();
+        // Mengambil parameter dari request
+        $countryName = $request->input('country_name');
+        $categoryName = $request->input('category_name');
+
+        // Mengambil berita dengan relasi kategori
+        $query = News::with('category');
+
+        // Jika country_name diberikan, filter berdasarkan country
+        if ($countryName) {
+            $query->whereHas('countriesCategoriesNews', function ($q) use ($countryName) {
+                $q->whereHas('country', function ($q) use ($countryName) {
+                    $q->where('country_name', $countryName);
+                });
+            });
+        }
+
+        // Jika category_name diberikan, filter berdasarkan kategori
+        if ($categoryName) {
+            $query->whereHas('category', function ($q) use ($categoryName) {
+                $q->where('name', $categoryName);
+            });
+        }
+
+        // Mengambil hasil query
+        $news = $query->get();
+
+        // Mengembalikan response JSON
+        return response()->json($news);
     }
 
     public function store(Request $request)
@@ -61,11 +88,39 @@ class NewsController extends Controller
     public function getSearchNews(Request $request)
     {
         $query = $request->input('query');
+        $countryName = $request->input('country_name');
+        $categoryName = $request->input('category_name');
 
         // Mencari berita berdasarkan judul dan konten
-        $newsItems = News::where('title', 'LIKE', "%{$query}%")
-            ->orWhere('content', 'LIKE', "%{$query}%")
-            ->get();
+        $newsQuery = News::query();
+
+        // Filter berdasarkan judul dan konten
+        if ($query) {
+            $newsQuery->where(function ($q) use ($query) {
+                $q->where('title', 'LIKE', "%{$query}%")
+                    ->orWhere('content', 'LIKE', "%{$query}%");
+            });
+        }
+
+        // Filter berdasarkan country_name
+        if ($countryName) {
+            $newsQuery->whereHas('countriesCategoriesNews', function ($q) use ($countryName) {
+                $q->whereHas('country', function ($q) use ($countryName) {
+                    $q->where('country_name', $countryName);
+                });
+            });
+        }
+
+        // Filter berdasarkan category_name
+        if ($categoryName) {
+            $newsQuery->whereHas('countriesCategoriesNews', function ($q) use ($categoryName) {
+                $q->whereHas('category', function ($q) use ($categoryName) {
+                    $q->where('name', $categoryName);
+                });
+            });
+        }
+
+        $newsItems = $newsQuery->with('category')->get();
 
         if ($newsItems->isEmpty()) {
             return response()->json(['message' => 'No news items found.'], 404);

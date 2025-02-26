@@ -24,6 +24,11 @@ class DatabaseSeeder extends Seeder
             // UserSeeder::class,
             PermissionTableSeeder::class,
             CreateAdminUserSeeder::class,
+            CountryTableSeeder::class,
+            CategoryTableSeeder::class,
+            NewsTableSeeder::class,
+            CountriesCategoriesNewsTableSeeder::class,
+            CountriesCategoriesTableSeeder::class,
         ]);
     }
 }
