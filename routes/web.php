@@ -80,6 +80,7 @@ use App\Http\Controllers\Admin\FileController;
 
 use App\Http\Controllers\Back\Categories\CategoryController;
 use App\Http\Controllers\Back\News\NewsController;
+use App\Http\Controllers\Back\Country\CountryController;
 
 
 
@@ -151,6 +152,8 @@ Route::group(['middleware' => ['auth']], function () {
 
     // Rute untuk kategori
     Route::resource('categories', CategoryController::class);
+
+    Route::resource('country', CountryController::class);
 
     // Rute untuk berita
     Route::resource('news', NewsController::class);
