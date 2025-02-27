@@ -7,6 +7,8 @@ use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Storage;
+
 
 class NewsController extends Controller
 {
@@ -48,16 +50,33 @@ class NewsController extends Controller
             'author' => 'required|string|max:255',
             'slug' => 'required|string|unique:news,slug',
             'status' => 'required|string|in:draft,published',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // Validasi gambar
         ]);
 
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
-        News::create($request->all());
+        // Simpan gambar ke dalam folder public/images/news
+        $imagePath = null;
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $imagePath = $image->store('images/news', 'public');
+        }
 
-        return redirect()->route('news.index')->with('success', 'News item created successfully.');
-    }
+        // Simpan data ke database
+        News::create([
+            'category_id' => $request->category_id,
+            'title' => $request->title,
+            'short_desc' => $request->short_desc,
+            'content' => $request->content,
+            'author' => $request->author,
+            'slug' => $request->slug,
+            'status' => $request->status,
+            'image' => $imagePath, // Simpan path gambar ke database
+        ]);
+
+        return redirect()->route('news.index')->with('success', 'News item created successfully.'); }
 
     /**
      * Display the specified resource.
@@ -99,13 +118,27 @@ class NewsController extends Controller
             'author' => 'required|string|max:255',
             'slug' => 'required|string|unique:news,slug,' . $news->id,
             'status' => 'required|string|in:draft,published',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validasi gambar
         ]);
 
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
-        $news->update($request->all());
+        // Cek jika ada gambar baru yang diunggah
+        if ($request->hasFile('image')) {
+            // Hapus gambar lama jika ada
+            if ($news->image) {
+                Storage::delete($news->image);
+            }
+
+            // Simpan gambar baru
+            $imagePath = $request->file('image')->store('news_images', 'public');
+            $news->image = $imagePath;
+        }
+
+        // Update data lainnya
+        $news->update($request->except(['image']));
 
         return redirect()->route('news.index')->with('success', 'News item updated successfully.');
     }

@@ -4,6 +4,7 @@
 - php artisan optimize:clear
 - php artisan migrate
 - php artisan db:seed --class=CreateAdminUserSeeder 
+- php artisan storage:link
 - php artisan serve
 
 ## Learning Laravel

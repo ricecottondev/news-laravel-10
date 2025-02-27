@@ -52,7 +52,7 @@
                                 </div>
                             </div>
                             <div class="card-body pt-0">
-                                <form action="{{ route('news.update', $news->id) }}" method="POST">
+                                <form action="{{ route('news.update', $news->id) }}" method="POST" enctype="multipart/form-data">
                                     @csrf
                                     @method('PUT')
                                     <div class="form-group">
@@ -91,6 +91,15 @@
                                             <option value="published" {{ $news->status == 'published' ? 'selected' : '' }}>Published</option>
                                             <option value="draft" {{ $news->status == 'draft' ? 'selected' : '' }}>Draf</option>
                                         </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="image">Gambar</label>
+                                        <input type="file" class="form-control" id="image" name="image">
+
+                                        <!-- Menampilkan gambar yang ada -->
+                                        @if($news->image)
+                                            <img src="{{ asset('storage/' . $news->image) }}" alt="Current Image" width="150" class="mt-2">
+                                        @endif
                                     </div>
                                     <button type="submit" class="btn btn-primary">Update</button>
                                 </form>

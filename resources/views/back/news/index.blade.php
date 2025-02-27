@@ -54,6 +54,7 @@
                                 <table class="table align-middle table-row-dashed fs-6 gy-5" id="kt_ecommerce_sales_table">
                                     <thead>
                                         <tr>
+                                            <th>Gambar</th>
                                             <th>Judul</th>
                                             <th>Deskripsi Singkat</th>
                                             <th>Penulis</th>
@@ -64,6 +65,13 @@
                                     <tbody>
                                         @foreach ($news as $item)
                                         <tr>
+                                            <td>
+                                                @if($item->image)
+                                                    <img src="{{ asset('storage/' . $item->image) }}" alt="News Image" width="80" height="50" style="object-fit: cover;">
+                                                @else
+                                                    <span class="text-muted">No Image</span>
+                                                @endif
+                                            </td>
                                             <td>{{ $item->title }}</td>
                                             <td>{{ $item->short_desc }}</td>
                                             <td>{{ $item->author }}</td>
@@ -73,13 +81,14 @@
                                                 <form action="{{ route('news.destroy', $item->id) }}" method="POST" style="display:inline;">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button type="submit" class="btn btn-danger">Hapus</button>
+                                                    <button type="submit" class="btn btn-danger" onclick="return confirm('Yakin ingin menghapus?');">Hapus</button>
                                                 </form>
                                             </td>
                                         </tr>
                                         @endforeach
                                     </tbody>
                                 </table>
+
 
                                 <!--end::Table-->
                             </div>

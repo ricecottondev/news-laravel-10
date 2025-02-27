@@ -66,7 +66,7 @@
                                 </div>
                             @endif
 
-                            <form action="{{ route('news.store') }}" method="POST">
+                            <form action="{{ route('news.store') }}" method="POST" enctype="multipart/form-data">
                                 @csrf
 
                                 <div class="form-group">
@@ -110,6 +110,11 @@
                                         <option value="published">Published</option>
                                         <option value="draft">Draft</option>
                                     </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="image">Upload Image</label>
+                                    <input type="file" name="image" class="form-control" required>
                                 </div>
 
                                 <button type="submit" class="btn btn-primary">Create News</button>

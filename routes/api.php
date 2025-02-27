@@ -77,7 +77,7 @@ Route::delete('categories/{id}', [CategoryController::class, 'destroy']); // DEL
 
 // Rute untuk berita
 Route::get('getAllNews', [NewsController::class, 'index']); // GET: Menampilkan semua berita
-Route::get('getDetailNews/{id}', [NewsController::class, 'show']); // GET: Menampilkan berita berdasarkan ID
+Route::get('getDetailNews', [NewsController::class, 'show']); // GET: Menampilkan berita berdasarkan ID
 Route::post('news', [NewsController::class, 'store']); // POST: Menambahkan berita baru
 Route::put('news/{id}', [NewsController::class, 'update']); // PUT: Memperbarui berita berdasarkan ID
 Route::delete('news/{id}', [NewsController::class, 'destroy']); // DELETE: Menghapus berita berdasarkan ID

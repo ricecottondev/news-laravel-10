@@ -32,12 +32,28 @@ class NewsController extends Controller
                 $q->where('name', $categoryName);
             });
         }
-
         // Mengambil hasil query
-        $news = $query->get();
+        // $news = $query->get();
+
+        $news = $query->get()->map(function ($item) {
+            $baseUrl = env('APP_URL', url('/'));
+            return [
+                'id' => $item->id,
+                'category_id' => $item->category_id,
+                'title' => $item->title,
+                'short_desc' => $item->short_desc,
+                'content' => $item->content,
+                'author' => $item->author,
+                'slug' => $item->slug,
+                'status' => $item->status,
+                'image_url' => $item->image ? $baseUrl . '/storage/' . $item->image : null,
+                'category' => $item->category ? $item->category->name : [] // Pastikan category berupa array
+            ];
+        });
 
         // Mengembalikan response JSON
         return response()->json($news);
+
     }
 
     public function store(Request $request)
@@ -56,9 +72,27 @@ class NewsController extends Controller
         return response()->json($news, 201);
     }
 
-    public function show($id)
+    public function show(Request $request)
     {
-        return News::with('category')->findOrFail($id);
+        $id = $request->id;
+        $news = News::with('category')
+            ->where("id", $id)
+            ->get()->map(function ($item) {
+                $baseUrl = env('APP_URL', url('/'));
+                return [
+                    'id' => $item->id,
+                    'category_id' => $item->category_id,
+                    'title' => $item->title,
+                    'short_desc' => $item->short_desc,
+                    'content' => $item->content,
+                    'author' => $item->author,
+                    'slug' => $item->slug,
+                    'status' => $item->status,
+                    'image_url' => $item->image ? $baseUrl . '/storage/' . $item->image : null,
+                    'category' => $item->category ? $item->category->name : [] // Pastikan category berupa array
+                ];
+            });
+        return response()->json($news, 200);
     }
 
     public function update(Request $request, $id)
@@ -120,7 +154,23 @@ class NewsController extends Controller
             });
         }
 
-        $newsItems = $newsQuery->with('category')->get();
+        $newsItems = $newsQuery->with('category')->get()->map(function ($item) {
+            $baseUrl = env('APP_URL', url('/'));
+            return [
+                'id' => $item->id,
+                'category_id' => $item->category_id,
+                'title' => $item->title,
+                'short_desc' => $item->short_desc,
+                'content' => $item->content,
+                'author' => $item->author,
+                'slug' => $item->slug,
+                'status' => $item->status,
+                'image_url' => $item->image ? $baseUrl . '/storage/' . $item->image : null,
+                'category' => $item->category ? $item->category->name : [] // Pastikan category berupa array
+            ];
+        });
+
+
 
         if ($newsItems->isEmpty()) {
             return response()->json(['message' => 'No news items found.'], 404);
