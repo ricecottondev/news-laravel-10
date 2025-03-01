@@ -14,6 +14,10 @@ class NewsController extends Controller
         $countryName = $request->input('country_name');
         $categoryName = $request->input('category_name');
 
+        // Mengambil parameter pagination
+        $perPage = $request->input('perPage', 10); // Default 10 item per halaman
+        $page = $request->input('page', 1); // Default halaman 1
+
         // Mengambil berita dengan relasi kategori
         $query = News::with('category');
 
@@ -35,7 +39,24 @@ class NewsController extends Controller
         // Mengambil hasil query
         // $news = $query->get();
 
-        $news = $query->get()->map(function ($item) {
+        // $news = $query->get()->map(function ($item) {
+        //     $baseUrl = env('APP_URL', url('/'));
+        //     return [
+        //         'id' => $item->id,
+        //         'category_id' => $item->category_id,
+        //         'title' => $item->title,
+        //         'short_desc' => $item->short_desc,
+        //         'content' => $item->content,
+        //         'author' => $item->author,
+        //         'slug' => $item->slug,
+        //         'status' => $item->status,
+        //         'image_url' => $item->image ? $baseUrl . '/storage/' . $item->image : null,
+        //         'category' => $item->category ? $item->category->name : [] // Pastikan category berupa array
+        //     ];
+        // });
+        $news = $query->paginate($perPage, ['*'], 'page', $page);
+
+        $data = $news->map(function ($item) {
             $baseUrl = env('APP_URL', url('/'));
             return [
                 'id' => $item->id,
@@ -52,8 +73,17 @@ class NewsController extends Controller
         });
 
         // Mengembalikan response JSON
-        return response()->json($news);
+        // return response()->json($news);
 
+        return response()->json([
+            'data' => $data,
+
+                'current_page' => $news->currentPage(),
+                'last_page' => $news->lastPage(),
+                'per_page' => $news->perPage(),
+                'total' => $news->total(),
+        ]
+        );
     }
 
     public function store(Request $request)
