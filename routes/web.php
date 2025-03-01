@@ -82,7 +82,7 @@ use App\Http\Controllers\Back\Categories\CategoryController;
 use App\Http\Controllers\Back\News\NewsController;
 use App\Http\Controllers\Back\Country\CountryController;
 
-
+use App\Http\Controllers\Back\ChatGPTController;
 
 
 Route::get('/detail-voucher', function () {
@@ -158,6 +158,8 @@ Route::group(['middleware' => ['auth']], function () {
     // Rute untuk berita
     Route::resource('news', NewsController::class);
     Route::resource('permissions', PermissionsController::class);
+
+    Route::get('/chat-gpt', [ChatGPTController::class, 'index'])->name('chat-gpt.index');
 });
 
 ##ROUTE FOR ADMIN ONLY
