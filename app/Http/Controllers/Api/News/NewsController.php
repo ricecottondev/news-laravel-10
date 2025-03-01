@@ -75,14 +75,17 @@ class NewsController extends Controller
         // Mengembalikan response JSON
         // return response()->json($news);
 
-        return response()->json([
-            'data' => $data,
+        return response()->json(
+            [
 
-                'current_page' => $news->currentPage(),
-                'last_page' => $news->lastPage(),
-                'per_page' => $news->perPage(),
-                'total' => $news->total(),
-        ]
+
+                'page' => $news->currentPage(),
+                'limit' => $news->perPage(),
+                'total_page' => $news->lastPage(),
+                'total_news' => $news->total(),
+                'data' => $data,
+
+            ]
         );
     }
 
