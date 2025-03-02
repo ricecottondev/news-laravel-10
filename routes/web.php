@@ -40,6 +40,8 @@ use App\Http\Controllers\FpdfController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Front\FrontCheckoutController;
 
+use App\Http\Controllers\Back\DeepSeekChatController;
+
 
 
 
@@ -160,6 +162,11 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('permissions', PermissionsController::class);
 
     Route::get('/chat-gpt', [ChatGPTController::class, 'index'])->name('chat-gpt.index');
+
+    Route::get('/deepseekchat', [DeepSeekChatController::class, 'index'])->name('deepseekchat.form');
+
+    // Rute untuk mengirim prompt
+    Route::post('/deepseekchat/send', [DeepSeekChatController::class, 'sendPrompt'])->name('deepseekchat.send');
 });
 
 ##ROUTE FOR ADMIN ONLY

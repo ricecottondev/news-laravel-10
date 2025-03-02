@@ -67,6 +67,22 @@
 
             <div class="menu-item">
                 <!--begin:Menu link-->
+                <a class="menu-link" href="{{ url('/deepseekchat') }}">
+                    <span class="menu-icon">
+                        <i class="ki-duotone ki-square-brackets fs-2">
+                            <span class="path1"></span>
+                            <span class="path2"></span>
+                        </i>
+                    </span>
+                    <span class="menu-title">Deepseek</span>
+                </a>
+                <!--end:Menu link-->
+            </div>
+
+
+
+            <div class="menu-item">
+                <!--begin:Menu link-->
                 <a class="menu-link" href="{{ url('/country') }}">
                     <span class="menu-icon">
                         <i class="ki-duotone ki-square-brackets fs-2">

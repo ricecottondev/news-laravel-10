@@ -54,11 +54,11 @@
     </section>
 
     <section>
-        <div class="container py-4">
+        {{-- <div class="container py-4">
             <span>
                 Belum punya akun SDA MEMBER? <a class="text-decoration-none" style="color: #fd4f00;"
                     href="{{ route('register') }}">Daftar</a>
             </span>
-        </div>
+        </div> --}}
     </section>
 @endsection
