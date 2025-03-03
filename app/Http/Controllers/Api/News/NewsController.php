@@ -15,7 +15,7 @@ class NewsController extends Controller
         $categoryName = $request->input('category_name');
 
         // Mengambil parameter pagination
-        $perPage = $request->input('perPage', 10); // Default 10 item per halaman
+        $perPage = $request->input('limit', 10); // Default 10 item per halaman
         $page = $request->input('page', 1); // Default halaman 1
 
         // Mengambil berita dengan relasi kategori
