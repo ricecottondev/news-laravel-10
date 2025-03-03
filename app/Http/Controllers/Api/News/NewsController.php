@@ -36,55 +36,32 @@ class NewsController extends Controller
                 $q->where('name', $categoryName);
             });
         }
-        // Mengambil hasil query
-        // $news = $query->get();
 
-        // $news = $query->get()->map(function ($item) {
-        //     $baseUrl = env('APP_URL', url('/'));
-        //     return [
-        //         'id' => $item->id,
-        //         'category_id' => $item->category_id,
-        //         'title' => $item->title,
-        //         'short_desc' => $item->short_desc,
-        //         'content' => $item->content,
-        //         'author' => $item->author,
-        //         'slug' => $item->slug,
-        //         'status' => $item->status,
-        //         'image_url' => $item->image ? $baseUrl . '/storage/' . $item->image : null,
-        //         'category' => $item->category ? $item->category->name : [] // Pastikan category berupa array
-        //     ];
-        // });
         $news = $query->paginate($perPage, ['*'], 'page', $page);
 
         $data = $news->map(function ($item) {
             $baseUrl = env('APP_URL', url('/'));
+
+            // Menentukan date berdasarkan created_at atau updated_at
+            $date = $item->updated_at ? $item->updated_at : $item->created_at;
+            $formattedDate = $date->format('F j, Y'); // Format tanggal sesuai kebutuhan
+
             return [
                 'id' => $item->id,
-                'category_id' => $item->category_id,
                 'title' => $item->title,
-                'short_desc' => $item->short_desc,
-                'content' => $item->content,
-                'author' => $item->author,
-                'slug' => $item->slug,
-                'status' => $item->status,
                 'image_url' => $item->image ? $baseUrl . '/storage/' . $item->image : null,
-                'category' => $item->category ? $item->category->name : [] // Pastikan category berupa array
+                'category' => $item->category ? $item->category->name : 'Uncategorized', // Pastikan category tidak null
+                'date' => $formattedDate
             ];
         });
 
-        // Mengembalikan response JSON
-        // return response()->json($news);
-
         return response()->json(
             [
-
-
                 'page' => $news->currentPage(),
                 'limit' => $news->perPage(),
                 'total_page' => $news->lastPage(),
                 'total_news' => $news->total(),
                 'data' => $data,
-
             ]
         );
     }
@@ -112,9 +89,11 @@ class NewsController extends Controller
             ->where("id", $id)
             ->get()->map(function ($item) {
                 $baseUrl = env('APP_URL', url('/'));
+                $date = $item->updated_at ? $item->updated_at : $item->created_at;
+            $formattedDate = $date->format('F j, Y'); // Format tanggal sesuai kebutuhan
                 return [
                     'id' => $item->id,
-                    'category_id' => $item->category_id,
+                    // 'category_id' => $item->category_id,
                     'title' => $item->title,
                     'short_desc' => $item->short_desc,
                     'content' => $item->content,
@@ -122,7 +101,8 @@ class NewsController extends Controller
                     'slug' => $item->slug,
                     'status' => $item->status,
                     'image_url' => $item->image ? $baseUrl . '/storage/' . $item->image : null,
-                    'category' => $item->category ? $item->category->name : [] // Pastikan category berupa array
+                    'category' => $item->category ? $item->category->name : [], // Pastikan category berupa array
+                    'date' => $formattedDate
                 ];
             });
         return response()->json($news, 200);
@@ -189,9 +169,11 @@ class NewsController extends Controller
 
         $newsItems = $newsQuery->with('category')->get()->map(function ($item) {
             $baseUrl = env('APP_URL', url('/'));
+            $date = $item->updated_at ? $item->updated_at : $item->created_at;
+            $formattedDate = $date->format('F j, Y'); // Format tanggal sesuai kebutuhan
             return [
                 'id' => $item->id,
-                'category_id' => $item->category_id,
+                // 'category_id' => $item->category_id,
                 'title' => $item->title,
                 'short_desc' => $item->short_desc,
                 'content' => $item->content,
@@ -199,7 +181,8 @@ class NewsController extends Controller
                 'slug' => $item->slug,
                 'status' => $item->status,
                 'image_url' => $item->image ? $baseUrl . '/storage/' . $item->image : null,
-                'category' => $item->category ? $item->category->name : [] // Pastikan category berupa array
+                'category' => $item->category ? $item->category->name : [], // Pastikan category berupa array
+                'date' => $formattedDate
             ];
         });
 
