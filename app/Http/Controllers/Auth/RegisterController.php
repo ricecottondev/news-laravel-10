@@ -81,13 +81,13 @@ class RegisterController extends Controller
         ]);
 
         $user->assignRole('member');
-        if (!Member::where('email', $data['email'])->exists()) {
-            Member::create([
-                'password' => Hash::make($data['password']),
-                'email' => $data['email'],
-                'emailwithoutdot' => $data['email']
-            ]);
-        }
+        // if (!Member::where('email', $data['email'])->exists()) {
+        //     Member::create([
+        //         'password' => Hash::make($data['password']),
+        //         'email' => $data['email'],
+        //         'emailwithoutdot' => $data['email']
+        //     ]);
+        // }
 
         $token = Str::random(64);
 

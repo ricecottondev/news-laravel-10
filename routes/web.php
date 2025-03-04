@@ -154,8 +154,10 @@ Route::group(['middleware' => ['auth']], function () {
 
     // Rute untuk kategori
     Route::resource('categories', CategoryController::class);
-
+    // Rute untuk Country
     Route::resource('country', CountryController::class);
+
+    Route::get('/profil', [MemberProfilController::class, 'index'])->name('profil.index');
 
     // Rute untuk berita
     Route::resource('news', NewsController::class);

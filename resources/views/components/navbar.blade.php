@@ -19,16 +19,16 @@
                  <a class="nav-link text-reset" data-bs-toggle="modal" href="#modalSearching">
                      <i class="icon-search"></i>
                  </a>
-                 @if(isset($totalNotif))
+                 {{-- @if(isset($totalNotif))
                  <a class="nav-link text-reset position-relative" href="{{ route('notifikasi.index') }}">
                      <i class="icon-notifikasi"></i>
                      <span class="badge rounded-pill position-absolute translate-middle fw-medium"
                          style="top: 25%; left: 75%; font-size: .5em; background-color: red;">{{ $totalNotif }}</span>
                  </a>
-                 @endif
+                 @endif --}}
                  <a class="nav-link text-reset" href="/detail-voucher">
                     <i class="bi bi-question-circle"></i>
-                    
+
                 </a>
              </li>
          </ul>

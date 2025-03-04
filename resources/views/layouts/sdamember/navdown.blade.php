@@ -20,11 +20,11 @@
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link text-reset" href="{{ route('voucher.index') }}">
+            <a class="nav-link text-reset" href="#">
                 <i class="icon-voucher"></i>
                 <br>Gift
             </a>
         </li>
-       
+
     </ul>
 </nav>

@@ -87,7 +87,7 @@
                         </a>
                     </div>
                 </div>
-                <div class="row justify-content-between gx-4 d-none">
+                {{-- <div class="row justify-content-between gx-4 d-none">
                     <div class="col">
                         <div>Poin</div>
                         <div class="fw-medium fs-3" id="total-point">{{ $totalPoint }}</div>
@@ -103,7 +103,7 @@
                             <a class="text-decoration-none" href="{{ route('member-voucher.index') }}">Lihat Detail</a>
                         </div>
                     </div>
-                </div>
+                </div> --}}
             </div>
         </section>
 
@@ -116,12 +116,12 @@
                         <span>Pengaturan</span>
                     </div>
                 </a>
-                <a class="list-group-item text-reset py-4 px-0" href="{{ route('member-voucher.index') }}">
+                {{-- <a class="list-group-item text-reset py-4 px-0" href="{{ route('member-voucher.index') }}">
                     <div class="container fw-bold">
                         <i class="icon-e-voucher_icon_2 me-2"></i>
                         Voucher
                     </div>
-                </a>
+                </a> --}}
                 <a class="list-group-item text-reset py-4 px-0" data-bs-toggle="modal" href="#modalDataDiri"
                     id="klaim-show">
                     <div class="container fw-bold">
@@ -137,12 +137,12 @@
                     </div>
                 </a>
 
-                <a class="list-group-item text-reset py-4 px-0" href=" {{ '/generate-qr-member/' . $memberId }}">
+                {{-- <a class="list-group-item text-reset py-4 px-0" href=" {{ '/generate-qr-member/' . $memberId }}">
                     <div class="container fw-bold">
                         <i class="icon-qr_black_icon me-2"></i>
                         Qr Code
                     </div>
-                </a>
+                </a> --}}
                 <a class="list-group-item text-reset py-4 px-0" href="{{ route('logout') }}">
                     <div class="container fw-bold">
                         keluar
@@ -358,37 +358,7 @@
                 const csrfToken = $('meta[name="csrf-token"]').attr('content');
 
                 // Lakukan AJAX untuk mengirim data ke server
-                $.ajax({
-                    url: '{{ route('post.datadiri') }}', // Ganti dengan endpoint yang sesuai
-                    method: 'POST',
-                    dataType: 'json',
-                    data: {
-                        _token: csrfToken,
-                        nama_ktp: namaKTP,
-                        telp: telp,
-                        birth_date: birthDate,
-                        gender: gender,
-                        address: address,
-                        provinsi: province,
-                        kota: city,
-                        kecamatan: district,
-                        kelurahan: subdistrict,
-                        kodepos: kodepos
-                    },
-                    success: function(response) {
-                        if (response.success) {
-                            $('#modalDataDiri').modal('hide');
-                            Swal.fire('Sukses', 'Profil Berhasil Di Perbarui',
-                                'success')
-                        } else {
-                            console.error('Gagal menyimpan data:', response.message);
-                            // Tambahan tindakan setelah penyimpanan gagal (pesan kesalahan, dll.)
-                        }
-                    },
-                    error: function(err) {
-                        console.error('Error in AJAX request:', err);
-                    }
-                });
+
             });
 
 
@@ -446,228 +416,7 @@
             }
 
 
-            function selectJne() {
-                $.ajax({
-                    url: '{{ route('getjne') }}',
-                    method: 'GET',
-                    dataType: 'json',
-                    success: function(data) {
-                        const select = $('#province');
 
-                        // Pastikan data memiliki struktur yang benar
-                        if (data.success && data.data && Array.isArray(
-                                data.data)) {
-                            // Loop melalui data dan tambahkan opsi ke elemen <select>
-                            $.each(data.data, function(index,
-                                province) {
-                                select.append($('<option>', {
-                                    text: province,
-                                    value: province
-                                }));
-                            });
-                        } else {
-                            console.error(
-                                'Struktur data tidak sesuai dalam respons AJAX.'
-                            );
-                        }
-                    },
-                    error: function(err) {
-                        console.error('Error in AJAX request:', err);
-                    }
-                });
-
-
-                $('#province').on('change', function() {
-                    const selectedProvince = $(this).val();
-                    if (selectedProvince) {
-                        // Lakukan AJAX untuk mendapatkan data kota berdasarkan provinsi
-                        $.ajax({
-                            url: '{{ route('getcity') }}', // Ganti dengan endpoint yang sesuai
-                            method: 'GET',
-                            dataType: 'json',
-                            data: {
-                                province: selectedProvince
-                            }, // Kirim parameter provinsi
-                            success: function(cityData) {
-                                const selectCity = $('#city');
-
-                                // Bersihkan opsi kota sebelum menambahkan yang baru
-                                selectCity.empty();
-
-                                // Tambahkan opsi "Pilih City" dengan nilai kosong
-                                selectCity.append($(
-                                    '<option>', {
-                                        text: 'Pilih Kota',
-                                        value: '',
-                                        disabled: true,
-                                        selected: true
-                                    }));
-
-                                // Pastikan data memiliki struktur yang benar
-                                if (cityData.success && cityData
-                                    .data && Array.isArray(
-                                        cityData.data)) {
-                                    // Tambahkan opsi kota ke elemen <select> kota
-                                    $.each(cityData.data,
-                                        function(index,
-                                            city) {
-                                            selectCity
-                                                .append($(
-                                                    '<option>', {
-                                                        text: city,
-                                                        value: city
-                                                    }));
-                                        });
-                                } else {
-                                    console.error(
-                                        'Struktur data tidak sesuai dalam respons AJAX.'
-                                    );
-                                }
-                            },
-                            error: function(err) {
-                                console.error(
-                                    'Error in AJAX request:',
-                                    err);
-                            }
-                        });
-                    }
-                });
-
-
-                // Tambahkan event listener untuk memanggil fungsi saat kota dipilih
-                $('#city').on('change', function() {
-                    const selectedCity = $(this).val();
-                    const selectedProvince = $('#province').val();
-                    if (selectedCity) {
-                        // Lakukan AJAX untuk mendapatkan data kecamatan berdasarkan kota
-                        $.ajax({
-                            url: '{{ route('getdistrict') }}', // Ganti dengan endpoint yang sesuai
-                            method: 'GET',
-                            dataType: 'json',
-                            data: {
-                                city: selectedCity,
-                                province: selectedProvince
-                            },
-                            success: function(districtData) {
-                                const selectDistrict = $(
-                                    '#district');
-
-                                // Bersihkan opsi kecamatan sebelum menambahkan yang baru
-                                selectDistrict.empty();
-
-                                // Tambahkan opsi "Pilih District" dengan nilai kosong
-                                selectDistrict.append($(
-                                    '<option>', {
-                                        text: 'Pilih Kecamatan',
-                                        value: '',
-                                        disabled: true,
-                                        selected: true
-                                    }));
-
-                                if (districtData.success &&
-                                    districtData.data && Array
-                                    .isArray(districtData.data)
-                                ) {
-                                    // Tambahkan opsi kecamatan ke elemen <select> kecamatan
-                                    $.each(districtData.data,
-                                        function(index,
-                                            district) {
-                                            selectDistrict
-                                                .append($(
-                                                    '<option>', {
-                                                        text: district,
-                                                        value: district
-                                                    }));
-                                        });
-                                } else {
-                                    console.error(
-                                        'Struktur data tidak sesuai dalam respons AJAX.'
-                                    );
-                                }
-                            },
-                            error: function(err) {
-                                console.error(
-                                    'Error in AJAX request:',
-                                    err);
-                            }
-                        });
-                    }
-                });
-
-
-                // ...
-
-                // Tambahkan event listener untuk memanggil fungsi saat kecamatan dipilih
-                $('#district').on('change', function() {
-                    const selectedDistrict = $(this).val();
-                    const selectedCity = $('#city')
-                        .val(); // Ambil nilai kota yang dipilih
-                    const selectedProvince = $('#province')
-                        .val(); // Ambil nilai provinsi yang dipilih
-
-                    if (selectedDistrict && selectedCity &&
-                        selectedProvince) {
-                        // Lakukan AJAX untuk mendapatkan data subdistrict berdasarkan kecamatan, kota, dan provinsi
-                        $.ajax({
-                            url: '{{ route('getsubdistrict') }}', // Ganti dengan endpoint yang sesuai
-                            method: 'GET',
-                            dataType: 'json',
-                            data: {
-                                district: selectedDistrict,
-                                city: selectedCity,
-                                province: selectedProvince
-                            },
-                            success: function(subdistrictData) {
-                                const selectSubdistrict = $(
-                                    '#subdistrict');
-
-                                // Set nilai kode pos berdasarkan data yang diterima
-                                $('#kodepos').val(
-                                    subdistrictData
-                                    .GetZipCode);
-
-                                // Bersihkan opsi subdistrict sebelum menambahkan yang baru
-                                selectSubdistrict.empty();
-
-                                // Tambahkan opsi "Pilih Subdistrict" dengan nilai kosong
-                                selectSubdistrict.append($(
-                                    '<option>', {
-                                        text: 'Pilih Kelurahan',
-                                        value: '',
-                                        disabled: true,
-                                        selected: true
-                                    }));
-
-                                if (subdistrictData.success &&
-                                    subdistrictData.data &&
-                                    Array.isArray(
-                                        subdistrictData.data)) {
-                                    // Tambahkan opsi subdistrict ke elemen <select> subdistrict
-                                    $.each(subdistrictData.data,
-                                        function(index,
-                                            subdistrict) {
-                                            selectSubdistrict
-                                                .append($(
-                                                    '<option>', {
-                                                        text: subdistrict,
-                                                        value: subdistrict
-                                                    }));
-                                        });
-                                } else {
-                                    console.error(
-                                        'Struktur data tidak sesuai dalam respons AJAX.'
-                                    );
-                                }
-                            },
-                            error: function(err) {
-                                console.error(
-                                    'Error in AJAX request:',
-                                    err);
-                            }
-                        });
-                    }
-                });
-            }
 
             $("#imageInput").change(function() {
                 var fileInput = document.getElementById("imageInput");
@@ -680,30 +429,7 @@
                 var csrfToken = $('meta[name="csrf-token"]').attr('content');
                 formData.append("_token", csrfToken);
 
-                $.ajax({
-                    type: "POST",
-                    url: "{{ route('changeprofil.index') }}",
-                    data: formData,
-                    processData: false,
-                    contentType: false,
-                    success: function(response) {
-                        Swal.fire({
-                            title: 'Update Profil!',
-                            text: 'Profil Anda berhasil diperbarui!',
-                            icon: 'success',
-                            timer: 2000,
-                            showConfirmButton: false
-                        });
 
-                        var newImageUrl = response.file;
-                        $("#userImage").attr("src", newImageUrl);
-                    },
-                    error: function(error) {
-
-                        console.log("Terjadi kesalahan saat mengunggah gambar: " + error
-                            .responseText);
-                    }
-                });
             });
 
 
@@ -720,46 +446,7 @@
                 var csrfToken = $('meta[name="csrf-token"]').attr('content');
                 formData.append("_token", csrfToken);
 
-                $.ajax({
-                    url: '{{ route('changeNameProfil.index') }}',
-                    type: 'POST',
-                    data: formData,
-                    processData: false,
-                    contentType: false,
-                    success: function(data) {
-                        // console.log(data);
-                        if (data.success) {
-                            var newImageUrl = data.file;
-                            if (newImageUrl) {
-                                $("#userImage").attr("src", newImageUrl);
-                            }
-                            $('#name').text(data.name);
-                            $('#modalEditProfil').modal('hide');
-                            Swal.fire({
-                                title: 'Update Profil!',
-                                text: 'Profil Anda berhasil diperbarui!',
-                                icon: 'success',
-                                timer: 2000,
-                                showConfirmButton: false
-                            });
-                        } else {
 
-                            Swal.fire({
-                                title: 'Gagal',
-                                text: data.message['name'],
-                                icon: 'warning',
-                                timer: 2000,
-                                showConfirmButton: false
-                            });
-                        }
-
-
-                    },
-                    error: function(error) {
-                        // Penanganan kesalahan jika ada
-                        alert('Terjadi kesalahan: ' + error);
-                    }
-                });
             });
 
 
