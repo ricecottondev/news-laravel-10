@@ -83,30 +83,31 @@ class NewsController extends Controller
     }
 
     public function show(Request $request)
-    {
-        $id = $request->id;
-        $news = News::with('category')
-            ->where("id", $id)
-            ->get()->map(function ($item) {
-                $baseUrl = env('APP_URL', url('/'));
-                $date = $item->updated_at ? $item->updated_at : $item->created_at;
-            $formattedDate = $date->format('F j, Y'); // Format tanggal sesuai kebutuhan
-                return [
-                    'id' => $item->id,
-                    // 'category_id' => $item->category_id,
-                    'title' => $item->title,
-                    'short_desc' => $item->short_desc,
-                    'content' => $item->content,
-                    'author' => $item->author,
-                    'slug' => $item->slug,
-                    'status' => $item->status,
-                    'image_url' => $item->image ? $baseUrl . '/storage/' . $item->image : null,
-                    'category' => $item->category ? $item->category->name : [], // Pastikan category berupa array
-                    'date' => $formattedDate
-                ];
-            });
-        return response()->json($news, 200);
+{
+    $id = $request->id;
+    $news = News::with('category')->where("id", $id)->first(); // Mengambil satu berita
+
+    if (!$news) {
+        return response()->json(['message' => 'News not found'], 404);
     }
+
+    $baseUrl = env('APP_URL', url('/'));
+    $date = $news->updated_at ? $news->updated_at : $news->created_at;
+    $formattedDate = $date->format('F j, Y'); // Format tanggal sesuai kebutuhan
+
+    return response()->json([
+        'id' => $news->id,
+        'title' => $news->title,
+        'short_desc' => $news->short_desc,
+        'content' => $news->content,
+        'author' => $news->author,
+        'slug' => $news->slug,
+        'status' => $news->status,
+        'image_url' => $news->image ? $baseUrl . '/storage/' . $news->image : null,
+        'category' => $news->category ? $news->category->name : null, // Pastikan category berupa string atau null
+        'date' => $formattedDate
+    ], 200);
+}
 
     public function update(Request $request, $id)
     {
