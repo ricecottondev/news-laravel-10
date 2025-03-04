@@ -52,6 +52,7 @@ use App\Http\Controllers\Api\Member\UpdateTokenFirebaseController;
 use App\Http\Controllers\Api\News\CategoryController;
 use App\Http\Controllers\Api\News\NewsController;
 use App\Http\Controllers\Api\News\CountryController;
+use App\Http\Controllers\Api\News\NewsCommentController;
 
 
 
@@ -85,4 +86,13 @@ Route::get('getSearchNews', [NewsController::class, 'getSearchNews']);
 
 // Rute untuk country
 Route::get('getAllCountries', [CountryController::class, 'index']); // GET: Menampilkan semua country
+
+
+
+
+Route::post('/postComment', [NewsCommentController::class, 'postComment']); // Post comment
+Route::get('/getComment', [NewsCommentController::class, 'getComment']); // Get comment
+
+
+
 

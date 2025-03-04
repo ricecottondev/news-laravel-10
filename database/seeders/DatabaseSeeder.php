@@ -6,6 +6,7 @@ namespace Database\Seeders;
 
 use App\Models\Permissions;
 use Illuminate\Database\Seeder;
+use NewsCommentSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -29,6 +30,7 @@ class DatabaseSeeder extends Seeder
             NewsTableSeeder::class,
             CountriesCategoriesNewsTableSeeder::class,
             CountriesCategoriesTableSeeder::class,
+            NewsCommentSeeder::class,
         ]);
     }
 }
