@@ -240,11 +240,11 @@ class NewsController extends Controller
             return [
                 'id' => $item->id,
                 'title' => $item->title,
-                'short_desc' => $item->short_desc,
-                'content' => $item->content,
-                'author' => $item->author,
-                'slug' => $item->slug,
-                'status' => $item->status,
+                // 'short_desc' => $item->short_desc,
+                // 'content' => $item->content,
+                // 'author' => $item->author,
+                // 'slug' => $item->slug,
+                // 'status' => $item->status,
                 'image_url' => $item->image ? $baseUrl . '/storage/' . $item->image : null,
                 'category' => $item->category ? $item->category->name : 'Uncategorized',
                 'date' => $formattedDate
