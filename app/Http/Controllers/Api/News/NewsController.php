@@ -133,16 +133,82 @@ class NewsController extends Controller
         return response()->json(null, 204);
     }
 
+    // public function getSearchNews(Request $request)
+    // {
+    //     $query = $request->input('query');
+    //     $countryName = $request->input('country_name');
+    //     $categoryName = $request->input('category_name');
+
+    //     // Mencari berita berdasarkan judul dan konten
+    //     $newsQuery = News::query();
+
+    //     // Filter berdasarkan judul dan konten
+    //     if ($query) {
+    //         $newsQuery->where(function ($q) use ($query) {
+    //             $q->where('title', 'LIKE', "%{$query}%")
+    //                 ->orWhere('content', 'LIKE', "%{$query}%");
+    //         });
+    //     }
+
+    //     // Filter berdasarkan country_name
+    //     if ($countryName) {
+    //         $newsQuery->whereHas('countriesCategoriesNews', function ($q) use ($countryName) {
+    //             $q->whereHas('country', function ($q) use ($countryName) {
+    //                 $q->where('country_name', $countryName);
+    //             });
+    //         });
+    //     }
+
+    //     // Filter berdasarkan category_name
+    //     if ($categoryName) {
+    //         $newsQuery->whereHas('countriesCategoriesNews', function ($q) use ($categoryName) {
+    //             $q->whereHas('category', function ($q) use ($categoryName) {
+    //                 $q->where('name', $categoryName);
+    //             });
+    //         });
+    //     }
+
+    //     $newsItems = $newsQuery->with('category')->get()->map(function ($item) {
+    //         $baseUrl = env('APP_URL', url('/'));
+    //         $date = $item->updated_at ? $item->updated_at : $item->created_at;
+    //         $formattedDate = $date->format('F j, Y'); // Format tanggal sesuai kebutuhan
+    //         return [
+    //             'id' => $item->id,
+    //             // 'category_id' => $item->category_id,
+    //             'title' => $item->title,
+    //             'short_desc' => $item->short_desc,
+    //             'content' => $item->content,
+    //             'author' => $item->author,
+    //             'slug' => $item->slug,
+    //             'status' => $item->status,
+    //             'image_url' => $item->image ? $baseUrl . '/storage/' . $item->image : null,
+    //             'category' => $item->category ? $item->category->name : [], // Pastikan category berupa array
+    //             'date' => $formattedDate
+    //         ];
+    //     });
+
+
+
+    //     if ($newsItems->isEmpty()) {
+    //         return response()->json(['message' => 'No news items found.'], 404);
+    //     }
+
+    //     return response()->json($newsItems, 200);
+    // }
+
     public function getSearchNews(Request $request)
     {
         $query = $request->input('query');
         $countryName = $request->input('country_name');
         $categoryName = $request->input('category_name');
 
-        // Mencari berita berdasarkan judul dan konten
-        $newsQuery = News::query();
+        // Mengambil parameter pagination
+        $perPage = $request->input('limit', 10); // Default 10 item per halaman
+        $page = $request->input('page', 1); // Default halaman 1
 
-        // Filter berdasarkan judul dan konten
+        // Mencari berita berdasarkan judul dan konten
+        $newsQuery = News::with('category');
+
         if ($query) {
             $newsQuery->where(function ($q) use ($query) {
                 $q->where('title', 'LIKE', "%{$query}%")
@@ -150,7 +216,6 @@ class NewsController extends Controller
             });
         }
 
-        // Filter berdasarkan country_name
         if ($countryName) {
             $newsQuery->whereHas('countriesCategoriesNews', function ($q) use ($countryName) {
                 $q->whereHas('country', function ($q) use ($countryName) {
@@ -159,22 +224,21 @@ class NewsController extends Controller
             });
         }
 
-        // Filter berdasarkan category_name
         if ($categoryName) {
-            $newsQuery->whereHas('countriesCategoriesNews', function ($q) use ($categoryName) {
-                $q->whereHas('category', function ($q) use ($categoryName) {
-                    $q->where('name', $categoryName);
-                });
+            $newsQuery->whereHas('category', function ($q) use ($categoryName) {
+                $q->where('name', $categoryName);
             });
         }
 
-        $newsItems = $newsQuery->with('category')->get()->map(function ($item) {
+        $news = $newsQuery->paginate($perPage, ['*'], 'page', $page);
+
+        $data = $news->map(function ($item) {
             $baseUrl = env('APP_URL', url('/'));
             $date = $item->updated_at ? $item->updated_at : $item->created_at;
-            $formattedDate = $date->format('F j, Y'); // Format tanggal sesuai kebutuhan
+            $formattedDate = $date->format('F j, Y');
+
             return [
                 'id' => $item->id,
-                // 'category_id' => $item->category_id,
                 'title' => $item->title,
                 'short_desc' => $item->short_desc,
                 'content' => $item->content,
@@ -182,19 +246,21 @@ class NewsController extends Controller
                 'slug' => $item->slug,
                 'status' => $item->status,
                 'image_url' => $item->image ? $baseUrl . '/storage/' . $item->image : null,
-                'category' => $item->category ? $item->category->name : [], // Pastikan category berupa array
+                'category' => $item->category ? $item->category->name : 'Uncategorized',
                 'date' => $formattedDate
             ];
         });
 
-
-
-        if ($newsItems->isEmpty()) {
-            return response()->json(['message' => 'No news items found.'], 404);
-        }
-
-        return response()->json($newsItems, 200);
+        return response()->json([
+            'page' => $news->currentPage(),
+            'limit' => $news->perPage(),
+            'total_page' => $news->lastPage(),
+            'total_news' => $news->total(),
+            'data' => $data,
+        ]);
     }
+
+
 
     public function getDetailNews($id)
     {
