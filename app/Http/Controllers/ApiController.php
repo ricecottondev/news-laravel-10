@@ -27,7 +27,7 @@ class ApiController extends Controller
         if ($validator->fails()) {
             return response()->json(['error' => $validator->messages()], 200);
         }
-dd("test");
+
         //Request is valid, create new user
         $user = User::create([
             'name' => $request->name,
