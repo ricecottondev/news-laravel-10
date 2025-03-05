@@ -66,7 +66,7 @@ use App\Http\Controllers\Api\News\NewsCommentController;
  Route::post('apilogin', [ApiController::class, 'index']);
 
  #AUTH
-Route::post('/login', [ApiController::class, 'authenticate']);
+Route::post('login', [ApiController::class, 'authenticate']);
 Route::post('logout', [ApiController::class, 'logout']);
 Route::post('register', [ApiController::class, 'register']);
 Route::post('register-member', [RegisterMemberController::class, 'index']);
