@@ -5,6 +5,11 @@ namespace App\Http\Controllers\Api\User;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
+use \Tymon\JWTAuth\Facades\JWTAuth;
+use Tymon\JWTAuth\Exceptions\JWTException;
 
 class UserController extends Controller
 {
@@ -12,45 +17,136 @@ class UserController extends Controller
     {
         // Mengambil parameter country_name dari request
         $user = User::find($request->id);
-
-
-
         // Mengembalikan response JSON dengan format yang diinginkan
         return response()->json($user);
     }
 
-    public function store(Request $request)
+    public function postEditProfile(Request $request)
     {
-        $request->validate([
-            'name' => 'required|string|unique:categories,name',
-            'description' => 'nullable|string',
+        // Ambil user yang sedang login
+
+        // $validator = Validator::make($request->only('token'), [
+        //     'token' => 'required'
+        // ]);
+
+        $user = JWTAuth::parseToken()->authenticate();
+        // if ($user) {
+        //     $user->update(['token_firebase' => null]);
+        // }
+
+        //Send failed response if request is not valid
+        // if ($validator->fails()) {
+        //     return response()->json(['error' => $validator->messages()], 200);
+        // }
+
+
+        // $user = Auth::user();
+        // $validator = Validator::make($request->only('token'), [
+        //     'token' => 'required'
+        // ]);
+
+        // $user = JWTAuth::parseToken()->authenticate();
+
+        // Validasi input
+        $validator = Validator::make($request->all(), [
+            'name' => 'nullable|string|max:255',
+            'email' => 'nullable|email|unique:users,email,' . $user->id,
+            'password' => 'nullable|string|min:6',
+            'google_id' => 'nullable|string|unique:users,google_id,' . $user->id,
+            'apple_id' => 'nullable|string|unique:users,apple_id,' . $user->id,
+            'token_firebase' => 'nullable|string',
+            'uuid' => 'nullable|string|unique:users,uuid,' . $user->id,
         ]);
 
-        $category = Category::create($request->all());
-        return response()->json($category, 201);
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Validation failed',
+                'errors' => $validator->errors(),
+            ], 422);
+        }
+
+        // Update user data
+        if ($request->has('name')) {
+            $user->name = $request->name;
+        }
+        if ($request->has('email')) {
+            $user->email = $request->email;
+        }
+        if ($request->has('password')) {
+            $user->password = Hash::make($request->password);
+        }
+        if ($request->has('google_id')) {
+            $user->google_id = $request->google_id;
+        }
+        if ($request->has('apple_id')) {
+            $user->apple_id = $request->apple_id;
+        }
+        if ($request->has('token_firebase')) {
+            $user->token_firebase = $request->token_firebase;
+        }
+        if ($request->has('uuid')) {
+            $user->uuid = $request->uuid;
+        }
+
+        $user->save();
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Profile updated successfully',
+            'user' => $user,
+        ], 200);
     }
 
-    public function show($id)
+    public function postUUID(Request $request)
     {
-        return Category::findOrFail($id);
-    }
-
-    public function update(Request $request, $id)
-    {
-        $request->validate([
-            'name' => 'required|string|unique:categories,name,' . $id,
-            'description' => 'nullable|string',
+        $user = JWTAuth::parseToken()->authenticate();
+        $validator = Validator::make($request->all(), [
+            'uuid' => 'required||unique:users,uuid,' . $user->id,
         ]);
 
-        $category = Category::findOrFail($id);
-        $category->update($request->all());
-        return response()->json($category, 200);
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Validation failed',
+                'errors' => $validator->errors(),
+            ], 422);
+        }
+
+        $user->uuid = $request->uuid;
+        $user->save();
+
+        return response()->json([
+            'status' => true,
+            'message' => 'UUID updated successfully',
+            'uuid' => $user->uuid,
+        ], 200);
     }
 
-    public function destroy($id)
+    // API untuk memperbarui Token Firebase pengguna
+    public function postFirebase(Request $request)
     {
-        $category = Category::findOrFail($id);
-        $category->delete();
-        return response()->json(null, 204);
+        $user = JWTAuth::parseToken()->authenticate();
+
+        $validator = Validator::make($request->all(), [
+            'token_firebase' => 'required|string',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Validation failed',
+                'errors' => $validator->errors(),
+            ], 422);
+        }
+
+        $user->token_firebase = $request->token_firebase;
+        $user->save();
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Firebase Token updated successfully',
+            'token_firebase' => $user->token_firebase,
+        ], 200);
     }
 }
