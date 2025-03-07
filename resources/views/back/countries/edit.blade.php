@@ -9,45 +9,58 @@
                     <div id="kt_app_toolbar_container" class="app-container container-xxl d-flex flex-stack">
                         <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
                             <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">
-                                Edit Country</h1>
+                                Country</h1>
                             <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-0 pt-1">
                                 <li class="breadcrumb-item text-muted">
-                                    <a href="../../demo1/dist/index.html" class="text-muted text-hover-primary">Master</a>
+                                    <a href="{{ route('country.index') }}" class="text-muted text-hover-primary">Countries</a>
                                 </li>
                                 <li class="breadcrumb-item">
                                     <span class="bullet bg-gray-400 w-5px h-2px"></span>
                                 </li>
-                                <li class="breadcrumb-item text-muted">Country</li>
+                                <li class="breadcrumb-item text-muted">Edit</li>
                             </ul>
                         </div>
-
                     </div>
                 </div>
                 {{-- header-end --}}
 
                 {{-- body-start --}}
                 <div id="kt_app_content" class="app-content flex-column-fluid">
-                    <!--begin::Content container-->
                     <div id="kt_app_content_container" class="app-container container-xxl">
-                        <!--begin::Products-->
                         <div class="card card-flush">
                             <div class="card-header align-items-center py-5 gap-2 gap-md-5">
-                                <!--begin::Card title-->
                                 <div class="card-title">
-                                    <!--begin::Search-->
-
-                                    <!--end::Search-->
+                                    <h3>Edit Form</h3>
                                 </div>
                             </div>
                             <div class="card-body pt-0">
-                                <form action="{{ route('country.update', $country) }}" method="POST">
+                                <form action="{{ route('country.update', $country->id) }}" method="POST">
                                     @csrf
                                     @method('PUT')
+
                                     <div class="form-group">
                                         <label for="country_name">Country Name</label>
-                                        <input type="text" name="country_name" class="form-control" value="{{ $country->country_name }}" required>
+                                        <input type="text" name="country_name" class="form-control"
+                                            value="{{ $country->country_name }}" required>
                                     </div>
-                                    <button type="submit" class="btn btn-primary">Update Country</button>
+
+                                    <div class="form-group">
+                                        <label>Categories</label>
+                                        <div class="row">
+                                            @foreach ($categories as $category)
+                                                <div class="col-md-4">
+                                                    <div class="form-check">
+                                                        <input type="checkbox" name="category_ids[]" value="{{ $category->id }}"
+                                                            class="form-check-input"
+                                                            {{ in_array($category->id, $selectedCategoryIds) ? 'checked' : '' }}>
+                                                        <label class="form-check-label">{{ $category->name }}</label>
+                                                    </div>
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                    </div>
+
+                                    <button type="submit" class="btn btn-primary mt-3">Update</button>
                                 </form>
                             </div>
                         </div>

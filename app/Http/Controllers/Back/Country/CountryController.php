@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Back\Country;
 
 use App\Models\Country;
+use App\Models\Category;
+use App\Models\CountriesCategories;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -64,8 +66,14 @@ class CountryController extends Controller
      */
     public function edit(Country $country)
     {
-        return view('back.countries.edit', compact('country'));
+        $categories = Category::all(); // Ambil semua kategori
+        $selectedCategoryIds = CountriesCategories::where('country_id', $country->id)
+            ->pluck('category_id')
+            ->toArray(); // Ambil ID kategori yang sudah dipilih
+
+        return view('back.countries.edit', compact('country', 'categories', 'selectedCategoryIds'));
     }
+
 
     /**
      * Update the specified country in storage.
@@ -78,11 +86,31 @@ class CountryController extends Controller
     {
         $request->validate([
             'country_name' => 'required|string|max:255',
+            'category_ids' => 'array', // Bisa kosong jika tidak memilih kategori
         ]);
 
-        $country->update($request->all());
-        return redirect()->route('country.index')->with('success', 'Country updated successfully.');
+        // Update country data
+        $country->update([
+            'country_name' => $request->country_name,
+        ]);
+
+        // Sinkronisasi kategori yang dipilih
+        $selectedCategories = $request->input('category_ids', []);
+
+        // Hapus kategori lama dan tambahkan yang baru
+        CountriesCategories::where('country_id', $country->id)->delete();
+
+        foreach ($selectedCategories as $categoryId) {
+            CountriesCategories::create([
+                'country_id' => $country->id,
+                'category_id' => $categoryId,
+                'status' => 1, // Bisa diganti sesuai kebutuhan
+            ]);
+        }
+
+        return redirect()->route('country.edit', $country->id)->with('success', 'Country updated successfully.');
     }
+
 
     /**
      * Remove the specified country from storage.
