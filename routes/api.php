@@ -46,6 +46,7 @@ use App\Http\Controllers\Api\News\CategoryController;
 use App\Http\Controllers\Api\News\NewsController;
 use App\Http\Controllers\Api\News\CountryController;
 use App\Http\Controllers\Api\News\NewsCommentController;
+use App\Http\Controllers\Api\News\CountryCategoryNewsController;
 
 
 
@@ -97,11 +98,19 @@ Route::get('getSearchNews', [NewsController::class, 'getSearchNews']);
 // Rute untuk country
 Route::get('getAllCountries', [CountryController::class, 'index']); // GET: Menampilkan semua country
 
+Route::get('getCategoriesCountry', [CountryController::class, 'getCategorieCountry']); // GET: Menampilkan semua country
 
 
 
 Route::post('/postComment', [NewsCommentController::class, 'postComment']); // Post comment
 Route::get('/getComment', [NewsCommentController::class, 'getComment']); // Get comment
+
+
+
+
+Route::post('/SaveDataCountriesCategoriesNews', [CountryCategoryNewsController::class, 'SaveDataCountriesCategoriesNews']);
+Route::get('/getSavedDataCountriesCategoriesNews/{id}', [CountryCategoryNewsController::class, 'getSavedDataCountriesCategoriesNews']);
+Route::delete('/deleteDataCountriesCategoriesNews/{id}', [CountryCategoryNewsController::class, 'deleteDataCountriesCategoriesNews']);
 
 
 

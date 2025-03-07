@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
+use App\Models\Country;
+use App\Models\CountriesCategories;
 
 
 class NewsController extends Controller
@@ -76,7 +78,8 @@ class NewsController extends Controller
             'image' => $imagePath, // Simpan path gambar ke database
         ]);
 
-        return redirect()->route('news.index')->with('success', 'News item created successfully.'); }
+        return redirect()->route('news.index')->with('success', 'News item created successfully.');
+    }
 
     /**
      * Display the specified resource.
@@ -95,11 +98,18 @@ class NewsController extends Controller
      * @param  \App\Models\News  $news
      * @return \Illuminate\Http\Response
      */
-    public function edit(News $news)
-    {
-        $categories = Category::all();
-        return view('back.news.edit', compact('news', 'categories'));
-    }
+public function edit(News $news)
+{
+    $countries = Country::all();
+    $categories = Category::all(); // Ambil semua kategori
+    $countriescategoriesnews = $news->countriesCategoriesNews()->get();
+    $defaultCountry = 4;
+    $defaultCategory = CountriesCategories::where('country_id', $defaultCountry)
+            ->pluck('category_id')
+            ->first(); // Ambil 1 nilai kategori default
+    return view('back.news.edit', compact('news', 'countries', 'categories', 'defaultCountry', 'defaultCategory'));
+}
+
 
     /**
      * Update the specified resource in storage.

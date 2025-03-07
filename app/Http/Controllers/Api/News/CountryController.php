@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\News;
 use App\Models\Country;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\CountriesCategories;
 
 class CountryController extends Controller
 {
@@ -97,4 +98,15 @@ class CountryController extends Controller
         $country->delete();
         return response()->json(null, 204);
     }
+
+    public function getCategorieCountry(Request $request) {
+
+        $country_id = $request->country_id;
+        $categories = CountriesCategories::where('country_id', $country_id)
+            ->with('category')
+            ->get()
+            ->pluck('category');
+
+        return response()->json($categories);
+}
 }
