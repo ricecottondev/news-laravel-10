@@ -1,166 +1,154 @@
-@extends('back/layouts.layout')
+@extends('back.layouts.layout')
 @section('content')
     <div class="d-flex flex-column flex-column-fluid">
         <div class="app-main flex-column flex-row-fluid" id="kt_app_main">
             <div class="d-flex flex-column flex-column-fluid">
 
-                {{-- header-start --}}
-                <div id="kt_app_toolbar" class="app-toolbar py-3 py-lg-6">
-                    <div id="kt_app_toolbar_container" class="app-container container-xxl d-flex flex-stack">
-                        <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
-                            <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">
-                                Edit News</h1>
-                            <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-0 pt-1">
-                                <li class="breadcrumb-item text-muted">
-                                    <a href="../../demo1/dist/index.html" class="text-muted text-hover-primary">Master</a>
-                                </li>
-                                <li class="breadcrumb-item">
-                                    <span class="bullet bg-gray-400 w-5px h-2px"></span>
-                                </li>
-                                <li class="breadcrumb-item text-muted">News</li>
-                            </ul>
+                {{-- Header --}}
+                <div class="app-toolbar py-3 py-lg-6">
+                    <div class="container-xxl d-flex justify-content-between align-items-center">
+                        <div>
+                            <h1 class="fw-bold fs-3 text-dark">Edit News</h1>
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="#"
+                                            class="text-muted text-decoration-none">Master</a></li>
+                                    <li class="breadcrumb-item text-muted">News</li>
+                                </ol>
+                            </nav>
                         </div>
-                        <div class="d-flex align-items-center gap-2 gap-lg-3">
-                            <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal"
-                                data-bs-target="#kt_modal_add_user">
-                                <i class="ki-duotone ki-plus "></i>Edit News</button>
-                        </div>
+                        <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#kt_modal_add_user">
+                            <i class="ki-duotone ki-plus"></i> Edit News
+                        </button>
                     </div>
                 </div>
-                {{-- header-end --}}
 
-                {{-- body-start --}}
-                <div id="kt_app_content" class="app-content flex-column-fluid">
-                    <!--begin::Content container-->
-                    <div id="kt_app_content_container" class="app-container container-xxl">
-                        <!--begin::Products-->
-                        <div class="card card-flush">
-                            <div class="card-header align-items-center py-5 gap-2 gap-md-5">
-                                <!--begin::Card title-->
-                                <div class="card-title">
-                                    <!--begin::Search-->
-
-                                    <!--end::Search-->
-                                </div>
-                            </div>
-
-                            <div class="card-body pt-0">
+                {{-- Content --}}
+                <div class="app-content flex-column-fluid">
+                    <div class="container-xxl">
+                        <div class="card">
+                            <div class="card-body">
                                 <form action="{{ route('news.update', $news->id) }}" method="POST"
                                     enctype="multipart/form-data">
                                     @csrf
                                     @method('PUT')
-                                    <div class="form-group">
-                                        <label for="title">Judul</label>
+
+                                    <div class="mb-3">
+                                        <label for="title" class="form-label">Judul</label>
                                         <input type="text" class="form-control" id="title" name="title"
                                             value="{{ $news->title }}" required>
                                     </div>
 
-                                    <div class="form-group">
-                                        <label for="category_id">Category</label>
-                                        <select name="category_id" id="category_id" class="form-control" required>
+                                    <div class="mb-3">
+                                        <label for="category_id" class="form-label">Category</label>
+                                        <select class="form-select" name="category_id" id="category_id" required>
                                             <option value="">Select Category</option>
                                             @foreach ($categories as $category)
                                                 <option value="{{ $category->id }}"
                                                     {{ $news->category_id == $category->id ? 'selected' : '' }}>
-                                                    {{ $category->name }}</option>
+                                                    {{ $category->name }}
+                                                </option>
                                             @endforeach
                                         </select>
                                     </div>
-                                    <div class="form-group">
-                                        <label for="short_desc">Deskripsi Singkat</label>
+
+                                    <div class="mb-3">
+                                        <label for="short_desc" class="form-label">Deskripsi Singkat</label>
                                         <input type="text" class="form-control" id="short_desc" name="short_desc"
                                             value="{{ $news->short_desc }}" required>
                                     </div>
-                                    <div class="form-group">
-                                        <label for="content">Konten</label>
+
+                                    <div class="mb-3">
+                                        <label for="content" class="form-label">Konten</label>
                                         <textarea class="form-control" id="content" name="content" rows="5" required>{{ $news->content }}</textarea>
                                     </div>
-                                    <div class="form-group">
-                                        <label for="author">Penulis</label>
+
+                                    <div class="mb-3">
+                                        <label for="author" class="form-label">Penulis</label>
                                         <input type="text" class="form-control" id="author" name="author"
                                             value="{{ $news->author }}" required>
                                     </div>
-                                    <div class="form-group">
-                                        <label for="slug">Slug</label>
+
+                                    <div class="mb-3">
+                                        <label for="slug" class="form-label">Slug</label>
                                         <input type="text" class="form-control" id="slug" name="slug"
                                             value="{{ $news->slug }}" required>
                                     </div>
-                                    <div class="form-group">
-                                        <label for="status">Status</label>
-                                        <select class="form-control" id="status" name="status" required>
+
+                                    <div class="mb-3">
+                                        <label for="status" class="form-label">Status</label>
+                                        <select class="form-select" id="status" name="status" required>
                                             <option value="published" {{ $news->status == 'published' ? 'selected' : '' }}>
                                                 Published</option>
-                                            <option value="draft" {{ $news->status == 'draft' ? 'selected' : '' }}>Draf
+                                            <option value="draft" {{ $news->status == 'draft' ? 'selected' : '' }}>Draft
                                             </option>
                                         </select>
                                     </div>
-                                    <div class="form-group">
-                                        <label for="image">Gambar</label>
-                                        <input type="file" class="form-control" id="image" name="image">
 
-                                        <!-- Menampilkan gambar yang ada -->
+                                    <div class="mb-3">
+                                        <label for="image" class="form-label">Gambar</label>
+                                        <input type="file" class="form-control" id="image" name="image">
                                         @if ($news->image)
                                             <img src="{{ asset('storage/' . $news->image) }}" alt="Current Image"
-                                                width="150" class="mt-2">
+                                                class="img-thumbnail mt-2" width="150">
                                         @endif
                                     </div>
-
-
-
-
 
                                     <button type="submit" class="btn btn-primary">Update</button>
                                 </form>
 
 
+
                                 <form>
-                                    <label for="country">Select Country:</label>
-                                    <select id="country" name="country" data-default="{{ $defaultCountry }}">
-                                        <option value="">-- Select Country --</option>
-                                        @foreach ($countries as $country)
-                                            <option value="{{ $country->id }}"
-                                                {{ $country->id == $defaultCountry ? 'selected' : '' }}>
-                                                {{ $country->country_name }}
-                                            </option>
-                                        @endforeach
-                                    </select>
+                                    <div class="mb-3">
+                                        <label for="country" class="form-label">Select Country:</label>
+                                        <select id="country" name="country" class="form-select"
+                                            data-default="{{ $defaultCountry }}">
+                                            <option value="">-- Select Country --</option>
+                                            @foreach ($countries as $country)
+                                                <option value="{{ $country->id }}"
+                                                    {{ $country->id == $defaultCountry ? 'selected' : '' }}>
+                                                    {{ $country->country_name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
 
-                                    <br><br>
+                                    <div class="mb-3">
+                                        <label for="category" class="form-label">Select Category:</label>
+                                        <select id="category" name="category" class="form-select"
+                                            data-default="{{ $defaultCategory }}">
+                                            <option value="">-- Select Category --</option>
+                                        </select>
+                                    </div>
 
-                                    <label for="category">Select Category:</label>
-                                    <select id="category" name="category" data-default="{{ $defaultCategory }}">
-                                        <option value="">-- Select Category --</option>
-                                    </select>
-
-                                    <br><br>
-
-                                    <button type="button" id="saveData">Save</button>
+                                    <button type="button" id="saveData" class="btn btn-primary">Save</button>
                                 </form>
 
-                                <br>
+                                <hr>
 
                                 <h3>Saved Data:</h3>
-                                <table border="1">
-                                    <thead>
-                                        <tr>
-                                            <th>Country</th>
-                                            <th>Category</th>
-                                            <th>News ID</th>
-                                            <th>Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="savedDataTable">
-                                        <!-- Data dari AJAX akan muncul di sini -->
-                                    </tbody>
-                                </table>
+                                <div class="table-responsive">
+                                    <table class="table table-bordered">
+                                        <thead class="table-dark">
+                                            <tr>
+                                                <th>Country</th>
+                                                <th>Category</th>
+                                                <th>News ID</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="savedDataTable">
+                                            <!-- Data dari AJAX akan muncul di sini -->
+                                        </tbody>
+                                    </table>
+                                </div>
 
 
                             </div>
                         </div>
                     </div>
                 </div>
-                {{-- body-end --}}
-
             </div>
         </div>
     </div>
@@ -184,7 +172,7 @@
                                     '';
                                 $('#category').append(
                                     `<option value="${category.id}" ${selected}>${category.name}</option>`
-                                    );
+                                );
                             });
                         },
                         error: function() {
