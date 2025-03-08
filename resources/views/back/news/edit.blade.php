@@ -75,11 +75,11 @@
                                             value="{{ $news->author }}" required>
                                     </div>
 
-                                    <div class="mb-3">
+                                    {{-- <div class="mb-3">
                                         <label for="slug" class="form-label">Slug</label>
                                         <input type="text" class="form-control" id="slug" name="slug"
                                             value="{{ $news->slug }}" required>
-                                    </div>
+                                    </div> --}}
 
                                     <div class="mb-3">
                                         <label for="status" class="form-label">Status</label>

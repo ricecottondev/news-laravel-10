@@ -50,13 +50,24 @@ class NewsController extends Controller
             'short_desc' => 'required|string|max:255',
             'content' => 'required|string',
             'author' => 'required|string|max:255',
-            'slug' => 'required|string|unique:news,slug',
             'status' => 'required|string|in:draft,published',
             'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // Validasi gambar
         ]);
 
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        // Buat slug dari title
+        $slug = preg_replace('/[&\/\\\()\+\-\?\<\>\@\#\!\$\%\^\*]/', '', $request->title); // Hapus karakter khusus
+        $slug = str_replace(' ', '_', $slug); // Ganti spasi dengan "_"
+
+        // Cek jika slug sudah ada di database
+        $originalSlug = $slug;
+        $count = 1;
+        while (News::where('slug', $slug)->exists()) {
+            $slug = $originalSlug . '_' . $count;
+            $count++;
         }
 
         // Simpan gambar ke dalam folder public/images/news
@@ -74,13 +85,14 @@ class NewsController extends Controller
             'content' => $request->content,
             'is_breaking_news' => $request->has('is_breaking_news'),
             'author' => $request->author,
-            'slug' => $request->slug,
+            'slug' => $slug, // Slug hasil konversi
             'status' => $request->status,
             'image' => $imagePath, // Simpan path gambar ke database
         ]);
 
         return redirect()->route('news.index')->with('success', 'News item created successfully.');
     }
+
 
     /**
      * Display the specified resource.
@@ -127,7 +139,6 @@ public function edit(News $news)
             'short_desc' => 'required|string|max:255',
             'content' => 'required|string',
             'author' => 'required|string|max:255',
-            'slug' => 'required|string|unique:news,slug,' . $news->id,
             'status' => 'required|string|in:draft,published',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validasi gambar
         ]);
@@ -136,20 +147,41 @@ public function edit(News $news)
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
+        // Buat slug dari title
+        $slug = preg_replace('/[&\/\\\()\+\-\?\<\>\@\#\!\$\%\^\*]/', '', $request->title); // Hapus karakter khusus
+        $slug = str_replace(' ', '_', $slug); // Ganti spasi dengan "_"
+
+        // Cek jika slug sudah ada di database dan bukan milik berita ini
+        $originalSlug = $slug;
+        $count = 1;
+        while (News::where('slug', $slug)->where('id', '!=', $news->id)->exists()) {
+            $slug = $originalSlug . '_' . $count;
+            $count++;
+        }
+
         // Cek jika ada gambar baru yang diunggah
         if ($request->hasFile('image')) {
             // Hapus gambar lama jika ada
             if ($news->image) {
-                Storage::delete($news->image);
+                Storage::delete('public/' . $news->image);
             }
 
             // Simpan gambar baru
-            $imagePath = $request->file('image')->store('news_images', 'public');
+            $imagePath = $request->file('image')->store('images/news', 'public');
             $news->image = $imagePath;
         }
 
         // Update data lainnya
-        $news->update($request->except(['image']));
+        $news->update([
+            'category_id' => $request->category_id,
+            'title' => $request->title,
+            'short_desc' => $request->short_desc,
+            'content' => $request->content,
+            'is_breaking_news' => $request->has('is_breaking_news'),
+            'author' => $request->author,
+            'slug' => $slug, // Slug hasil konversi
+            'status' => $request->status,
+        ]);
 
         return redirect()->route('news.index')->with('success', 'News item updated successfully.');
     }

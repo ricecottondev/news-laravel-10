@@ -94,15 +94,21 @@
                                     <textarea name="content" class="form-control" required></textarea>
                                 </div>
 
+                                <div class="form-check">
+                                    <input type="checkbox" name="is_breaking_news" id="is_breaking_news" class="form-check-input"
+                                           value="1">
+                                    <label class="form-check-label" for="is_breaking_news">Set as Breaking News</label>
+                                </div>
+
                                 <div class="form-group">
                                     <label for="author">Author</label>
                                     <input type="text" name="author" class="form-control" required>
                                 </div>
 
-                                <div class="form-group">
+                                {{-- <div class="form-group">
                                     <label for="slug">Slug</label>
                                     <input type="text" name="slug" class="form-control" required>
-                                </div>
+                                </div> --}}
 
                                 <div class="form-group">
                                     <label for="status">Status</label>

@@ -52,7 +52,8 @@ class NewsController extends Controller
             'title' => $item->title,
             'image_url' => $item->image ? $baseUrl . '/storage/' . $item->image : null,
             'category' => $item->category ? $item->category->name : 'Uncategorized', // Pastikan category tidak null
-            'date' => $formattedDate
+            'date' => $formattedDate,
+            'is_breaking_news' => $item->is_breaking_news
         ];
     });
 
@@ -107,7 +108,8 @@ class NewsController extends Controller
         'status' => $news->status,
         'image_url' => $news->image ? $baseUrl . '/storage/' . $news->image : null,
         'category' => $news->category ? $news->category->name : null, // Pastikan category berupa string atau null
-        'date' => $formattedDate
+        'date' => $formattedDate,
+        'is_breaking_news' => $news->is_breaking_news
     ], 200);
 }
 
@@ -245,7 +247,8 @@ class NewsController extends Controller
             'title' => $item->title,
             'image_url' => $item->image ? $baseUrl . '/storage/' . $item->image : null,
             'category' => $item->category ? $item->category->name : 'Uncategorized',
-            'date' => $formattedDate
+            'date' => $formattedDate,
+            'is_breaking_news' => $item->is_breaking_news
         ];
     });
 
