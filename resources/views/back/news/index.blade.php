@@ -64,27 +64,35 @@
                                     </thead>
                                     <tbody>
                                         @foreach ($news as $item)
-                                        <tr>
-                                            <td>
-                                                @if($item->image)
-                                                    <img src="{{ asset('storage/' . $item->image) }}" alt="News Image" width="80" height="50" style="object-fit: cover;">
-                                                @else
-                                                    <span class="text-muted">No Image</span>
-                                                @endif
-                                            </td>
-                                            <td>{{ $item->title }}</td>
-                                            <td>{{ $item->short_desc }}</td>
-                                            <td>{{ $item->author }}</td>
-                                            <td>{{ $item->status }}</td>
-                                            <td>
-                                                <a href="{{ route('news.edit', $item->id) }}" class="btn btn-warning">Edit</a>
-                                                <form action="{{ route('news.destroy', $item->id) }}" method="POST" style="display:inline;">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" class="btn btn-danger" onclick="return confirm('Yakin ingin menghapus?');">Hapus</button>
-                                                </form>
-                                            </td>
-                                        </tr>
+                                            <tr>
+                                                <td>
+                                                    @if ($item->image)
+                                                        <img src="{{ asset('storage/' . $item->image) }}" alt="News Image"
+                                                            width="80" height="50" style="object-fit: cover;">
+                                                    @else
+                                                        <span class="text-muted">No Image</span>
+                                                    @endif
+                                                </td>
+                                                <td>{{ $item->title }}
+                                                    @if ($item->is_breaking_news)
+                                                        <span class="badge bg-danger">Breaking News</span>
+                                                    @endif
+                                                </td>
+                                                <td>{{ $item->short_desc }}</td>
+                                                <td>{{ $item->author }}</td>
+                                                <td>{{ $item->status }}</td>
+                                                <td>
+                                                    <a href="{{ route('news.edit', $item->id) }}"
+                                                        class="btn btn-warning">Edit</a>
+                                                    <form action="{{ route('news.destroy', $item->id) }}" method="POST"
+                                                        style="display:inline;">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="btn btn-danger"
+                                                            onclick="return confirm('Yakin ingin menghapus?');">Hapus</button>
+                                                    </form>
+                                                </td>
+                                            </tr>
                                         @endforeach
                                     </tbody>
                                 </table>

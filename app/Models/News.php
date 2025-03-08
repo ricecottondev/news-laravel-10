@@ -26,6 +26,7 @@ class News extends Model
         'title',
         'short_desc',
         'content',
+        'is_breaking_news',
         'author',
         'slug',
         'status',

@@ -72,6 +72,7 @@ class NewsController extends Controller
             'title' => $request->title,
             'short_desc' => $request->short_desc,
             'content' => $request->content,
+            'is_breaking_news' => $request->has('is_breaking_news'),
             'author' => $request->author,
             'slug' => $request->slug,
             'status' => $request->status,

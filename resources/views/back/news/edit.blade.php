@@ -63,6 +63,12 @@
                                         <textarea class="form-control" id="content" name="content" rows="5" required>{{ $news->content }}</textarea>
                                     </div>
 
+                                    <div class="form-check">
+                                        <input type="checkbox" name="is_breaking_news" id="is_breaking_news" class="form-check-input"
+                                               value="1" {{ old('is_breaking_news', $news->is_breaking_news ?? false) ? 'checked' : '' }}>
+                                        <label class="form-check-label" for="is_breaking_news">Set as Breaking News</label>
+                                    </div>
+
                                     <div class="mb-3">
                                         <label for="author" class="form-label">Penulis</label>
                                         <input type="text" class="form-control" id="author" name="author"
