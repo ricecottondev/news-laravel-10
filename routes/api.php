@@ -94,6 +94,9 @@ Route::post('news', [NewsController::class, 'store']); // POST: Menambahkan beri
 Route::put('news/{id}', [NewsController::class, 'update']); // PUT: Memperbarui berita berdasarkan ID
 Route::delete('news/{id}', [NewsController::class, 'destroy']); // DELETE: Menghapus berita berdasarkan ID
 Route::get('getSearchNews', [NewsController::class, 'getSearchNews']);
+Route::get('getBreakingNews', [NewsController::class, 'getBreakingNews']);
+
+
 
 // Rute untuk country
 Route::get('getAllCountries', [CountryController::class, 'index']); // GET: Menampilkan semua country
@@ -111,6 +114,7 @@ Route::get('/getComment', [NewsCommentController::class, 'getComment']); // Get 
 Route::post('/SaveDataCountriesCategoriesNews', [CountryCategoryNewsController::class, 'SaveDataCountriesCategoriesNews']);
 Route::get('/getSavedDataCountriesCategoriesNews/{id}', [CountryCategoryNewsController::class, 'getSavedDataCountriesCategoriesNews']);
 Route::delete('/deleteDataCountriesCategoriesNews/{id}', [CountryCategoryNewsController::class, 'deleteDataCountriesCategoriesNews']);
+
 
 
 
