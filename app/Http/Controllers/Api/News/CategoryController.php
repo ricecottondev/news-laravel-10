@@ -34,6 +34,29 @@ class CategoryController extends Controller
         return response()->json($category, 201);
     }
 
+    public function batchstore(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|array', // Pastikan `name` adalah array
+            'name.*' => 'required|string|unique:categories,name', // Validasi setiap nama unik
+        ]);
+
+        // Mapping data untuk batch insert
+        $categoriesData = array_map(function ($name) {
+            return [
+                'name' => $name,
+                'description' => $name, // Isi description dengan name
+                'created_at' => now(),
+                'updated_at' => now(),
+            ];
+        }, $request->name);
+
+        // Batch insert ke database
+        Category::insert($categoriesData);
+
+        return response()->json(['message' => 'Categories stored successfully'], 201);
+    }
+
     public function show($id)
     {
         return Category::findOrFail($id);
