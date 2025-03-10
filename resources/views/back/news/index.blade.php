@@ -20,10 +20,17 @@
                                 <li class="breadcrumb-item text-muted">News</li>
                             </ul>
                         </div>
-                        <div class="d-flex align-items-center gap-2 gap-lg-3">
+                        {{-- <div class="d-flex align-items-center gap-2 gap-lg-3">
                             <a href="{{ route('news.create') }}" class="btn btn-sm btn-primary"><i
                                     class="ki-duotone ki-plus "></i>Add News</a>
+                        </div> --}}
+
+                        <div class="d-flex align-items-center gap-2 gap-lg-3">
+                            <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#addNewsModal">
+                                <i class="ki-duotone ki-plus"></i> Add News
+                            </button>
                         </div>
+
                     </div>
                 </div>
                 {{-- header-end --}}
@@ -107,6 +114,123 @@
                 </div>
                 {{-- body-end --}}
 
+
+
+                <!-- Modal Tambah Berita -->
+                <div class="modal fade" id="addNewsModal" tabindex="-1" aria-labelledby="addNewsModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="addNewsModalLabel">Tambah Berita</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form id="newsForm" enctype="multipart/form-data">
+
+                                    @csrf
+                                    <div class="mb-3">
+                                        <label for="title" class="form-label">title</label>
+                                        <input type="text" class="form-control" id="title" name="title" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="short_desc" class="form-label">short_desc</label>
+                                        <textarea class="form-control" id="short_desc" name="short_desc" required></textarea>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="author" class="form-label">author</label>
+                                        <input type="text" class="form-control" id="author" name="author" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="content" class="form-label">content</label>
+                                        <input type="text" class="form-control" id="content" name="content" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="status" class="form-label">Status</label>
+                                        <select class="form-control" id="status" name="status">
+                                            <option value="draft">Draft</option>
+                                            <option value="published">Published</option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="image" class="form-label">Gambar</label>
+                                        <input type="file" class="form-control" id="image" name="image">
+                                    </div>
+                                    {{-- <div class="form-check mb-3">
+                        <input class="form-check-input" type="checkbox" id="is_breaking_news" name="is_breaking_news">
+                        <label class="form-check-label" for="is_breaking_news">
+                            Breaking News
+                        </label>
+                    </div> --}}
+                                    <button type="submit" class="btn btn-primary">Simpan</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- Modal SaveDataCountriesCategoriesNews -->
+                <div class="modal fade" id="saveDataModal" tabindex="-1" aria-labelledby="saveDataModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="saveDataModalLabel">Save Data</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form>
+                                    <input type="hidden" id="newsId">
+                                    <div class="mb-3">
+                                        <label for="country" class="form-label">Select Country:</label>
+                                        <select id="country" name="country" class="form-select">
+                                            <option value="">-- Select Country --</option>
+                                            @foreach ($countries as $country)
+                                                <option value="{{ $country->id }}">{{ $country->country_name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="category" class="form-label">Select Category:</label>
+                                        <select id="category" name="category" class="form-select">
+                                            <option value="">-- Select Category --</option>
+                                        </select>
+                                    </div>
+
+                                    <button type="button" id="saveData" class="btn btn-primary">Save</button>
+                                </form>
+
+                                <hr>
+
+                                <h3>Saved Data:</h3>
+                                <div class="table-responsive">
+                                    <table class="table table-bordered">
+                                        <thead class="table-dark">
+                                            <tr>
+                                                <th>Country</th>
+                                                <th>Category</th>
+                                                <th>News ID</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="savedDataTable">
+                                            <!-- Data dari AJAX akan muncul di sini -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+
             </div>
         </div>
     </div>
@@ -132,6 +256,180 @@
     <script>
         $(document).ready(function() {
             $('#kt_ecommerce_sales_table').DataTable(); // Basic initialization
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+
+            function loadCategories(countryId, selectedCategory = null) {
+                $('#category').html('<option value="">-- Select Category --</option>');
+
+                if (countryId) {
+                    $.ajax({
+                        url: '/api/getCategoriesCountry',
+                        type: 'GET',
+                        data: {
+                            country_id: countryId
+                        },
+                        dataType: 'json',
+                        success: function(data) {
+                            $.each(data, function(key, category) {
+                                let selected = (category.id == selectedCategory) ? 'selected' :
+                                    '';
+                                $('#category').append(
+                                    `<option value="${category.id}" ${selected}>${category.name}</option>`
+                                );
+                            });
+                        },
+                        error: function() {
+                            alert('Error fetching categories');
+                        }
+                    });
+                }
+            }
+
+            function loadSavedData(newsId) {
+                $.ajax({
+                    url: '/api/getSavedDataCountriesCategoriesNews/' + newsId,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function(data) {
+                        let rows = '';
+                        $.each(data, function(key, item) {
+                            rows += `<tr id="row-${item.id}">
+                            <td>${item.country.country_name}</td>
+                            <td>${item.category.name}</td>
+                            <td>${item.news_id}</td>
+                            <td>
+                                <button class="btn btn-danger btn-sm deleteData" data-id="${item.id}">Delete</button>
+                            </td>
+                        </tr>`;
+                        });
+                        $('#savedDataTable').html(rows);
+                    },
+                    error: function() {
+                        alert('Error fetching saved data');
+                    }
+                });
+            }
+
+            $('#country').on('change', function() {
+                let countryId = $(this).val();
+                loadCategories(countryId);
+            });
+
+            // Save Data
+            $('#saveData').on('click', function() {
+                let countryId = $('#country').val();
+                let categoryId = $('#category').val();
+                let newsId = $('#newsId').val(); // Ambil dari input hidden modal
+
+                if (!countryId || !categoryId) {
+                    alert('Please select both Country and Category.');
+                    return;
+                }
+
+                $.ajax({
+                    url: '/api/SaveDataCountriesCategoriesNews',
+                    type: 'POST',
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                        country_id: countryId,
+                        category_id: categoryId,
+                        news_id: newsId
+                    },
+                    dataType: 'json',
+                    success: function(response) {
+                        alert('Data saved successfully!');
+                        loadSavedData(newsId);
+                    },
+                    error: function() {
+                        alert('Error saving data');
+                    }
+                });
+            });
+
+            $('#newsForm').submit(function(e) {
+                e.preventDefault();
+
+                let formData = new FormData(this);
+
+                // Pastikan is_breaking_news memiliki nilai default 0 jika tidak dicentang
+                // if (!formData.has("is_breaking_news")) {
+                //     formData.append("is_breaking_news", 0);
+                // }
+
+                $.ajax({
+                    url: "/api/news",
+                    type: "POST",
+                    data: formData,
+                    contentType: false, // Jangan set Content-Type secara manual
+                    processData: false, // Jangan ubah FormData menjadi string query
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}' // Pastikan token dikirim jika diperlukan
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            alert("Berita berhasil ditambahkan!");
+                            $('#addNewsModal').modal('hide');
+                            // location.reload(); // Reload halaman agar data terbaru muncul
+                            // Simpan news ID untuk proses selanjutnya
+                            let newsId = response.data.id;
+
+                            // Tampilkan modal SaveDataCountriesCategoriesNews
+                            $('#saveDataModal').modal('show');
+
+                            // Set berita ID ke modal
+                            $('#newsId').val(newsId);
+
+                            // Load saved data
+                            loadSavedData(newsId);
+                        } else {
+                            alert("Terjadi kesalahan: " + response.message);
+                        }
+                    },
+                    error: function(xhr) {
+                        let errorMessage = "Gagal menambahkan berita.";
+                        if (xhr.responseJSON && xhr.responseJSON.message) {
+                            errorMessage += "\n" + xhr.responseJSON.message;
+                        }
+                        alert(errorMessage);
+                    }
+                });
+            });
+
+            $('#saveDataModal').on('hidden.bs.modal', function() {
+                location.reload(); // Reload halaman saat modal ditutup
+            });
+
+            $(document).ready(function() {
+                $('.btn-close').on('click', function() {
+                    location.reload();
+                });
+            });
+
+            // DELETE FUNCTION
+            $(document).on('click', '.deleteData', function() {
+                let id = $(this).data('id');
+                if (confirm('Are you sure you want to delete this record?')) {
+                    $.ajax({
+                        url: '/api/deleteDataCountriesCategoriesNews/' + id,
+                        type: 'DELETE',
+                        data: {
+                            _token: '{{ csrf_token() }}'
+                        },
+                        success: function(response) {
+                            alert(response.message);
+                            $('#row-' + id).remove();
+                        },
+                        error: function() {
+                            alert('Error deleting data');
+                        }
+                    });
+                }
+            });
+
         });
     </script>
 @endsection

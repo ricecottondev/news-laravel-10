@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\News;
 use App\Models\News;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Validator;
 
 class NewsController extends Controller
 {
@@ -75,18 +76,56 @@ class NewsController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'category_id' => 'required|exists:categories,id',
-            'title' => 'required|string',
-            'short_desc' => 'required|string',
+        $validator = Validator::make($request->all(), [
+
+            'title' => 'required|string|max:255',
+            'short_desc' => 'required|string|max:255',
             'content' => 'required|string',
-            'author' => 'required|string',
-            'slug' => 'required|string|unique:news,slug',
-            'status' => 'required|string',
+            'author' => 'required|string|max:255',
+            'status' => 'required|string|in:draft,published',
+            // 'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // Validasi gambar
         ]);
 
-        $news = News::create($request->all());
-        return response()->json($news, 201);
+        if ($validator->fails()) {
+            return response()->json($validator, 404);
+        }
+        //  dd("test");
+        // Buat slug dari title
+        $slug = preg_replace('/[&\/\\\()\+\-\?\<\>\@\#\!\$\%\^\*]/', '', $request->title); // Hapus karakter khusus
+        $slug = str_replace(' ', '_', $slug); // Ganti spasi dengan "_"
+
+        // Cek jika slug sudah ada di database
+        $originalSlug = $slug;
+        $count = 1;
+        while (News::where('slug', $slug)->exists()) {
+            $slug = $originalSlug . '_' . $count;
+            $count++;
+        }
+
+        // Simpan gambar ke dalam folder public/images/news
+        $imagePath = null;
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $imagePath = $image->store('images/news', 'public');
+        }
+
+        // $news = News::create($request->all());
+        $news = News::create([
+            'category_id' => 1,
+            'title' => $request->title,
+            'short_desc' => $request->short_desc,
+            'content' => $request->content,
+            'is_breaking_news' => $request->is_breaking_news ?? 0,
+            'author' => $request->author,
+            'slug' => $slug, // Slug hasil konversi
+            'status' => $request->status,
+            'image' => $imagePath, // Simpan path gambar ke database
+        ]);
+        return response()->json([
+            'success' => true,
+            'message' => 'Berita berhasil ditambahkan',
+            'data' => $news
+        ], 201);
     }
 
     public function show(Request $request)

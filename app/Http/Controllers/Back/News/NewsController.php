@@ -21,8 +21,11 @@ class NewsController extends Controller
      */
     public function index()
     {
+        $countries = Country::all();
+        $categories = Category::all(); // Ambil semua kategori
+        // $countriescategoriesnews = $news->countriesCategoriesNews()->get();
         $news = News::with('category')->get();
-        return view('back.news.index', compact('news'));
+        return view('back.news.index', compact('news','countries','categories'));
     }
 
     /**
@@ -45,7 +48,7 @@ class NewsController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'category_id' => 'required|exists:categories,id',
+            // 'category_id' => 'required|exists:categories,id',
             'title' => 'required|string|max:255',
             'short_desc' => 'required|string|max:255',
             'content' => 'required|string',
@@ -79,7 +82,7 @@ class NewsController extends Controller
 
         // Simpan data ke database
         News::create([
-            'category_id' => $request->category_id,
+            'category_id' => 1,
             'title' => $request->title,
             'short_desc' => $request->short_desc,
             'content' => $request->content,
