@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use \Tymon\JWTAuth\Facades\JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
+use App\Models\Category;
+
 
 class UserController extends Controller
 {
@@ -149,4 +151,35 @@ class UserController extends Controller
             'token_firebase' => $user->token_firebase,
         ], 200);
     }
+
+
+
+
+    public function postUserSelectionCategory(Request $request)
+    {
+        $request->validate([
+            'category' => 'required|array',
+            'category.*' => 'string|exists:categories,name',
+        ]);
+
+        // Mendapatkan user dari token
+        // $user = Auth::user();
+        $user = JWTAuth::parseToken()->authenticate();
+
+        if (!$user) {
+            return response()->json(['message' => 'Unauthorized'], 401);
+        }
+
+        // Ambil ID kategori berdasarkan nama
+        $categoryIds = Category::whereIn('name', $request->category)->pluck('id');
+
+        // Simpan kategori yang dipilih user
+        $user->selectedCategories()->sync($categoryIds);
+
+        return response()->json([
+            'message' => 'Categories selected successfully',
+            'selected_categories' => $user->selectedCategories()->pluck('name'),
+        ], 201);
+    }
+
 }

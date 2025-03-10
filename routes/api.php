@@ -79,6 +79,7 @@ Route::get('getProfile', [UserController::class, 'getProfile']);
 Route::post('postEditProfile', [UserController::class, 'postEditProfile']);
 Route::post('postUUID', [UserController::class, 'postUUID']);
 Route::post('postFirebase', [UserController::class, 'postFirebase']);
+Route::post('postUserSelectionCategory', [UserController::class, 'postUserSelectionCategory']);
 
 // Rute untuk kategori
 Route::get('getCategories', [CategoryController::class, 'index']); // GET: Menampilkan semua kategori
