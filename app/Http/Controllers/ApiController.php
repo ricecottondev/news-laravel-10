@@ -58,18 +58,7 @@ class ApiController extends Controller
             return response()->json([ 'success' => false,'message' => $validator->messages()], 200);
         }
 
-        // $GetMember =  Member::where('email', $request->email)->first();
-
-        // if($GetMember->status == 'inactive'){
-        //     return response()->json([
-        //         'success' => false,
-        //         'message' => 'Akun Sudah Non Aktif.',
-        //     ], 200);
-
-        // }
-
-        //Request is validated
-        //Crean token
+       
         try {
             if (!$token = JWTAuth::attempt($credentials)) {
                 return response()->json([
