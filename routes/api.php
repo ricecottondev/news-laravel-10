@@ -14,6 +14,7 @@ use App\Http\Controllers\Api\Member\RegisterMemberController;
 
 #User
 use App\Http\Controllers\Api\User\UserController;
+use App\Http\Controllers\Api\User\UserUdidController;
 
 #Member
 use App\Http\Controllers\Api\Member\GetLeaderController;
@@ -80,6 +81,10 @@ Route::post('postEditProfile', [UserController::class, 'postEditProfile']);
 Route::post('postUUID', [UserController::class, 'postUUID']);
 Route::post('postFirebase', [UserController::class, 'postFirebase']);
 Route::post('postUserSelectionCategory', [UserController::class, 'postUserSelectionCategory']);
+
+
+
+Route::post('postUDID', [UserUdidController::class, 'postUDID']);
 
 // Rute untuk kategori
 Route::get('getCategories', [CategoryController::class, 'index']); // GET: Menampilkan semua kategori
