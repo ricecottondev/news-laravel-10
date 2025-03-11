@@ -285,9 +285,18 @@ class NewsController extends Controller
         }
 
         // Jika category_name diberikan, filter berdasarkan kategori
+        // if ($categoryName) {
+        //     $query->whereHas('category', function ($q) use ($categoryName) {
+        //         $q->where('name', $categoryName);
+        //     });
+        // }
+
+
         if ($categoryName) {
-            $query->whereHas('category', function ($q) use ($categoryName) {
-                $q->where('name', $categoryName);
+            $query->whereHas('countriesCategoriesNews', function ($q) use ($categoryName) {
+                $q->whereHas('category', function ($q) use ($categoryName) {
+                    $q->where('name', $categoryName);
+                });
             });
         }
 
