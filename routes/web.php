@@ -1,10 +1,9 @@
 <?php
 
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Back\Onepoint;
-use App\Http\Controllers\HomeController;
+use App\Http\Controllers\Front\FrontHomeController;
+use App\Http\Controllers\Front\FrontNewsController;
 
 
 use App\Http\Controllers\RoleController;
@@ -104,9 +103,20 @@ Route::post('/apibuilder', [ApiBuilderController::class, 'index'])->name('apibui
 
 
 // Route::get('/', [FrontLandingController::class, 'index'])->name('landing');
-Route::get('/', function () {
-    return view('auth.landing');
-})->middleware('guest');
+// Route::get('/', function () {
+//     return view('auth.landing');
+// })->middleware('guest');
+
+
+
+//===================================================================================================front start===================================================================================================
+Route::get('/',[FrontHomeController::class, 'index'])->name('home.index')->middleware('guest');
+Route::get('/login',[FrontHomeController::class, 'login'])->name('home.login')->middleware('guest');
+Route::get('/news',[FrontNewsController::class, 'index'])->name('home.index')->middleware('guest');
+Route::get('/news/{slug}',[FrontNewsController::class, 'show'])->name('front.news.show')->middleware('guest');
+
+//===================================================================================================front end===================================================================================================
+
 
 
 
@@ -177,17 +187,7 @@ Route::group(['middleware' => ['auth', 'isAdmin']], function () {
 
 
 
-    // $res_setting_route = DB::select('select * from setting_route where deleted = "false"');
 
-    // for ($r = 0; $r < count($res_setting_route); $r++) {
-    //     Route::resource($res_setting_route[$r]->route_name, $res_setting_route[$r]->controller_name);
-    // }
-
-    // $dataresource = array(
-    //     ["setting_menu", "Setting_menuController::class"],
-    //     ["permissions", "PermissionsController::class"],
-
-    // );
 });
 
 

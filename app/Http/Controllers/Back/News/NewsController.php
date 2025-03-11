@@ -137,16 +137,23 @@ public function edit(News $news)
     public function update(Request $request, News $news)
     {
         $validator = Validator::make($request->all(), [
-            'category_id' => 'required|exists:categories,id',
-            'title' => 'required|string|max:255',
-            'short_desc' => 'required|string|max:255',
+            'title' => 'required|string',
+            'short_desc' => 'required|string',
             'content' => 'required|string',
             'author' => 'required|string|max:255',
             'status' => 'required|string|in:draft,published',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validasi gambar
+            // 'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // Validasi gambar
         ]);
 
         if ($validator->fails()) {
+            dump($request->title);
+            dump($request->short_desc);
+            dump($request->content);
+            dump($request->author);
+            dump($request->status);
+
+
+            dd("test");
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
@@ -162,6 +169,13 @@ public function edit(News $news)
             $count++;
         }
 
+         // Simpan gambar ke dalam folder public/images/news
+         $imagePath = null;
+         if ($request->hasFile('image')) {
+             $image = $request->file('image');
+             $imagePath = $image->store('images/news', 'public');
+         }
+
         // Cek jika ada gambar baru yang diunggah
         if ($request->hasFile('image')) {
             // Hapus gambar lama jika ada
@@ -176,7 +190,7 @@ public function edit(News $news)
 
         // Update data lainnya
         $news->update([
-            'category_id' => $request->category_id,
+            'category_id' => 1,
             'title' => $request->title,
             'short_desc' => $request->short_desc,
             'content' => $request->content,
@@ -184,6 +198,7 @@ public function edit(News $news)
             'author' => $request->author,
             'slug' => $slug, // Slug hasil konversi
             'status' => $request->status,
+            'image' => $imagePath, // Simpan path gambar ke database
         ]);
 
         return redirect()->route('news.index')->with('success', 'News item updated successfully.');
