@@ -15,7 +15,7 @@ class News extends Model
      * @var string
      */
     protected $table = 'news';
-
+    protected $dates = ['created_at', 'updated_at'];
     /**
      * The attributes that are mass assignable.
      *

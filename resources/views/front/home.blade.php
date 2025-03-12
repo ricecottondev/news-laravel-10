@@ -1,9 +1,5 @@
 @extends('front/layouts.layout')
 @section('content')
-
-
-
-
     {{-- ========================================================Top News Headline===================================================== --}}
     <section class="mb-5">
         <div class="row">
@@ -16,7 +12,7 @@
                                 <div class="carousel-caption d-none d-md-block" style="background: white">
                                     <h5>{{ $bnews->title }}</h5>
                                     <p class="text-muted">{{ $bnews->short_desc }}</p>
-                                    <a href="#" class="text-primary text-decoration-none">Read more</a>
+                                    <a href="{{ route('front.news.show', $bnews->slug) }}" class="text-dark text-decoration-none">Read more</a>
                                 </div>
 
                             </div>
@@ -35,7 +31,8 @@
             </div>
             <div class="col-md-4">
                 @foreach ($topnews as $tnews)
-                    <div class="d-flex mb-3">
+                <a class="text-decoration-none text-muted"
+                href="{{ route('front.news.show', $tnews->slug) }}"><div class="d-flex mb-3">
                         @if ($tnews->image)
                             <img src="{{ asset('storage/' . $tnews->image) }}" alt="News image showing a brief event"
                                 class="img-thumbnail me-3" width="150" height="100">
@@ -43,14 +40,18 @@
                             <img src="/images/imagenotavailable.jpg" alt="News image showing a brief event"
                                 class="img-thumbnail me-3" width="150" height="100">
                         @endif
-                        {{-- <img src="https://storage.googleapis.com/a1aa/image/2QV9CWCCbSAlvKH-cq2rocCsYdH60eKPzRXHndhE1GU.jpg"
-                        alt="News image showing a brief event" class="img-thumbnail me-3" width="150" height="100"> --}}
                         <div>
                             <h3 class="h6">{{ $tnews->title }}</h3>
-                            <p class="text-muted">{{ Str::words(strip_tags($tnews->short_desc), 40, '...') }}</p>
+                            <p class="text-muted">{{ Str::words(strip_tags($tnews->short_desc), 20, '...') }}</p>
 
+                            <!-- Menampilkan tanggal publikasi dan jumlah views -->
+                            <small class="text-muted">
+                                <i class="fas fa-calendar-alt"></i>
+                                {{ $tnews->created_at ? $tnews->created_at->format('d M Y') : 'Tanggal Tidak Tersedia' }}
+                                | <i class="fas fa-eye"></i> {{ $tnews->views ?? 0 }} Views
+                            </small>
                         </div>
-                    </div>
+                    </div></a>
                 @endforeach
 
 
@@ -77,8 +78,13 @@
                             <div>
                                 <h3 class="h6">{{ $news->title }}</h3>
 
-                                <p class="text-muted">{{ Str::words(strip_tags($news->short_desc), 40, '...') }}</p>
-
+                                <p class="text-muted">{{ Str::words(strip_tags($news->short_desc), 20, '...') }}</p>
+                                <!-- Menampilkan tanggal publikasi dan jumlah views -->
+                                <small class="text-muted">
+                                    <i class="fas fa-calendar-alt"></i>
+                                    {{ $news->created_at ? $news->created_at->format('d M Y') : 'Tanggal Tidak Tersedia' }}
+                                    | <i class="fas fa-eye"></i> {{ $news->views ?? 0 }} Views
+                                </small>
                             </div>
                         </div>
                     </a>
@@ -107,8 +113,13 @@
                             <div>
                                 <h3 class="h6">{{ $ntnews->title }}</h3>
 
-                                <p class="text-muted">{{ Str::words(strip_tags($ntnews->short_desc), 40, '...') }}</p>
-
+                                <p class="text-muted">{{ Str::words(strip_tags($ntnews->short_desc), 20, '...') }}</p>
+                                <!-- Menampilkan tanggal publikasi dan jumlah views -->
+                                <small class="text-muted">
+                                    <i class="fas fa-calendar-alt"></i>
+                                    {{ $tnews->created_at ? $ntnews->created_at->format('d M Y') : 'Tanggal Tidak Tersedia' }}
+                                    | <i class="fas fa-eye"></i> {{ $ntnews->views ?? 0 }} Views
+                                </small>
                             </div>
                         </div>
                     </a>

@@ -36,6 +36,7 @@ class FrontNewsController extends Controller
     public function show($slug)
     {
         $news = News::where('slug', $slug)->first();
+        $news->increment('views');
         return view('front.news-detail', compact("news"));
     }
 
