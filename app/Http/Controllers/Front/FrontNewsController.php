@@ -20,10 +20,7 @@ class FrontNewsController extends Controller
      *
      * @return void
      */
-    public function __construct()
-    {
-
-    }
+    public function __construct() {}
 
     /**
      * Show the application dashboard.
@@ -44,36 +41,46 @@ class FrontNewsController extends Controller
 
     public function shownewsbycategory($category)
     {
-       // Mengambil parameter dari request
-       $countryName = "indonesia";
-       $categoryName = $category;
+        // Mengambil parameter dari request
+        $countryName = "indonesia";
+        $categoryName = $category;
 
-       // Mengambil berita dengan relasi kategori
-       $query = News::with('category');
+        // Mengambil berita dengan relasi kategori
+        $query = News::with('category');
 
-       // Jika country_name diberikan, filter berdasarkan country
-       if ($countryName) {
-           $query->whereHas('countriesCategoriesNews', function ($q) use ($countryName) {
-               $q->whereHas('country', function ($q) use ($countryName) {
-                   $q->where('country_name', $countryName);
-               });
-           });
-       }
+        // Jika country_name diberikan, filter berdasarkan country
+        if ($countryName) {
+            $query->whereHas('countriesCategoriesNews', function ($q) use ($countryName) {
+                $q->whereHas('country', function ($q) use ($countryName) {
+                    $q->where('country_name', $countryName);
+                });
+            });
+        }
 
-       if ($categoryName) {
-           $query->whereHas('countriesCategoriesNews', function ($q) use ($categoryName) {
-               $q->whereHas('category', function ($q) use ($categoryName) {
-                   $q->where('name', $categoryName);
-               });
-           });
-       }
+        if ($categoryName) {
+            $query->whereHas('countriesCategoriesNews', function ($q) use ($categoryName) {
+                $q->whereHas('category', function ($q) use ($categoryName) {
+                    $q->where('name', $categoryName);
+                });
+            });
+        }
 
-       // Order by DESC berdasarkan created_at (atau updated_at jika lebih sesuai)
-       $news = $query->orderBy('created_at', 'desc')
-           ->get();
+        // Order by DESC berdasarkan created_at (atau updated_at jika lebih sesuai)
+        $news = $query->orderBy('created_at', 'desc')
+            ->get();
         // dd($news);
-        return view('front.news-by-category', compact("news","categoryName"));
+        return view('front.news-by-category', compact("news", "categoryName"));
     }
 
+    public function search(Request $request)
+    {
+        $query = $request->input('q');
 
+        // Cari berita berdasarkan judul atau konten
+        $news = News::where('title', 'LIKE', "%$query%")
+            ->orWhere('content', 'LIKE', "%$query%")
+            ->paginate(10);
+
+        return view('front.news-search', compact('news', 'query'));
+    }
 }

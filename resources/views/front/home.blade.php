@@ -1,15 +1,13 @@
 @extends('front/layouts.layout')
 @section('content')
+
+
+
+
     {{-- ========================================================Top News Headline===================================================== --}}
     <section class="mb-5">
         <div class="row">
             <div class="col-md-8">
-                {{-- <img src="https://storage.googleapis.com/a1aa/image/5ElokVnACLY1ViMYKUFcdilk3HAbtGzZJ9Ev6CTRzSI.jpg"
-                    alt="Top news image showing a significant event" class="img-fluid mb-3">
-                <h2 class="h3">Top News Headline</h2>
-                <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio.
-                    Praesent libero. Sed cursus ante dapibus diam.</p>
-                <a href="#" class="text-primary text-decoration-none">Read more</a> --}}
                 <div id="newsCarousel" class="carousel slide" data-bs-ride="carousel">
                     <div class="carousel-inner mb-3">
                         @foreach ($breaking_news as $bnews)
