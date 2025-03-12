@@ -157,11 +157,19 @@ class UserController extends Controller
 
     public function postUserSelectionCategory(Request $request)
     {
-        $request->validate([
+
+        $validator = Validator::make($request->all(), [
             'category' => 'required|array',
             'category.*' => 'string|exists:categories,name',
         ]);
 
+        // Jika validasi gagal, kembalikan response JSON dengan error
+        if ($validator->fails()) {
+            return response()->json([
+                'message' => 'Validation failed',
+                'errors' => $validator->errors(),
+            ], 422);
+        }
         // Mendapatkan user dari token
         // $user = Auth::user();
         $user = JWTAuth::parseToken()->authenticate();
@@ -181,5 +189,4 @@ class UserController extends Controller
             'selected_categories' => $user->selectedCategories()->pluck('name'),
         ], 201);
     }
-
 }
