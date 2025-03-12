@@ -2,7 +2,7 @@
 @section('title', 'News by Category')
 
 @section('content')
-<div class="container mt-4">
+<div class="container mt-1">
     <h2 class="text-center mb-4">{{ $categoryName }}</h2>
 
     <div class="row">
@@ -14,7 +14,7 @@
                         <div class="card-body">
                             <h5 class="card-title">{{ $article->title }}</h5>
                             <p class="card-text text-muted">{{ Str::limit($article->short_desc, 100) }}</p>
-                            <a href="{{ route('news.show', $article->slug) }}" class="btn btn-primary">Read More</a>
+                            <a href="{{ route('news.show', $article->slug) }}" class="btn btn-outline-dark">Read More</a>
                         </div>
                     </div>
                 </div>

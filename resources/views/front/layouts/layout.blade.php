@@ -45,7 +45,7 @@
 
     <!-- Main Content -->
     <div class="content-wrapper">
-        <main class="container my-5">
+        <main class="container my-2">
             @yield('content')
         </main>
     </div>
