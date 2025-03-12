@@ -23,6 +23,20 @@ class CategoryController extends Controller
         return response()->json(['categories' => $categories]);
     }
 
+    public function getFullCategory(Request $request)
+    {
+        // Mengambil parameter country_name dari request
+        $countryName = $request->input('country_name');
+
+        // Mengambil kategori berdasarkan country_name
+        $categories = CountriesCategories::whereHas('country', function($query) use ($countryName) {
+            $query->where('country_name', $countryName);
+        })->with('category')->get()->pluck('category')->toArray();
+
+        // Mengembalikan response JSON dengan format yang diinginkan
+        return response()->json(['categories' => $categories]);
+    }
+
     public function store(Request $request)
     {
         $request->validate([
