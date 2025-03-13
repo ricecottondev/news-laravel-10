@@ -87,14 +87,15 @@ Route::post('postUserSelectionCategory', [UserController::class, 'postUserSelect
 Route::post('postUDID', [UserUdidController::class, 'postUDID']);
 
 // Rute untuk kategori
-Route::get('getCategories', [CategoryController::class, 'index']); // GET: Menampilkan semua kategori
+Route::get('getAllCategories', [CategoryController::class, 'index']); // GET: Menampilkan semua kategori
 Route::get('getFullCategory', [CategoryController::class, 'getFullCategory']);
 Route::get('categories/{id}', [CategoryController::class, 'show']); // GET: Menampilkan kategori berdasarkan ID
 Route::post('postCategory', [CategoryController::class, 'store']); // POST: Menambahkan kategori baru
 Route::post('postBatchCategory', [CategoryController::class, 'batchstore']); // POST: Menambahkan kategori baru
 Route::put('categories/{id}', [CategoryController::class, 'update']); // PUT: Memperbarui kategori berdasarkan ID
 Route::delete('categories/{id}', [CategoryController::class, 'destroy']); // DELETE: Menghapus kategori berdasarkan ID
-Route::get('getCategoriesWithNews', [CategoryController::class, 'categoriesWithNews']);
+Route::get('getCategories', [CategoryController::class, 'categoriesWithNews']);
+
 
 // Rute untuk berita
 Route::get('getAllNews', [NewsController::class, 'index']); // GET: Menampilkan semua berita
