@@ -6,6 +6,8 @@ use App\Models\Category;
 use App\Models\CountriesCategories;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Country;
+use App\Models\CountriesCategoriesNews;
 
 class CategoryController extends Controller
 {
@@ -15,7 +17,7 @@ class CategoryController extends Controller
         $countryName = $request->input('country_name');
 
         // Mengambil kategori berdasarkan country_name
-        $categories = CountriesCategories::whereHas('country', function($query) use ($countryName) {
+        $categories = CountriesCategories::whereHas('country', function ($query) use ($countryName) {
             $query->where('country_name', $countryName);
         })->with('category')->get()->pluck('category.name')->toArray();
 
@@ -29,7 +31,7 @@ class CategoryController extends Controller
         $countryName = $request->input('country_name');
 
         // Mengambil kategori berdasarkan country_name
-        $categories = CountriesCategories::whereHas('country', function($query) use ($countryName) {
+        $categories = CountriesCategories::whereHas('country', function ($query) use ($countryName) {
             $query->where('country_name', $countryName);
         })->with('category')->get()->pluck('category')->toArray();
 
@@ -93,5 +95,29 @@ class CategoryController extends Controller
         $category = Category::findOrFail($id);
         $category->delete();
         return response()->json(null, 204);
+    }
+
+    public function categoriesWithNews(Request $request)
+{
+        // Ambil country_name dari request
+        $countryName = $request->input('country_name');
+
+        // Ambil ID negara berdasarkan country_name
+        $country = Country::where('country_name', $countryName)->first();
+
+        if (!$country) {
+            return response()->json(['message' => 'Country not found'], 404);
+        }
+
+        // Ambil kategori yang memiliki news di negara tertentu
+        $categories = Category::whereHas('countriesCategoriesNews', function ($query) use ($country) {
+            $query->where('country_id', $country->id)
+                ->whereHas('news'); // Pastikan ada berita
+        })
+            ->select('id', 'name', 'description')
+            ->get()->pluck('name')->toArray();
+
+        // Kembalikan response dalam format JSON
+        return response()->json(['categories' => $categories]);
     }
 }

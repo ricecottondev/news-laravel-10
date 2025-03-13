@@ -51,4 +51,9 @@ class Category extends Model
     {
         return $this->belongsToMany(User::class, 'user_selection_categories');
     }
+
+    public function countriesCategoriesNews()
+    {
+        return $this->hasMany(CountriesCategoriesNews::class, 'category_id', 'id');
+    }
 }

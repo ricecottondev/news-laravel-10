@@ -94,6 +94,7 @@ Route::post('postCategory', [CategoryController::class, 'store']); // POST: Mena
 Route::post('postBatchCategory', [CategoryController::class, 'batchstore']); // POST: Menambahkan kategori baru
 Route::put('categories/{id}', [CategoryController::class, 'update']); // PUT: Memperbarui kategori berdasarkan ID
 Route::delete('categories/{id}', [CategoryController::class, 'destroy']); // DELETE: Menghapus kategori berdasarkan ID
+Route::get('getCategoriesWithNews', [CategoryController::class, 'categoriesWithNews']);
 
 // Rute untuk berita
 Route::get('getAllNews', [NewsController::class, 'index']); // GET: Menampilkan semua berita
