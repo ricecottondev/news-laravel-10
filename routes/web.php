@@ -74,11 +74,9 @@ use App\Http\Controllers\Front\Member\PostProfilRequiredController;
 
 use App\Http\Controllers\Back\OnepointSocialAccount\SocialAccountController;
 
-use App\Http\Controllers\Back\AddMember\AddMemberController;
-use App\Http\Controllers\QrCode\GenerateUniqueCodeController;
+
 
 use App\Http\Controllers\Admin\FileController;
-
 use App\Http\Controllers\Back\Categories\CategoryController;
 use App\Http\Controllers\Back\News\NewsController;
 use App\Http\Controllers\Back\Country\CountryController;
@@ -102,10 +100,6 @@ Route::get('/apibuilder', [ApiBuilderController::class, 'index'])->name('apibuil
 Route::post('/apibuilder', [ApiBuilderController::class, 'index'])->name('apibuilder.index');
 
 
-// Route::get('/', [FrontLandingController::class, 'index'])->name('landing');
-// Route::get('/', function () {
-//     return view('auth.landing');
-// })->middleware('guest');
 
 
 
@@ -117,6 +111,8 @@ Route::get('/news',[FrontNewsController::class, 'index'])->name('home.index');
 Route::get('/news/{slug}',[FrontNewsController::class, 'show'])->name('front.news.show');
 Route::get('/newscategory/{category}',[FrontNewsController::class, 'shownewsbycategory'])->name('front.news.shownewsbycategory');
 Route::get('/search', [FrontNewsController::class, 'search'])->name('news.search');
+
+Route::get('/subscribes',[FrontHomeController::class, 'subscribes'])->name('home.subscribes');
 //===================================================================================================front end===================================================================================================
 
 

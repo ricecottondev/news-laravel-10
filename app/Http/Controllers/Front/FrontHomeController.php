@@ -109,4 +109,9 @@ class FrontHomeController extends Controller
     {
         return 'Load Slider';
     }
+
+    public function subscribes()
+    {
+        return view('front.subscribes');
+    }
 }
