@@ -19,6 +19,7 @@
         "picqer/php-barcode-generator": "^2.4.1",
         "simplesoftwareio/simple-qrcode": "^4.2",
         "spatie/laravel-permission": "^6.12",
+        "stripe/stripe-php": "^16.6",
         "tymon/jwt-auth": "^2.1"
     },
     "require-dev": {

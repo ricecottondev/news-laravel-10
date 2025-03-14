@@ -4,10 +4,12 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Front\FrontHomeController;
 use App\Http\Controllers\Front\FrontNewsController;
-
+use App\Http\Controllers\StripeController;
 
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\Front\FrontSubscribesController;
+
 
 use App\Http\Controllers\WebsetupController;
 // use App\Http\Controllers\RoleController;
@@ -113,6 +115,16 @@ Route::get('/newscategory/{category}',[FrontNewsController::class, 'shownewsbyca
 Route::get('/search', [FrontNewsController::class, 'search'])->name('news.search');
 
 Route::get('/subscribes',[FrontHomeController::class, 'subscribes'])->name('home.subscribes');
+Route::get('/checkout', function () {
+    return view('front.subscribes.checkout');
+})->name('checkout.page');
+
+Route::post('/checkout/session', [FrontSubscribesController::class, 'createCheckoutSession'])->name('checkout.session');
+Route::get('/success', function () {
+    return view('front.subscribes.success');
+})->name('success.page');
+Route::post('/billing-portal', [StripeController::class, 'billingPortal'])->name('billing.portal');
+
 //===================================================================================================front end===================================================================================================
 
 
