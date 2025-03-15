@@ -6,38 +6,185 @@
     <title>Subscribe to a Cool News Plan</title>
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <script src="https://js.stripe.com/v3/"></script>
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <style>
+        body {
+            background: #f8f9fa;
+        }
+
+        .subscribe-container {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .subscribe-box {
+            background: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 500px;
+            text-align: center;
+        }
+
+        .subscribe-box h3 {
+            margin-bottom: 20px;
+        }
+
+        .subscribe-option {
+            border: 2px solid transparent;
+            padding: 15px;
+            border-radius: 8px;
+            transition: 0.3s;
+            cursor: pointer;
+        }
+
+        .subscribe-option:hover {
+            border-color: #007bff;
+        }
+
+        .selected {
+            border-color: #007bff !important;
+            background: rgba(0, 123, 255, 0.1);
+        }
+
+        .btn-subscribe {
+            background: #007bff;
+            color: white;
+            transition: 0.3s;
+            position: relative;
+        }
+
+        .btn-subscribe:hover {
+            background: #0056b3;
+        }
+
+        /* Loading spinner */
+        .loading-spinner {
+            display: none;
+            width: 20px;
+            height: 20px;
+            border: 3px solid white;
+            border-top: 3px solid transparent;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        @keyframes spin {
+            0% { transform: translateY(-50%) rotate(0deg); }
+            100% { transform: translateY(-50%) rotate(360deg); }
+        }
+
+        .headline-info {
+            font-size: 14px;
+            color: #6c757d;
+            margin-top: 10px;
+        }
+
+        .btn-home {
+            margin-top: 15px;
+            text-decoration: none;
+            color: #007bff;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .btn-home:hover {
+            color: #0056b3;
+        }
+    </style>
 </head>
 <body>
-    <section>
-        <div class="product">
-            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="14px" height="16px" viewBox="0 0 14 16" version="1.1">
-                <defs/>
-                <g id="Flow" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                    <g id="0-Default" transform="translate(-121.000000, -40.000000)" fill="#E184DF">
-                        <path d="M127,50 L126,50 C123.238576,50 121,47.7614237 121,45 C121,42.2385763 123.238576,40 126,40 L135,40 L135,56 L133,56 L133,42 L129,42 L129,56 L127,56 L127,50 Z M127,48 L127,42 L126,42 C124.343146,42 123,43.3431458 123,45 C123,46.6568542 124.343146,48 126,48 L127,48 Z" id="Pilcrow"/>
-                    </g>
-                </g>
-            </svg>
-            <div class="description">
-                <h3>Starter Plan</h3>
-                <h5>$20.00 / month</h5>
+
+    <div class="subscribe-container">
+        <div class="subscribe-box">
+            <h3>Select Your Subscription</h3>
+            <p>Please choose one of the options below:</p>
+
+            <div class="subscribe-option" data-plan="price_1R26JEG79v7Vucc9WZggw9sV">
+                <h5>💰 Weekly Subscription - $1/Week</h5>
+                <p>Get full premium access for only $1 per week.</p>
             </div>
-        </div>
 
-        <!-- Laravel Form untuk Stripe Checkout -->
-        <form action="{{ route('checkout.session') }}" method="POST">
-            @csrf
-            <!-- Add a hidden field with the lookup_key of your Price -->
-            <input type="hidden" name="lookup_key" value="{{ env('STRIPE_LOOKUP_KEY') }}" />
-            <button id="checkout-and-portal-button" type="submit">Checkout</button>
-        </form>
+            <div class="subscribe-option mt-3" data-plan="price_1R26TgG79v7Vucc9UShXcRxT">
+                <h5>📅 Monthly Subscription - $10/Month</h5>
+                <p>Get full premium access for $10 per month.</p>
+            </div>
 
-        <!-- Button untuk kembali ke Home -->
-        <div style="margin-top: 20px;">
-            <a href="{{ route('home') }}" style="text-decoration: none; color: #fff; background-color: #007bff; padding: 10px 15px; border-radius: 5px;">
-                Back to Home
-            </a>
+            <div class="subscribe-option mt-3" data-plan="price_1R26UDG79v7Vucc9EFhos47z">
+                <h5>🌟 Yearly Subscription - $100/Year</h5>
+                <p>Get full premium access for $100 per year.</p>
+            </div>
+
+            <button id="subscribe-btn" class="btn btn-subscribe w-100 mt-4" disabled>
+                Subscribe Now
+                <div class="loading-spinner" id="loading-spinner"></div>
+            </button>
+
+            <p class="headline-info mt-3">If you do not choose, you will only receive headline summaries.</p>
+
+            <a href="/" class="btn-home">← Back to Home</a>
         </div>
-    </section>
+    </div>
+
+    <script>
+        let selectedPlan = null;
+
+        document.querySelectorAll(".subscribe-option").forEach(option => {
+            option.addEventListener("click", function () {
+                document.querySelectorAll(".subscribe-option").forEach(el => el.classList.remove("selected"));
+                this.classList.add("selected");
+                selectedPlan = this.getAttribute("data-plan");
+                document.getElementById("subscribe-btn").disabled = false;
+            });
+        });
+
+        document.getElementById("subscribe-btn").addEventListener("click", function () {
+            if (!selectedPlan) {
+                alert("Please select a subscription plan.");
+                return;
+            }
+
+            const subscribeBtn = document.getElementById("subscribe-btn");
+            const loadingSpinner = document.getElementById("loading-spinner");
+
+            // Tampilkan loading dan ubah tombol
+            subscribeBtn.disabled = true;
+            subscribeBtn.innerHTML = "Processing... <div class='loading-spinner' id='loading-spinner'></div>";
+            loadingSpinner.style.display = "inline-block";
+
+            fetch("{{ route('checkout.session') }}", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRF-TOKEN": "{{ csrf_token() }}"
+                },
+                body: JSON.stringify({ lookup_key: selectedPlan })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.url) {
+                    window.location.href = data.url;
+                } else {
+                    throw new Error("Error processing subscription.");
+                }
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                alert("An error occurred. Please try again.");
+                subscribeBtn.innerHTML = "Subscribe Now";
+                loadingSpinner.style.display = "none";
+                subscribeBtn.disabled = false;
+            });
+        });
+    </script>
+
 </body>
 </html>
