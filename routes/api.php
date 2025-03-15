@@ -50,6 +50,10 @@ use App\Http\Controllers\Api\News\NewsCommentController;
 use App\Http\Controllers\Api\News\CountryCategoryNewsController;
 
 
+#Firebase
+use App\Http\Controllers\NotificationController;
+
+
 
 
 
@@ -129,3 +133,5 @@ Route::delete('/deleteDataCountriesCategoriesNews/{id}', [CountryCategoryNewsCon
 
 
 
+#Firebase
+Route::post('/send-notification', [NotificationController::class, 'send']);
