@@ -22,16 +22,16 @@ class UserController extends Controller
         // Mengambil parameter country_name dari request
         // $user = User::find($request->id);
         // try {
-            $user = JWTAuth::parseToken()->authenticate();
-             if ($user) {
-                return response()->json($user);
+        $user = JWTAuth::parseToken()->authenticate();
+        if ($user) {
+            return response()->json($user);
         }
-        else
-        {
-            return response()->json([
-                'status' => false,
-                'message' => 'Unauthorized'], 401);
-        }
+
+        return response()->json([
+            'status' => false,
+            'message' => 'Unauthorized'
+        ], 401);
+
 
         // } catch (TokenExpiredException $e) {
         //     return response()->json([
