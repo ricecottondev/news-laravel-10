@@ -170,22 +170,7 @@ class NewsController extends Controller
             ->where('end_date', '>=', Carbon::now()) // Subscription masih aktif
             ->exists();
 
-        // ✅ Jika user belum subscribe, batasi akses hanya bisa melihat 5 berita
-        if (!$isSubscribed) {
-            $viewCountKey = "user_{$user->id}_view_count";
-            $viewCount = Cache::get($viewCountKey, 0);
 
-            if ($viewCount >= 5) {
-                return response()->json([
-                    'status' => true,
-                    'success' => false,
-                    'message' => 'You have reached the free news view limit. Please subscribe to access more news.'
-                ], 200);
-            }
-
-            // Tambahkan jumlah berita yang dilihat
-            Cache::put($viewCountKey, $viewCount + 1, now()->addDay()); // Reset setiap hari
-        }
 
         // ✅ Tambah view count ke database
         $news->increment('views');
@@ -196,6 +181,37 @@ class NewsController extends Controller
         $categories = $news->countriesCategoriesNews->map(function ($ccn) {
             return $ccn->category ? $ccn->category->name : null;
         })->filter()->unique()->values()->toArray(); // Hapus null, duplikasi, dan reset indeks array
+
+        // ✅ Jika user belum subscribe, batasi akses hanya bisa melihat 5 berita
+        if (!$isSubscribed) {
+            $viewCountKey = "user_{$user->id}_view_count";
+            $viewCount = Cache::get($viewCountKey, 0);
+
+            if ($viewCount >= 5) {
+                return response()->json([
+                    'id' => $news->id,
+                    'title' => $news->title,
+                    'short_desc' => $news->short_desc,
+                    'content' => $news->content,
+                    'author' => $news->author,
+                    'slug' => $news->slug,
+                    'status' => $news->status,
+                    'image_url' => $news->image ? $baseUrl . '/storage/' . $news->image : null,
+                    //'category' => $news->category ? $news->category->name : null, // Pastikan category berupa string atau null
+                    'category' => $categories,
+                    'date' => $formattedDate,
+                    'view' => $news->views,
+                    'subscribed' => $isSubscribed,
+                    'view_count' => $viewCount,
+                    'status' => true,
+                    'success' => false,
+                    'message' => 'You have reached the free news view limit. Please subscribe to access more news.'
+                ], 200);
+            }
+
+            // Tambahkan jumlah berita yang dilihat
+            Cache::put($viewCountKey, $viewCount + 1, now()->addDay()); // Reset setiap hari
+        }
 
 
         return response()->json([
@@ -212,7 +228,9 @@ class NewsController extends Controller
             'date' => $formattedDate,
             'view' => $news->views,
             'subscribed' => $isSubscribed,
-            'view_count' => $viewCount
+            'view_count' => $viewCount,
+            'status' => true,
+            'success' => true,
             // 'is_breaking_news' => $news->is_breaking_news
         ], 200);
     }
