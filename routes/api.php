@@ -109,6 +109,7 @@ Route::put('news/{id}', [NewsController::class, 'update']); // PUT: Memperbarui 
 Route::delete('news/{id}', [NewsController::class, 'destroy']); // DELETE: Menghapus berita berdasarkan ID
 Route::get('getSearchNews', [NewsController::class, 'getSearchNews']);
 Route::get('getBreakingNews', [NewsController::class, 'getBreakingNews']);
+Route::get('getNewsVoice', [NewsController::class, 'getNewsVoice']);
 
 
 

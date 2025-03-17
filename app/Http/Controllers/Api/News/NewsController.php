@@ -333,4 +333,69 @@ class NewsController extends Controller
             ]
         );
     }
+
+    public function getNewsVoice(Request $request)
+    {
+        // Mengambil parameter dari request
+        $countryName = $request->input('country_name');
+        $categoryName = $request->input('category_name');
+
+        // Mengambil parameter pagination
+        $perPage = $request->input('limit', 1); // Default 10 item per halaman
+        $page = $request->input('page', 1); // Default halaman 1
+
+        // Mengambil berita dengan relasi kategori
+        $query = News::with('category');
+
+        // Jika country_name diberikan, filter berdasarkan country
+        if ($countryName) {
+            $query->whereHas('countriesCategoriesNews', function ($q) use ($countryName) {
+                $q->whereHas('country', function ($q) use ($countryName) {
+                    $q->where('country_name', $countryName);
+                });
+            });
+        }
+
+        // Jika category_name diberikan, filter berdasarkan kategori
+        if ($categoryName) {
+            $query->whereHas('category', function ($q) use ($categoryName) {
+                $q->where('name', $categoryName);
+            });
+        }
+
+        // Order by DESC berdasarkan created_at (atau updated_at jika lebih sesuai)
+        $news = $query->orderBy('created_at', 'desc')->paginate($perPage, ['*'], 'page', $page);
+
+        $data = $news->map(function ($item) {
+            $baseUrl = env('APP_URL', url('/'));
+
+            // Menentukan date berdasarkan created_at atau updated_at
+            $date = $item->updated_at ? $item->updated_at : $item->created_at;
+            $formattedDate = $date->format('F j, Y'); // Format tanggal sesuai kebutuhan
+            $categories = $item->countriesCategoriesNews->map(function ($ccn) {
+                return $ccn->category ? $ccn->category->name : null;
+            })->filter()->unique()->values()->toArray(); // Hapus null, duplikasi, dan reset indeks array
+
+            return [
+                'id' => $item->id,
+                'title' => $item->title,
+                'image_url' => $item->image ? $baseUrl . '/storage/' . $item->image : null,
+                //'category' => $item->category ? $item->category->name : 'Uncategorized', // Pastikan category tidak null
+                'category' => $categories, // Array string kategori
+                'date' => $formattedDate
+                // 'is_breaking_news' => $item->is_breaking_news
+            ];
+        });
+
+        return response()->json(
+            [
+                'page' => $news->currentPage(),
+                'limit' => $news->perPage(),
+                'total_page' => $news->lastPage(),
+                'total_news' => $news->total(),
+                'data' => $data,
+            ]
+        );
+    }
+
 }
