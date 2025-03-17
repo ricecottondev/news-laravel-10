@@ -91,7 +91,7 @@ class UserController extends Controller
             return response()->json([
                 'status' => true,
                 'success' => false,
-                'message' => $validator->errors(),
+                'message' => "validation error, The email has already been taken.",
             ], 200);
         }
 
