@@ -70,13 +70,10 @@ class UserController extends Controller
 
         // $user = JWTAuth::parseToken()->authenticate();
 
-
-
-
         // Validasi input
         $validator = Validator::make($request->all(), [
             'name' => 'nullable|string|max:255',
-            'email' => 'nullable|email|unique:users,email,' . $user->id,
+            'email' => 'nullable|email',
             'password' => 'nullable|string|min:6',
             'google_id' => 'nullable|string|unique:users,google_id,' . $user->id,
             'apple_id' => 'nullable|string|unique:users,apple_id,' . $user->id,
