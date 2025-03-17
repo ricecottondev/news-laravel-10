@@ -19,38 +19,15 @@ class UserController extends Controller
 {
     public function getProfile(Request $request)
     {
-        // Mengambil parameter country_name dari request
-        // $user = User::find($request->id);
-        // try {
-        $user = JWTAuth::parseToken()->authenticate();
-        if ($user) {
+        try {
+            $user = JWTAuth::parseToken()->authenticate();
             return response()->json($user);
+        } catch (JWTException $e) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Token not provided or is incorrect'
+            ], Response::HTTP_UNAUTHORIZED);
         }
-
-        return response()->json([
-            'status' => false,
-            'message' => 'Unauthorized'
-        ], 401);
-
-
-        // } catch (TokenExpiredException $e) {
-        //     return response()->json([
-        //         'status' => false,
-        //         'message' => 'Token has expired, please login again'
-        //     ], Response::HTTP_UNAUTHORIZED);
-        // } catch (TokenInvalidException $e) {
-        //     return response()->json([
-        //         'status' => false,
-        //         'message' => 'Invalid token, please provide a valid token'
-        //     ], Response::HTTP_UNAUTHORIZED);
-        // } catch (JWTException $e) {
-        //     return response()->json([
-        //         'status' => false,
-        //         'message' => 'Token not provided or is incorrect'
-        //     ], Response::HTTP_UNAUTHORIZED);
-        // }
-        // Mengembalikan response JSON dengan format yang diinginkan
-
     }
 
     public function postEditProfile(Request $request)
