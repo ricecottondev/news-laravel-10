@@ -109,7 +109,11 @@ Route::post('/apibuilder', [ApiBuilderController::class, 'index'])->name('apibui
 Route::get('/',[FrontHomeController::class, 'index'])->name('home.index');
 // ->middleware('guest');
 Route::get('/login',[FrontHomeController::class, 'login'])->name('home.login');
-Route::get('/news',[FrontNewsController::class, 'index'])->name('home.index');
+// Route::get('/news',[FrontNewsController::class, 'index'])->name('home.index');
+
+
+Route::get('/news', [FrontNewsController::class, 'index'])->middleware('limit.news')->name('home.index');
+
 Route::get('/news/{slug}',[FrontNewsController::class, 'show'])->name('front.news.show');
 Route::get('/newscategory/{category}',[FrontNewsController::class, 'shownewsbycategory'])->name('front.news.shownewsbycategory');
 Route::get('/search', [FrontNewsController::class, 'search'])->name('news.search');

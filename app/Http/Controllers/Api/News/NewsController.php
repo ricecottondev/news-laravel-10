@@ -6,7 +6,11 @@ use App\Models\News;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
-
+use \Tymon\JWTAuth\Facades\JWTAuth;
+use Tymon\JWTAuth\Exceptions\JWTException;
+use Tymon\JWTAuth\Exceptions\TokenExpiredException;
+use Tymon\JWTAuth\Exceptions\TokenInvalidException;
+use Symfony\Component\HttpFoundation\Response;
 class NewsController extends Controller
 {
     public function index(Request $request)
@@ -130,9 +134,29 @@ class NewsController extends Controller
 
     public function show(Request $request)
     {
+
+        try {
+            $user = JWTAuth::parseToken()->authenticate();
+        } catch (TokenExpiredException $e) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Token has expired, please login again'
+            ], Response::HTTP_UNAUTHORIZED);
+        } catch (TokenInvalidException $e) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Invalid token, please provide a valid token'
+            ], Response::HTTP_UNAUTHORIZED);
+        } catch (JWTException $e) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Token not provided or is incorrect'
+            ], Response::HTTP_UNAUTHORIZED);
+        }
+
         $id = $request->id;
         $news = News::with('category')->where("id", $id)->first(); // Mengambil satu berita
-
+        $news->increment('views');
         if (!$news) {
             return response()->json(['message' => 'News not found'], 404);
         }
@@ -157,6 +181,7 @@ class NewsController extends Controller
             //'category' => $news->category ? $news->category->name : null, // Pastikan category berupa string atau null
             'category' => $categories,
             'date' => $formattedDate,
+            'view' => $news->views,
             // 'is_breaking_news' => $news->is_breaking_news
         ], 200);
     }
@@ -379,9 +404,10 @@ class NewsController extends Controller
             return [
                 'id' => $item->id,
                 'title' => $item->title,
+                'content' => $item->content,
                 'image_url' => $item->image ? $baseUrl . '/storage/' . $item->image : null,
                 //'category' => $item->category ? $item->category->name : 'Uncategorized', // Pastikan category tidak null
-                'category' => $categories, // Array string kategori
+                // 'category' => $categories, // Array string kategori
                 'date' => $formattedDate
                 // 'is_breaking_news' => $item->is_breaking_news
             ];
@@ -397,5 +423,4 @@ class NewsController extends Controller
             ]
         );
     }
-
 }

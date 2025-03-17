@@ -14,6 +14,7 @@ use App\Models\Category;
 use Tymon\JWTAuth\Exceptions\TokenExpiredException;
 use Tymon\JWTAuth\Exceptions\TokenInvalidException;
 use Symfony\Component\HttpFoundation\Response;
+use App\Models\Subscribe;
 
 class UserController extends Controller
 {
@@ -21,7 +22,21 @@ class UserController extends Controller
     {
         try {
             $user = JWTAuth::parseToken()->authenticate();
-            return response()->json($user);
+
+            // Ambil subscription aktif
+            $subscription = Subscribe::where('user_id', $user->id)
+                ->where('status', 'active')
+                ->where('end_date', '>=', now())
+                ->orderBy('end_date', 'desc')
+                ->first();
+
+            return response()->json([
+                'user' => $user,
+                'subscription_status' => $subscription ? 'true' : 'false',
+                'plan' => $subscription ? $subscription->plan : null,
+                'start_date' => $subscription ? $subscription->start_date : null,
+                'end_date' => $subscription ? $subscription->end_date : null,
+            ]);
         } catch (JWTException $e) {
             return response()->json([
                 'status' => false,

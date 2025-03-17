@@ -30,7 +30,8 @@ class News extends Model
         'author',
         'slug',
         'status',
-        'image'
+        'image',
+        'views'
     ];
 
     /**
