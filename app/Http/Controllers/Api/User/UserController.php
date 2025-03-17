@@ -11,7 +11,9 @@ use Illuminate\Support\Facades\Validator;
 use \Tymon\JWTAuth\Facades\JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use App\Models\Category;
-
+use Tymon\JWTAuth\Exceptions\TokenExpiredException;
+use Tymon\JWTAuth\Exceptions\TokenInvalidException;
+use Symfony\Component\HttpFoundation\Response;
 
 class UserController extends Controller
 {
@@ -31,7 +33,26 @@ class UserController extends Controller
         //     'token' => 'required'
         // ]);
 
-        $user = JWTAuth::parseToken()->authenticate();
+        try {
+            $user = JWTAuth::parseToken()->authenticate();
+        } catch (TokenExpiredException $e) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Token has expired, please login again'
+            ], Response::HTTP_UNAUTHORIZED);
+        } catch (TokenInvalidException $e) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Invalid token, please provide a valid token'
+            ], Response::HTTP_UNAUTHORIZED);
+        } catch (JWTException $e) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Token not provided or is incorrect'
+            ], Response::HTTP_UNAUTHORIZED);
+        }
+
+        // $user = JWTAuth::parseToken()->authenticate();
         // if ($user) {
         //     $user->update(['token_firebase' => null]);
         // }
@@ -49,6 +70,9 @@ class UserController extends Controller
 
         // $user = JWTAuth::parseToken()->authenticate();
 
+
+
+
         // Validasi input
         $validator = Validator::make($request->all(), [
             'name' => 'nullable|string|max:255',
@@ -62,7 +86,8 @@ class UserController extends Controller
 
         if ($validator->fails()) {
             return response()->json([
-                'status' => false,
+                'status' => true,
+                'success' => false,
                 'message' => 'Validation failed',
                 'errors' => $validator->errors(),
             ], 422);
@@ -95,6 +120,7 @@ class UserController extends Controller
 
         return response()->json([
             'status' => true,
+            'success' => true,
             'message' => 'Profile updated successfully',
             'user' => $user,
         ], 200);
@@ -109,7 +135,8 @@ class UserController extends Controller
 
         if ($validator->fails()) {
             return response()->json([
-                'status' => false,
+                'status' => true,
+                'success' => false,
                 'message' => 'Validation failed',
                 'errors' => $validator->errors(),
             ], 422);
@@ -120,6 +147,7 @@ class UserController extends Controller
 
         return response()->json([
             'status' => true,
+            'success' => true,
             'message' => 'UUID updated successfully',
             'uuid' => $user->uuid,
         ], 200);
@@ -128,7 +156,25 @@ class UserController extends Controller
     // API untuk memperbarui Token Firebase pengguna
     public function postFirebase(Request $request)
     {
-        $user = JWTAuth::parseToken()->authenticate();
+
+        try {
+            $user = JWTAuth::parseToken()->authenticate();
+        } catch (TokenExpiredException $e) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Token has expired, please login again'
+            ], Response::HTTP_UNAUTHORIZED);
+        } catch (TokenInvalidException $e) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Invalid token, please provide a valid token'
+            ], Response::HTTP_UNAUTHORIZED);
+        } catch (JWTException $e) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Token not provided or is incorrect'
+            ], Response::HTTP_UNAUTHORIZED);
+        }
 
         $validator = Validator::make($request->all(), [
             'token_firebase' => 'required|string',
@@ -136,7 +182,8 @@ class UserController extends Controller
 
         if ($validator->fails()) {
             return response()->json([
-                'status' => false,
+                'status' => true,
+                'success' => false,
                 'message' => 'Validation failed',
                 'errors' => $validator->errors(),
             ], 422);
@@ -147,6 +194,7 @@ class UserController extends Controller
 
         return response()->json([
             'status' => true,
+            'success' => true,
             'message' => 'Firebase Token updated successfully',
             'token_firebase' => $user->token_firebase,
         ], 200);
@@ -158,6 +206,25 @@ class UserController extends Controller
     public function postUserSelectionCategory(Request $request)
     {
 
+        try {
+            $user = JWTAuth::parseToken()->authenticate();
+        } catch (TokenExpiredException $e) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Token has expired, please login again'
+            ], Response::HTTP_UNAUTHORIZED);
+        } catch (TokenInvalidException $e) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Invalid token, please provide a valid token'
+            ], Response::HTTP_UNAUTHORIZED);
+        } catch (JWTException $e) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Token not provided or is incorrect'
+            ], Response::HTTP_UNAUTHORIZED);
+        }
+
         $validator = Validator::make($request->all(), [
             'category' => 'required|array',
             'category.*' => 'string|exists:categories,name',
@@ -166,6 +233,8 @@ class UserController extends Controller
         // Jika validasi gagal, kembalikan response JSON dengan error
         if ($validator->fails()) {
             return response()->json([
+                'status' => true,
+                'success' => false,
                 'message' => 'Validation failed',
                 'errors' => $validator->errors(),
             ], 422);
@@ -185,6 +254,8 @@ class UserController extends Controller
         $user->selectedCategories()->sync($categoryIds);
 
         return response()->json([
+            'status' => true,
+            'success' => true,
             'message' => 'Categories selected successfully',
             'selected_categories' => $user->selectedCategories()->pluck('name'),
         ], 201);
