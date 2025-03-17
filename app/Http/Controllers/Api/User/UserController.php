@@ -21,24 +21,24 @@ class UserController extends Controller
     {
         // Mengambil parameter country_name dari request
         // $user = User::find($request->id);
-        try {
+        // try {
             $user = JWTAuth::parseToken()->authenticate();
-        } catch (TokenExpiredException $e) {
-            return response()->json([
-                'status' => false,
-                'message' => 'Token has expired, please login again'
-            ], Response::HTTP_UNAUTHORIZED);
-        } catch (TokenInvalidException $e) {
-            return response()->json([
-                'status' => false,
-                'message' => 'Invalid token, please provide a valid token'
-            ], Response::HTTP_UNAUTHORIZED);
-        } catch (JWTException $e) {
-            return response()->json([
-                'status' => false,
-                'message' => 'Token not provided or is incorrect'
-            ], Response::HTTP_UNAUTHORIZED);
-        }
+        // } catch (TokenExpiredException $e) {
+        //     return response()->json([
+        //         'status' => false,
+        //         'message' => 'Token has expired, please login again'
+        //     ], Response::HTTP_UNAUTHORIZED);
+        // } catch (TokenInvalidException $e) {
+        //     return response()->json([
+        //         'status' => false,
+        //         'message' => 'Invalid token, please provide a valid token'
+        //     ], Response::HTTP_UNAUTHORIZED);
+        // } catch (JWTException $e) {
+        //     return response()->json([
+        //         'status' => false,
+        //         'message' => 'Token not provided or is incorrect'
+        //     ], Response::HTTP_UNAUTHORIZED);
+        // }
         // Mengembalikan response JSON dengan format yang diinginkan
         return response()->json($user);
     }
