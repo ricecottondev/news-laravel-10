@@ -93,7 +93,7 @@ class UserController extends Controller
                 'success' => false,
                 'message' => 'Validation failed',
                 'errors' => $validator->errors(),
-            ], 422);
+            ], 200);
         }
 
         // Update user data
@@ -142,7 +142,7 @@ class UserController extends Controller
                 'success' => false,
                 'message' => 'Validation failed',
                 'errors' => $validator->errors(),
-            ], 422);
+            ], 200);
         }
 
         $user->uuid = $request->uuid;
@@ -189,7 +189,7 @@ class UserController extends Controller
                 'success' => false,
                 'message' => 'Validation failed',
                 'errors' => $validator->errors(),
-            ], 422);
+            ], 200);
         }
 
         $user->token_firebase = $request->token_firebase;
@@ -240,14 +240,14 @@ class UserController extends Controller
                 'success' => false,
                 'message' => 'Validation failed',
                 'errors' => $validator->errors(),
-            ], 422);
+            ], 200);
         }
         // Mendapatkan user dari token
         // $user = Auth::user();
         $user = JWTAuth::parseToken()->authenticate();
 
         if (!$user) {
-            return response()->json(['message' => 'Unauthorized'], 401);
+            return response()->json(['message' => 'Unauthorized'], 200);
         }
 
         // Ambil ID kategori berdasarkan nama
@@ -261,6 +261,6 @@ class UserController extends Controller
             'success' => true,
             'message' => 'Categories selected successfully',
             'selected_categories' => $user->selectedCategories()->pluck('name'),
-        ], 201);
+        ], 200);
     }
 }
