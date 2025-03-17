@@ -23,6 +23,16 @@ class UserController extends Controller
         // $user = User::find($request->id);
         // try {
             $user = JWTAuth::parseToken()->authenticate();
+             if ($user) {
+                return response()->json($user);
+        }
+        else
+        {
+            return response()->json([
+                'status' => false,
+                'message' => 'Unauthorized'], 401);
+        }
+
         // } catch (TokenExpiredException $e) {
         //     return response()->json([
         //         'status' => false,
@@ -40,7 +50,7 @@ class UserController extends Controller
         //     ], Response::HTTP_UNAUTHORIZED);
         // }
         // Mengembalikan response JSON dengan format yang diinginkan
-        return response()->json($user);
+
     }
 
     public function postEditProfile(Request $request)
