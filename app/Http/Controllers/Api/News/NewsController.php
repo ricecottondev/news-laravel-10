@@ -11,6 +11,10 @@ use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\Exceptions\TokenExpiredException;
 use Tymon\JWTAuth\Exceptions\TokenInvalidException;
 use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Support\Facades\Cache;
+use App\Models\Subscribe;
+use Illuminate\Support\Carbon;
+
 class NewsController extends Controller
 {
     public function index(Request $request)
@@ -156,10 +160,35 @@ class NewsController extends Controller
 
         $id = $request->id;
         $news = News::with('category')->where("id", $id)->first(); // Mengambil satu berita
-        $news->increment('views');
+
         if (!$news) {
             return response()->json(['message' => 'News not found'], 404);
         }
+
+        // ✅ Cek apakah user memiliki subscription aktif
+        $isSubscribed = Subscribe::where('user_id', $user->id)
+            ->where('end_date', '>=', Carbon::now()) // Subscription masih aktif
+            ->exists();
+
+        // ✅ Jika user belum subscribe, batasi akses hanya bisa melihat 5 berita
+        if (!$isSubscribed) {
+            $viewCountKey = "user_{$user->id}_view_count";
+            $viewCount = Cache::get($viewCountKey, 0);
+
+            if ($viewCount >= 5) {
+                return response()->json([
+                    'status' => true,
+                    'success' => false,
+                    'message' => 'You have reached the free news view limit. Please subscribe to access more news.'
+                ], 200);
+            }
+
+            // Tambahkan jumlah berita yang dilihat
+            Cache::put($viewCountKey, $viewCount + 1, now()->addDay()); // Reset setiap hari
+        }
+
+        // ✅ Tambah view count ke database
+        $news->increment('views');
 
         $baseUrl = env('APP_URL', url('/'));
         $date = $news->updated_at ? $news->updated_at : $news->created_at;
@@ -182,6 +211,8 @@ class NewsController extends Controller
             'category' => $categories,
             'date' => $formattedDate,
             'view' => $news->views,
+            'subscribed' => $isSubscribed,
+            'view_count' => $viewCount
             // 'is_breaking_news' => $news->is_breaking_news
         ], 200);
     }
