@@ -220,7 +220,9 @@ class NewsController extends Controller
                 'status' => true,
                 // 'success' => false,
                 'access_limit' =>false,
-                'message' => 'You have reached the free news view limit. Please subscribe to access more news.'
+                'message' => 'You have reached the free news view limit. Please subscribe to access more news.',
+                'total_comment' => $news->comments->count(),
+                'link' => 'https://prism.sda.co.id/subscribes'
             ], 200);
 
 
@@ -254,6 +256,8 @@ class NewsController extends Controller
             'status' => true,
             // 'success' => true,
             'access_limit' =>true,
+            'total_comment' => $news->comments->count(),
+            'link' => 'https://prism.sda.co.id/subscribes'
             // 'is_breaking_news' => $news->is_breaking_news
         ], 200);
     }
