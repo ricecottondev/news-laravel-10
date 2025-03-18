@@ -2,7 +2,7 @@
 
 // use Illuminate\Http\Request;
 // use Illuminate\Support\Facades\Route;
-
+use Illuminate\Support\Facades\Cache;
 
 use App\Http\Controllers\ApiController;
 use App\Http\Controllers\Api\Mobile\Auth\LoginGoogleController;
@@ -136,3 +136,6 @@ Route::delete('/deleteDataCountriesCategoriesNews/{id}', [CountryCategoryNewsCon
 
 #Firebase
 Route::post('/send-notification', [NotificationController::class, 'send']);
+
+#Reset-Limit
+Route::post('/reset-limit', [App\Http\Controllers\Api\User\UserController::class, 'resetlimit']);

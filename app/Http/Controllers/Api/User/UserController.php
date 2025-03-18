@@ -15,6 +15,7 @@ use Tymon\JWTAuth\Exceptions\TokenExpiredException;
 use Tymon\JWTAuth\Exceptions\TokenInvalidException;
 use Symfony\Component\HttpFoundation\Response;
 use App\Models\Subscribe;
+use Illuminate\Support\Facades\Cache;
 
 class UserController extends Controller
 {
@@ -276,5 +277,24 @@ class UserController extends Controller
             'message' => 'Categories selected successfully',
             'selected_categories' => $user->selectedCategories()->pluck('name'),
         ], 200);
+    }
+
+    public function resetlimit(Request $request)
+    {
+
+        $userid = $request->user_id;
+
+        // if (!$user) {
+        //     return response()->json(['message' => 'Unauthorized'], 401);
+        // }
+
+        $viewCountKey = "user_{$userid}_view_count";
+
+        Cache::forget($viewCountKey); // Reset limit
+
+        return response()->json([
+            'message' => 'User limit has been reset successfully!',
+            'status' => true
+        ]);
     }
 }
