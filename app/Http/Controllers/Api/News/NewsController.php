@@ -208,9 +208,10 @@ class NewsController extends Controller
                 'view' => $news->views,
                 'subscribed' => $isSubscribed,
                 'view_count' => $viewCount,
-                'access_limit' => $accessLimit,
+                // 'access_limit' => $accessLimit,
                 'status' => true,
-                'success' => false,
+                // 'success' => false,
+                'access_limit' =>false,
                 'message' => 'You have reached the free news view limit. Please subscribe to access more news.'
             ], 200);
 
@@ -240,10 +241,11 @@ class NewsController extends Controller
             'view' => $news->views,
             'subscribed' => $isSubscribed,
             'view_count' => $viewCount,
-            'access_limit' => $accessLimit,
+            // 'access_limit' => $accessLimit,
             'limit_detail' => "You have read $viewCount out of $accessLimit free news articles.",
             'status' => true,
-            'success' => true,
+            // 'success' => true,
+            'access_limit' =>true,
             // 'is_breaking_news' => $news->is_breaking_news
         ], 200);
     }
