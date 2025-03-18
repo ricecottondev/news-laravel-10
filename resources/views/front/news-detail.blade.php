@@ -28,9 +28,12 @@
 
                     <!-- Reply Button -->
                     {{-- <button class="btn btn-sm btn-primary reply-btn" data-id="{{ $comment->id }}">Reply</button> --}}
+                    @auth
                     <button class="btn btn-sm btn-outline-primary reply-btn" data-id="{{ $comment->id }}">
                         Reply
                     </button>
+                    @else
+                    @endauth
 
                     <!-- Display Replies -->
                     @foreach ($comment->replies as $reply)
