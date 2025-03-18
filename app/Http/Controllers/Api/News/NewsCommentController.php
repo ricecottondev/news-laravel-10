@@ -49,7 +49,7 @@ class NewsCommentController extends Controller
             'comment' => 'required|string|max:500',
         ]);
 
-        dd($request->news_id, "-", $user->id, "-", $request->comment);
+        // dd($request->news_id, "-", $user->id, "-", $request->comment);
 
         $comment = NewsComment::create([
             'news_id' => $request->news_id,
@@ -60,7 +60,7 @@ class NewsCommentController extends Controller
         return response()->json([
             'message' => 'Comment posted successfully',
             'comment' => $comment
-        ], 201);
+        ], 200);
     }
 
     /**
