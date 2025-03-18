@@ -35,8 +35,47 @@ class FrontNewsController extends Controller
 
     public function show($slug)
     {
-        $news = News::where('slug', $slug)->first();
+        // $news = News::where('slug', $slug)->first();
+        // $news->increment('views');
+        // return view('front.news-detail', compact("news"));
+
+        $news = News::where('slug', $slug)->firstOrFail();
+
+        // Cek apakah user login
+        if (auth()->check()) {
+            $user = auth()->user();
+            $isSubscribed = $user->subscribe && $user->subscribe->status == 'active';
+
+            if (!$isSubscribed) {
+                // Batas 5 berita untuk user yang belum subscribe
+                $viewCountKey = "user_{$user->id}_view_count";
+                $viewCount = session()->get($viewCountKey, 0);
+
+                if ($viewCount >= 5) {
+                    return redirect()->route('subscribe')
+                        ->with('error', 'Anda telah mencapai batas membaca berita hari ini. Silakan berlangganan untuk akses tak terbatas.');
+                }
+
+                // Tambahkan jumlah berita yang dibaca
+                session()->put($viewCountKey, $viewCount + 1);
+            }
+        } else {
+            // Jika user belum login, batasi hanya 3 berita per hari
+            $viewCountKey = "guest_view_count";
+            $viewCount = session()->get($viewCountKey, 0);
+
+            if ($viewCount >= 3) {
+                return redirect()->route('login')
+                    ->with('error', 'Anda telah mencapai batas membaca berita hari ini. Silakan login untuk membaca lebih banyak.');
+            }
+
+            // Tambahkan jumlah berita yang dibaca
+            session()->put($viewCountKey, $viewCount + 1);
+        }
+
+        // Tambahkan view count ke berita
         $news->increment('views');
+
         return view('front.news-detail', compact("news"));
     }
 

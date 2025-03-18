@@ -128,7 +128,7 @@ Route::post('/news/{id}/comment', [NewsCommentController::class, 'store'])->name
 // Route::get('/subscribes',[FrontHomeController::class, 'subscribes'])->name('home.subscribes');
 Route::get('/subscribes', function () {
     return view('front.subscribes.checkout');
-})->name('checkout.page');
+})->name('subscribe');
 
 Route::post('/checkout/session', [FrontSubscribesController::class, 'createCheckoutSession'])->name('checkout.session');
 Route::get('/success', function () {
