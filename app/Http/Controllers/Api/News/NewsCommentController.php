@@ -59,6 +59,7 @@ class NewsCommentController extends Controller
 
         return response()->json([
             'message' => 'Comment posted successfully',
+            'success' => true,
             'comment' => $comment
         ], 200);
     }
