@@ -10,6 +10,8 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\Front\FrontSubscribesController;
 
+use App\Http\Controllers\Front\NewsCommentController;
+
 
 use App\Http\Controllers\WebsetupController;
 // use App\Http\Controllers\RoleController;
@@ -107,6 +109,8 @@ Route::post('/apibuilder', [ApiBuilderController::class, 'index'])->name('apibui
 
 //===================================================================================================front start===================================================================================================
 Route::get('/',[FrontHomeController::class, 'index'])->name('home.index');
+Route::get('/index', [FrontHomeController::class, 'index'])->name('home.index');
+Route::get('/home', [FrontHomeController::class, 'index'])->name('home');
 // ->middleware('guest');
 Route::get('/login',[FrontHomeController::class, 'login'])->name('home.login');
 // Route::get('/news',[FrontNewsController::class, 'index'])->name('home.index');
@@ -118,8 +122,11 @@ Route::get('/news/{slug}',[FrontNewsController::class, 'show'])->name('front.new
 Route::get('/newscategory/{category}',[FrontNewsController::class, 'shownewsbycategory'])->name('front.news.shownewsbycategory');
 Route::get('/search', [FrontNewsController::class, 'search'])->name('news.search');
 
-Route::get('/subscribes',[FrontHomeController::class, 'subscribes'])->name('home.subscribes');
-Route::get('/checkout', function () {
+Route::post('/news/{id}/comment', [NewsCommentController::class, 'store'])->name('news.comment');
+
+//Route::post('/comments', [NewsCommentController::class, 'store'])->name('comments.store');
+// Route::get('/subscribes',[FrontHomeController::class, 'subscribes'])->name('home.subscribes');
+Route::get('/subscribes', function () {
     return view('front.subscribes.checkout');
 })->name('checkout.page');
 
@@ -153,8 +160,8 @@ Route::get('/auth/{provider}/callback', [SocialiteController::class, 'handleProv
 
 Route::get('file', [FileController::class, 'create']);
 Route::post('file', [FileController::class, 'store']);
-Route::get('/index', [App\Http\Controllers\HomeController::class, 'index'])->name('home.index');
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+// Route::get('/index', [App\Http\Controllers\HomeController::class, 'index'])->name('home.index');
+// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/news', [App\Http\Controllers\NewsController::class, 'index']);
 Route::get('/news', [App\Http\Controllers\NewsController::class, 'index']);
 Route::get('/setting_web', [App\Http\Controllers\Back\Setting_web\SettingWebController::class, 'index']);
@@ -240,4 +247,4 @@ Route::get('/waiters/checkout', function () {
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

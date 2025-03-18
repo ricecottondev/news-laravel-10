@@ -153,8 +153,8 @@ class LoginController extends Controller
         $input["type"] = $type;
 
         $input["note"] = $type . " by member id: " . $iduser . " | Ip Address : " . $ipaddress;
-        $input["status"] = "";
-        $input["deleted"] = "false";
+        $input["status"] = "success";
+        $input["deleted"] = 0;
 
         $log_login = Log_login::create($input);
     }

@@ -63,4 +63,9 @@ class News extends Model
     {
         return $this->hasMany(CountriesCategoriesNews::class);
     }
+
+    public function comments()
+    {
+        return $this->hasMany(NewsComment::class, 'news_id');
+    }
 }

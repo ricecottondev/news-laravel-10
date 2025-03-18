@@ -12,12 +12,23 @@
 
             <div class="d-none d-md-flex align-items-center gap-3">
                 <form action="/search" method="GET" class="d-flex">
-                    <input type="text" name="q" class="form-control me-2" placeholder="Search news..." required>
+                    <input type="text" name="q" class="form-control me-2" placeholder="Search news..."
+                        required>
                     <button type="submit" class="btn btn-light"><i class="fas fa-search"></i></button>
                 </form>
-                <a class="btn btn-outline-light" href="login">Login</a>
-                <a class="btn btn-warning text-dark" href="subscribes">Subscribe</a>
+
+                @auth
+                    <form action="{{ route('logout') }}" method="POST">
+                        @csrf
+                        <button type="submit" class="btn btn-outline-light">Logout</button>
+                    </form>
+                @else
+                    <a class="btn btn-outline-light" href="{{ route('login') }}">Login</a>
+                @endauth
+
+                <a class="btn btn-warning text-dark" href="/subscribes">Subscribe</a>
             </div>
+
 
             <!-- Tombol Menu Mobile -->
             <button class="btn text-white d-md-none" type="button" data-bs-toggle="offcanvas"
@@ -74,8 +85,8 @@
 
             <hr>
             <nav class="d-flex flex-column">
-                <a class="text-white text-decoration-none py-2" href="login">Login</a>
-                <a class="text-white text-decoration-none py-2" href="subscribes">Subscribe</a>
+                <a class="text-white text-decoration-none py-2" href="/login">Login</a>
+                <a class="text-white text-decoration-none py-2" href="/subscribes">Subscribe</a>
             </nav>
         </div>
     </div>
