@@ -19,7 +19,7 @@
                                 Subscribe</h1>
                             <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-0 pt-1">
                                 <li class="breadcrumb-item text-muted">
-                                    <a href="{{ route('country.edit') }}"
+                                    <a href="{{ route('subscribe.index') }}"
                                         class="text-muted text-hover-primary">Subscribe</a>
                                 </li>
                                 <li class="breadcrumb-item">
