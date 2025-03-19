@@ -44,6 +44,7 @@ use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Front\FrontCheckoutController;
 
 use App\Http\Controllers\Back\DeepSeekChatController;
+use App\Http\Controllers\Back\Subscribe\SubscribeController;
 
 
 
@@ -108,18 +109,18 @@ Route::post('/apibuilder', [ApiBuilderController::class, 'index'])->name('apibui
 
 
 //===================================================================================================front start===================================================================================================
-Route::get('/',[FrontHomeController::class, 'index'])->name('home.index');
+Route::get('/', [FrontHomeController::class, 'index'])->name('home.index');
 Route::get('/index', [FrontHomeController::class, 'index'])->name('home.index');
 Route::get('/home', [FrontHomeController::class, 'index'])->name('home');
 // ->middleware('guest');
-Route::get('/login',[FrontHomeController::class, 'login'])->name('home.login');
+Route::get('/login', [FrontHomeController::class, 'login'])->name('home.login');
 // Route::get('/news',[FrontNewsController::class, 'index'])->name('home.index');
 
 
 Route::get('/news', [FrontNewsController::class, 'index'])->middleware('limit.news')->name('home.index');
 
-Route::get('/news/{slug}',[FrontNewsController::class, 'show'])->name('front.news.show');
-Route::get('/newscategory/{category}',[FrontNewsController::class, 'shownewsbycategory'])->name('front.news.shownewsbycategory');
+Route::get('/news/{slug}', [FrontNewsController::class, 'show'])->name('front.news.show');
+Route::get('/newscategory/{category}', [FrontNewsController::class, 'shownewsbycategory'])->name('front.news.shownewsbycategory');
 Route::get('/search', [FrontNewsController::class, 'search'])->name('news.search');
 
 Route::post('/news/{id}/comment', [NewsCommentController::class, 'store'])->name('news.comment');
@@ -169,47 +170,43 @@ Route::get('/setting_web', [App\Http\Controllers\Back\Setting_web\SettingWebCont
 Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
 
-// Route::get('/memberaddress', [App\Http\Controllers\Member\MemberAddressBoardController::class, 'index'])->name('memberaddress.list');;
-// Route::post('/memberaddress', [App\Http\Controllers\Member\MemberAddressBoardController::class, 'store'])->name('memberaddress.store');;
 
 Route::post('loginas', [UserController::class, 'loginas'])->name('users.loginas');
 Route::get('loginas', [UserController::class, 'loginas'])->name('users.loginas');
 
 Route::group(['middleware' => ['auth']], function () {
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-    // Route::resource('admin/dashboard', DashboardController::class);
-    // Route::resource('admin/websetup', WebsetupController::class);
+    Route::get('/back/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    // Rute untuk Users
+    Route::resource('back/users', UserController::class);
+    // Rute untuk Country
+    Route::resource('back/country', CountryController::class);
+    // Rute untuk cateqgory
+    Route::resource('back/categories', CategoryController::class);
+    // Rute untuk berita
+    Route::resource('back/news', NewsController::class);
+    // Rute untuk subscribe
+    Route::resource('back/subscribe', SubscribeController::class);
+
     Route::resource('fpdf', FpdfController::class);
     Route::resource('roles', RoleController::class);
-    Route::resource('users', UserController::class);
 
-    // Rute untuk kategori
-    Route::resource('categories', CategoryController::class);
-    // Rute untuk Country
-    Route::resource('country', CountryController::class);
 
-    Route::get('/profil', [MemberProfilController::class, 'index'])->name('profil.index');
+    Route::get('/back/profil', [MemberProfilController::class, 'index'])->name('profil.index');
 
-    // Rute untuk berita
-    Route::resource('news', NewsController::class);
-    Route::resource('permissions', PermissionsController::class);
 
-    Route::get('/chat-gpt', [ChatGPTController::class, 'index'])->name('chat-gpt.index');
+    Route::resource('back/permissions', PermissionsController::class);
 
-    Route::get('/deepseekchat', [DeepSeekChatController::class, 'index'])->name('deepseekchat.form');
+    Route::get('/back/chat-gpt', [ChatGPTController::class, 'index'])->name('chat-gpt.index');
+
+    Route::get('/back/deepseekchat', [DeepSeekChatController::class, 'index'])->name('deepseekchat.form');
 
     // Rute untuk mengirim prompt
-    Route::post('/deepseekchat/send', [DeepSeekChatController::class, 'sendPrompt'])->name('deepseekchat.send');
+    Route::post('/back/deepseekchat/send', [DeepSeekChatController::class, 'sendPrompt'])->name('deepseekchat.send');
 });
 
 ##ROUTE FOR ADMIN ONLY
 
-Route::group(['middleware' => ['auth', 'isAdmin']], function () {
-
-
-
-
-});
+Route::group(['middleware' => ['auth', 'isAdmin']], function () {});
 
 
 

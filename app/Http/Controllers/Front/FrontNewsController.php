@@ -44,7 +44,14 @@ class FrontNewsController extends Controller
         // Cek apakah user login
         if (auth()->check()) {
             $user = auth()->user();
-            $isSubscribed = $user->subscribe && $user->subscribe->status == 'active';
+
+            // Ambil semua subscribe user yang masih aktif
+            $today = now()->toDateString();
+            $isSubscribed = $user->subscribes()
+                ->where('status', 'active')
+                ->whereDate('start_date', '<=', $today)
+                ->whereDate('end_date', '>=', $today)
+                ->exists(); // Cek apakah ada setidaknya satu subscribe yang masih berlaku
 
             if (!$isSubscribed) {
                 // Batas 5 berita untuk user yang belum subscribe

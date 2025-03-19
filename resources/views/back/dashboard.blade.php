@@ -84,7 +84,7 @@
                             </div>
                             <div class="card-body pt-5">
                                 <div class="d-flex flex-stack">
-                                    <a href="onepoint_member" class="text-primary fw-semibold fs-6 me-2" target="_blank">Member</a>
+                                    <a href="back/users" class="text-primary fw-semibold fs-6 me-2" target="_blank">User</a>
                                     <button type="button" class="btn btn-icon btn-sm h-auto btn-color-gray-400 btn-active-color-primary justify-content-end">
                                         <i class="ki-duotone ki-exit-right-corner fs-2">
                                             <span class="path1"></span>
@@ -92,9 +92,10 @@
                                         </i>
                                     </button>
                                 </div>
+
                                 <div class="separator separator-dashed my-3"></div>
                                 <div class="d-flex flex-stack">
-                                    <a href="onepoint_uniquecode" class="text-primary fw-semibold fs-6 me-2" target="_blank">Uniquecode</a>
+                                    <a href="onepoint_uniquecode" class="text-primary fw-semibold fs-6 me-2" target="_blank">Subscribes</a>
                                     <button type="button" class="btn btn-icon btn-sm h-auto btn-color-gray-400 btn-active-color-primary justify-content-end">
                                         <i class="ki-duotone ki-exit-right-corner fs-2">
                                             <span class="path1"></span>

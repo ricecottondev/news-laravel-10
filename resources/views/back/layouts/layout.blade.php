@@ -51,10 +51,10 @@
 						<!--end::Logo-->
 						<!--begin::sidebar menu-->
 						@include('back.layouts.sidebar')
-						
+
 						<!--end::sidebar menu-->
 						<!--begin::Footer-->
-						
+
 						<!--end::Footer-->
 					</div>
 					<!--end::Sidebar-->
@@ -63,7 +63,7 @@
 						@yield('content')
 						@include('back.layouts.footer')
 					</div>
-					
+
 					<!--end:::Main-->
 				</div>
 				<!--end::Wrapper-->
@@ -652,8 +652,8 @@
 			</div>
 		</div>
 		<!--end::Activities drawer-->
-		
-	
+
+
 		<!--end::Drawers-->
 		<!--begin::Scrolltop-->
 		<div id="kt_scrolltop" class="scrolltop" data-kt-scrolltop="true">

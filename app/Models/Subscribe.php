@@ -13,7 +13,9 @@ class Subscribe extends Model
 
     protected $fillable = [
         'user_id',
+        'stripe_subscription_id',
         'plan',
+        'amount',
         'status', // active, expired, canceled
         'start_date',
         'end_date'

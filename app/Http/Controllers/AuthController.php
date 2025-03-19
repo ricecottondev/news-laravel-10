@@ -105,7 +105,7 @@ class AuthController extends Controller
 
         if ($user) {
             Auth::login($user);
-            return redirect()->route('dashboard');
+            return redirect()->route('back/dashboard');
         } else {
             return back()->withErrors([
                 'id' => 'The provided credentials do not match our records.',

@@ -4,6 +4,13 @@
         <div class="app-main flex-column flex-row-fluid" id="kt_app_main">
             <div class="d-flex flex-column flex-column-fluid">
 
+                @if (session('success'))
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        {{ session('success') }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                @endif
+
                 {{-- header-start --}}
                 <div id="kt_app_toolbar" class="app-toolbar py-3 py-lg-6">
                     <div id="kt_app_toolbar_container" class="app-container container-xxl d-flex flex-stack">
@@ -12,7 +19,8 @@
                                 Country</h1>
                             <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-0 pt-1">
                                 <li class="breadcrumb-item text-muted">
-                                    <a href="{{ route('country.index') }}" class="text-muted text-hover-primary">Countries</a>
+                                    <a href="{{ route('country.index') }}"
+                                        class="text-muted text-hover-primary">Countries</a>
                                 </li>
                                 <li class="breadcrumb-item">
                                     <span class="bullet bg-gray-400 w-5px h-2px"></span>
@@ -50,8 +58,8 @@
                                             @foreach ($categories as $category)
                                                 <div class="col-md-4">
                                                     <div class="form-check">
-                                                        <input type="checkbox" name="category_ids[]" value="{{ $category->id }}"
-                                                            class="form-check-input"
+                                                        <input type="checkbox" name="category_ids[]"
+                                                            value="{{ $category->id }}" class="form-check-input"
                                                             {{ in_array($category->id, $selectedCategoryIds) ? 'checked' : '' }}>
                                                         <label class="form-check-label">{{ $category->name }}</label>
                                                     </div>
@@ -59,7 +67,7 @@
                                             @endforeach
                                         </div>
                                     </div>
-
+                                    <a href="{{ route('country.index') }}" class="btn btn-secondary mt-3">Back</a>
                                     <button type="submit" class="btn btn-primary mt-3">Update</button>
                                 </form>
                             </div>

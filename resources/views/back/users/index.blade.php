@@ -2,19 +2,6 @@
 @section('content')
 <!--begin::Content wrapper-->
 <div class="d-flex flex-column flex-column-fluid">
-    <!--begin::Toolbar-->
-    {{-- <div class="row">
-      <div class="col-lg-12 margin-tb">
-          <div class="card">
-              <div class="card-body">
-                  @can('product-create')
-                      <a class="btn btn-success" href="{{ route('users.create') }}"> Create New User</a>
-                  @endcan
-
-              </div>
-          </div>
-      </div>
-  </div> --}}
 
   <!--begin::Main-->
   <div class="app-main flex-column flex-row-fluid" id="kt_app_main">
@@ -268,7 +255,7 @@
                     <!--end::Label-->
                     <!--begin::Input-->
                     {!! Form::password('password', array('placeholder' => 'Password','class' => 'form-control form-control-solid mb-3 mb-lg-0')) !!}
-                   
+
                     {{-- <input type="email" name="user_email" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="example@domain.com" value="smith@kpmg.com" /> --}}
                     <!--end::Input-->
                   </div>
@@ -340,7 +327,7 @@
       <!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++end::Modal - Edit user-->
 
 
-      
+
       @foreach ($data as $key => $user)
       <!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++begin::Modal - Edit user-->
       <div class="modal fade" id="kt_modal_edit_user{{ $user->id }}" tabindex="-1" aria-hidden="true">
@@ -389,7 +376,7 @@
                                     <div class="image-input-wrapper w-125px h-125px" style="background-image: url({{ url('images') }}/imagenotavailable.jpg);"></div>
                                       {{-- <img src="{{ url('images') }}/imagenotavailable.jpg" alt="Emma Smith" class="w-100" /> --}}
                                     @endif
-                     
+
                       <!--end::Preview existing avatar-->
                       <!--begin::Label-->
                       <label class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="change" data-bs-toggle="tooltip" title="Change avatar">
@@ -561,7 +548,7 @@
                                     @else
                                       <img src="{{ url('images') }}/imagenotavailable.jpg" alt="user image" class="w-100" />
                                     @endif
-                                    
+
                                   </div>
                                 </a>
                               </div>
@@ -576,7 +563,7 @@
                                       {{-- </label> --}}
                                       @endforeach
                                     @endif
-															
+
 															</div>
 															<!--begin::User details-->
 
@@ -586,14 +573,14 @@
                                   <td>
                                     @if(!empty($user->phone))
                                     <a href="{{ route('users.show',$user->id) }}" class="text-gray-800 text-hover-primary mb-1">{{ $user->phone }}</a>
-                                   
+
                                     @else
                                     <span class="badge badge-danger fw-bold">Not Found</span>
                                     @endif
                                   </td>
                                   <td>
                                     <a href="{{ route('users.show',$user->id) }}" class="text-gray-800 text-hover-primary mb-1">{{ $user->created_at }}</a>
-                                   
+
                                   </td>
                                   <td class="text-end">
 
@@ -601,12 +588,12 @@
                                       <i class="ki-duotone ki-down fs-5 ms-1"></i></a>
                                       <!--begin::Menu-->
                                       <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-125px py-4" data-kt-menu="true">
-                                        
+
                                         {{-- {!! Form::open(['id' =>'form-loginas','method' => 'POST','route' => ['users.loginas'],'style'=>'display:inline']) !!}
                                         <input type="hidden" value={{ $user->id }} name="id">
-                                        <input type="hidden" value={{ $user->email }} name="email">                                       
+                                        <input type="hidden" value={{ $user->email }} name="email">
                                         <input type="submit" class="menu-link px-3" onclick="return confirm('Are you sure want to login as this user?');" value="Login As">
-                                        {!! Form::close() !!} --}}                                                                                
+                                        {!! Form::close() !!} --}}
                                         {{-- <a href="{{ url('loginas')."?id=". $user->id."&email='".$user->email."'" }}">test</a> --}}
 
                                         <div class="menu-item px-3">
@@ -626,11 +613,11 @@
                                             color: var(--bs-primary) !important;
                                           }
                                         </style>
-                                        
+
                                         {{-- <div class="menu-item px-3">
                                           <a class="menu-link px-3" href="{{ url('loginas')."?id=". $user->id."&email='".$user->email."'" }}">test</a>
                                         </div> --}}
-                                        
+
                                         <!--begin::Menu item-->
                                         <div class="menu-item px-3">
                                           <a class="menu-link px-3" data-bs-toggle="modal" data-bs-target="#kt_modal_edit_user{{ $user->id }}">Edit</a>
@@ -641,8 +628,8 @@
                                           {!! Form::open(['id' =>'form-id','method' => 'DELETE','route' => ['users.destroy', $user->id],'style'=>'display:inline']) !!}
                                           {{-- {!! Form::submit('Delete', ['class' => 'menu-link px-3']) !!}  --}}
                                           <a onclick="document.getElementById('form-id').submit();" class="menu-link px-3" data-kt-users-table-filter="delete_row"> Delete</a>
-                                          {!! Form::close() !!} 
-                                         
+                                          {!! Form::close() !!}
+
                                         </div>
                                         <!--end::Menu item-->
                                       </div>
@@ -665,11 +652,11 @@
       <!--end::Content-->
     </div>
     <!--end::Content wrapper-->
-  
+
   </div>
   <!--end:::Main-->
 
- 
+
 </div>
     <!--end::Content-->
 

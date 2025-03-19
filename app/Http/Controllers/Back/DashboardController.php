@@ -8,6 +8,12 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
+use App\Models\Country;
+use App\Models\Category;
+use App\Models\CountriesCategories;
+use App\Models\News;
+use App\Models\CountriesCategoriesNews;
+
 class DashboardController extends Controller
 {
     /**
@@ -19,7 +25,8 @@ class DashboardController extends Controller
     {
 
         $user = Auth::user();
-        return view('back/dashboard');
+        $category = Category::get();
+        return view('back/dashboard', compact('category'));
 
     }
 
