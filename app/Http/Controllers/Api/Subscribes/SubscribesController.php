@@ -1,17 +1,17 @@
 <?php
 
-namespace App\Http\Controllers\Front;
+namespace App\Http\Controllers\Api\Subscribes;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Stripe\Stripe;
 use Stripe\Checkout\Session;
 
-class FrontSubscribesController extends Controller
+class SubscribesController extends Controller
 {
-    public function createCheckoutSession(Request $request)
+    public function CheckoutSession(Request $request)
     {
-        // dd("asik");
+        // dd("test");
         // Set Stripe API Key
         Stripe::setApiKey(env('STRIPE_SECRET'));
 

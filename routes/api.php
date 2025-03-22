@@ -54,6 +54,10 @@ use App\Http\Controllers\Api\News\CountryCategoryNewsController;
 use App\Http\Controllers\NotificationController;
 
 
+use App\Http\Controllers\Api\Subscribes\SubscribesController;
+
+
+
 
 
 
@@ -139,3 +143,6 @@ Route::post('/send-notification', [NotificationController::class, 'send']);
 
 #Reset-Limit
 Route::post('/reset-limit', [App\Http\Controllers\Api\User\UserController::class, 'resetlimit']);
+
+
+Route::post('/api-checkout/session', [App\Http\Controllers\Api\Subscribes\SubscribesController::class, 'CheckoutSession']);
