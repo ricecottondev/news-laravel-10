@@ -159,8 +159,8 @@
             subscribeBtn.disabled = true;
             subscribeBtn.innerHTML = "Processing... <div class='loading-spinner' id='loading-spinner'></div>";
             loadingSpinner.style.display = "inline-block";
-
-            fetch("{{ route('checkout.session') }}", {
+console.log(selectedPlan);
+            fetch("http://127.0.0.1:8000/api/api-checkout/session", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
