@@ -28,7 +28,7 @@
                 {{--  <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 mb-5 mb-xl-10 g-3 g-md-4 g-xl-10"> --}}
                 <div class="row mb-5 mb-xl-10 g-3 g-md-4 g-xl-10">
 
-                    <div class="col-12 col-md-6 col-lg-4 col-xl-3">
+                    <div class="col-12 col-md-6 col-lg-4 col-xl-12">
                         <div class="card card-flush bgi-no-repeat bgi-size-contain bgi-position-x-end h-md-100 mb-5 mb-xl-10">
 
                             <div class="card-header pt-5">
@@ -42,7 +42,7 @@
                                             <span class="path4"></span>
                                         </i>
                                     </button>
-                                    <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg-light-primary fw-semibold w-200px" data-kt-menu="true">
+                                    <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg-light-primary fw-semibold w-200px d-none" data-kt-menu="true">
                                         <div class="menu-item px-3">
                                             <div class="menu-content fs-6 text-dark fw-bold px-3 py-4">Quick Actions</div>
                                         </div>
@@ -106,7 +106,7 @@
 
                                 <div class="separator separator-dashed my-3"></div>
                                 <div class="d-flex flex-stack">
-                                    <a href="onepoint_voucher" class="text-primary fw-semibold fs-6 me-2" target="_blank">Voucher</a>
+                                    <a href="news" class="text-primary fw-semibold fs-6 me-2" target="_blank">News</a>
                                     <button type="button" class="btn btn-icon btn-sm h-auto btn-color-gray-400 btn-active-color-primary justify-content-end">
                                         <i class="ki-duotone ki-exit-right-corner fs-2">
                                             <span class="path1"></span>
@@ -120,7 +120,7 @@
                         </div>
                     </div>
 
-                    <div class="col-12 col-md-6 col-lg-4 col-xl-3">
+                    <div class="col-12 col-md-6 col-lg-4 col-xl-3 d-none">
                         <div class="card card-flush bgi-no-repeat bgi-size-contain bgi-position-x-end h-md-100 mb-5 mb-xl-10">
                             <div class="card-header"></div>
                             <div class="card-body">
@@ -133,7 +133,7 @@
                         </div>
                     </div>
 
-                    <div class="col-12 col-md-6 col-lg-4 col-xl-3">
+                    <div class="col-12 col-md-6 col-lg-4 col-xl-3 d-none">
                         <div class="card card-flush bgi-no-repeat bgi-size-contain bgi-position-x-end h-md-100 mb-5 mb-xl-10" style="background-color: #F1416C;background-image:url('{{url('template')}}/assets/media/patterns/vector-1.png')">
                             <div class="card-header pt-5">
                                 <div class="card-title d-flex flex-column">
@@ -155,7 +155,7 @@
                         </div>
                     </div>
 
-                    <div class="col-12 col-md-6 col-lg-4 col-xl-3">
+                    <div class="col-12 col-md-6 col-lg-4 col-xl-3 d-none">
                         <div class="card card-flush bgi-no-repeat bgi-size-contain bgi-position-x-end h-md-100 mb-5 mb-xl-10">
                            <div class="card-header pt-5">
                             <div class="card-title d-flex flex-column">

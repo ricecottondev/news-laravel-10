@@ -22,7 +22,7 @@
                             <li class="breadcrumb-item text-muted">Category</li>
                         </ul>
                     </div>
-                    <div class="d-flex align-items-center gap-2 gap-lg-3">
+                    <div class="d-flex align-items-center gap-2 gap-lg-3 d-none">
                         <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal"
                             data-bs-target="#kt_modal_add_user">
                             <i class="ki-duotone ki-plus "></i>Add Category</button>
@@ -41,7 +41,7 @@
                             <!--begin::Card title-->
                             <div class="card-title">
                                 <!--begin::Search-->
-                                <div class="d-flex align-items-center position-relative my-1">
+                                <div class="d-flex align-items-center position-relative my-1 d-none">
                                     <i class="ki-duotone ki-magnifier fs-3 position-absolute ms-4">
                                         <span class="path1"></span>
                                         <span class="path2"></span>
@@ -64,7 +64,7 @@
                                     <label for="description">Description</label>
                                     <textarea name="description" class="form-control"></textarea>
                                 </div>
-                                <button type="submit" class="btn btn-success">Create</button>
+                                <button type="submit" class="btn btn-success mt-2">Save</button>
                             </form>
 
                         </div>

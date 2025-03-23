@@ -57,11 +57,12 @@
                                                 <td>{{ $country->id }}</td>
                                                 <td>{{ $country->country_name }}</td>
                                                 <td>
-                                                    <a href="{{ route('country.edit', $country) }}" class="btn btn-warning">Edit</a>
+                                                    <a href="{{ route('country.edit', $country) }}" class="btn btn-sm btn-outline btn-outline-dashed btn-outline-default px-4 me-2"><i class="fas fa-edit"></i></a>
                                                     <form action="{{ route('country.destroy', $country) }}" method="POST" style="display:inline;">
                                                         @csrf
                                                         @method('DELETE')
-                                                        <button type="submit" class="btn btn-danger">Delete</button>
+                                                        <button type="submit" class="btn btn-sm btn-outline btn-outline-dashed btn-outline-default px-4 me-2"
+                                                        onclick="return confirm('sure?');"><i class="fas fa-trash-alt"></i</button>
                                                     </form>
                                                 </td>
                                             </tr>

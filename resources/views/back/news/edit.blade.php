@@ -17,9 +17,9 @@
                                 </ol>
                             </nav>
                         </div>
-                        <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#kt_modal_add_user">
+                        <!-- <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#kt_modal_add_user">
                             <i class="ki-duotone ki-plus"></i> Edit News
-                        </button>
+                        </button> -->
                     </div>
                 </div>
 
@@ -34,7 +34,7 @@
                                     @method('PUT')
 
                                     <div class="mb-3">
-                                        <label for="title" class="form-label">Judul</label>
+                                        <label for="title" class="form-label">Title</label>
                                         <input type="text" class="form-control" id="title" name="title"
                                             value="{{ $news->title }}" required>
                                     </div>
@@ -53,13 +53,13 @@
                                     </div>
 
                                     <div class="mb-3">
-                                        <label for="short_desc" class="form-label">Deskripsi Singkat</label>
+                                        <label for="short_desc" class="form-label">Short Desc</label>
                                         <input type="text" class="form-control" id="short_desc" name="short_desc"
                                             value="{{ $news->short_desc }}" required>
                                     </div>
 
                                     <div class="mb-3">
-                                        <label for="content" class="form-label">Konten</label>
+                                        <label for="content" class="form-label">Content</label>
                                         <textarea class="form-control" id="content" name="content" rows="5" required>{{ $news->content }}</textarea>
                                     </div>
 
@@ -70,7 +70,7 @@
                                     </div>
 
                                     <div class="mb-3">
-                                        <label for="author" class="form-label">Penulis</label>
+                                        <label for="author" class="form-label">Author</label>
                                         <input type="text" class="form-control" id="author" name="author"
                                             value="{{ $news->author }}" required>
                                     </div>
@@ -92,7 +92,7 @@
                                     </div>
 
                                     <div class="mb-3">
-                                        <label for="image" class="form-label">Gambar</label>
+                                        <label for="image" class="form-label">Picture</label>
                                         <input type="file" class="form-control" id="image" name="image">
                                         @if ($news->image)
                                             <img src="{{ asset('storage/' . $news->image) }}" alt="Current Image"
