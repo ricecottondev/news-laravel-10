@@ -41,8 +41,8 @@ class SubscribesController extends Controller
                     'quantity' => 1,
                 ]],
                 'mode' => 'subscription',
-                'success_url' => $YOUR_DOMAIN . '/success.html?session_id={CHECKOUT_SESSION_ID}',
-                'cancel_url' => $YOUR_DOMAIN . '/cancel.html',
+                'success_url' => $YOUR_DOMAIN . '/success?session_id={CHECKOUT_SESSION_ID}',
+                'cancel_url' => $YOUR_DOMAIN . '/cancel',
             ]);
 
             return response()->json(['url' => $checkoutSession->url], 200);

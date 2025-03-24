@@ -128,7 +128,12 @@ Route::post('/news/{id}/comment', [NewsCommentController::class, 'store'])->name
 //Route::post('/comments', [NewsCommentController::class, 'store'])->name('comments.store');
 // Route::get('/subscribes',[FrontHomeController::class, 'subscribes'])->name('home.subscribes');
 Route::get('/subscribes', function () {
-    return view('front.subscribes.checkout');
+
+    if (auth()->check()) {
+        return view('front.subscribes.checkout');
+    } else {
+        return redirect()->route('login');
+    }
 })->name('subscribe');
 
 Route::post('/checkout/session', [FrontSubscribesController::class, 'createCheckoutSession'])->name('checkout.session');
