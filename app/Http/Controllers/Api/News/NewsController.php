@@ -63,9 +63,13 @@ class NewsController extends Controller
             // Menentukan date berdasarkan created_at atau updated_at
             $date = $item->updated_at ? $item->updated_at : $item->created_at;
             $formattedDate = $date->format('F j, Y'); // Format tanggal sesuai kebutuhan
+            $keywords = explode(' ', $item->title);
             $categories = $item->countriesCategoriesNews->map(function ($ccn) {
                 return $ccn->category ? $ccn->category->name : null;
             })->filter()->unique()->values()->toArray(); // Hapus null, duplikasi, dan reset indeks array
+
+
+            $newssugestion = $this->newssugestions($item);
 
             return [
                 'id' => $item->id,
@@ -73,8 +77,8 @@ class NewsController extends Controller
                 'image_url' => $item->image ? $baseUrl . '/storage/' . $item->image : null,
                 //'category' => $item->category ? $item->category->name : 'Uncategorized', // Pastikan category tidak null
                 'category' => $categories, // Array string kategori
-                'date' => $formattedDate
-                // 'is_breaking_news' => $item->is_breaking_news
+                'date' => $formattedDate,
+                'sugestion' => $newssugestion                // 'is_breaking_news' => $item->is_breaking_news
             ];
         });
 
@@ -89,6 +93,39 @@ class NewsController extends Controller
         );
     }
 
+    public function newssugestions($item)
+    {
+
+        $keywords = explode(' ', $item->title);
+        $suggestedNews = News::select("id", "title", 'image', 'created_at', 'updated_at')->where('id', '!=', $item->id) // Hindari berita yang sedang dibaca
+            ->where(function ($query) use ($keywords) {
+                foreach ($keywords as $word) {
+                    $query->orWhere('title', 'LIKE', "%{$word}%");
+                }
+            })
+            ->limit(5) // Ambil maksimal 5 berita
+            ->get();
+        $datasugestion = $suggestedNews->map(function ($newssugestion) {
+            $baseUrl = env('APP_URL', url('/'));
+            $date = $newssugestion->updated_at ? $newssugestion->updated_at : $newssugestion->created_at;
+            $formattedDate = $date->format('F j, Y'); // Format tanggal sesuai kebutuhan
+            $categories = $newssugestion->countriesCategoriesNews->map(function ($ccn) {
+                return $ccn->category ? $ccn->category->name : null;
+            })->filter()->unique()->values()->toArray(); // Hapus null, duplikasi, dan reset indeks array
+
+            return [
+                'id' => $newssugestion->id,
+                'title' => $newssugestion->title,
+                'image_url' => $newssugestion->image ? $baseUrl . '/storage/' . $newssugestion->image : null,
+                //'category' => $newssugestion->category ? $newssugestion->category->name : 'Uncategorized', // Pastikan category tidak null
+                'category' => $categories, // Array string kategori
+                'date' => $formattedDate
+                // 'is_breaking_news' => $newssugestion->is_breaking_news
+            ];
+        });
+
+        return $datasugestion;
+    }
 
     public function store(Request $request)
     {
@@ -219,7 +256,7 @@ class NewsController extends Controller
                 // 'access_limit' => $accessLimit,
                 'status' => true,
                 // 'success' => false,
-                'access_limit' =>false,
+                'access_limit' => false,
                 'message' => 'You have reached the free news view limit. Please subscribe to access more news.',
                 'total_comment' => $news->comments->count(),
                 'link' => 'https://prism.sda.co.id/subscribes'
@@ -255,7 +292,7 @@ class NewsController extends Controller
             'limit_detail' => "You have read $viewCount out of $accessLimit free news articles.",
             'status' => true,
             // 'success' => true,
-            'access_limit' =>true,
+            'access_limit' => true,
             'total_comment' => $news->comments->count(),
             'link' => 'https://prism.sda.co.id/subscribes'
             // 'is_breaking_news' => $news->is_breaking_news
