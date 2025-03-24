@@ -46,7 +46,7 @@
                                 <!--begin::Card title-->
                                 <div class="card-title">
                                     <!--begin::Search-->
-                                    <div class="d-flex align-items-center position-relative my-1">
+                                    <div class="d-flex align-items-center position-relative my-1 d-none">
                                         <i class="ki-duotone ki-magnifier fs-3 position-absolute ms-4">
                                             <span class="path1"></span>
                                             <span class="path2"></span>

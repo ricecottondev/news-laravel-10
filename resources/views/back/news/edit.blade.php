@@ -26,8 +26,12 @@
                 {{-- Content --}}
                 <div class="app-content flex-column-fluid">
                     <div class="container-xxl">
+                        <div class="card mb-3">
+                            <a href="{{ route('news.index') }}" class="btn btn-sm btn-outline btn-outline-dashed btn-outline-default"><i class="fas fa-backward"></i>Back</a>
+                        </div>
                         <div class="card">
                             <div class="card-body">
+
                                 <form action="{{ route('news.update', $news->id) }}" method="POST"
                                     enctype="multipart/form-data">
                                     @csrf

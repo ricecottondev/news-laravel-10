@@ -45,6 +45,7 @@
                                         <label class="form-label">Upload Excel File:</label>
                                         <input type="file" name="file" class="form-control" required>
                                     </div>
+                                    <a href="{{ route('news.index') }}" class="btn btn-secondary">Back</a>
                                     <button type="submit" class="btn btn-primary">Import</button>
                                 </form>
                             </div>
