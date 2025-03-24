@@ -74,6 +74,7 @@ class NewsController extends Controller
             return [
                 'id' => $item->id,
                 'title' => $item->title,
+                'short_desc' => $item->short_desc,
                 'image_url' => $item->image ? $baseUrl . '/storage/' . $item->image : null,
                 //'category' => $item->category ? $item->category->name : 'Uncategorized', // Pastikan category tidak null
                 'category' => $categories, // Array string kategori
@@ -97,7 +98,7 @@ class NewsController extends Controller
     {
 
         $keywords = explode(' ', $item->title);
-        $suggestedNews = News::select("id", "title", 'image', 'created_at', 'updated_at')->where('id', '!=', $item->id) // Hindari berita yang sedang dibaca
+        $suggestedNews = News::where('id', '!=', $item->id) // Hindari berita yang sedang dibaca
             ->where(function ($query) use ($keywords) {
                 foreach ($keywords as $word) {
                     $query->orWhere('title', 'LIKE', "%{$word}%");
@@ -116,6 +117,7 @@ class NewsController extends Controller
             return [
                 'id' => $newssugestion->id,
                 'title' => $newssugestion->title,
+                'short_desc' => $newssugestion->short_desc,
                 'image_url' => $newssugestion->image ? $baseUrl . '/storage/' . $newssugestion->image : null,
                 //'category' => $newssugestion->category ? $newssugestion->category->name : 'Uncategorized', // Pastikan category tidak null
                 'category' => $categories, // Array string kategori
