@@ -33,7 +33,7 @@
                     <a class="text-reset text-decoration-none" href="#">Lupa Kata Sandi?</a>
                 </div>
                 <a class="btn btn-lg btn-dark rounded-0" href="akun.html">Masuk</a>
-                <div class="d-flex align-items-center gap-2">
+                <div class="d-flex align-items-center gap-2 d-none">
                     <hr class="m-0 opacity-100 w-100">
                     <span>atau</span>
                     <hr class="m-0 opacity-100 w-100">

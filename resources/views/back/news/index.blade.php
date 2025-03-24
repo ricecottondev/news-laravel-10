@@ -26,6 +26,8 @@
                         </div> --}}
 
                         <div class="d-flex align-items-center gap-2 gap-lg-3">
+                            <a href="{{ route('news.import.form') }}" class="btn btn-sm btn-primary"><i
+                                    class="ki-duotone ki-plus "></i>Import News</a>
                             <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#addNewsModal">
                                 <i class="ki-duotone ki-plus"></i> Add News
                             </button>
@@ -62,11 +64,11 @@
                                     <thead>
                                         <tr>
                                             <th>Gambar</th>
-                                            <th>Judul</th>
-                                            <th>Deskripsi Singkat</th>
-                                            <th>Penulis</th>
+                                            <th>Title</th>
+                                            <th>Short Description</th>
+                                            <th>Author</th>
                                             <th>Status</th>
-                                            <th>Aksi</th>
+                                            <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -90,13 +92,13 @@
                                                 <td>{{ $item->status }}</td>
                                                 <td>
                                                     <a href="{{ route('news.edit', $item->id) }}"
-                                                        class="btn btn-warning">Edit</a>
+                                                        class="btn btn-sm btn-outline btn-outline-dashed btn-outline-default px-4 me-2"><i class="fas fa-edit"></i></a>
                                                     <form action="{{ route('news.destroy', $item->id) }}" method="POST"
                                                         style="display:inline;">
                                                         @csrf
                                                         @method('DELETE')
-                                                        <button type="submit" class="btn btn-danger"
-                                                            onclick="return confirm('Yakin ingin menghapus?');">Hapus</button>
+                                                        <button type="submit" class="btn btn-sm btn-outline btn-outline-dashed btn-outline-default px-4 me-2"
+                                                            onclick="return confirm('Yakin ingin menghapus?');"><i class="fas fa-trash-alt"></i</button>
                                                     </form>
                                                 </td>
                                             </tr>
@@ -122,7 +124,7 @@
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="addNewsModalLabel">Tambah Berita</h5>
+                                <h5 class="modal-title" id="addNewsModalLabel">Add News</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                                     aria-label="Close"></button>
                             </div>
@@ -154,7 +156,7 @@
                                         </select>
                                     </div>
                                     <div class="mb-3">
-                                        <label for="image" class="form-label">Gambar</label>
+                                        <label for="image" class="form-label">Picture</label>
                                         <input type="file" class="form-control" id="image" name="image">
                                     </div>
                                     {{-- <div class="form-check mb-3">
@@ -163,7 +165,7 @@
                             Breaking News
                         </label>
                     </div> --}}
-                                    <button type="submit" class="btn btn-primary">Simpan</button>
+                                    <button type="submit" class="btn btn-primary">Save</button>
                                 </form>
                             </div>
                         </div>

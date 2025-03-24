@@ -29,9 +29,9 @@
                     <!-- Reply Button -->
                     {{-- <button class="btn btn-sm btn-primary reply-btn" data-id="{{ $comment->id }}">Reply</button> --}}
                     @auth
-                    <button class="btn btn-sm btn-outline-primary reply-btn" data-id="{{ $comment->id }}">
-                        Reply
-                    </button>
+                        <button class="btn btn-sm btn-outline-primary reply-btn" data-id="{{ $comment->id }}">
+                            Reply
+                        </button>
                     @else
                     @endauth
 
@@ -62,6 +62,20 @@
         @else
             <p><a href="{{ route('login') }}">Login</a> to leave a comment.</p>
         @endauth
+
+
+        @if ($suggestedNews->isNotEmpty())
+            <div class="mt-5">
+                <h4>Sugestions</h4>
+                <ul>
+                    @foreach ($suggestedNews as $suggestion)
+                        <li>
+                            <a href="{{ route('front.news.show', $suggestion->slug) }}">{{ $suggestion->title }}</a>
+                        </li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
     </div>
 
     <!-- Modal for Reply Comment -->

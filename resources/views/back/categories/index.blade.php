@@ -9,7 +9,7 @@
                     <div id="kt_app_toolbar_container" class="app-container container-xxl d-flex flex-stack">
                         <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
                             <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">
-                                Brand List</h1>
+                                Categories List</h1>
                             <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-0 pt-1">
                                 <li class="breadcrumb-item text-muted">
                                     <a href="../../demo1/dist/index.html" class="text-muted text-hover-primary">Master</a>
@@ -70,12 +70,13 @@
                                                 <td>{{ $category->description }}</td>
                                                 <td>
                                                     <a href="{{ route('categories.edit', $category) }}"
-                                                        class="btn btn-warning">Edit</a>
+                                                    class="btn btn-sm btn-outline btn-outline-dashed btn-outline-default px-4 me-2"><i class="fas fa-edit"></i></a>
                                                     <form action="{{ route('categories.destroy', $category) }}"
                                                         method="POST" style="display:inline;">
                                                         @csrf
                                                         @method('DELETE')
-                                                        <button type="submit" class="btn btn-danger">Delete</button>
+                                                        <button type="submit" class="btn btn-sm btn-outline btn-outline-dashed btn-outline-default px-4 me-2"
+                                                        onclick="return confirm('sure?');"><i class="fas fa-trash-alt"></i</button>
                                                     </form>
                                                 </td>
                                             </tr>

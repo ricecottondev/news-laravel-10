@@ -20,7 +20,7 @@
                                 <li class="breadcrumb-item text-muted">Categories</li>
                             </ul>
                         </div>
-                        <div class="d-flex align-items-center gap-2 gap-lg-3">
+                        <div class="d-flex align-items-center gap-2 gap-lg-3 d-none">
                             <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal"
                                 data-bs-target="#kt_modal_add_user">
                                 <i class="ki-duotone ki-plus "></i>Add Categories</button>
@@ -35,7 +35,7 @@
                     <div id="kt_app_content_container" class="app-container container-xxl">
                         <!--begin::Products-->
                         <div class="card card-flush">
-                            <div class="card-header align-items-center py-5 gap-2 gap-md-5">
+                            <div class="card-header align-items-center py-5 gap-2 gap-md-5 d-none">
                                 <!--begin::Card title-->
                                 <div class="card-title">
                                     <!--begin::Search-->
@@ -51,8 +51,8 @@
                                     <!--end::Search-->
                                 </div>
                             </div>
-                            <div class="card-body pt-0">
-                                <form action="{{ route('categories.update', $category) }}" method="POST">
+                            <div class="card-body pt-0 mt-3">
+                                <form action="{{ route('categories.update', $category) }}" method="POST"
                                     @csrf
                                     @method('PUT')
                                     <div class="form-group">
@@ -63,7 +63,7 @@
                                         <label for="description">Description</label>
                                         <textarea name="description" class="form-control">{{ $category->description }}</textarea>
                                     </div>
-                                    <button type="submit" class="btn btn-primary">Update</button>
+                                    <button type="submit" class="btn btn-primary mt-2">Update</button>
                                 </form>
 
                             </div>

@@ -133,7 +133,7 @@
                 <button type="submit" class="btn btn-lg btn-dark rounded-0">
                     <span class="indicator-label">Masuk </span>
                 </button>
-                <div class="d-flex align-items-center gap-2">
+                <div class="d-flex align-items-center gap-2 d-none">
                     <hr class="m-0 opacity-100 w-100">
                     <span>atau</span>
                     <hr class="m-0 opacity-100 w-100">

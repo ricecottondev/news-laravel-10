@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Back\News;
 
-use App\Models\News;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -10,6 +9,10 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Country;
 use App\Models\CountriesCategories;
+
+use Maatwebsite\Excel\Facades\Excel;
+use App\Imports\NewsImport;
+use App\Models\News;
 
 
 class NewsController extends Controller
@@ -215,5 +218,24 @@ public function edit(News $news)
         $news->delete();
 
         return redirect()->route('news.index')->with('success', 'News item deleted successfully.');
+    }
+
+    public function importForm()
+    {
+        return view('back.news.import');
+    }
+
+    public function import(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|mimes:xlsx,xls,csv',
+        ]);
+
+        try {
+            Excel::import(new NewsImport, $request->file('file'));
+            return redirect()->back()->with('success', 'News imported successfully!');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Error importing file: ' . $e->getMessage());
+        }
     }
 }
