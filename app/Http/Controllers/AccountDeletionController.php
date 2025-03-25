@@ -22,7 +22,7 @@ class AccountDeletionController extends Controller {
 
             $user = auth()->user();
 
-            return true;
+            // return true;
         }
 
 
