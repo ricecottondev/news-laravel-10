@@ -27,12 +27,14 @@ class AccountDeletionController extends Controller {
 
 
 
-        dump($user);
-        dump($user->email);
-        dump($request->password);
-        dd($user->password);
+        // dump($user);
+        // dump($user->email);
+        // dump($request->password);
+        // dd($user->password);
 
-        if (!$user || $user->email !== $request->email || !Hash::check($request->password, $user->password)) {
+        if (!$user || $user->email !== $request->email
+        || !Hash::check($request->password, $user->password)
+        ) {
             return back()->with('error', 'Invalid credentials.');
         }
 
