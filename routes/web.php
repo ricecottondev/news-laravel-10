@@ -46,6 +46,7 @@ use App\Http\Controllers\Front\FrontCheckoutController;
 use App\Http\Controllers\Back\DeepSeekChatController;
 use App\Http\Controllers\Back\Subscribe\SubscribeController;
 
+use App\Http\Controllers\AccountDeletionController;
 
 
 
@@ -92,9 +93,14 @@ use App\Http\Controllers\Back\ChatGPTController;
 Route::get('/detail-voucher', function () {
     return view('page-sdamember.snk');
 });
+
+
 Route::get('/request-delete-akun', function () {
     return view('page-sdamember.delete');
 });
+
+Route::post('/request-delete-account', [AccountDeletionController::class, 'requestDeletion'])->middleware('auth')->name('request-delete-account');
+
 Route::get('/privacy-policy', function () {
     return view('page-sdamember.privacy');
 });
@@ -161,7 +167,9 @@ Route::get('/auth/{provider}', [SocialiteController::class, 'redirectToProvider'
 Route::get('/auth/{provider}/callback', [SocialiteController::class, 'handleProvideCallback']);
 
 
-
+Route::get('/request-delete-account', function () {
+    return view('front.request_member_delete');
+});
 
 
 Route::get('file', [FileController::class, 'create']);
