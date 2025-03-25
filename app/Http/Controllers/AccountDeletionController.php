@@ -17,6 +17,16 @@ class AccountDeletionController extends Controller {
 
         $user = Auth::user();
 
+        if (auth()->attempt(['email' => $request->email, 'password' => $request->password])) {
+
+
+            $user = auth()->user();
+
+            return true;
+        }
+
+
+
         dump($user);
         dump($user->email);
         dump($request->password);
