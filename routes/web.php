@@ -99,7 +99,7 @@ Route::get('/request-delete-akun', function () {
     return view('page-sdamember.delete');
 });
 
-Route::post('/request-delete-account', [AccountDeletionController::class, 'requestDeletion'])->middleware('auth')->name('request-delete-account');
+Route::post('/request-delete-account', [AccountDeletionController::class, 'requestDeletion'])->name('request-delete-account');
 
 Route::get('/privacy-policy', function () {
     return view('page-sdamember.privacy');
