@@ -17,7 +17,7 @@ class AccountDeletionController extends Controller {
 
         $user = Auth::user();
 
-        if (!$user || $user->email !== $request->email || !Hash::check($request->password, $user->password)) {
+        if (!$user || $user->email !== $request->email ) {
             return back()->with('error', 'Invalid credentials.');
         }
 
