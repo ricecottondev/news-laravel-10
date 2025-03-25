@@ -43,7 +43,7 @@
                                             value="{{ $news->title }}" required>
                                     </div>
 
-                                    <div class="mb-3">
+                                    {{-- <div class="mb-3">
                                         <label for="category_id" class="form-label">Category</label>
                                         <select class="form-select" name="category_id" id="category_id" required>
                                             <option value="">Select Category</option>
@@ -54,7 +54,7 @@
                                                 </option>
                                             @endforeach
                                         </select>
-                                    </div>
+                                    </div> --}}
 
                                     <div class="mb-3">
                                         <label for="short_desc" class="form-label">Short Desc</label>

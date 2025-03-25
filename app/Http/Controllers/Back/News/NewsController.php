@@ -193,7 +193,7 @@ public function edit(News $news)
 
         // Update data lainnya
         $news->update([
-            'category_id' => 1,
+            // 'category_id' => 1,
             'title' => $request->title,
             'short_desc' => $request->short_desc,
             'content' => $request->content,
