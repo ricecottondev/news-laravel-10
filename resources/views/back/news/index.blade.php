@@ -92,13 +92,16 @@
                                                 <td>{{ $item->status }}</td>
                                                 <td>
                                                     <a href="{{ route('news.edit', $item->id) }}"
-                                                        class="btn btn-sm btn-outline btn-outline-dashed btn-outline-default px-4 me-2"><i class="fas fa-edit"></i></a>
+                                                        class="btn btn-sm btn-outline btn-outline-dashed btn-outline-default px-4 me-2"><i
+                                                            class="fas fa-edit"></i></a>
                                                     <form action="{{ route('news.destroy', $item->id) }}" method="POST"
                                                         style="display:inline;">
                                                         @csrf
                                                         @method('DELETE')
-                                                        <button type="submit" class="btn btn-sm btn-outline btn-outline-dashed btn-outline-default px-4 me-2"
-                                                            onclick="return confirm('Yakin ingin menghapus?');"><i class="fas fa-trash-alt"></i</button>
+                                                        <button type="submit"
+                                                            class="btn btn-sm btn-outline btn-outline-dashed btn-outline-default px-4 me-2"
+                                                            onclick="return confirm('Yakin ingin menghapus?');"><i
+                                                                class="fas fa-trash-alt"></i< /button>
                                                     </form>
                                                 </td>
                                             </tr>
@@ -146,7 +149,8 @@
                                     </div>
                                     <div class="mb-3">
                                         <label for="content" class="form-label">content</label>
-                                        <input type="text" class="form-control" id="content" name="content" required>
+                                        <input type="text" class="form-control" id="content" name="content"
+                                            required>
                                     </div>
                                     <div class="mb-3">
                                         <label for="status" class="form-label">Status</label>
@@ -257,7 +261,11 @@
     </script>
     <script>
         $(document).ready(function() {
-            $('#kt_ecommerce_sales_table').DataTable(); // Basic initialization
+            $('#kt_ecommerce_sales_table').DataTable({
+                "order": [
+                    [0, "desc"]
+                ] // Kolom pertama (ID) diurutkan secara DESC
+            });
         });
     </script>
 
