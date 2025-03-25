@@ -27,7 +27,7 @@ class NewsController extends Controller
         $countries = Country::all();
         $categories = Category::all(); // Ambil semua kategori
         // $countriescategoriesnews = $news->countriesCategoriesNews()->get();
-        $news = News::with('category')->get();
+        $news = News::with('category')->orderBy('created_at', 'desc')->get();
         return view('back.news.index', compact('news','countries','categories'));
     }
 
