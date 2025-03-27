@@ -127,6 +127,9 @@ Route::get('/news', [FrontNewsController::class, 'index'])->middleware('limit.ne
 
 Route::get('/news/{slug}', [FrontNewsController::class, 'show'])->name('front.news.show');
 Route::get('/newscategory/{category}', [FrontNewsController::class, 'shownewsbycategory'])->name('front.news.shownewsbycategory');
+
+Route::get('/{country}/newscategory/{category}', [FrontNewsController::class, 'shownewsbycategoryandCountry'])->name('front.news.shownewsbycategoryandCountry');
+
 Route::get('/search', [FrontNewsController::class, 'search'])->name('news.search');
 
 Route::post('/news/{id}/comment', [NewsCommentController::class, 'store'])->name('news.comment');
@@ -178,6 +181,11 @@ Route::post('file', [FileController::class, 'store']);
 // Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/news', [App\Http\Controllers\NewsController::class, 'index']);
 Route::get('/news', [App\Http\Controllers\NewsController::class, 'index']);
+
+// Route::get('/get-categories/{country_id}', [CategoryController::class, 'getCategories']);
+
+
+
 Route::get('/setting_web', [App\Http\Controllers\Back\Setting_web\SettingWebController::class, 'index']);
 
 Route::get('/logout', [LoginController::class, 'logout'])->name('logout');

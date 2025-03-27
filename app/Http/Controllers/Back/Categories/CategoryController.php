@@ -103,4 +103,16 @@ class CategoryController extends Controller
 
         return redirect()->route('categories.index')->with('success', 'Category deleted successfully.');
     }
+
+
+    public function getCategories($country_id)
+    {
+        $categories = DB::table('countriescategories')
+            ->join('categories', 'countriescategories.category_id', '=', 'categories.id')
+            ->where('countriescategories.country_id', $country_id)
+            ->select('categories.id', 'categories.name')
+            ->get();
+
+        return response()->json($categories);
+    }
 }

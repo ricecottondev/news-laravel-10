@@ -171,6 +171,39 @@ class FrontNewsController extends Controller
         return view('front.news-by-category', compact("news", "categoryName"));
     }
 
+    public function shownewsbycategoryandCountry($country,$category)
+    {
+        // Mengambil parameter dari request
+        $countryName = $country;
+        $categoryName = $category;
+
+        // Mengambil berita dengan relasi kategori
+        $query = News::with('category');
+
+        // Jika country_name diberikan, filter berdasarkan country
+        if ($countryName) {
+            $query->whereHas('countriesCategoriesNews', function ($q) use ($countryName) {
+                $q->whereHas('country', function ($q) use ($countryName) {
+                    $q->where('country_name', $countryName);
+                });
+            });
+        }
+
+        if ($categoryName) {
+            $query->whereHas('countriesCategoriesNews', function ($q) use ($categoryName) {
+                $q->whereHas('category', function ($q) use ($categoryName) {
+                    $q->where('name', $categoryName);
+                });
+            });
+        }
+
+        // Order by DESC berdasarkan created_at (atau updated_at jika lebih sesuai)
+        $news = $query->orderBy('created_at', 'desc')
+            ->get();
+        // dd($news);
+        return view('front.news-by-category', compact("news", "categoryName"));
+    }
+
     public function search(Request $request)
     {
         $query = $request->input('q');

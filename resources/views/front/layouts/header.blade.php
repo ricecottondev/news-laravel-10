@@ -29,7 +29,6 @@
                 <a class="btn btn-warning text-dark" href="/subscribes">Subscribe</a>
             </div>
 
-
             <!-- Tombol Menu Mobile -->
             <button class="btn text-white d-md-none" type="button" data-bs-toggle="offcanvas"
                 data-bs-target="#mobile-menu">
@@ -38,21 +37,36 @@
         </div>
     </div>
 
-    <!-- Kategori dengan Scroll Horizontal -->
-    <div class="category-container bg-dark text-white py-2">
+    <!-- Scrollable Country -->
+    <div class="country-container bg-secondary text-white py-2">
         <div class="container position-relative">
             <!-- Tombol Navigasi Kiri -->
-            <button class="scroll-btn left d-none d-md-flex">
+            <button class="scroll-btn left-country d-none d-md-flex">
                 <i class="fas fa-chevron-left"></i>
             </button>
 
-            <!-- Kategori -->
-            <div class="category-scroll d-flex align-items-center gap-3" id="category-menu">
-                <!-- Kategori dimasukkan lewat JavaScript -->
+            <!-- Country -->
+            <div class="country-scroll d-flex align-items-center gap-3" id="country-menu">
+                <!-- Country dimasukkan lewat JavaScript -->
             </div>
 
             <!-- Tombol Navigasi Kanan -->
-            <button class="scroll-btn right d-none d-md-flex">
+            <button class="scroll-btn right-country d-none d-md-flex">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Scrollable Category (Awalnya disembunyikan) -->
+    <div class="category-container bg-dark text-white py-2" id="category-section" style="display: none;">
+        <div class="container position-relative">
+            <button class="scroll-btn left-category d-none d-md-flex">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+
+            <div class="category-scroll d-flex align-items-center gap-3" id="category-menu"></div>
+
+            <button class="scroll-btn right-category d-none d-md-flex">
                 <i class="fas fa-chevron-right"></i>
             </button>
         </div>
@@ -62,39 +76,39 @@
     <marquee id="breaking-news" class="bg-danger text-white py-2 fw-bold">
         Memuat berita terbaru...
     </marquee>
-
-    <!-- Kategori di Mobile (Scrollable List) -->
-    <div class="offcanvas offcanvas-start bg-dark text-white" tabindex="-1" id="mobile-menu">
-        <div class="offcanvas-header">
-            <h5 class="offcanvas-title">Menu</h5>
-            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"></button>
-        </div>
-        <div class="offcanvas-body">
-            <!-- Form Pencarian Berita untuk Mobile -->
-            <form action="/search" method="GET" class="mb-3">
-                <div class="input-group">
-                    <input type="text" name="q" class="form-control" placeholder="Search news..." required>
-                    <button type="submit" class="btn btn-light"><i class="fas fa-search"></i></button>
-                </div>
-            </form>
-
-            <!-- Daftar Kategori di Mobile -->
-            <div class="overflow-auto" style="max-height: 300px;">
-                <nav id="mobile-category-menu" class="d-flex flex-column"></nav>
-            </div>
-
-            <hr>
-            <nav class="d-flex flex-column">
-                <a class="text-white text-decoration-none py-2" href="/login">Login</a>
-                <a class="text-white text-decoration-none py-2" href="/subscribes">Subscribe</a>
-            </nav>
-        </div>
-    </div>
 </header>
 
 <!-- CSS -->
 <style>
-    /* Kategori dengan Scroll */
+    /* Scrollable Country */
+    .country-container {
+        position: relative;
+        overflow: hidden;
+    }
+
+    .country-scroll {
+        display: flex;
+        overflow-x: auto;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+        scroll-behavior: smooth;
+        padding-bottom: 5px;
+    }
+
+    .country-scroll::-webkit-scrollbar {
+        display: none;
+    }
+
+    .country-scroll a {
+        flex: 0 0 auto;
+        padding: 8px 12px;
+        background-color: rgba(255, 255, 255, 0.1);
+        border-radius: 5px;
+        text-decoration: none;
+        color: white;
+        white-space: nowrap;
+    }
+
     .category-container {
         position: relative;
         overflow: hidden;
@@ -113,21 +127,7 @@
         display: none;
     }
 
-    .category-scroll a {
-        flex: 0 0 auto;
-        padding: 8px 12px;
-        background-color: rgba(255, 255, 255, 0.1);
-        border-radius: 5px;
-        text-decoration: none;
-        color: white;
-        white-space: nowrap;
-    }
-
-    .category-scroll a:hover {
-        background-color: rgba(255, 255, 255, 0.3);
-    }
-
-    /* Tombol Navigasi Kategori */
+    /* Tombol Navigasi */
     .scroll-btn {
         position: absolute;
         top: 50%;
@@ -141,81 +141,92 @@
         transition: 0.3s;
     }
 
-    .scroll-btn.left {
+    .left-country {
         left: 0;
     }
 
-    .scroll-btn.right {
+    .right-country {
         right: 0;
     }
 
-    .scroll-btn:hover {
-        background: rgba(0, 0, 0, 0.8);
+    .left-category {
+        left: 0;
+    }
+
+    .right-category {
+        right: 0;
     }
 </style>
 
 <!-- JavaScript -->
 <script>
     document.addEventListener("DOMContentLoaded", function() {
-        const apiUrl = "/api/getFullCategory?country_name=indonesia";
+        const countryApiUrl = "/api/getAllCountry";
+        const categoryApiUrl = "/api/get-categories/"; // Menggunakan endpoint baru
+
+        const countryMenu = document.getElementById("country-menu");
         const categoryMenu = document.getElementById("category-menu");
-        const mobileCategoryMenu = document.getElementById("mobile-category-menu");
         const breakingNews = document.getElementById("breaking-news");
-
-        // Tombol navigasi kategori
-        const scrollLeftBtn = document.querySelector(".scroll-btn.left");
-        const scrollRightBtn = document.querySelector(".scroll-btn.right");
-
-        // Fetch kategori dari API
-        fetch(apiUrl)
+        const categorySection = document.getElementById("category-section");
+        // Fetch Countries
+        fetch(countryApiUrl)
             .then(response => response.json())
             .then(data => {
-                const categories = data.categories;
-                categoryMenu.innerHTML = "";
-                mobileCategoryMenu.innerHTML = "";
-                let breakingNewsText = "No breaking news available.";
-
-                categories.forEach(category => {
-                    const categoryLink =
-                        `<a href="/newscategory/${category.name}">${category.name}</a>`;
-                    categoryMenu.innerHTML += categoryLink;
-                    mobileCategoryMenu.innerHTML +=
-                        `<a class="text-white text-decoration-none py-2" href="/newscategory/${category.name}">${category.name}</a>`;
-
-                    if (category.name.toLowerCase() === "breaking news") {
-                        breakingNewsText = category.description;
-                    }
+                countryMenu.innerHTML = "";
+                data.forEach(country => {
+                    const countryLink = document.createElement("a");
+                    countryLink.href = "#";
+                    countryLink.textContent = country.country_name;
+                    countryLink.dataset.countryName = country.country_name.toLowerCase();
+                    countryLink.addEventListener("click", function(event) {
+                        event.preventDefault();
+                        loadCategories(country.country_name, country.id);
+                    });
+                    countryMenu.appendChild(countryLink);
                 });
-
-                breakingNews.innerHTML = breakingNewsText;
             })
-            .catch(error => {
-                console.error("Error fetching categories:", error);
-                breakingNews.innerHTML = "Error loading breaking news.";
-            });
+            .catch(error => console.error("Error fetching countries:", error));
+        // Fetch Categories
+        // Function to fetch categories when country is clicked
+        function loadCategories(countryName, countryId) {
+            fetch(categoryApiUrl + countryId)
+                .then(response => response.json())
+                .then(categories => {
+                    categoryMenu.innerHTML = "";
+                    let breakingNewsText = "No breaking news available.";
+                    console.log(countryId);
+                    categories.forEach(category => {
+                        const categoryLink =
+                            `<a href="/${countryName}/newscategory/${category.name}">${category.name}</a>`;
+                        categoryMenu.innerHTML += categoryLink;
 
-        // Event scroll horizontal dengan tombol
-        scrollLeftBtn.addEventListener("click", () => {
-            categoryMenu.scrollBy({
-                left: -200,
-                behavior: "smooth"
-            });
-        });
+                        if (category.name.toLowerCase() === "breaking news") {
+                            breakingNewsText = category.description || "Breaking news update!";
+                        }
+                    });
 
-        scrollRightBtn.addEventListener("click", () => {
-            categoryMenu.scrollBy({
-                left: 200,
-                behavior: "smooth"
-            });
-        });
+                    breakingNews.innerHTML = breakingNewsText;
+                    categorySection.style.display = "block"; // Munculkan category setelah klik country
+                })
+                .catch(error => console.error("Error fetching categories:", error));
+        }
 
-        // Event scroll dengan mouse wheel (horizontal scroll)
-        categoryMenu.addEventListener("wheel", (event) => {
-            event.preventDefault();
-            categoryMenu.scrollBy({
-                left: event.deltaY * 2,
-                behavior: "smooth"
-            });
-        });
+        // Scroll Buttons
+        document.querySelector(".left-country").addEventListener("click", () => countryMenu.scrollBy({
+            left: -200,
+            behavior: "smooth"
+        }));
+        document.querySelector(".right-country").addEventListener("click", () => countryMenu.scrollBy({
+            left: 200,
+            behavior: "smooth"
+        }));
+        document.querySelector(".left-category").addEventListener("click", () => categoryMenu.scrollBy({
+            left: -200,
+            behavior: "smooth"
+        }));
+        document.querySelector(".right-category").addEventListener("click", () => categoryMenu.scrollBy({
+            left: 200,
+            behavior: "smooth"
+        }));
     });
 </script>

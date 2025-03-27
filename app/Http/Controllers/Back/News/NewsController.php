@@ -28,7 +28,7 @@ class NewsController extends Controller
         $categories = Category::all(); // Ambil semua kategori
         // $countriescategoriesnews = $news->countriesCategoriesNews()->get();
         $news = News::with('category')->orderBy('id', 'desc')->get();
-        return view('back.news.index', compact('news','countries','categories'));
+        return view('back.news.index', compact('news', 'countries', 'categories'));
     }
 
     /**
@@ -117,17 +117,17 @@ class NewsController extends Controller
      * @param  \App\Models\News  $news
      * @return \Illuminate\Http\Response
      */
-public function edit(News $news)
-{
-    $countries = Country::all();
-    $categories = Category::all(); // Ambil semua kategori
-    $countriescategoriesnews = $news->countriesCategoriesNews()->get();
-    $defaultCountry = 4;
-    $defaultCategory = CountriesCategories::where('country_id', $defaultCountry)
+    public function edit(News $news)
+    {
+        $countries = Country::all();
+        $categories = Category::all(); // Ambil semua kategori
+        $countriescategoriesnews = $news->countriesCategoriesNews()->get();
+        $defaultCountry = 4;
+        $defaultCategory = CountriesCategories::where('country_id', $defaultCountry)
             ->pluck('category_id')
             ->first(); // Ambil 1 nilai kategori default
-    return view('back.news.edit', compact('news', 'countries', 'categories', 'defaultCountry', 'defaultCategory'));
-}
+        return view('back.news.edit', compact('news', 'countries', 'categories', 'defaultCountry', 'defaultCategory'));
+    }
 
 
     /**
@@ -172,12 +172,12 @@ public function edit(News $news)
             $count++;
         }
 
-         // Simpan gambar ke dalam folder public/images/news
-         $imagePath = null;
-         if ($request->hasFile('image')) {
-             $image = $request->file('image');
-             $imagePath = $image->store('images/news', 'public');
-         }
+        // Simpan gambar ke dalam folder public/images/news
+        $imagePath = null;
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $imagePath = $image->store('images/news', 'public');
+        }
 
         // Cek jika ada gambar baru yang diunggah
         if ($request->hasFile('image')) {
@@ -222,13 +222,20 @@ public function edit(News $news)
 
     public function importForm()
     {
-        return view('back.news.import');
+        $countries = Country::where('status', 'active')->get(); // Ambil negara yang aktif
+        return view('back.news.import', compact('countries'));
     }
 
     public function import(Request $request)
     {
         $request->validate([
             'file' => 'required|mimes:xlsx,xls,csv',
+        ]);
+
+        // Simpan country & category ke session untuk digunakan di import class
+        session([
+            'import_country_id' => $request->country_id,
+            'import_category_id' => $request->category_id,
         ]);
 
         try {

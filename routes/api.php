@@ -120,9 +120,21 @@ Route::get('getNewsVoice', [NewsController::class, 'getNewsVoice']);
 // Rute untuk country
 Route::get('getAllCountries', [CountryController::class, 'index']); // GET: Menampilkan semua country
 
+Route::get('getAllCountry', function () {
+    $countries = \App\Models\Country::all();
+    return response()->json($countries);
+});
+
 Route::get('getCategoriesCountry', [CountryController::class, 'getCategorieCountry']); // GET: Menampilkan semua country
 
+Route::get('/get-categories/{country_id}', function ($country_id) {
+    $categories = \App\Models\CountriesCategories::where('country_id', $country_id)
+        ->with('category')
+        ->get()
+        ->pluck('category');
 
+    return response()->json($categories);
+});
 
 Route::post('/postComment', [NewsCommentController::class, 'postComment']); // Post comment
 Route::get('/getComment', [NewsCommentController::class, 'getComment']); // Get comment
