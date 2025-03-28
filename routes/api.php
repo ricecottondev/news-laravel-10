@@ -114,6 +114,8 @@ Route::delete('news/{id}', [NewsController::class, 'destroy']); // DELETE: Mengh
 Route::get('getSearchNews', [NewsController::class, 'getSearchNews']);
 Route::get('getBreakingNews', [NewsController::class, 'getBreakingNews']);
 Route::get('getNewsVoice', [NewsController::class, 'getNewsVoice']);
+Route::post('back/news/bulk-save', [NewsController::class, 'bulkStore'])->name('news.bulk-save');
+
 
 
 

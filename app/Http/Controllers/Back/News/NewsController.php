@@ -245,4 +245,12 @@ class NewsController extends Controller
             return redirect()->back()->with('error', 'Error importing file: ' . $e->getMessage());
         }
     }
+
+    public function bulkForm()
+    {
+        $countries = Country::all(); // Ambil semua negara
+        return view('back.news.bulk', compact('countries'));
+    }
+
+
 }

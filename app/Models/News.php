@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class News extends Model
 {
@@ -67,5 +68,10 @@ class News extends Model
     public function comments()
     {
         return $this->hasMany(NewsComment::class, 'news_id');
+    }
+
+    public static function generateSlug($title)
+    {
+        return Str::slug($title, '_'); // Ganti spasi dengan _
     }
 }

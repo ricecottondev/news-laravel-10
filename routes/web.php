@@ -204,9 +204,11 @@ Route::get('/setting_web', [App\Http\Controllers\Back\Setting_web\SettingWebCont
 Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
 Route::get('back/news/import', [NewsController::class, 'importForm'])->name('news.import.form');
+Route::get('back/news/bulkcreate', [NewsController::class, 'bulkForm'])->name('news.bulk-form');
 
 Route::post('loginas', [UserController::class, 'loginas'])->name('users.loginas');
 Route::get('loginas', [UserController::class, 'loginas'])->name('users.loginas');
+
 
 Route::group(['middleware' => ['auth']], function () {
     Route::get('/back/dashboard', [DashboardController::class, 'index'])->name('dashboard');
@@ -221,6 +223,7 @@ Route::group(['middleware' => ['auth']], function () {
 
 
     Route::post('back/news/import', [NewsController::class, 'import'])->name('news.import');
+
 
     // Rute untuk subscribe
     Route::resource('back/subscribe', SubscribeController::class);

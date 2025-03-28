@@ -14,6 +14,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Cache;
 use App\Models\Subscribe;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Session;
+use App\Models\CountriesCategoriesNews;
 
 class NewsController extends Controller
 {
@@ -537,5 +539,44 @@ class NewsController extends Controller
                 'data' => $data,
             ]
         );
+    }
+
+    public function bulkStore(Request $request)
+    {
+        // Simpan country & category ke session
+        session([
+            'import_country_id' => $request->country_id,
+            'import_category_id' => $request->category_id,
+        ]);
+
+        $data = $request->input('news');
+        if ($data) {
+            foreach ($data as $item) {
+                $news = News::create([
+                    'title'   => $item['title'],
+                    'short_desc' => $item['short_desc'],
+                    'content' => $item['content'],
+                    'is_breaking_news' => 0,
+                    'author'  => 'factabot',
+                    'slug'    => \Illuminate\Support\Str::slug($item['title'], '_'),
+                    'status'  => 'draft',
+                    'views'   => 0,
+                ]);
+
+                // Ambil Country & Category dari session
+                $country_id = Session::get('import_country_id');
+                $category_id = Session::get('import_category_id');
+
+                // Simpan relasi berita dengan Country & Category
+                CountriesCategoriesNews::create([
+                    'country_id' => $country_id,
+                    'category_id' => $category_id,
+                    'news_id' => $news->id,
+                    'status' => 'active',
+                ]);
+            }
+        }
+
+        return response()->json(['success' => true, 'message' => 'News successfully saved!']);
     }
 }
