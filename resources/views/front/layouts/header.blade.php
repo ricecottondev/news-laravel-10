@@ -58,7 +58,7 @@
     </div>
 
     <!-- Scrollable Category (Awalnya disembunyikan) -->
-    <div class="category-container bg-dark text-white py-2" id="category-section">
+    <div class="category-container bg-dark text-white py-2" id="category-section" style="display: none">
         <div class="container position-relative">
             <button class="scroll-btn left-category d-none d-md-flex">
                 <i class="fas fa-chevron-left"></i>
@@ -117,6 +117,7 @@
     .category-scroll {
         display: flex;
         overflow-x: auto;
+
         /* Memastikan kategori bisa di-scroll */
         scrollbar-width: none;
         /* Memunculkan scrollbar */
