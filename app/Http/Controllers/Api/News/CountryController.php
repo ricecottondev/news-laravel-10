@@ -14,11 +14,28 @@ class CountryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $countries = Country::all()->pluck('country_name')->toArray();
-        return response()->json(['countries' => $countries]);
+        $query = Country::orderBy('country_name', 'asc')->pluck('country_name')->toArray();
+
+        if ($request->has('country')) {
+            $selectedCountry = $request->input('country');
+
+            // Pisahkan negara yang sesuai dengan parameter
+            $filtered = array_filter($query, function ($name) use ($selectedCountry) {
+                return strtolower($name) === strtolower($selectedCountry);
+            });
+
+            // Ambil sisanya (tanpa negara yang dipilih)
+            $remaining = array_diff($query, $filtered);
+
+            // Gabungkan hasilnya
+            $query = array_merge($filtered, $remaining);
+        }
+
+        return response()->json(['countries' => $query]);
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -99,7 +116,8 @@ class CountryController extends Controller
         return response()->json(null, 204);
     }
 
-    public function getCategorieCountry(Request $request) {
+    public function getCategorieCountry(Request $request)
+    {
 
         $country_id = $request->country_id;
         $categories = CountriesCategories::where('country_id', $country_id)
@@ -108,5 +126,5 @@ class CountryController extends Controller
             ->pluck('category');
 
         return response()->json($categories);
-}
+    }
 }
