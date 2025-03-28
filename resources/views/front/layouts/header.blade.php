@@ -109,6 +109,11 @@
         white-space: nowrap;
     }
 
+    .country-scroll a.active {
+        background-color: rgba(109, 0, 0, 0.719);
+        font-weight: bold;
+    }
+
     .category-container {
         position: relative;
         overflow: hidden;
@@ -153,6 +158,12 @@
         transition: background 0.3s ease;
     }
 
+    /* Kategori yang dipilih */
+    .category-scroll a.active {
+        background-color: rgba(241, 0, 0, 0.5);
+        font-weight: bold;
+    }
+
     /* .category-scroll a:hover {
         background-color: rgba(255, 255, 255, 0.4);
     } */
@@ -180,22 +191,22 @@
     }
 
     /* .category-scroll a { */
-        /* display: flex;
+    /* display: flex;
         overflow-x: auto; */
-        /* scrollbar-width: none; */
-        /* -ms-overflow-style: none;
+    /* scrollbar-width: none; */
+    /* -ms-overflow-style: none;
         scroll-behavior: smooth; */
-        /* padding-bottom: 5px; */
+    /* padding-bottom: 5px; */
 
-        /* flex: 0 0 auto; */
-        /* padding: 8px 12px; */
-        /* background-color: rgba(255, 255, 255, 0.2); */
-        /*  */
-        /* border-radius: 5px; */
-        /* text-decoration: none; */
-        /* color: white; */
-        /* white-space: nowrap; */
-        /* transition: background 0.3s ease; */
+    /* flex: 0 0 auto; */
+    /* padding: 8px 12px; */
+    /* background-color: rgba(255, 255, 255, 0.2); */
+    /*  */
+    /* border-radius: 5px; */
+    /* text-decoration: none; */
+    /* color: white; */
+    /* white-space: nowrap; */
+    /* transition: background 0.3s ease; */
 
     /* } */
 
@@ -273,6 +284,8 @@
 
                     // Jika country dari URL sama dengan country dari API, tandai sebagai aktif
                     if (selectedCountry && countryName === selectedCountry.toLowerCase()) {
+                        document.querySelectorAll(".country-scroll a").forEach(a => a.classList
+                            .remove("active"));
                         countryLink.classList.add("active");
                         loadCategories(countryName, country.id, selectedCategory);
                     }
@@ -281,6 +294,9 @@
                         event.preventDefault();
                         const countryId = this.dataset.countryId;
                         selectedCountry = countryName;
+                        document.querySelectorAll(".country-scroll a").forEach(a => a
+                            .classList.remove("active"));
+                        this.classList.add("active");
                         loadCategories(countryName, countryId, null);
                     });
 
@@ -303,8 +319,15 @@
                         categoryLink.textContent = category.name;
 
                         // Jika kategori dari URL sama dengan kategori dari API, tandai sebagai aktif
+                        // if (preselectedCategory && category.name.toLowerCase() ===
+                        //     preselectedCategory.toLowerCase()) {
+                        //     categoryLink.classList.add("active");
+                        // }
+
                         if (preselectedCategory && category.name.toLowerCase() ===
                             preselectedCategory.toLowerCase()) {
+                            document.querySelectorAll(".category-scroll a").forEach(a => a.classList
+                                .remove("active"));
                             categoryLink.classList.add("active");
                         }
 
