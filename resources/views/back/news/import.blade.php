@@ -12,7 +12,8 @@
                             <h1 class="fw-bold fs-3 text-dark">Import News</h1>
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb">
-                                    <li class="breadcrumb-item"><a href="#" class="text-muted text-decoration-none">Master</a></li>
+                                    <li class="breadcrumb-item"><a href="#"
+                                            class="text-muted text-decoration-none">Master</a></li>
                                     <li class="breadcrumb-item text-muted">News</li>
                                 </ol>
                             </nav>
@@ -36,12 +37,47 @@
                                 @endif
 
                                 {{-- Tombol untuk membuka modal --}}
-                                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#selectCountryCategoryModal">
+                                <button class="btn btn-primary" data-bs-toggle="modal"
+                                    data-bs-target="#selectCountryCategoryModal">
                                     Select Country & Category
                                 </button>
 
+                                <h2>How to Upload News Data via Excel</h2>
+                                <ol>
+                                    <li><strong>Select a Country:</strong>
+                                        <br>Navigate to the news upload page in the admin panel. Click on the Button
+                                        labeled <em>"Select Country & Category"</em> and choose the relevant country.
+                                    </li>
+                                    <li><strong>Select a Category:</strong>
+                                        <br>After selecting the country, Choose the appropriate news category an than press button Confirm.
+                                    </li>
+                                    <li><strong>Upload Excel File:</strong>
+                                        <br>Click on the <em>"Upload Excel"</em> button and select the Excel file (.xlsx or
+                                        .csv) containing the news data. Ensure that your file includes the following
+                                        columns:
+                                        <ul>
+                                            <li><strong>Title:</strong> News title</li>
+                                            <li><strong>Content:</strong> News body</li>
+                                            <li><strong>Author:</strong> Name of the writer</li>
+                                            <li><strong>Publication Date:</strong> Date when the news was published</li>
+                                            <li><strong>Status:</strong> <em>Publish</em> or <em>Draft</em></li>
+                                        </ul>
+                                    </li>
+                                    <li><strong>Ensure News is Published on the Landing Page:</strong>
+                                        <br>Only news articles with a <strong>"Published"</strong> status will appear on the
+                                        landing page. If the status is <em>"Draft"</em>, it will not be visible to the
+                                        public.
+                                    </li>
+                                    <li><strong>Complete News Images via Edit Page:</strong>
+                                        <br>Once uploaded, go to the <em>news management</em> section, locate the news
+                                        article, and click on <em>"Edit"</em>. Upload or update the news image in the
+                                        designated <strong>image upload</strong> section, then save the changes.
+                                    </li>
+                                </ol>
+
                                 {{-- Form Import Excel --}}
-                                <form id="importForm" action="{{ route('news.import') }}" method="POST" enctype="multipart/form-data" style="display: none;">
+                                <form id="importForm" action="{{ route('news.import') }}" method="POST"
+                                    enctype="multipart/form-data" style="display: none;">
                                     @csrf
                                     <input type="hidden" name="country_id" id="selected_country_id">
                                     <input type="hidden" name="category_id" id="selected_category_id">
@@ -98,13 +134,13 @@
 
 
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
+        document.addEventListener("DOMContentLoaded", function() {
             let countrySelect = document.getElementById('country');
             let categorySelect = document.getElementById('category');
             let confirmButton = document.getElementById('confirmSelection');
 
             // Saat country berubah, ambil category dengan AJAX
-            countrySelect.addEventListener('change', function () {
+            countrySelect.addEventListener('change', function() {
                 let countryId = this.value;
                 categorySelect.innerHTML = '<option value="">Loading...</option>'; // Tampilkan loading
 
@@ -112,9 +148,11 @@
                     fetch(`/api/get-categories/${countryId}`)
                         .then(response => response.json())
                         .then(data => {
-                            categorySelect.innerHTML = '<option value="">-- Select Category --</option>'; // Reset pilihan
+                            categorySelect.innerHTML =
+                            '<option value="">-- Select Category --</option>'; // Reset pilihan
                             data.forEach(category => {
-                                categorySelect.innerHTML += `<option value="${category.id}">${category.name}</option>`;
+                                categorySelect.innerHTML +=
+                                    `<option value="${category.id}">${category.name}</option>`;
                             });
                         })
                         .catch(error => {
@@ -127,7 +165,7 @@
             });
 
             // Saat tombol confirm di modal ditekan
-            confirmButton.addEventListener('click', function () {
+            confirmButton.addEventListener('click', function() {
                 let selectedCountry = countrySelect.value;
                 let selectedCategory = categorySelect.value;
 
@@ -140,13 +178,13 @@
                 document.getElementById('selected_category_id').value = selectedCategory;
 
                 // Sembunyikan modal dan tampilkan form import
-                let modal = bootstrap.Modal.getInstance(document.getElementById('selectCountryCategoryModal'));
+                let modal = bootstrap.Modal.getInstance(document.getElementById(
+                    'selectCountryCategoryModal'));
                 modal.hide();
                 document.getElementById('importForm').style.display = 'block';
             });
         });
     </script>
-
 @endsection
 
 {{-- @section('scripts')
