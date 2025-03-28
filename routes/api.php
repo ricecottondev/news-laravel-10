@@ -121,9 +121,10 @@ Route::get('getNewsVoice', [NewsController::class, 'getNewsVoice']);
 Route::get('getAllCountries', [CountryController::class, 'index']); // GET: Menampilkan semua country
 
 Route::get('getAllCountry', function () {
-    $countries = \App\Models\Country::all();
+    $countries = \App\Models\Country::orderBy('country_name', 'asc')->get();
     return response()->json($countries);
 });
+
 
 Route::get('getCategoriesCountry', [CountryController::class, 'getCategorieCountry']); // GET: Menampilkan semua country
 

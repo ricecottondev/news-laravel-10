@@ -58,7 +58,7 @@
     </div>
 
     <!-- Scrollable Category (Awalnya disembunyikan) -->
-    <div class="category-container bg-dark text-white py-2" id="category-section" style="display: none;">
+    <div class="category-container bg-dark text-white py-2" id="category-section">
         <div class="container position-relative">
             <button class="scroll-btn left-category d-none d-md-flex">
                 <i class="fas fa-chevron-left"></i>
@@ -117,15 +117,94 @@
     .category-scroll {
         display: flex;
         overflow-x: auto;
+        /* Memastikan kategori bisa di-scroll */
         scrollbar-width: none;
-        -ms-overflow-style: none;
+        /* Memunculkan scrollbar */
+        -ms-overflow-style: auto;
         scroll-behavior: smooth;
+        white-space: nowrap;
+        /* Mencegah kategori turun ke baris berikutnya */
         padding-bottom: 5px;
     }
 
     .category-scroll::-webkit-scrollbar {
+        /* height: 5px; */
         display: none;
+        /* Menampilkan scrollbar untuk Chrome */
     }
+
+    /* .category-scroll::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.4);
+
+        border-radius: 5px;
+    } */
+
+    /* Style untuk Kategori */
+    .category-scroll a {
+        flex: 0 0 auto;
+        padding: 8px 12px;
+        background-color: rgba(255, 255, 255, 0.2);
+        /* Background tetap */
+        border-radius: 5px;
+        text-decoration: none;
+        color: white;
+        white-space: nowrap;
+        transition: background 0.3s ease;
+    }
+
+    /* .category-scroll a:hover {
+        background-color: rgba(255, 255, 255, 0.4);
+    } */
+
+    /* Tombol Navigasi */
+    .scroll-btn {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background: rgba(0, 0, 0, 0.5);
+        color: white;
+        border: none;
+        padding: 10px;
+        cursor: pointer;
+        z-index: 10;
+        transition: 0.3s;
+    }
+
+    .left-category {
+        left: 0;
+    }
+
+    .right-category {
+        right: 0;
+    }
+
+    /* .category-scroll a { */
+        /* display: flex;
+        overflow-x: auto; */
+        /* scrollbar-width: none; */
+        /* -ms-overflow-style: none;
+        scroll-behavior: smooth; */
+        /* padding-bottom: 5px; */
+
+        /* flex: 0 0 auto; */
+        /* padding: 8px 12px; */
+        /* background-color: rgba(255, 255, 255, 0.2); */
+        /*  */
+        /* border-radius: 5px; */
+        /* text-decoration: none; */
+        /* color: white; */
+        /* white-space: nowrap; */
+        /* transition: background 0.3s ease; */
+
+    /* } */
+
+    /* .category-scroll a:hover {
+        background-color: rgba(255, 255, 255, 0.4);
+    } */
+
+    /* .category-scroll::-webkit-scrollbar {
+        display: none;
+    } */
 
     /* Tombol Navigasi */
     .scroll-btn {
@@ -168,37 +247,67 @@
         const categoryMenu = document.getElementById("category-menu");
         const breakingNews = document.getElementById("breaking-news");
         const categorySection = document.getElementById("category-section");
+
+        let selectedCountry = null;
+        let selectedCategory = null;
+
+        // Ambil country dan category dari URL
+        const urlParts = window.location.pathname.split("/");
+        if (urlParts.length >= 3 && urlParts[2] === "newscategory") {
+            selectedCountry = urlParts[1]; // Ambil country dari URL
+            selectedCategory = urlParts[3]; // Ambil category dari URL
+        }
+
         // Fetch Countries
         fetch(countryApiUrl)
             .then(response => response.json())
             .then(data => {
                 countryMenu.innerHTML = "";
                 data.forEach(country => {
+                    const countryName = country.country_name.toLowerCase();
                     const countryLink = document.createElement("a");
-                    countryLink.href = "#";
+                    countryLink.href = `/${countryName}/newscategory/`;
                     countryLink.textContent = country.country_name;
-                    countryLink.dataset.countryName = country.country_name.toLowerCase();
+                    countryLink.dataset.countryId = country.id;
+
+                    // Jika country dari URL sama dengan country dari API, tandai sebagai aktif
+                    if (selectedCountry && countryName === selectedCountry.toLowerCase()) {
+                        countryLink.classList.add("active");
+                        loadCategories(countryName, country.id, selectedCategory);
+                    }
+
                     countryLink.addEventListener("click", function(event) {
                         event.preventDefault();
-                        loadCategories(country.country_name, country.id);
+                        const countryId = this.dataset.countryId;
+                        selectedCountry = countryName;
+                        loadCategories(countryName, countryId, null);
                     });
+
                     countryMenu.appendChild(countryLink);
                 });
             })
             .catch(error => console.error("Error fetching countries:", error));
-        // Fetch Categories
-        // Function to fetch categories when country is clicked
-        function loadCategories(countryName, countryId) {
+
+        // Function untuk memuat kategori berdasarkan country_id
+        function loadCategories(countryName, countryId, preselectedCategory) {
             fetch(categoryApiUrl + countryId)
                 .then(response => response.json())
                 .then(categories => {
                     categoryMenu.innerHTML = "";
                     let breakingNewsText = "No breaking news available.";
-                    console.log(countryId);
+
                     categories.forEach(category => {
-                        const categoryLink =
-                            `<a href="/${countryName}/newscategory/${category.name}">${category.name}</a>`;
-                        categoryMenu.innerHTML += categoryLink;
+                        const categoryLink = document.createElement("a");
+                        categoryLink.href = `/${countryName}/newscategory/${category.name}`;
+                        categoryLink.textContent = category.name;
+
+                        // Jika kategori dari URL sama dengan kategori dari API, tandai sebagai aktif
+                        if (preselectedCategory && category.name.toLowerCase() ===
+                            preselectedCategory.toLowerCase()) {
+                            categoryLink.classList.add("active");
+                        }
+
+                        categoryMenu.appendChild(categoryLink);
 
                         if (category.name.toLowerCase() === "breaking news") {
                             breakingNewsText = category.description || "Breaking news update!";
@@ -206,7 +315,7 @@
                     });
 
                     breakingNews.innerHTML = breakingNewsText;
-                    categorySection.style.display = "block"; // Munculkan category setelah klik country
+                    categorySection.style.display = "block"; // Pastikan kategori tetap ditampilkan
                 })
                 .catch(error => console.error("Error fetching categories:", error));
         }
