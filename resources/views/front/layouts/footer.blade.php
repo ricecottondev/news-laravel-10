@@ -4,15 +4,21 @@
         <div class="row">
             <div class="col-md-4">
                 <h3 class="h5">About Us</h3>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed
-                    cursus ante dapibus diam.</p>
+                <p>Welcome to Factabot, your trusted source for up-to-date news and insights. Our mission is to deliver
+                    accurate, relevant, and engaging news to our audience.
+                </p>
+                <p>
+                    We utilize cutting-edge AI technology to generate news summaries, which are then reviewed and
+                    refined by our editorial team to ensure factual accuracy and readability. Our goal is to provide
+                    well-structured and insightful content for our readers.
+                </p>
             </div>
             <div class="col-md-4">
                 <h3 class="h5">Contact Us</h3>
-                <p>Email: info@newswebsite.com</p>
-                <p>Phone: (123) 456-7890</p>
+                <p>Email: ricecottondev@email.com</p>
+                <p>Phone: (+61) 0424777146</p>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-4 d-none">
                 <h3 class="h5">Follow Us</h3>
                 <div class="d-flex">
                     <a href="#" class="text-white me-3"><i class="fab fa-facebook-f"></i></a>
