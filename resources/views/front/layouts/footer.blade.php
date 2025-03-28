@@ -27,6 +27,11 @@
                     <a href="#" class="text-white"><i class="fab fa-linkedin-in"></i></a>
                 </div>
             </div>
+            <div class="col-md-4">
+                <a href="/editorial-policy" style="text-decoration: none ;color: white;">Editorial Policy</a>
+                <br>
+                <a href="/privacy-policy" style="text-decoration: none ;color: white;">Privacy Policy</a>
+            </div>
         </div>
     </div>
 </footer>

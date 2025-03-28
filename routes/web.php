@@ -151,6 +151,19 @@ Route::get('/success', function () {
 })->name('success.page');
 Route::post('/billing-portal', [StripeController::class, 'billingPortal'])->name('billing.portal');
 
+Route::get('/about', function () {
+    return view('front.about');
+});
+
+Route::get('/privacy-policy', function () {
+    return view('front.privacy_policy');
+});
+
+Route::get('/editorial-policy', function () {
+    return view('front.editorial_policy');
+});
+
+
 //===================================================================================================front end===================================================================================================
 
 
