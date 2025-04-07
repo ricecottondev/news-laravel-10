@@ -15,6 +15,7 @@
         "laravel/ui": "^4.6",
         "laravelcollective/html": "^6.4",
         "maatwebsite/excel": "^3.1",
+        "nadar/quill-delta-parser": "^3.5",
         "openai-php/laravel": "^0.11.0",
         "phpmailer/phpmailer": "^6.9",
         "picqer/php-barcode-generator": "^2.4.1",
