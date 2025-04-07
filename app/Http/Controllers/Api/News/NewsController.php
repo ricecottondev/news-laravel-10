@@ -21,55 +21,41 @@ class NewsController extends Controller
 {
     public function index(Request $request)
     {
-        // Mengambil parameter dari request
         $countryName = $request->input('country_name');
         $categoryName = $request->input('category_name');
 
-        // Mengambil parameter pagination
-        $perPage = $request->input('limit', 10); // Default 10 item per halaman
-        $page = $request->input('page', 1); // Default halaman 1
+        $perPage = $request->input('limit', 10);
+        $page = $request->input('page', 1);
 
-        // Mengambil berita dengan relasi kategori
-        $query = News::with('category');
+        $query = News::with('category', 'countriesCategoriesNews.country', 'countriesCategoriesNews.category');
 
-        // Jika country_name diberikan, filter berdasarkan country
         if ($countryName) {
-            $query->whereHas('countriesCategoriesNews', function ($q) use ($countryName) {
-                $q->whereHas('country', function ($q) use ($countryName) {
-                    $q->where('country_name', $countryName);
-                });
+            $query->whereHas('countriesCategoriesNews.country', function ($q) use ($countryName) {
+                $q->where('country_name', $countryName);
             });
         }
-
-        // Jika category_name diberikan, filter berdasarkan kategori
-        // if ($categoryName) {
-        //     $query->whereHas('category', function ($q) use ($categoryName) {
-        //         $q->where('name', $categoryName);
-        //     });
-        // }
 
         if ($categoryName) {
-            $query->whereHas('countriesCategoriesNews', function ($q) use ($categoryName) {
-                $q->whereHas('category', function ($q) use ($categoryName) {
-                    $q->where('name', $categoryName);
-                });
+            $query->whereHas('countriesCategoriesNews.category', function ($q) use ($categoryName) {
+                $q->where('name', $categoryName);
             });
         }
 
-        // Order by DESC berdasarkan created_at (atau updated_at jika lebih sesuai)
-        $news = $query->orderBy('created_at', 'desc')->paginate($perPage, ['*'], 'page', $page);
+        // Tambahkan DISTINCT untuk mencegah duplikat karena join
+        $query->select('news.*')->distinct();
+
+        //$news = $query->orderBy('created_at', 'desc')->paginate($perPage, ['*'], 'page', $page);
+        $news = $query->orderBy('id', 'desc')->paginate($perPage, ['*'], 'page', $page);
 
         $data = $news->map(function ($item) {
             $baseUrl = env('APP_URL', url('/'));
 
-            // Menentukan date berdasarkan created_at atau updated_at
-            $date = $item->updated_at ? $item->updated_at : $item->created_at;
-            $formattedDate = $date->format('F j, Y'); // Format tanggal sesuai kebutuhan
-            $keywords = explode(' ', $item->title);
+            $date = $item->updated_at ?: $item->created_at;
+            $formattedDate = $date->format('F j, Y');
+
             $categories = $item->countriesCategoriesNews->map(function ($ccn) {
                 return $ccn->category ? $ccn->category->name : null;
-            })->filter()->unique()->values()->toArray(); // Hapus null, duplikasi, dan reset indeks array
-
+            })->filter()->unique()->values()->toArray();
 
             $newssugestion = $this->newssugestions($item);
 
@@ -78,23 +64,21 @@ class NewsController extends Controller
                 'title' => $item->title,
                 'short_desc' => $item->short_desc,
                 'image_url' => $item->image ? $baseUrl . '/storage/' . $item->image : null,
-                //'category' => $item->category ? $item->category->name : 'Uncategorized', // Pastikan category tidak null
-                'category' => $categories, // Array string kategori
+                'category' => $categories,
                 'date' => $formattedDate,
-                'sugestion' => $newssugestion                // 'is_breaking_news' => $item->is_breaking_news
+                'sugestion' => $newssugestion
             ];
         });
 
-        return response()->json(
-            [
-                'page' => $news->currentPage(),
-                'limit' => $news->perPage(),
-                'total_page' => $news->lastPage(),
-                'total_news' => $news->total(),
-                'data' => $data,
-            ]
-        );
+        return response()->json([
+            'page' => $news->currentPage(),
+            'limit' => $news->perPage(),
+            'total_page' => $news->lastPage(),
+            'total_news' => $news->total(),
+            'data' => $data,
+        ]);
     }
+
 
     public function newssugestions($item)
     {
