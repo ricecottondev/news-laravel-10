@@ -210,4 +210,33 @@
             @endforeach
         </div>
     </section>
+
+    @foreach ($groupedByCategory as $categoryName => $newsList)
+    <section class="mb-5">
+        <h2 class="h4 mb-4">{{ $categoryName }}</h2>
+        <div class="row">
+            @foreach ($newsList->take(9) as $news) {{-- HANYA AMBIL 9 --}}
+                <div class="col-md-4 news-box">
+                    <div class="d-flex">
+                        @if ($news->image)
+                            <img src="{{ asset('storage/' . $news->image) }}" alt="{{ $news->title }}"
+                                class="news-image me-3">
+                        @endif
+                        <div>
+                            <a href="{{ route('front.news.show', $news->slug) }}" class="news-title d-block mb-1">
+                                {{ $news->title }}
+                            </a>
+                            <p class="news-snippet">{{ Str::before(strip_tags($news->content), '.') }}.</p>
+                            <small class="text-muted">
+                                <i class="fas fa-calendar-alt"></i>
+                                {{ $news->created_at ? $news->created_at->format('d M Y') : 'Tanggal Tidak Tersedia' }}
+                                | <i class="fas fa-eye"></i> {{ $news->views ?? 0 }} Views
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            @endforeach
+        </div>
+    </section>
+@endforeach
 @endsection

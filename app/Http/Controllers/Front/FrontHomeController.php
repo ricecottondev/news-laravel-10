@@ -51,7 +51,22 @@ class FrontHomeController extends Controller
             ->limit(6)->get();
         $topnews = News::where('status', 'published')->orderBy('id', 'desc')->limit(5)->get();
         $news = News::where('status', 'published')->orderBy('id', 'desc')->limit(6)->get();
-        return view('front.home', compact("breaking_news", "topnews", "news","today_news","not_today_news"));
+
+
+        $newsbycountry = News::with(['category', 'countriesCategoriesNews.country', 'countriesCategoriesNews.category'])
+            ->whereHas('countriesCategoriesNews.country', function ($q) {
+                $q->where('country_name', 'Australia');
+            })
+            ->orderBy('id', 'desc')
+            ->where('status', 'published')
+            ->get();
+
+        // Kelompokkan berita berdasarkan kategori
+        $groupedByCategory = $newsbycountry->groupBy(function ($item) {
+            return optional($item->countriesCategoriesNews->first()?->category)->name ?? 'Uncategorized';
+        });
+
+        return view('front.home', compact("breaking_news", "topnews", "news", "today_news", "not_today_news", "groupedByCategory"));
 
         dd("ini home");
         #Get Data Auth user
