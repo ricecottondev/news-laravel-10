@@ -53,31 +53,31 @@ class FrontNewsController extends Controller
 
         // Cek apakah user login
         // $this->cek_subs();
-        if (auth()->check()) {
-            $user = auth()->user();
+        // if (auth()->check()) {
+        //     $user = auth()->user();
 
-            // Ambil semua subscribe user yang masih aktif
-            $today = now()->toDateString();
-            $isSubscribed = $user->subscribes()
-                ->where('status', 'active')
-                ->whereDate('start_date', '<=', $today)
-                ->whereDate('end_date', '>=', $today)
-                ->exists(); // Cek apakah ada setidaknya satu subscribe yang masih berlaku
+        //     // Ambil semua subscribe user yang masih aktif
+        //     $today = now()->toDateString();
+        //     $isSubscribed = $user->subscribes()
+        //         ->where('status', 'active')
+        //         ->whereDate('start_date', '<=', $today)
+        //         ->whereDate('end_date', '>=', $today)
+        //         ->exists(); // Cek apakah ada setidaknya satu subscribe yang masih berlaku
 
-            if (!$isSubscribed) {
-                // Batas 5 berita untuk user yang belum subscribe
-                $viewCountKey = "user_{$user->id}_view_count";
-                $viewCount = session()->get($viewCountKey, 0);
+        //     if (!$isSubscribed) {
+        //         // Batas 5 berita untuk user yang belum subscribe
+        //         $viewCountKey = "user_{$user->id}_view_count";
+        //         $viewCount = session()->get($viewCountKey, 0);
 
-                if ($viewCount >= 5) {
-                    return redirect()->route('subscribe')
-                        ->with('error', 'Anda telah mencapai batas membaca berita hari ini. Silakan berlangganan untuk akses tak terbatas.');
-                }
+        //         if ($viewCount >= 5) {
+        //             return redirect()->route('subscribe')
+        //                 ->with('error', 'Anda telah mencapai batas membaca berita hari ini. Silakan berlangganan untuk akses tak terbatas.');
+        //         }
 
-                // Tambahkan jumlah berita yang dibaca
-                session()->put($viewCountKey, $viewCount + 1);
-            }
-        } else {
+        //         // Tambahkan jumlah berita yang dibaca
+        //         session()->put($viewCountKey, $viewCount + 1);
+        //     }
+        // } else {
             // Jika user belum login, batasi hanya 3 berita per hari
             $viewCountKey = "guest_view_count";
             $viewCount = session()->get($viewCountKey, 0);
@@ -89,7 +89,7 @@ class FrontNewsController extends Controller
 
             // Tambahkan jumlah berita yang dibaca
             session()->put($viewCountKey, $viewCount + 1);
-        }
+        // }
 
         // Tambahkan view count ke berita
         $news->increment('views');
