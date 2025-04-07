@@ -15,6 +15,8 @@ use App\Models\Category;
 use App\Models\News;
 use Illuminate\Support\Carbon;
 
+use GeoIP;
+
 class FrontHomeController extends Controller
 {
 
@@ -36,6 +38,10 @@ class FrontHomeController extends Controller
 
     public function index(Request $request)
     {
+
+        $location = geoip()->getLocation();
+
+        dd($location);
         $breaking_news = News::where('status', 'published')
             ->where("is_breaking_news", 1)
             ->orderBy('id', 'desc')->limit(3)->get();
