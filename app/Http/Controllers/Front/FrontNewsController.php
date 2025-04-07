@@ -83,8 +83,8 @@ class FrontNewsController extends Controller
             $viewCount = session()->get($viewCountKey, 0);
 
             // if ($viewCount >= 3) {
-                return redirect()->route('login')
-                    ->with('error', 'Anda telah mencapai batas membaca berita hari ini. Silakan login untuk membaca lebih banyak.');
+                // return redirect()->route('login')
+                //     ->with('error', 'Anda telah mencapai batas membaca berita hari ini. Silakan login untuk membaca lebih banyak.');
             // }
 
             // Tambahkan jumlah berita yang dibaca
