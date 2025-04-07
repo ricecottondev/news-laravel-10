@@ -42,6 +42,9 @@
                                     Select Country & Category
                                 </button>
 
+                                <a href="{{ url('assets/template-excel/master_data_excel.xlsx') }}"
+                                class="btn btn-info "></i>Template Excel</a>
+
                                 <h2>How to Upload News Data via Excel</h2>
                                 <ol>
                                     <li><strong>Select a Country:</strong>
