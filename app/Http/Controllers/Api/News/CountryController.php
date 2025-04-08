@@ -18,8 +18,22 @@ class CountryController extends Controller
     {
         $query = Country::orderBy('country_name', 'asc')->pluck('country_name')->toArray();
 
+        // Mapping region
+        $asiaCountries = ['indonesia', 'malaysia', 'singapore', 'japan', 'india', 'thailand', 'philippines', 'vietnam', 'south korea'];
+        $europeCountries = ['united kingdom', 'germany', 'france', 'italy', 'netherlands', 'spain', 'sweden', 'switzerland', 'norway', 'denmark'];
+
+
         if ($request->has('country')) {
-            $selectedCountry = $request->input('country');
+            $selectedCountry = strtolower($request->input('country'));
+
+            // Mapping negara ke region
+            if (in_array($selectedCountry, $asiaCountries)) {
+                $selectedCountry = 'asia';
+            } elseif (in_array($selectedCountry, $europeCountries)) {
+                $selectedCountry = 'europe';
+            } elseif ($selectedCountry === 'united states') {
+                $selectedCountry = 'usa';
+            }
 
             // Pisahkan negara yang sesuai dengan parameter
             $filtered = array_filter($query, function ($name) use ($selectedCountry) {
