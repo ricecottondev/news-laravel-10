@@ -407,7 +407,7 @@ class NewsController extends Controller
                 $q->whereHas('country', function ($q) use ($countryName) {
                     $q->where('country_name', $countryName);
                 });
-            });
+            })->limit(10);
         }
 
         // Jika category_name diberikan, filter berdasarkan kategori
