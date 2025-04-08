@@ -1,37 +1,36 @@
 @extends('front/layouts.layout')
 @section('content')
+    <style>
+        .news-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #1a1a1a;
+            text-decoration: none;
+        }
 
-<style>
-    .news-title {
-        font-size: 1.25rem;
-        font-weight: 700;
-        color: #1a1a1a;
-        text-decoration: none;
-    }
+        .news-title:hover {
+            text-decoration: underline;
+        }
 
-    .news-title:hover {
-        text-decoration: underline;
-    }
+        .news-snippet {
+            color: #4a4a4a;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
 
-    .news-snippet {
-        color: #4a4a4a;
-        font-size: 0.95rem;
-        line-height: 1.5;
-    }
+        .news-container {
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
 
-    .news-container {
-        border-bottom: 1px solid #ddd;
-        padding-bottom: 1.5rem;
-        margin-bottom: 1.5rem;
-    }
-
-    .news-image {
-        width: 120px;
-        height: auto;
-        object-fit: cover;
-        border-radius: 5px;
-    }
-</style>
+        .news-image {
+            width: 120px;
+            height: auto;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+    </style>
     {{-- ========================================================Top News Headline===================================================== --}}
     <section class="mb-5">
         <div class="row">
@@ -44,7 +43,8 @@
                                 <div class="carousel-caption d-none d-md-block" style="background: white">
                                     <h5>{{ $bnews->title }}</h5>
                                     <p class="text-muted">{{ $bnews->short_desc }}</p>
-                                    <a href="{{ route('front.news.show', $bnews->slug) }}" class="text-dark text-decoration-none">Read more</a>
+                                    <a href="{{ route('front.news.show', $bnews->slug) }}"
+                                        class="text-dark text-decoration-none">Read more</a>
                                 </div>
 
                             </div>
@@ -63,11 +63,10 @@
             </div>
             <div class="col-md-4">
                 @foreach ($topnews as $tnews)
-                <a class="text-decoration-none text-muted"
-                href="{{ route('front.news.show', $tnews->slug) }}">
+                    <a class="text-decoration-none text-muted" href="{{ route('front.news.show', $tnews->slug) }}">
 
 
-                {{-- <div class="d-flex mb-3">
+                        {{-- <div class="d-flex mb-3">
                         @if ($tnews->image)
                             <img src="{{ asset('storage/' . $tnews->image) }}" alt="News image showing a brief event"
                                 class="img-thumbnail me-3" width="150" height="100">
@@ -88,26 +87,27 @@
                     </div> --}}
 
 
-                    <div class="cd-flex mb-3 news-container">
-                        <div class="d-flex">
-                            <div class="flex-grow-1">
-                                <a href="{{ route('front.news.show', $tnews->slug) }}" class="news-title d-block mb-1">
-                                    {{ $tnews->title }}
-                                </a>
-                                <p class="news-snippet">
-                                    {{ Str::before(Str::limit(strip_tags($tnews->content), 100), '.') }}.
-                                </p>
+                        <div class="cd-flex mb-3 news-container">
+                            <div class="d-flex">
+                                <div class="flex-grow-1">
+                                    <a href="{{ route('front.news.show', $tnews->slug) }}" class="news-title d-block mb-1">
+                                        {{ $tnews->title }}
+                                    </a>
+                                    <p class="news-snippet">
+                                        {{ Str::before(Str::limit(strip_tags($tnews->content), 100), '.') }}.
+                                    </p>
 
-                            </div>
-                            @if($tnews->image)
-                                <div class="ms-3" style="flex-shrink: 0; width: 120px;">
-                                    <img src="{{ asset('storage/' . $tnews->image) }}" class="img-fluid rounded" alt="{{ $tnews->title }}">
                                 </div>
-                            @endif
+                                @if ($tnews->image)
+                                    <div class="ms-3" style="flex-shrink: 0; width: 120px;">
+                                        <img src="{{ asset('storage/' . $tnews->image) }}" class="img-fluid rounded"
+                                            alt="{{ $tnews->title }}">
+                                    </div>
+                                @endif
+                            </div>
                         </div>
-                    </div>
 
-                </a>
+                    </a>
                 @endforeach
 
 
@@ -130,7 +130,7 @@
                             @if ($news->image)
                                 <img src="{{ asset('storage/' . $news->image) }}" alt="News image showing a brief event"
                                     class="img-thumbnail me-3" width="150" height="100">
-                            {{-- @else
+                                {{-- @else
                                 <img src="/images/imagenotavailable.jpg" alt="News image showing a brief event"
                                     class="img-thumbnail me-3" width="150" height="100"> --}}
                             @endif
@@ -198,45 +198,54 @@
                             </p>
                             {{-- Jika kamu punya informasi penulis --}}
                             {{-- <small class="text-secondary">By {{ $ntnews->author_name }}</small> --}}
+                            <small class="text-muted">
+                                <i class="fas fa-calendar-alt"></i>
+                                {{ $ntnews->created_at ? $ntnews->created_at->format('d M Y') : 'Tanggal Tidak Tersedia' }}
+                                | <i class="fas fa-eye"></i> {{ $ntnews->views ?? 0 }} Views
+                            </small>
                         </div>
-                        @if($ntnews->image)
+                        @if ($ntnews->image)
                             <div class="ms-3" style="flex-shrink: 0; width: 120px;">
-                                <img src="{{ asset('storage/' . $ntnews->image) }}" class="img-fluid rounded" alt="{{ $ntnews->title }}">
+                                <img src="{{ asset('storage/' . $ntnews->image) }}" class="img-fluid rounded"
+                                    alt="{{ $ntnews->title }}">
                             </div>
                         @endif
+
+
+
                     </div>
                 </div>
-
             @endforeach
         </div>
     </section>
 
     @foreach ($groupedByCategory as $categoryName => $newsList)
-    <section class="mb-5">
-        <h2 class="h4 mb-4">{{ $categoryName }}</h2>
-        <div class="row">
-            @foreach ($newsList->take(9) as $news) {{-- HANYA AMBIL 9 --}}
-                <div class="col-md-4 news-box">
-                    <div class="d-flex">
-                        @if ($news->image)
-                            <img src="{{ asset('storage/' . $news->image) }}" alt="{{ $news->title }}"
-                                class="news-image me-3">
-                        @endif
-                        <div>
-                            <a href="{{ route('front.news.show', $news->slug) }}" class="news-title d-block mb-1">
-                                {{ $news->title }}
-                            </a>
-                            <p class="news-snippet">{{ Str::before(strip_tags($news->content), '.') }}.</p>
-                            <small class="text-muted">
-                                <i class="fas fa-calendar-alt"></i>
-                                {{ $news->created_at ? $news->created_at->format('d M Y') : 'Tanggal Tidak Tersedia' }}
-                                | <i class="fas fa-eye"></i> {{ $news->views ?? 0 }} Views
-                            </small>
+        <section class="mb-5">
+            <h2 class="h4 mb-4">{{ $categoryName }}</h2>
+            <div class="row">
+                @foreach ($newsList->take(9) as $news)
+                    {{-- HANYA AMBIL 9 --}}
+                    <div class="col-md-4 news-box">
+                        <div class="d-flex">
+                            @if ($news->image)
+                                <img src="{{ asset('storage/' . $news->image) }}" alt="{{ $news->title }}"
+                                    class="news-image me-3">
+                            @endif
+                            <div>
+                                <a href="{{ route('front.news.show', $news->slug) }}" class="news-title d-block mb-1">
+                                    {{ $news->title }}
+                                </a>
+                                <p class="news-snippet">{{ Str::before(strip_tags($news->content), '.') }}.</p>
+                                <small class="text-muted">
+                                    <i class="fas fa-calendar-alt"></i>
+                                    {{ $news->created_at ? $news->created_at->format('d M Y') : 'Tanggal Tidak Tersedia' }}
+                                    | <i class="fas fa-eye"></i> {{ $news->views ?? 0 }} Views
+                                </small>
+                            </div>
                         </div>
                     </div>
-                </div>
-            @endforeach
-        </div>
-    </section>
-@endforeach
+                @endforeach
+            </div>
+        </section>
+    @endforeach
 @endsection

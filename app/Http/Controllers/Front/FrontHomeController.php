@@ -39,9 +39,93 @@ class FrontHomeController extends Controller
     public function index(Request $request)
     {
 
-        $location = geoip()->getLocation();
+        $countryGroups = [
+            'Asia' => [
+                'Indonesia',
+                'Brunei Darussalam',
+                'Kamboja',
+                'Filipina',
+                'Singapura',
+                'Thailand',
+                'Timor Leste',
+                'Laos',
+                'Vietnam',
+                'Malaysia',
+                'Myanmar'
+            ],
+            'USA' => ['USA'],
+            'China' => ['China'],
+            'Australia' => ['Australia'],
+            'Europe' => [
+                'Albania',
+                'Andorra',
+                'Armenia',
+                'Azerbaijan',
+                'Austria',
+                'Belanda',
+                'Belarus',
+                'Belgia',
+                'Bosnia',
+                'Herzegovina',
+                'Bulgaria',
+                'Kroasia',
+                'Siprus',
+                'Ceko',
+                'Denmark',
+                'Estonia',
+                'Finlandia',
+                'Prancis',
+                'Georgia',
+                'Jerman',
+                'Yunani',
+                'Hungaria',
+                'Islandia',
+                'Irlandia',
+                'Italia',
+                'Kazakhstan',
+                'Latvia',
+                'Liechtenstein',
+                'Lituania',
+                'Luksemburg',
+                'Makedonia Utara',
+                'Malta',
+                'Moldova',
+                'Monako',
+                'Montenegro',
+                'Norwegia',
+                'Polandia',
+                'Portugal',
+                'Rumania',
+                'Rusia',
+                'San Marino',
+                'Serbia',
+                'Slowakia',
+                'Slovenia',
+                'Spanyol',
+                'Swedia',
+                'Swiss',
+                'Turki',
+                'Ukraina',
+                'UK',
+                'Vatikan'
+            ]
+        ];
 
-        dd($location);
+
+        $location = geoip()->getLocation(); // hasilnya biasanya seperti ['country' => 'Indonesia']
+        $detectedCountry = $location->country ?? '';
+
+        // Cek apakah termasuk dalam kelompok
+        $defaultCountry = 'Australia'; // default fallback
+        foreach ($countryGroups as $group => $countries) {
+            if (in_array($detectedCountry, $countries)) {
+                $defaultCountry = $group;
+                break;
+            }
+        }
+
+        // dd( $defaultCountry);
+
         $breaking_news = News::where('status', 'published')
             ->where("is_breaking_news", 1)
             ->orderBy('id', 'desc')->limit(3)->get();
@@ -60,8 +144,8 @@ class FrontHomeController extends Controller
 
 
         $newsbycountry = News::with(['category', 'countriesCategoriesNews.country', 'countriesCategoriesNews.category'])
-            ->whereHas('countriesCategoriesNews.country', function ($q) {
-                $q->where('country_name', 'Australia');
+            ->whereHas('countriesCategoriesNews.country', function ($q) use ($defaultCountry) {
+                $q->where('country_name', $defaultCountry);
             })
             ->orderBy('id', 'desc')
             ->where('status', 'published')

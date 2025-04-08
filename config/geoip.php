@@ -161,4 +161,21 @@ return [
         'currency' => 'AUD',
     ],
 
+    // 'default_location' => [
+    //     'ip' => '36.66.0.0', // IP publik Indonesia (contoh)
+    //     'iso_code' => 'ID',
+    //     'country' => 'Indonesia',
+    //     'city' => 'Jakarta',
+    //     'state' => 'JK',
+    //     'state_name' => 'DKI Jakarta',
+    //     'postal_code' => '10110',
+    //     'lat' => -6.2088,
+    //     'lon' => 106.8456,
+    //     'timezone' => 'Asia/Jakarta',
+    //     'continent' => 'AS',
+    //     'default' => true,
+    //     'currency' => 'IDR',
+    // ],
+
+
 ];
