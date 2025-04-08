@@ -85,7 +85,7 @@ return [
         // ],
 
         'ipapi' => [
-            'class' => \Torann\GeoIP\Services\IPAPI::class,
+            'class' => \Torann\GeoIP\Services\IPApi::class,
             'secure' => true, // pakai https
             'key' => null,    // kamu bisa isi kalau punya API key
             'locale' => 'en',
