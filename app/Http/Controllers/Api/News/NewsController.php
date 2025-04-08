@@ -24,6 +24,22 @@ class NewsController extends Controller
         $countryName = $request->input('country_name');
         $categoryName = $request->input('category_name');
 
+        // Mapping country ke region
+        $asiaCountries = ['indonesia', 'malaysia', 'singapore', 'japan', 'india', 'thailand', 'philippines', 'vietnam', 'south korea'];
+        $europeCountries = ['united kingdom', 'germany', 'france', 'italy', 'netherlands', 'spain', 'sweden', 'switzerland', 'norway', 'denmark'];
+
+        if ($countryName) {
+            $countryName = strtolower($countryName);
+
+            if (in_array($countryName, $asiaCountries)) {
+                $countryName = 'ASIA';
+            } elseif (in_array($countryName, $europeCountries)) {
+                $countryName = 'Europe';
+            } elseif ($countryName === 'united states') {
+                $countryName = 'USA';
+            }
+        }
+
         $perPage = $request->input('limit', 10);
         $page = $request->input('page', 1);
 
