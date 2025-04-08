@@ -15,6 +15,8 @@ use App\Models\Category;
 use App\Models\News;
 use Illuminate\Support\Carbon;
 
+use GeoIP;
+
 class FrontHomeController extends Controller
 {
 
@@ -36,6 +38,10 @@ class FrontHomeController extends Controller
 
     public function index(Request $request)
     {
+
+        $location = geoip()->getLocation();
+
+        dd($location);
         $breaking_news = News::where('status', 'published')
             ->where("is_breaking_news", 1)
             ->orderBy('id', 'desc')->limit(3)->get();
@@ -51,7 +57,22 @@ class FrontHomeController extends Controller
             ->limit(6)->get();
         $topnews = News::where('status', 'published')->orderBy('id', 'desc')->limit(5)->get();
         $news = News::where('status', 'published')->orderBy('id', 'desc')->limit(6)->get();
-        return view('front.home', compact("breaking_news", "topnews", "news","today_news","not_today_news"));
+
+
+        $newsbycountry = News::with(['category', 'countriesCategoriesNews.country', 'countriesCategoriesNews.category'])
+            ->whereHas('countriesCategoriesNews.country', function ($q) {
+                $q->where('country_name', 'Australia');
+            })
+            ->orderBy('id', 'desc')
+            ->where('status', 'published')
+            ->get();
+
+        // Kelompokkan berita berdasarkan kategori
+        $groupedByCategory = $newsbycountry->groupBy(function ($item) {
+            return optional($item->countriesCategoriesNews->first()?->category)->name ?? 'Uncategorized';
+        });
+
+        return view('front.home', compact("breaking_news", "topnews", "news", "today_news", "not_today_news", "groupedByCategory"));
 
         dd("ini home");
         #Get Data Auth user
