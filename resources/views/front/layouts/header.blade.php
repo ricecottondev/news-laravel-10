@@ -73,9 +73,36 @@
     </div>
 
     <!-- Breaking News Marquee -->
-    <marquee id="breaking-news" class="bg-danger text-white py-2 fw-bold">
-        Memuat berita terbaru...
-    </marquee>
+    @php
+        $defaultCountry = session('default_country');
+        $bgColor = match ($defaultCountry) {
+            'Australia' => '#19b5ee',
+            'Asia' => '#ef0810',
+            'Europe' => '#fea500',
+            'Africa' => '#ab2bb4',
+            'America' => '#0eaec4',
+            default => '#19b5ee', // default warna jika negara tidak terdefinisi
+        };
+
+    @endphp
+
+    @isset($topnews)
+    <div class="breaking-news-wrapper overflow-auto">
+        <marquee id="breaking-news"
+                 style="background-color: {{ $bgColor }};"
+                 class="text-white py-2 fw-bold"
+                 scrollamount="4">
+            @foreach ($topnews as $tnews)
+                <a href="{{ route('front.news.show', $tnews->slug) }}"
+                   class="text-white text-decoration-none me-4 d-inline-block">
+                    {{ $tnews->title }}
+                </a>
+            @endforeach
+        </marquee>
+    </div>
+    @endisset
+
+
 </header>
 
 <!-- CSS -->

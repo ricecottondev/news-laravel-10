@@ -41,19 +41,16 @@ class FrontHomeController extends Controller
 
 
         $ip = $this->getIpAddress();
-dump($ip);
+        // dump($ip);
         // if (!$this->isValidIpAddress($ip)) {
         //     abort(403, 'Invalid IP address');
         // }
-
         $geoLocationData = $this->getLocation($ip);
-
         // if (!$geoLocationData || !isset($geoLocationData['country'])) {
         //     abort(500, 'Failed to retrieve geolocation data');
         // }
-
         $country = $geoLocationData['country'];
-dump($country);
+        // dump($country);
         // switch ($country) {
         //     case 'Indonesia':
         //         header('Location: https://www.beta.sda.co.id');
@@ -140,9 +137,11 @@ dump($country);
         ];
 
 
-        $location = geoip()->getLocation(); // hasilnya biasanya seperti ['country' => 'Indonesia']
-        $detectedCountry = $location->country ?? '';
+        // $location = geoip()->getLocation(); // hasilnya biasanya seperti ['country' => 'Indonesia']
+        // $detectedCountry = $location->country ?? '';
 
+        $detectedCountry = $country; // Ganti dengan cara Anda mendeteksi negara
+        $detectedCountry = 'Australia';
         // Cek apakah termasuk dalam kelompok
         $defaultCountry = 'Australia'; // default fallback
         foreach ($countryGroups as $group => $countries) {
@@ -167,7 +166,7 @@ dump($country);
             ->whereDate('created_at', '<', Carbon::today())
             ->orderBy('id', 'desc')
             ->limit(6)->get();
-        $topnews = News::where('status', 'published')->orderBy('id', 'desc')->limit(9)->get();
+        $topnews = News::with(['category', 'countriesCategoriesNews'])->where('status', 'published')->orderBy('id', 'desc')->limit(9)->get();
         $news = News::where('status', 'published')->orderBy('id', 'desc')->limit(6)->get();
 
 
@@ -179,12 +178,26 @@ dump($country);
             ->where('status', 'published')
             ->get();
 
-        // Kelompokkan berita berdasarkan kategori
-        $groupedByCategory = $newsbycountry->groupBy(function ($item) {
-            return optional($item->countriesCategoriesNews->first()?->category)->name ?? 'Uncategorized';
-        });
 
-        return view('front.home', compact("breaking_news", "topnews", "news", "today_news", "not_today_news", "groupedByCategory"));
+
+        // Kelompokkan berita berdasarkan kategori dengan breaking news
+        // $groupedByCategory = $newsbycountry->groupBy(function ($item) {
+        //     return optional($item->countriesCategoriesNews->first()?->category)->name ?? 'Uncategorized';
+        // });
+        // Kelompokkan berita berdasarkan kategori tanpa breaking news
+        $groupedByCategory = $newsbycountry
+            ->filter(function ($item) {
+                $categoryId = $item->countriesCategoriesNews->first()?->category_id;
+                return $categoryId != 8;
+            })
+            ->groupBy(function ($item) {
+                return optional($item->countriesCategoriesNews->first()?->category)->name ?? 'Uncategorized';
+            });
+        Session::forget('default_country');
+
+        Session::put('default_country', $defaultCountry);
+
+        return view('front.home', compact("breaking_news", "topnews", "news", "today_news", "not_today_news", "groupedByCategory", "defaultCountry"));
 
         dd("ini home");
         #Get Data Auth user
@@ -192,17 +205,10 @@ dump($country);
 
         #tampung semua data user pada variable
         if ($user->hasRole('Member')) {
-
-
-
-
             $today = now();
             $fullUrl = url('/');
-
-
             return view(
                 'page-sdamember.beranda'
-
             );
         } else if ($user->hasRole('Admin')) {
             return redirect('dashboard');
@@ -297,5 +303,4 @@ dump($country);
         $response = json_decode($json, true);
         return $response ?? null;
     }
-
 }

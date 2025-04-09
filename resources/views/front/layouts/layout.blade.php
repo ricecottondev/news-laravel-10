@@ -23,6 +23,72 @@
             margin: 0;
         }
 
+        .news-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: #1a1a1a;
+            text-decoration: none;
+        }
+
+        .news-title-detail {
+            font-size: 28px;
+            font-weight: 700;
+            color: #1a1a1a;
+            text-decoration: none;
+        }
+
+        .news-sugestion {
+            font-size: 14px;
+            font-weight: 700;
+            color: #696969;
+            text-decoration: none;
+        }
+
+        .news-title-after-first {
+            font-size: 14px;
+            font-weight: 700;
+            color: #535353;
+        }
+
+        .news-title:hover {
+            text-decoration: underline;
+        }
+
+        .news-snippet {
+            /* color: #4a4a4a;
+            font-size: 14px;
+            line-height: 1.5;*/
+            text-align: justify;
+            text-justify: inter-word;
+            /* opsional untuk kontrol jarak antar kata */
+            margin-bottom: 0.5rem;
+            /* mb-2 */
+            color: #6c757d;
+            /* text-muted */
+            font-size: 0.875rem;
+            /* small */
+
+
+        }
+
+        .custom-shadow {
+            box-shadow: 0 0.5rem 1rem rgba(10, 0, 65, 0.3);
+            /* #19b5ee with 30% opacity */
+        }
+
+        .news-container {
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .news-image {
+            width: 120px;
+            height: auto;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+
         .content-wrapper {
             flex: 1;
             display: flex;
@@ -37,6 +103,7 @@
             margin-top: auto;
         }
     </style>
+
 </head>
 
 <body class="bg-light">

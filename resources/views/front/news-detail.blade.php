@@ -2,21 +2,26 @@
 
 @section('content')
     <div class="container bg-white p-4">
+
         @if (session('error'))
-            <div class="alert alert-danger">
-                {{ session('error') }}
+            <div class="alert alert-danger">{{ session('error') }}</div>
+        @endif
+
+        <div class="news-container">
+            <div class="news-title-detail mb-3">{{ $news->title }}</div>
+            <p class="text-secondary mb-4">{{ $news->short_desc }}</p>
+
+            @if ($news->image)
+                <div class="mb-4 text-center">
+                    <img src="{{ asset('storage/' . $news->image) }}" alt="{{ $news->slug }}" class="img-fluid rounded"
+                        style="max-height: 400px; width: auto; object-fit: cover;">
+                </div>
+            @endif
+
+            <div class="news-snippet mb-4">
+                {!! $news->content !!}
             </div>
-        @endif
-        <h1 class="display-5 fw-bold mb-3">{{ $news->title }}</h1>
-        <p class="text-secondary mb-4">{{ $news->short_desc }}</p>
-
-        @if ($news->image)
-            <img src="{{ asset('storage/' . $news->image) }}" alt="{{ $news->slug }}" class="img-fluid mb-4">
-        @else
-            <img src="/images/imagenotavailable.jpg" alt="image not available" class="img-fluid mb-4">
-        @endif
-
-        <p class="text-secondary mb-4 text-justify">{{ $news->content }}</p>
+        </div>
 
         <!-- Comments Section -->
         <h4 class="mt-5">Comments ({{ $news->comments->count() }})</h4>
@@ -26,16 +31,12 @@
                     <strong>{{ $comment->user->name }}</strong> - {{ $comment->created_at->diffForHumans() }}
                     <p class="mb-2">{{ $comment->comment }}</p>
 
-                    <!-- Reply Button -->
-                    {{-- <button class="btn btn-sm btn-primary reply-btn" data-id="{{ $comment->id }}">Reply</button> --}}
                     @auth
                         <button class="btn btn-sm btn-outline-primary reply-btn" data-id="{{ $comment->id }}">
                             Reply
                         </button>
-                    @else
                     @endauth
 
-                    <!-- Display Replies -->
                     @foreach ($comment->replies as $reply)
                         <div class="ms-4 border-start ps-3 mt-2">
                             <strong>{{ $reply->user->name }}</strong> - {{ $reply->created_at->diffForHumans() }}
@@ -49,11 +50,9 @@
         <!-- Comment Form -->
         @auth
             <h5 class="mt-4">Leave a Reply</h5>
-
             <form action="{{ route('news.comment', $news->id) }}" method="POST">
                 @csrf
                 <input type="hidden" name="parent_id" id="parent_id" value="">
-
                 <div class="mb-3">
                     <textarea class="form-control" name="comment" rows="4" placeholder="Comment..." required></textarea>
                 </div>
@@ -63,19 +62,22 @@
             <p><a href="{{ route('login') }}">Login</a> to leave a comment.</p>
         @endauth
 
-
+        <!-- Suggested News -->
         @if ($suggestedNews->isNotEmpty())
             <div class="mt-5">
-                <h4>Sugestions</h4>
+                <h4>Suggestions</h4>
                 <ul>
                     @foreach ($suggestedNews as $suggestion)
                         <li>
-                            <a href="{{ route('front.news.show', $suggestion->slug) }}">{{ $suggestion->title }}</a>
+                            <a href="{{ route('front.news.show', $suggestion->slug) }}" class="news-sugestion">
+                                {{ $suggestion->title }}
+                            </a>
                         </li>
                     @endforeach
                 </ul>
             </div>
         @endif
+
     </div>
 
     <!-- Modal for Reply Comment -->
@@ -102,14 +104,12 @@
         </div>
     </div>
 
-
     <script>
         document.querySelectorAll('.reply-btn').forEach(button => {
             button.addEventListener('click', function() {
-                let parentId = this.dataset.id;
+                const parentId = this.dataset.id;
                 document.getElementById('reply_parent_id').value = parentId;
-
-                let replyModal = new bootstrap.Modal(document.getElementById('replyModal'));
+                const replyModal = new bootstrap.Modal(document.getElementById('replyModal'));
                 replyModal.show();
             });
         });

@@ -129,6 +129,7 @@ Route::get('/news/{slug}', [FrontNewsController::class, 'show'])->name('front.ne
 Route::get('/newscategory/{category}', [FrontNewsController::class, 'shownewsbycategory'])->name('front.news.shownewsbycategory');
 
 Route::get('/{country}/newscategory/{category}', [FrontNewsController::class, 'shownewsbycategoryandCountry'])->name('front.news.shownewsbycategoryandCountry');
+Route::get('/{country}/news', [FrontNewsController::class, 'shownewsbyCountry'])->name('front.news.shownewsbyCountry');
 
 Route::get('/search', [FrontNewsController::class, 'search'])->name('news.search');
 
