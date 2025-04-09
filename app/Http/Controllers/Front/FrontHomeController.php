@@ -54,17 +54,17 @@ dump($ip);
 
         $country = $geoLocationData['country'];
 
-        switch ($country) {
-            case 'Indonesia':
-                header('Location: https://www.beta.sda.co.id');
-                exit;
-            case 'Singapore':
-                header('Location: https://www.sda.co.id');
-                exit;
-            default:
-                header('Location: https://www.sda.co.id');
-                exit;
-        }
+        // switch ($country) {
+        //     case 'Indonesia':
+        //         header('Location: https://www.beta.sda.co.id');
+        //         exit;
+        //     case 'Singapore':
+        //         header('Location: https://www.sda.co.id');
+        //         exit;
+        //     default:
+        //         header('Location: https://www.sda.co.id');
+        //         exit;
+        // }
 
 
         $countryGroups = [
