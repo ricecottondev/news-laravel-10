@@ -33,6 +33,40 @@ class FrontNewsController extends Controller
         return view('front.news');
     }
 
+    private function splitParagraphsBySentences($htmlContent)
+    {
+        // Strip tags to split based on sentences
+        $text = strip_tags($htmlContent);
+        $sentences = preg_split('/(?<=[.!?])\s+/', $text, -1, PREG_SPLIT_NO_EMPTY);
+
+        $paragraphs = [];
+        $current = '';
+
+        foreach ($sentences as $sentence) {
+            $wordCount = str_word_count($current . ' ' . $sentence);
+
+            if ($wordCount >= 15) {
+                $paragraphs[] = trim($current);
+                $current = $sentence;
+            } else {
+                $current .= ' ' . $sentence;
+            }
+        }
+
+        // Add the last paragraph
+        if (trim($current)) {
+            $paragraphs[] = trim($current);
+        }
+
+        // Wrap each group in <p>
+        $html = '';
+        foreach ($paragraphs as $para) {
+            $html .= '<p>' . e($para) . '</p>';
+        }
+
+        return $html;
+    }
+
     public function show($slug)
     {
 
@@ -78,23 +112,24 @@ class FrontNewsController extends Controller
         //         session()->put($viewCountKey, $viewCount + 1);
         //     }
         // } else {
-            // Jika user belum login, batasi hanya 3 berita per hari
-            $viewCountKey = "guest_view_count";
-            $viewCount = session()->get($viewCountKey, 0);
+        // Jika user belum login, batasi hanya 3 berita per hari
+        $viewCountKey = "guest_view_count";
+        $viewCount = session()->get($viewCountKey, 0);
 
-            // if ($viewCount >= 3) {
-                // return redirect()->route('login')
-                //     ->with('error', 'Anda telah mencapai batas membaca berita hari ini. Silakan login untuk membaca lebih banyak.');
-            // }
+        // if ($viewCount >= 3) {
+        // return redirect()->route('login')
+        //     ->with('error', 'Anda telah mencapai batas membaca berita hari ini. Silakan login untuk membaca lebih banyak.');
+        // }
 
-            // Tambahkan jumlah berita yang dibaca
-            session()->put($viewCountKey, $viewCount + 1);
+        // Tambahkan jumlah berita yang dibaca
+        session()->put($viewCountKey, $viewCount + 1);
         // }
 
         // Tambahkan view count ke berita
         $news->increment('views');
+        $processedContent = $this->splitParagraphsBySentences($news->content);
 
-        return view('front.news-detail', compact("news", 'suggestedNews'));
+        return view('front.news-detail', compact("news", 'suggestedNews', 'processedContent'));
     }
 
     public function cek_subs()
@@ -171,7 +206,7 @@ class FrontNewsController extends Controller
         return view('front.news-by-category', compact("news", "categoryName"));
     }
 
-    public function shownewsbycategoryandCountry($country,$category)
+    public function shownewsbycategoryandCountry($country, $category)
     {
         // Mengambil parameter dari request
         $countryName = $country;
