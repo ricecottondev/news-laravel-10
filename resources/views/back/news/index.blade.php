@@ -21,18 +21,18 @@
                             </ul>
                         </div>
                         {{-- <div class="d-flex align-items-center gap-2 gap-lg-3">
-                            <a href="{{ route('news.create') }}" class="btn btn-sm btn-primary"><i
+                            <a href="{{ route('news-master.create') }}" class="btn btn-sm btn-primary"><i
                                     class="ki-duotone ki-plus "></i>Add News</a>
                         </div> --}}
 
                         <div class="d-flex align-items-center gap-2 gap-lg-3">
 
-                            <a href="{{ route('news.bulk-form') }}" class="btn btn-sm btn-dark"><i
+                            <a href="{{ route('news-master.bulk-form') }}" class="btn btn-sm btn-dark"><i
                                     class="ki-duotone ki-plus "></i>add bulk News</a>
 
                             <a href="{{ url('assets/template-excel/master_data_excel.xlsx') }}"
                                 class="btn btn-sm btn-info "></i>Template Excel</a>
-                            <a href="{{ route('news.import.form') }}" class="btn btn-sm btn-primary"><i
+                            <a href="{{ route('news-master.import.form') }}" class="btn btn-sm btn-primary"><i
                                     class="ki-duotone ki-plus "></i>Import News</a>
                             <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#addNewsModal">
                                 <i class="ki-duotone ki-plus"></i> Add News
@@ -97,10 +97,10 @@
                                                 <td>{{ $item->author }}</td>
                                                 <td>{{ $item->status }}</td>
                                                 <td>
-                                                    <a href="{{ route('news.edit', $item->id) }}"
+                                                    <a href="{{ route('news-master.edit', $item->id) }}"
                                                         class="btn btn-sm btn-outline btn-outline-dashed btn-outline-default px-4 me-2"><i
                                                             class="fas fa-edit"></i></a>
-                                                    <form action="{{ route('news.destroy', $item->id) }}" method="POST"
+                                                    <form action="{{ route('news-master.destroy', $item->id) }}" method="POST"
                                                         style="display:inline;">
                                                         @csrf
                                                         @method('DELETE')

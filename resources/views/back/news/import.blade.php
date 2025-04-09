@@ -79,7 +79,7 @@
                                 </ol>
 
                                 {{-- Form Import Excel --}}
-                                <form id="importForm" action="{{ route('news.import') }}" method="POST"
+                                <form id="importForm" action="{{ route('news-master.import') }}" method="POST"
                                     enctype="multipart/form-data" style="display: none;">
                                     @csrf
                                     <input type="hidden" name="country_id" id="selected_country_id">
@@ -89,7 +89,7 @@
                                         <label class="form-label">Upload Excel File:</label>
                                         <input type="file" name="file" class="form-control" required>
                                     </div>
-                                    <a href="{{ route('news.index') }}" class="btn btn-secondary">Back</a>
+                                    <a href="{{ route('news-master.index') }}" class="btn btn-secondary">Back</a>
                                     <button type="submit" class="btn btn-primary">Import</button>
                                 </form>
                             </div>

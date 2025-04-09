@@ -15,7 +15,7 @@ use App\Imports\NewsImport;
 use App\Models\News;
 
 
-class NewsController extends Controller
+class BackNewsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -24,6 +24,7 @@ class NewsController extends Controller
      */
     public function index()
     {
+        // dd("test");
         $countries = Country::all();
         $categories = Category::all(); // Ambil semua kategori
         // $countriescategoriesnews = $news->countriesCategoriesNews()->get();

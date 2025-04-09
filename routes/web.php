@@ -84,7 +84,7 @@ use App\Http\Controllers\Back\OnepointSocialAccount\SocialAccountController;
 
 use App\Http\Controllers\Admin\FileController;
 use App\Http\Controllers\Back\Categories\CategoryController;
-use App\Http\Controllers\Back\News\NewsController;
+use App\Http\Controllers\Back\News\BackNewsController;
 use App\Http\Controllers\Back\Country\CountryController;
 
 use App\Http\Controllers\Back\ChatGPTController;
@@ -204,8 +204,10 @@ Route::get('/setting_web', [App\Http\Controllers\Back\Setting_web\SettingWebCont
 
 Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
-Route::get('back/news/import', [NewsController::class, 'importForm'])->name('news.import.form');
-Route::get('back/news/bulkcreate', [NewsController::class, 'bulkForm'])->name('news.bulk-form');
+
+
+Route::get('back/news-master/import', [BackNewsController::class, 'importForm'])->name('news-master.import.form');
+Route::get('back/news-master/bulkcreate', [BackNewsController::class, 'bulkForm'])->name('news-master.bulk-form');
 
 Route::post('loginas', [UserController::class, 'loginas'])->name('users.loginas');
 Route::get('loginas', [UserController::class, 'loginas'])->name('users.loginas');
@@ -220,10 +222,10 @@ Route::group(['middleware' => ['auth']], function () {
     // Rute untuk cateqgory
     Route::resource('back/categories', CategoryController::class);
     // Rute untuk berita
-    Route::resource('back/news', NewsController::class);
+    Route::resource('back/news-master', BackNewsController::class);
 
 
-    Route::post('back/news/import', [NewsController::class, 'import'])->name('news.import');
+    Route::post('back/news-master/import', [BackNewsController::class, 'import'])->name('news-master.import');
 
 
     // Rute untuk subscribe

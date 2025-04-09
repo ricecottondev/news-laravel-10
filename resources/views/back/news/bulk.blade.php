@@ -172,7 +172,7 @@
             // Submit Form
             $('#newsForm').submit(function(e) {
                 e.preventDefault();
-                $.post("{{ route('news.bulk-save') }}", $(this).serialize(), function(response) {
+                $.post("{{ route('news-master.bulk-save') }}", $(this).serialize(), function(response) {
                     alert(response.message);
                     window.location.href = '/back/news';
                 });
