@@ -39,6 +39,34 @@ class FrontHomeController extends Controller
     public function index(Request $request)
     {
 
+
+        $ip = $this->getIpAddress();
+dump($ip);
+        // if (!$this->isValidIpAddress($ip)) {
+        //     abort(403, 'Invalid IP address');
+        // }
+
+        $geoLocationData = $this->getLocation($ip);
+
+        // if (!$geoLocationData || !isset($geoLocationData['country'])) {
+        //     abort(500, 'Failed to retrieve geolocation data');
+        // }
+
+        $country = $geoLocationData['country'];
+
+        switch ($country) {
+            case 'Indonesia':
+                header('Location: https://www.beta.sda.co.id');
+                exit;
+            case 'Singapore':
+                header('Location: https://www.sda.co.id');
+                exit;
+            default:
+                header('Location: https://www.sda.co.id');
+                exit;
+        }
+
+
         $countryGroups = [
             'Asia' => [
                 'Indonesia',
@@ -139,7 +167,7 @@ class FrontHomeController extends Controller
             ->whereDate('created_at', '<', Carbon::today())
             ->orderBy('id', 'desc')
             ->limit(6)->get();
-        $topnews = News::where('status', 'published')->orderBy('id', 'desc')->limit(5)->get();
+        $topnews = News::where('status', 'published')->orderBy('id', 'desc')->limit(9)->get();
         $news = News::where('status', 'published')->orderBy('id', 'desc')->limit(6)->get();
 
 
@@ -219,4 +247,55 @@ class FrontHomeController extends Controller
     {
         return view('front.subscribes');
     }
+
+
+    // ===============================================================================================
+
+    public function getIpAddress()
+    {
+        $ipAddress = '';
+        if (! empty($_SERVER['HTTP_CLIENT_IP']) && $this->isValidIpAddress($_SERVER['HTTP_CLIENT_IP'])) {
+            $ipAddress = $_SERVER['HTTP_CLIENT_IP'];
+        } elseif (! empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+            $ipList = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']);
+            foreach ($ipList as $ip) {
+                if ($this->isValidIpAddress(trim($ip))) {
+                    $ipAddress = trim($ip);
+                    break;
+                }
+            }
+        } elseif (! empty($_SERVER['HTTP_X_FORWARDED']) && $this->isValidIpAddress($_SERVER['HTTP_X_FORWARDED'])) {
+            $ipAddress = $_SERVER['HTTP_X_FORWARDED'];
+        } elseif (! empty($_SERVER['HTTP_X_CLUSTER_CLIENT_IP']) && $this->isValidIpAddress($_SERVER['HTTP_X_CLUSTER_CLIENT_IP'])) {
+            $ipAddress = $_SERVER['HTTP_X_CLUSTER_CLIENT_IP'];
+        } elseif (! empty($_SERVER['HTTP_FORWARDED_FOR']) && $this->isValidIpAddress($_SERVER['HTTP_FORWARDED_FOR'])) {
+            $ipAddress = $_SERVER['HTTP_FORWARDED_FOR'];
+        } elseif (! empty($_SERVER['HTTP_FORWARDED']) && $this->isValidIpAddress($_SERVER['HTTP_FORWARDED'])) {
+            $ipAddress = $_SERVER['HTTP_FORWARDED'];
+        } elseif (! empty($_SERVER['REMOTE_ADDR']) && $this->isValidIpAddress($_SERVER['REMOTE_ADDR'])) {
+            $ipAddress = $_SERVER['REMOTE_ADDR'];
+        }
+        return $ipAddress;
+    }
+
+    public function isValidIpAddress($ip)
+    {
+        return filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE) !== false;
+    }
+
+    public function getLocation($ip)
+    {
+        $ch = curl_init('http://ipwhois.app/json/' . $ip);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $json = curl_exec($ch);
+        curl_close($ch);
+
+        if ($json === false) {
+            return null;
+        }
+
+        $response = json_decode($json, true);
+        return $response ?? null;
+    }
+
 }
