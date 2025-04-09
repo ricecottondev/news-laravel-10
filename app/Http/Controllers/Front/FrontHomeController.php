@@ -53,7 +53,7 @@ dump($ip);
         // }
 
         $country = $geoLocationData['country'];
-
+dump($country);
         // switch ($country) {
         //     case 'Indonesia':
         //         header('Location: https://www.beta.sda.co.id');
