@@ -50,7 +50,7 @@
                 We reserve the right to modify, update, or remove content from the app at our discretion, without prior notice. Users are encouraged to review the app regularly for updates. We also reserve the right to amend this Editorial Policy, and such changes will be posted here. Continued use of the app constitutes acceptance of the revised policy.</p>
 
                 <p><strong>9. User Feedback and Reporting</strong><br>
-                If you believe any content in the app infringes your intellectual property rights or violates any laws, please contact us immediately at [Insert Contact Information]. We will review any concerns raised and take appropriate action as necessary.</p>
+                If you believe any content in the app infringes your intellectual property rights or violates any laws, please contact us immediately at ricecottondev@gmail.com. We will review any concerns raised and take appropriate action as necessary.</p>
 
                 <p><strong>10. Contact Us</strong><br>
                 For any questions regarding this Editorial Policy, please contact us at ricecottondev@gmail.com.</p>
