@@ -32,7 +32,8 @@ class News extends Model
         'slug',
         'status',
         'image',
-        'views'
+        'views',
+        'created_at',
     ];
 
     /**
@@ -41,7 +42,7 @@ class News extends Model
      * @var array
      */
     protected $hidden = [
-        'created_at',
+        // 'created_at',
         'updated_at',
     ];
 

@@ -42,7 +42,7 @@
                                     Select Country & Category
                                 </button>
 
-                                <a href="{{ url('assets/template-excel/master_data_excel.xlsx') }}"
+                                <a href="{{ url('assets/template-excel/master_data_excel_v2.xlsx') }}"
                                 class="btn btn-info "></i>Template Excel</a>
 
                                 <h2>How to Upload News Data via Excel</h2>
@@ -106,7 +106,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Select Country & Category</h5>
+                    <h5 class="modal-title">Select Country</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -120,12 +120,12 @@
                         </select>
                     </div>
 
-                    <div class="mb-3">
+                    {{-- <div class="mb-3">
                         <label class="form-label">Category</label>
                         <select id="category" class="form-control" required>
                             <option value="">-- Select Category --</option>
                         </select>
-                    </div>
+                    </div> --}}
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -139,46 +139,51 @@
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             let countrySelect = document.getElementById('country');
-            let categorySelect = document.getElementById('category');
+            // let categorySelect = document.getElementById('category');
             let confirmButton = document.getElementById('confirmSelection');
 
             // Saat country berubah, ambil category dengan AJAX
-            countrySelect.addEventListener('change', function() {
-                let countryId = this.value;
-                categorySelect.innerHTML = '<option value="">Loading...</option>'; // Tampilkan loading
-                console.log(countryId);
-                if (countryId) {
-                    fetch(`/api/get-categories/${countryId}`)
-                        .then(response => response.json())
-                        .then(data => {
-                            categorySelect.innerHTML =
-                            '<option value="">-- Select Category --</option>'; // Reset pilihan
-                            data.forEach(category => {
-                                categorySelect.innerHTML +=
-                                    `<option value="${category.id}">${category.name}</option>`;
-                            });
-                        })
-                        .catch(error => {
-                            console.error('Error:', error);
-                            categorySelect.innerHTML = '<option value="">Failed to load</option>';
-                        });
-                } else {
-                    categorySelect.innerHTML = '<option value="">-- Select Category --</option>';
-                }
-            });
+            // countrySelect.addEventListener('change', function() {
+            //     let countryId = this.value;
+            //     categorySelect.innerHTML = '<option value="">Loading...</option>';
+            //     console.log(countryId);
+            //     if (countryId) {
+            //         fetch(`/api/get-categories/${countryId}`)
+            //             .then(response => response.json())
+            //             .then(data => {
+            //                 categorySelect.innerHTML =
+            //                 '<option value="">-- Select Category --</option>';
+            //                 data.forEach(category => {
+            //                     categorySelect.innerHTML +=
+            //                         `<option value="${category.id}">${category.name}</option>`;
+            //                 });
+            //             })
+            //             .catch(error => {
+            //                 console.error('Error:', error);
+            //                 categorySelect.innerHTML = '<option value="">Failed to load</option>';
+            //             });
+            //     } else {
+            //         categorySelect.innerHTML = '<option value="">-- Select Category --</option>';
+            //     }
+            // });
 
             // Saat tombol confirm di modal ditekan
             confirmButton.addEventListener('click', function() {
                 let selectedCountry = countrySelect.value;
-                let selectedCategory = categorySelect.value;
+                // let selectedCategory = categorySelect.value;
 
-                if (!selectedCountry || !selectedCategory) {
-                    alert('Please select both Country and Category.');
+                // if (!selectedCountry || !selectedCategory) {
+                //     alert('Please select both Country and Category.');
+                //     return;
+                // }
+
+                if (!selectedCountry) {
+                    alert('Please select both Country.');
                     return;
                 }
 
                 document.getElementById('selected_country_id').value = selectedCountry;
-                document.getElementById('selected_category_id').value = selectedCategory;
+                // document.getElementById('selected_category_id').value = selectedCategory;
 
                 // Sembunyikan modal dan tampilkan form import
                 let modal = bootstrap.Modal.getInstance(document.getElementById(

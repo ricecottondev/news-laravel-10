@@ -30,7 +30,7 @@
                             <a href="{{ route('news-master.bulk-form') }}" class="btn btn-sm btn-dark"><i
                                     class="ki-duotone ki-plus "></i>add bulk News</a>
 
-                            <a href="{{ url('assets/template-excel/master_data_excel.xlsx') }}"
+                            <a href="{{ url('assets/template-excel/master_data_excel_v2.xlsx') }}"
                                 class="btn btn-sm btn-info "></i>Template Excel</a>
                             <a href="{{ route('news-master.import.form') }}" class="btn btn-sm btn-primary"><i
                                     class="ki-duotone ki-plus "></i>Import News</a>

@@ -8,6 +8,9 @@ use App\Models\Category;
 use Illuminate\Support\Facades\Session;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
+use Carbon\Carbon;
+use Illuminate\Support\Str;
+use PhpOffice\PhpSpreadsheet\Shared\Date;
 
 class NewsImport implements ToModel, WithHeadingRow
 {
@@ -17,17 +20,47 @@ class NewsImport implements ToModel, WithHeadingRow
         $country_id = Session::get('import_country_id');
         // $category_id = Session::get('import_category_id');
 
-        $news = News::create([
+        // Konversi tanggal dari Excel ke format datetime Laravel
+        $dateString = $row['date'] ?? null;
+
+        dump($dateString);
+        $createdAt = null;
+        if (!empty($row['date'])) {
+            $rawDate = $row['date'];
+
+            try {
+                // Deteksi apakah nilai numerik (serial Excel)
+                if (is_numeric($rawDate)) {
+                    $createdAt = Carbon::instance(Date::excelToDateTimeObject($rawDate));
+                } else {
+                    // Jika format string seperti "8-Apr-25"
+                    $createdAt = Carbon::createFromFormat('j-M-y', $rawDate)->startOfDay();
+                }
+            } catch (\Exception $e) {
+                $createdAt = now(); // fallback jika parsing gagal
+            }
+        } else {
+            $createdAt = now(); // fallback jika tidak ada field date
+        }
+
+        $createdAt = !empty($row['date']) ? Date::excelToDateTimeObject($row['date']) : now();
+
+        //dd($createdAt);
+
+        $news = new News([
             'title' => $row['title'],
             'short_desc' => $row['short_desc'],
             'content' => $row['content'],
-            'is_breaking_news' => $row['is_breaking_news'] ?? 0,
-            'author' => $row['author'] ?? 'Unknown',
-            'slug' =>  $row['slug'],
+            'is_breaking_news' => 0,
+            'author' => 'factabot',
+            'slug' => Str::slug($row['title']),
             'status' => 'published',
-            // 'image' => $row['image'] ?? null,
-            'views' => $row['views'] ?? 0,
+            'views' => 0,
+            'created_at' => $createdAt,
         ]);
+
+        // $news->timestamps = false; // <-- Ini penting
+        $news->save();
 
         // Simpan relasi country & category dengan news
         // CountriesCategoriesNews::create([
@@ -37,8 +70,8 @@ class NewsImport implements ToModel, WithHeadingRow
         //     'status' => 'active',
         // ]);
 
-         // Proses banyak kategori
-         if (!empty($row['category'])) {
+        // Proses banyak kategori
+        if (!empty($row['category'])) {
             $categoryNames = explode(';', $row['category']);
 
             foreach ($categoryNames as $name) {
