@@ -214,8 +214,19 @@ class BackNewsController extends Controller
      * @param  \App\Models\News  $news
      * @return \Illuminate\Http\Response
      */
-    public function destroy(News $news)
+    public function destroy($id)
     {
+        $news = News::findOrFail($id);
+
+        // Hapus gambar jika ada
+        if ($news->image) {
+            Storage::delete('public/' . $news->image);
+        }
+
+        // Hapus berita
+        // $news = News::findOrFail($id);
+
+
         $news->delete();
 
         return redirect()->route('news-master.index')->with('success', 'News item deleted successfully.');
