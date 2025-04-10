@@ -57,6 +57,13 @@ class NewsController extends Controller
             });
         }
 
+        // Filter berita 7 hari terakhir
+        $last7Days = $request->input('last_7_days');
+
+        if ($last7Days === true || $last7Days === 'true') {
+            $query->where('created_at', '>=', Carbon::now()->subDays(7));
+        }
+
         // Tambahkan DISTINCT untuk mencegah duplikat karena join
         $query->select('news.*')->distinct();
 
