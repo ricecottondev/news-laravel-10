@@ -146,7 +146,7 @@
             countrySelect.addEventListener('change', function() {
                 let countryId = this.value;
                 categorySelect.innerHTML = '<option value="">Loading...</option>'; // Tampilkan loading
-
+                console.log(countryId);
                 if (countryId) {
                     fetch(`/api/get-categories/${countryId}`)
                         .then(response => response.json())
