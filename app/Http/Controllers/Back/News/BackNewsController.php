@@ -97,7 +97,7 @@ class BackNewsController extends Controller
             'image' => $imagePath, // Simpan path gambar ke database
         ]);
 
-        return redirect()->route('news.index')->with('success', 'News item created successfully.');
+        return redirect()->route('news-master.index')->with('success', 'News item created successfully.');
     }
 
 
@@ -205,7 +205,7 @@ class BackNewsController extends Controller
             'image' => $imagePath, // Simpan path gambar ke database
         ]);
 
-        return redirect()->route('news.index')->with('success', 'News item updated successfully.');
+        return redirect()->route('news-master.index')->with('success', 'News item updated successfully.');
     }
 
     /**
@@ -218,7 +218,7 @@ class BackNewsController extends Controller
     {
         $news->delete();
 
-        return redirect()->route('news.index')->with('success', 'News item deleted successfully.');
+        return redirect()->route('news-master.index')->with('success', 'News item deleted successfully.');
     }
 
     public function importForm()
