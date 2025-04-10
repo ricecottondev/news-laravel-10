@@ -23,7 +23,7 @@
             @endif
             <h1>Editorial Policy</h1>
             <p><strong>Introduction</strong><br>
-                [App Name] is a news aggregation app that collects, rephrases, and presents news articles from publicly available sources. The content presented within the app is sourced from various reputable media outlets, and our goal is to provide users with a concise, easy-to-read format. This editorial policy outlines the scope of content provided by the app, our role as a content aggregator, and the responsibilities of users.</p>
+                FactaBot is a news aggregation app that collects, rephrases, and presents news articles from publicly available sources. The content presented within the app is sourced from various reputable media outlets, and our goal is to provide users with a concise, easy-to-read format. This editorial policy outlines the scope of content provided by the app, our role as a content aggregator, and the responsibilities of users.</p>
 
                 <p><strong>1. Content Aggregation and Presentation</strong><br>
                 Our app serves solely as a platform for presenting publicly available news articles. We do not create, edit, or produce the content; instead, we collect and rephrase articles from external news sources to provide our users with summaries and highlights of current events. The app provides a simplified and concise version of news articles but does not alter the substance of the information presented.</p>
@@ -53,7 +53,7 @@
                 If you believe any content in the app infringes your intellectual property rights or violates any laws, please contact us immediately at [Insert Contact Information]. We will review any concerns raised and take appropriate action as necessary.</p>
 
                 <p><strong>10. Contact Us</strong><br>
-                For any questions regarding this Editorial Policy, please contact us at [Insert Contact Information].</p>
+                For any questions regarding this Editorial Policy, please contact us at ricecottondev@gmail.com.</p>
                 <hr>
         </div>
     </section>
