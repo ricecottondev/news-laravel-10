@@ -1,6 +1,10 @@
 @extends('front/layouts.layout')
 @section('content')
 
+
+
+
+
     <section>
         <div class="container py-4">
             <a class="text-decoration-none" href="/">
@@ -22,45 +26,19 @@
                     {{ session('success') }}
                 </div>
             @endif
-
-            <strong>Editorial Policy</strong>
-            <p><strong>Effective Date:</strong> [Insert Effective Date]</p>
-
-            <p><strong>Introduction</strong><br>
-            [App Name] is a news aggregation app that collects, rephrases, and presents news articles from publicly available sources. The content presented within the app is sourced from various reputable media outlets, and our goal is to provide users with a concise, easy-to-read format. This editorial policy outlines the scope of content provided by the app, our role as a content aggregator, and the responsibilities of users.</p>
-
-            <p><strong>1. Content Aggregation and Presentation</strong><br>
-            Our app serves solely as a platform for presenting publicly available news articles. We do not create, edit, or produce the content; instead, we collect and rephrase articles from external news sources to provide our users with summaries and highlights of current events. The app provides a simplified and concise version of news articles but does not alter the substance of the information presented.</p>
-
-            <p><strong>2. No Editorial Control Over Content</strong><br>
-            While we strive to ensure that the content presented in our app is accurate and relevant, we do not exercise editorial control over the original articles. The opinions, views, and factual accuracy of the content belong solely to the original publishers. We are not responsible for any errors, omissions, or inaccuracies in the content or for any consequences arising from reliance on this information.</p>
-
-            <p><strong>3. No Endorsement of Content</strong><br>
-            The inclusion of any third-party content in the app does not imply endorsement, support, or affiliation with the original content providers. Our app merely serves as a tool to present news summaries from various sources, and we are not responsible for the editorial policies, practices, or any legal issues associated with the original content creators.</p>
-
-            <p><strong>4. User Responsibility</strong><br>
-            Users are encouraged to verify the accuracy of any information presented in the app by consulting the original source material directly. We do not guarantee the timeliness, completeness, or accuracy of the content and are not liable for any reliance placed on the information provided.</p>
-
-            <p><strong>5. No Legal Liability for Content</strong><br>
-            [App Name] disclaims all liability for any legal issues related to the content provided through the app, including, but not limited to, defamation, copyright infringement, or violations of privacy. We do not accept responsibility for any actions that may arise from the use or dissemination of the content. By using the app, users agree that they are solely responsible for their interpretation and use of the content.</p>
-
-            <p><strong>6. Copyright and Fair Use</strong><br>
-            We respect the intellectual property rights of others and make every effort to ensure that all content presented within the app falls within the bounds of fair use. We do not claim ownership of the original content. However, we do not accept responsibility for any copyright disputes or claims arising from the content sourced from third-party providers.</p>
-
-            <p><strong>7. Third-Party Links and Content</strong><br>
-            The app may contain links to third-party websites or resources that are not under our control. We are not responsible for the availability, content, or practices of these third-party sites. Any interactions or transactions that occur on third-party websites are solely between the user and the third party, and we disclaim any liability related to such activities.</p>
-
-            <p><strong>8. Changes to Content and Policy</strong><br>
-            We reserve the right to modify, update, or remove content from the app at our discretion, without prior notice. Users are encouraged to review the app regularly for updates. We also reserve the right to amend this Editorial Policy, and such changes will be posted here. Continued use of the app constitutes acceptance of the revised policy.</p>
-
-            <p><strong>9. User Feedback and Reporting</strong><br>
-            If you believe any content in the app infringes your intellectual property rights or violates any laws, please contact us immediately at [Insert Contact Information]. We will review any concerns raised and take appropriate action as necessary.</p>
-
-            <p><strong>10. Contact Us</strong><br>
-            For any questions regarding this Editorial Policy, please contact us at [Insert Contact Information].</p>
-            <hr>
+            {{-- <form action="" class="text-start d-flex flex-column gap-4"> --}}
+            <strong>Privacy Policy</strong><p>This privacy policy applies to the Factabot app (hereby referred to as "Application") for mobile devices that was created by Rice Cotton (hereby referred to as "Service Provider") as a Freemium service. This service is intended for use "AS IS".</p><br><strong>Information Collection and Use</strong><p>The Application collects information when you download and use it. This information may include information such as </p><ul><li>Name</li><li>Email</li><li>Device ID</li></ul><p></p><br><p>The Application does not gather precise information about the location of your mobile device.</p><div style="display: none;"><p>The Application collects your device's location, which helps the Service Provider determine your approximate geographical location and make use of in below ways:</p><ul><li>Geolocation Services: The Service Provider utilizes location data to provide features such as personalized content, relevant recommendations, and location-based services.</li><li>Analytics and Improvements: Aggregated and anonymized location data helps the Service Provider to analyze user behavior, identify trends, and improve the overall performance and functionality of the Application.</li><li>Third-Party Services: Periodically, the Service Provider may transmit anonymized location data to external services. These services assist them in enhancing the Application and optimizing their offerings.</li></ul></div><br><p>The Service Provider may use the information you provided to contact you from time to time to provide you with important information, required notices and marketing promotions.</p><br><p>For a better experience, while using the Application, the Service Provider may require you to provide us with certain personally identifiable information, including but not limited to Email, Name. The information that the Service Provider request will be retained by them and used as described in this privacy policy.</p><br><strong>Third Party Access</strong><p>Only aggregated, anonymized data is periodically transmitted to external services to aid the Service Provider in improving the Application and their service. The Service Provider may share your information with third parties in the ways that are described in this privacy statement.</p><div><br><p>Please note that the Application utilizes third-party services that have their own Privacy Policy about handling data. Below are the links to the Privacy Policy of the third-party service providers used by the Application:</p><ul><li><a href="https://www.google.com/policies/privacy/" target="_blank" rel="noopener noreferrer">Google Play Services</a></li><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----></ul></div><br><p>The Service Provider may disclose User Provided and Automatically Collected Information:</p><ul><li>as required by law, such as to comply with a subpoena, or similar legal process;</li><li>when they believe in good faith that disclosure is necessary to protect their rights, protect your safety or the safety of others, investigate fraud, or respond to a government request;</li><li>with their trusted services providers who work on their behalf, do not have an independent use of the information we disclose to them, and have agreed to adhere to the rules set forth in this privacy statement.</li></ul><p></p><br><strong>Opt-Out Rights</strong><p>You can stop all collection of information by the Application easily by uninstalling it. You may use the standard uninstall processes as may be available as part of your mobile device or via the mobile application marketplace or network.</p><br><strong>Data Retention Policy</strong><p>The Service Provider will retain User Provided data for as long as you use the Application and for a reasonable time thereafter. If you'd like them to delete User Provided Data that you have provided via the Application, please contact them at ricecottondev@gmail.com and they will respond in a reasonable time.</p><br><strong>Children</strong><p>The Service Provider does not use the Application to knowingly solicit data from or market to children under the age of 13.</p><div><br><p>The Application does not address anyone under the age of 13.
+The Service Provider does not knowingly collect personally
+identifiable information from children under 13 years of age. In the case
+the Service Provider discover that a child under 13 has provided
+personal information, the Service Provider will immediately
+delete this from their servers. If you are a parent or guardian
+and you are aware that your child has provided us with
+personal information, please contact the Service Provider (ricecottondev@gmail.com) so that
+they will be able to take the necessary actions.</p></div><!----><br><strong>Security</strong><p>The Service Provider is concerned about safeguarding the confidentiality of your information. The Service Provider provides physical, electronic, and procedural safeguards to protect information the Service Provider processes and maintains.</p><br><strong>Changes</strong><p>This Privacy Policy may be updated from time to time for any reason. The Service Provider will notify you of any changes to the Privacy Policy by updating this page with the new Privacy Policy. You are advised to consult this Privacy Policy regularly for any changes, as continued use is deemed approval of all changes.</p><br><p>This privacy policy is effective as of 2025-03-25</p><br><strong>Your Consent</strong><p>By using the Application, you are consenting to the processing of your information as set forth in this Privacy Policy now and as amended by us.</p><br><strong>Contact Us</strong><p>If you have any questions regarding privacy while using the Application, or have questions about the practices, please contact the Service Provider via email at ricecottondev@gmail.com.</p><hr>
         </div>
     </section>
+
 
     {{-- this loading spinner --}}
     <div class="collapse backdrop-spinner" id="loading">
@@ -70,5 +48,9 @@
             <span class="p-3">Loading...Please Wait</span>
         </div>
     </div>
+
+
+
+
 
 @endsection
