@@ -45,6 +45,9 @@ class NewsController extends Controller
 
         $query = News::with('category', 'countriesCategoriesNews.country', 'countriesCategoriesNews.category');
 
+        // Tambahkan filter status published
+        $query->where('status', 'published');
+
         if ($countryName) {
             $query->whereHas('countriesCategoriesNews.country', function ($q) use ($countryName) {
                 $q->where('country_name', $countryName);
