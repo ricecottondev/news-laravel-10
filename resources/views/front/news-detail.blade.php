@@ -18,16 +18,23 @@
                 </div>
             @endif
 
+
+
+            {{-- <div class="news-snippet mb-4">
+                {!! $processedContent !!}
+            </div> --}}
+
+
             <div class="news-snippet mb-4">
                 @php
-                    // Hapus tag HTML berlebih jika ada
+
                     $cleanContent = strip_tags($news->content, '<p><br><b><strong><i><em><ul><li><ol><a><blockquote><img>');
 
-                    // Pisahkan berdasarkan titik dan bersihkan whitespace
+
                     $sentences = preg_split('/(?<=[.?!])\s+/', $cleanContent, -1, PREG_SPLIT_NO_EMPTY);
 
                     $paragraph = '';
-                    $maxLength = 300; // Maksimal panjang karakter per paragraf
+                    $maxLength = 300;
                 @endphp
 
                 @foreach ($sentences as $sentence)
@@ -41,12 +48,19 @@
                     @endif
                 @endforeach
 
-                {{-- Cetak sisa jika masih ada --}}
+
                 @if (!empty(trim($paragraph)))
                     <p class="mb-3 text-justify">{{ trim($paragraph) }}</p>
                 @endif
             </div>
+
+
+
+
         </div>
+
+
+
 
         <!-- Comments Section -->
         <h4 class="mt-5">Comments ({{ $news->comments->count() }})</h4>
