@@ -33,17 +33,26 @@ class NewsImport implements ToModel, WithHeadingRow
                 if (is_numeric($rawDate)) {
                     $createdAt = Carbon::instance(Date::excelToDateTimeObject($rawDate));
                 } else {
-                    // Jika format string seperti "8-Apr-25"
-                    $createdAt = Carbon::createFromFormat('j-M-y', $rawDate)->startOfDay();
+                    try {
+                        $createdAt = Carbon::createFromFormat('Y-m-d', $rawDate)->startOfDay(); // "2025-04-11"
+                    } catch (\Exception $e1) {
+                        try {
+                            $createdAt = Carbon::createFromFormat('j-M-y', $rawDate)->startOfDay(); // "8-Apr-25"
+                        } catch (\Exception $e2) {
+                            $createdAt = now(); // fallback
+                        }
+                    }
                 }
             } catch (\Exception $e) {
+                dd("parsing : false");
                 $createdAt = now(); // fallback jika parsing gagal
             }
         } else {
+            dd("field date : false");
             $createdAt = now(); // fallback jika tidak ada field date
         }
 
-        $createdAt = !empty($row['date']) ? Date::excelToDateTimeObject($row['date']) : now();
+        // $createdAt = !empty($row['date']) ? Date::excelToDateTimeObject($row['date']) : now();
 
         //dd($createdAt);
 
