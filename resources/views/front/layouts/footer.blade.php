@@ -1,8 +1,8 @@
 <!-- Footer -->
-<footer class="bg-dark text-white py-4">
+<footer class="text-white py-4" style="background-color: #ffca2c;">
     <div class="container">
         <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-4 d-none">
                 <h3 class="h5">About Us</h3>
                 <p>Welcome to Factabot, your trusted source for up-to-date news and insights. Our mission is to deliver
                     accurate, relevant, and engaging news to our audience.
@@ -13,7 +13,7 @@
                     well-structured and insightful content for our readers.
                 </p>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-4 d-none">
                 <h3 class="h5">Contact Us</h3>
                 <p>Email: ricecottondev@email.com</p>
                 <p>Phone: (+61) 0424777146</p>
@@ -28,9 +28,11 @@
                 </div>
             </div>
             <div class="col-md-4">
-                <a href="/editorial-policy" style="text-decoration: none ;color: white;">Editorial Policy</a>
+                <a href="/about" style="font-size: 18px ;font-weight: bold;text-decoration: none ;color: rgb(0, 0, 0);">About Us</a>
                 <br>
-                <a href="/privacy-policy" style="text-decoration: none ;color: white;">Privacy Policy</a>
+                <a href="/editorial-policy" style="font-size: 18px ;font-weight: bold;text-decoration: none ;color: rgb(0, 0, 0);">Editorial Policy</a>
+                <br>
+                <a href="/privacy-policy" style="font-size: 18px ;font-weight: bold;text-decoration: none ;color: rgb(0, 0, 0);">Privacy Policy</a>
             </div>
         </div>
     </div>
