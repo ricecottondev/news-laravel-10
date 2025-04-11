@@ -14,9 +14,6 @@
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
 
-
-
-
     <style>
         body {
             font-family: 'Roboto', sans-serif;
@@ -24,12 +21,14 @@
             flex-direction: column;
             min-height: 100vh;
             margin: 0;
+            background-color: #1e1e1e;
+            color: #d6cfbd;
         }
 
         .news-title {
-            font-size: 14px;
+            font-size: 22px;
             font-weight: 700;
-            color: #1a1a1a;
+            color: #272727;
             text-decoration: none;
         }
 
@@ -41,46 +40,59 @@
         }
 
         .news-sugestion {
-            font-size: 14px;
+            font-size: 16px;
             font-weight: 700;
             color: #696969;
             text-decoration: none;
         }
 
         .news-title-after-first {
+            color: #d6cfbd;
+            text-decoration: none;
             font-size: 14px;
             font-weight: 700;
             color: #535353;
         }
+
+
+
 
         .news-title:hover {
             text-decoration: underline;
         }
 
         .news-snippet {
-            /* color: #4a4a4a;
-            font-size: 14px;
-            line-height: 1.5;*/
             text-align: justify;
             text-justify: inter-word;
-            /* opsional untuk kontrol jarak antar kata */
             margin-bottom: 0.5rem;
-            /* mb-2 */
-            color: #6c757d;
-            /* text-muted */
-            font-size: 0.875rem;
-            /* small */
+            color: #272727;
+            font-size: 16px;
+        }
 
+        .custom-box {
+            display: flex;
+            border: 1px solid #ccc;
+            border-radius: var(--box-radius, 10px);
+            /* Default 10px */
+            overflow: hidden;
+            height: var(--box-height, auto);
+            /* Default auto */
+            width: var(--box-width, 100%);
+            /* Default full width */
 
+            background-color: white;
+            box-shadow: 0 0.5rem 1rem rgba(10, 0, 65, 0.3);
+            /* custom-shadow */
         }
 
         .custom-shadow {
+            border: 1px solid #ccc;
+            background-color: white;
             box-shadow: 0 0.5rem 1rem rgba(10, 0, 65, 0.3);
-            /* #19b5ee with 30% opacity */
         }
 
         .news-container {
-            border-bottom: 1px solid #ddd;
+            border-bottom: 1px solid #444;
             padding-bottom: 1.5rem;
             margin-bottom: 1.5rem;
         }
@@ -105,11 +117,87 @@
         footer {
             margin-top: auto;
         }
-    </style>
 
+        .btn-custom {
+            background-color: #cba34e;
+            color: #0e1118;
+            border: none;
+        }
+
+        .btn-custom:hover {
+            background-color: #b89445;
+            color: #0e1118;
+        }
+
+        .news-card {
+            background-color: #ffffff;
+            color: #d6cfbd;
+            border-radius: 22px;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.25);
+            border: 1px solid #333;
+        }
+
+        .news-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .news-card a.news-title {
+            color: #272727;
+            text-decoration: none;
+        }
+
+        .news-card a.news-title:hover {
+            text-decoration: underline;
+            color: #000000;
+        }
+
+        .news-card .text-muted {
+            color: #999 !important;
+        }
+
+        .category-card {
+            background-color: #ececec;
+            color: #4b4b4b;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            border: 1px solid #333;
+            transition: all 0.3s ease;
+        }
+
+        .category-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .category-card .news-title-after-first {
+            font-size: 18px;
+            font-weight: bold;
+            color: #272727;
+            text-decoration: none;
+        }
+
+        .category-card .news-title-after-first:hover {
+            text-decoration: underline;
+            color: #000000;
+        }
+
+        .category-card .news-snippet {
+            font-size: 14px;
+            color: #272727;
+            text-align: justify;
+        }
+
+        .category-card .text-muted,
+        .category-card .text-secondary {
+            color: #999 !important;
+        }
+    </style>
+@stack('styles')
 </head>
 
-<body class="bg-light">
+<body>
 
     <!-- Header -->
     @include('front.layouts.header')

@@ -76,7 +76,8 @@
     @php
         $defaultCountry = session('default_country');
         $bgColor = match ($defaultCountry) {
-            'Australia' => '#19b5ee',
+            // 'Australia' => '#19b5ee',
+            'Australia' => '#ffc107',
             'Asia' => '#ef0810',
             'Europe' => '#fea500',
             'Africa' => '#ab2bb4',
@@ -90,11 +91,11 @@
     <div class="breaking-news-wrapper overflow-auto">
         <marquee id="breaking-news"
                  style="background-color: {{ $bgColor }};"
-                 class="text-white py-2 fw-bold"
+                 class="text-black py-2 fw-bold"
                  scrollamount="4">
             @foreach ($topnews as $tnews)
                 <a href="{{ route('front.news.show', $tnews->slug) }}"
-                   class="text-white text-decoration-none me-4 d-inline-block">
+                   class="text-black text-decoration-none me-4 d-inline-block">
                     {{ $tnews->title }}
                 </a>
             @endforeach
