@@ -373,6 +373,9 @@ class NewsController extends Controller
             });
         }
 
+        // Tambahkan filter status published
+        $newsQuery->where('status', 'published');
+
         // Order by DESC berdasarkan created_at
         $news = $newsQuery->orderBy('created_at', 'desc')->paginate($perPage, ['*'], 'page', $page);
 
@@ -452,6 +455,9 @@ class NewsController extends Controller
             });
         }
 
+        // Tambahkan filter status published
+        $query->where('status', 'published');
+
         // Order by DESC berdasarkan created_at (atau updated_at jika lebih sesuai)
         $news = $query->orderBy('created_at', 'desc')
             // ->where("is_breaking_news", 1)
@@ -514,6 +520,9 @@ class NewsController extends Controller
                 $q->where('name', $categoryName);
             });
         }
+
+        // Tambahkan filter status published
+        $query->where('status', 'published');
 
         // Order by DESC berdasarkan created_at (atau updated_at jika lebih sesuai)
         $news = $query->orderBy('created_at', 'desc')->paginate($perPage, ['*'], 'page', $page);
