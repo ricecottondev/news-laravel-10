@@ -59,49 +59,78 @@
         </div>
     </section>
 
+    @php
+        $topnewsChunks = $topnews->values(); // pastikan reindex
+        $pattern = [3, 2]; // col-md-X pattern
+        $patternIndex = 0;
+        $index = 0;
+    @endphp
+
     {{-- =============================== Breaking News =============================== --}}
     <section class="mb-5">
         <h2 class="border-bottom pb-2 mb-3 fw-bold text-uppercase">Breaking News</h2>
-        <div class="row">
-            @foreach ($topnews as $tnews)
-                <div class="col-md-4 mb-4">
+
+        @while ($index < $topnewsChunks->count())
+            @php
+                $currentCols = $pattern[$patternIndex % count($pattern)]; // 3 or 2
+                $itemsPerRow = $currentCols;
+                $rows = 3;
+                $totalItems = $itemsPerRow * $rows;
+                $currentChunk = $topnewsChunks->slice($index, $totalItems);
+            @endphp
+
+            <div class="row mb-4">
+                @foreach ($currentChunk as $tnews)
+                <div class="col-md-{{ 12 / $currentCols }} mb-4">
                     <a href="{{ route('front.news.show', $tnews->slug) }}" class="text-decoration-none text-dark">
-                        <div class="d-flex border rounded-5 overflow-hidden h-100 custom-shadow">
+                        <div class="border rounded-5 overflow-hidden h-100 custom-shadow d-flex" style="min-height: 200px;">
+
+                            {{-- Gambar --}}
                             @if ($tnews->image)
-                                <img src="{{ asset('storage/' . $tnews->image) }}" class="flex-shrink-0"
-                                    alt="{{ $tnews->title }}" style="width: 120px; height: auto; object-fit: cover;">
+                                <div class="w-50 d-flex align-items-stretch">
+                                    <img src="{{ asset('storage/' . $tnews->image) }}"
+                                         alt="{{ $tnews->title }}"
+                                         class="img-fluid w-100"
+                                         style="object-fit: cover; height: 100%;">
+                                </div>
                             @endif
-                            <div class="p-3 d-flex flex-column justify-content-between">
+
+                            {{-- Konten --}}
+                            <div class="p-3 d-flex flex-column justify-content-between {{ $tnews->image ? 'w-50' : 'w-100' }}">
                                 <div>
                                     <h6 class="news-title d-block mb-1 fw-bold">{{ Str::limit($tnews->title, 70) }}</h6>
                                     <p class="news-snippet">{{ Str::words(strip_tags($tnews->content), 25, '...') }}</p>
                                 </div>
-                                <small class="text-muted">
+                                <small class="text-muted mt-auto">
                                     <i class="fas fa-calendar-alt"></i> {{ $tnews->created_at?->format('d M Y') }}
                                     &nbsp;|&nbsp;
-                                    {{-- <i class="fas fa-eye"></i> {{ $tnews->views ?? 0 }} Views --}}
                                     @php
-                                        $categoryName =
-                                            $tnews->countriesCategoriesNews->first()?->category?->name ?? 'No Category';
+                                        $categoryName = $tnews->countriesCategoriesNews->first()?->category?->name ?? 'No Category';
                                     @endphp
-
-                                    <span class="badge bg-danger text-white rounded-pill px-2 py-1"
-                                        style="font-size: 0.75rem;">
+                                    <span class="badge bg-danger text-white rounded-pill px-2 py-1" style="font-size: 0.75rem;">
                                         {{ strtoupper($categoryName) }}
-                                    </span>
                                     </span>
                                 </small>
                             </div>
                         </div>
                     </a>
                 </div>
-            @endforeach
-        </div>
+
+                @endforeach
+            </div>
+
+            @php
+                $index += $totalItems;
+                $patternIndex++;
+            @endphp
+        @endwhile
+
         <div class="text-start">
             <a href="{{ url($defaultCountry . '/newscategory/Breaking%20News') }}" class="btn btn-outline-dark">See All
                 Breaking News</a>
         </div>
     </section>
+
 
     {{-- =============================== More News =============================== --}}
     <section class="mb-5">

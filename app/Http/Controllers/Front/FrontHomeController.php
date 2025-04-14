@@ -168,6 +168,7 @@ class FrontHomeController extends Controller
             ->limit(6)->get();
         $topnews = News::with(['category', 'countriesCategoriesNews'])
             ->where('status', 'published')
+            ->whereDate('created_at', Carbon::today())
             ->orderBy('created_at', 'desc') // urutkan berdasarkan tanggal terbaru
             ->orderBy('id', 'asc')          // dalam tanggal yang sama, urut berdasarkan ID kecil ke besar
             ->get();
