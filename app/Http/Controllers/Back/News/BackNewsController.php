@@ -140,6 +140,8 @@ class BackNewsController extends Controller
      * @param  \App\Models\News  $news
      * @return \Illuminate\Http\Response
      */
+
+
     public function update(Request $request, News $news)
     {
         $validator = Validator::make($request->all(), [
@@ -148,67 +150,46 @@ class BackNewsController extends Controller
             'content' => 'required|string',
             'author' => 'required|string|max:255',
             'status' => 'required|string|in:draft,published',
-            // 'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // Validasi gambar
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
         if ($validator->fails()) {
-            dump($request->title);
-            dump($request->short_desc);
-            dump($request->content);
-            dump($request->author);
-            dump($request->status);
-
-
-            dd("test");
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
-        // Buat slug dari title
-        $slug = preg_replace('/[&\/\\\()\+\-\?\<\>\@\#\!\$\%\^\*]/', '', $request->title); // Hapus karakter khusus
-        $slug = str_replace(' ', '_', $slug); // Ganti spasi dengan "_"
-
-        // Cek jika slug sudah ada di database dan bukan milik berita ini
+        // Slug unik
+        $slug = preg_replace('/[^A-Za-z0-9\- ]/', '', $request->title);
+        $slug = str_replace(' ', '_', $slug);
         $originalSlug = $slug;
         $count = 1;
         while (News::where('slug', $slug)->where('id', '!=', $news->id)->exists()) {
-            $slug = $originalSlug . '_' . $count;
-            $count++;
+            $slug = $originalSlug . '_' . $count++;
         }
 
-        // Simpan gambar ke dalam folder public/images/news
-        $imagePath = null;
+        // Upload gambar jika ada
         if ($request->hasFile('image')) {
-            $image = $request->file('image');
-            $imagePath = $image->store('images/news', 'public');
-        }
-
-        // Cek jika ada gambar baru yang diunggah
-        if ($request->hasFile('image')) {
-            // Hapus gambar lama jika ada
-            if ($news->image) {
-                Storage::delete('public/' . $news->image);
+            if ($news->image && Storage::disk('public')->exists($news->image)) {
+                Storage::disk('public')->delete($news->image);
             }
 
-            // Simpan gambar baru
             $imagePath = $request->file('image')->store('images/news', 'public');
             $news->image = $imagePath;
         }
 
-        // Update data lainnya
-        $news->update([
-            // 'category_id' => 1,
-            'title' => $request->title,
-            'short_desc' => $request->short_desc,
-            'content' => $request->content,
-            'is_breaking_news' => $request->has('is_breaking_news'),
-            'author' => $request->author,
-            'slug' => $slug, // Slug hasil konversi
-            'status' => $request->status,
-            'image' => $imagePath, // Simpan path gambar ke database
-        ]);
+        // Update data
+        $news->title = $request->title;
+        $news->short_desc = $request->short_desc;
+        $news->content = $request->content;
+        $news->author = $request->author;
+        $news->slug = $slug;
+        $news->status = $request->status;
+        $news->is_breaking_news = $request->has('is_breaking_news');
+
+        $news->save();
 
         return redirect()->route('news-master.index')->with('success', 'News item updated successfully.');
     }
+
 
     /**
      * Remove the specified resource from storage.
