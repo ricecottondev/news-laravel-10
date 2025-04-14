@@ -78,11 +78,16 @@
         $bgColor = match ($defaultCountry) {
             // 'Australia' => '#19b5ee',
             'Australia' => '#ffc107',
-            'Asia' => '#ef0810',
-            'Europe' => '#fea500',
-            'Africa' => '#ab2bb4',
-            'America' => '#0eaec4',
-            default => '#19b5ee', // default warna jika negara tidak terdefinisi
+            // 'Asia' =>'#ef0810'
+            'Asia' => '#ffc107',
+            // 'Europe' => '#fea500',
+            'Europe' => '#ffc107',
+            // 'Africa' => '#ab2bb4',
+            'Africa' => '#ffc107',
+            // 'America' => '#0eaec4',
+            'America' => '#ffc107',
+            // default => '#19b5ee', // default warna jika negara tidak terdefinisi
+            default => '#ffc107',
         };
 
     @endphp
