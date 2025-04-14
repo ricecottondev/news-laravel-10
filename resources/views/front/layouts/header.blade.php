@@ -143,8 +143,9 @@
     }
 
     .country-scroll a.active {
-        background-color: rgba(109, 0, 0, 0.719);
+        background-color: #ffc107;
         font-weight: bold;
+        color: black;
     }
 
     .category-container {
@@ -193,7 +194,7 @@
 
     /* Kategori yang dipilih */
     .category-scroll a.active {
-        background-color: rgba(241, 0, 0, 0.5);
+        background-color: #ffc107;
         font-weight: bold;
     }
 
