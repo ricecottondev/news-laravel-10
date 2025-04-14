@@ -4,7 +4,7 @@
             <!-- Logo dan Judul -->
             <div class="d-flex align-items-center">
                 <a href="/" class="text-decoration-none text-muted">
-                    <img src="https://storage.googleapis.com/a1aa/image/-HnYJoVd05OhVes1-Bh4IfjQifAVUsymcSu_tNBSn-U.jpg"
+                    <img src="/images/app_logo.png"
                         alt="Logo" width="50" height="50" class="me-3">
                 </a>
                 <h1 class="h4 mb-0">FactaBot</h1>
