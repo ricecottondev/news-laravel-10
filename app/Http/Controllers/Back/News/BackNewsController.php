@@ -118,8 +118,10 @@ class BackNewsController extends Controller
      * @param  \App\Models\News  $news
      * @return \Illuminate\Http\Response
      */
-    public function edit(News $news)
+    public function edit($id)
     {
+        //dd($id);
+        $news = News::findOrFail($id);
         $countries = Country::all();
         $categories = Category::all(); // Ambil semua kategori
         $countriescategoriesnews = $news->countriesCategoriesNews()->get();

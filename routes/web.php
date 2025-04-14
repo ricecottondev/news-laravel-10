@@ -226,6 +226,8 @@ Route::group(['middleware' => ['auth']], function () {
 
 
     Route::post('back/news-master/import', [BackNewsController::class, 'import'])->name('news-master.import');
+    Route::post('back/news-master/{id}/edit', [BackNewsController::class, 'edit'])->name('news-master.edit');
+    Route::post('back/news-master/update', [BackNewsController::class, 'update'])->name('news-master.update');
 
 
     // Rute untuk subscribe
