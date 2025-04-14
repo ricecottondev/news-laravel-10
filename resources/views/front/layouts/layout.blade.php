@@ -25,6 +25,7 @@
             color: #d6cfbd;
         }
 
+        /* style for home page */
         .news-title {
             font-size: 22px;
             font-weight: 700;
@@ -32,12 +33,7 @@
             text-decoration: none;
         }
 
-        .news-title-detail {
-            font-size: 28px;
-            font-weight: 700;
-            color: #1a1a1a;
-            text-decoration: none;
-        }
+
 
         .news-sugestion {
             font-size: 16px;
@@ -67,6 +63,41 @@
             margin-bottom: 0.5rem;
             color: #272727;
             font-size: 16px;
+        }
+
+        /* style for detail news pages */
+
+        .news-title-detail {
+            font-size: 28px;
+            font-weight: 700;
+            color: #1a1a1a;
+            text-decoration: none;
+        }
+
+
+        .news-snippet-detail {
+            text-align: justify;
+            text-justify: inter-word;
+            margin-bottom: 0.5rem;
+            color: #272727;
+            font-size: 22px;
+        }
+
+        /* Gaya khusus untuk mobile */
+        @media (max-width: 768px) {
+            .news-title-detail {
+                font-size: 20px;
+                color: #535353;
+                text-align: center;
+            }
+
+            .news-snippet-detail {
+                font-size: 16px;
+                /* lebih kecil agar enak dibaca */
+                padding-left: 10px;
+                padding-right: 10px;
+                line-height: 1.6;
+            }
         }
 
         .custom-box {
@@ -194,7 +225,7 @@
             color: #999 !important;
         }
     </style>
-@stack('styles')
+    @stack('styles')
 </head>
 
 <body>
