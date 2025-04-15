@@ -426,11 +426,10 @@ class NewsController extends Controller
 
     public function getBreakingNews(Request $request)
     {
-        // Mengambil parameter dari request
+        // Ambil parameter dari request
         $countryName = $request->input('country_name');
-        $categoryName = "Breaking News";
 
-        // Mengambil berita dengan relasi kategori
+        // Query awal dengan relasi kategori
         $query = News::with('category');
 
         // Jika country_name diberikan, filter berdasarkan country
@@ -439,40 +438,27 @@ class NewsController extends Controller
                 $q->whereHas('country', function ($q) use ($countryName) {
                     $q->where('country_name', $countryName);
                 });
-            })->limit(10);
-        }
-
-        // Jika category_name diberikan, filter berdasarkan kategori
-        // if ($categoryName) {
-        //     $query->whereHas('category', function ($q) use ($categoryName) {
-        //         $q->where('name', $categoryName);
-        //     });
-        // }
-
-
-        if ($categoryName) {
-            $query->whereHas('countriesCategoriesNews', function ($q) use ($categoryName) {
-                $q->whereHas('category', function ($q) use ($categoryName) {
-                    $q->where('name', $categoryName);
-                });
             });
         }
 
-        // Tambahkan filter status published
-        $query->where('status', 'published');
-
-        // Order by DESC berdasarkan created_at (atau updated_at jika lebih sesuai)
-        $news = $query->orderBy('created_at', 'desc')
-            // ->where("is_breaking_news", 1)
+        // Ambil berita yang status-nya published dan dibuat hari ini
+        $news = $query
+            ->where('status', 'published')                            // Hanya yang published
+            ->whereDate('created_at', Carbon::today('Asia/Jakarta')) // Hanya yang dibuat hari ini
+            ->orderBy('created_at', 'desc')                           // Tanggal terbaru
+            ->orderBy('id', 'asc')                                    // ID naik
+            ->limit(10)
             ->get();
-        // ->paginate($perPage, ['*'], 'page', $page);
 
+        // Format hasil berita
         $data = $news->map(function ($item) {
             $baseUrl = env('APP_URL', url('/'));
 
-            // Menentukan date berdasarkan created_at atau updated_at
-            $date = $item->updated_at ? $item->updated_at : $item->created_at;
-            $formattedDate = $date->format('F j, Y'); // Format tanggal sesuai kebutuhan
+            // Tentukan tanggal
+            $date = $item->updated_at ?? $item->created_at;
+            $formattedDate = $date->format('F j, Y');
+
+            // Ambil kategori
             $categories = $item->countriesCategoriesNews->map(function ($ccn) {
                 return $ccn->category ? $ccn->category->name : null;
             })->filter()->unique()->values()->toArray(); // Hapus null, duplikasi, dan reset indeks array
@@ -488,11 +474,9 @@ class NewsController extends Controller
             ];
         });
 
-        return response()->json(
-            [
-                'data' => $data,
-            ]
-        );
+        return response()->json([
+            'data' => $data,
+        ]);
     }
 
     public function getNewsVoice(Request $request)
