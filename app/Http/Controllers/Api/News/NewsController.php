@@ -70,8 +70,11 @@ class NewsController extends Controller
         // Tambahkan DISTINCT untuk mencegah duplikat karena join
         $query->select('news.*')->distinct();
 
-        //$news = $query->orderBy('created_at', 'desc')->paginate($perPage, ['*'], 'page', $page);
-        $news = $query->orderBy('id', 'desc')->paginate($perPage, ['*'], 'page', $page);
+        $news = $query
+            ->where('status', 'published')        // Filter status published
+            ->orderBy('created_at', 'desc')       // Urutkan berdasarkan tanggal terbaru
+            ->orderBy('id', 'asc')                // Lalu urutkan ID secara naik jika tanggal sama
+            ->paginate($perPage, ['*'], 'page', $page);
 
         $data = $news->map(function ($item) {
             $baseUrl = env('APP_URL', url('/'));
@@ -373,11 +376,11 @@ class NewsController extends Controller
             });
         }
 
-        // Tambahkan filter status published
-        $newsQuery->where('status', 'published');
-
-        // Order by DESC berdasarkan created_at
-        $news = $newsQuery->orderBy('created_at', 'desc')->paginate($perPage, ['*'], 'page', $page);
+        $news = $newsQuery
+            ->where('status', 'published')        // Filter status published
+            ->orderBy('created_at', 'desc')       // Urutkan berdasarkan tanggal terbaru
+            ->orderBy('id', 'asc')                // Lalu urutkan ID secara naik jika tanggal sama
+            ->paginate($perPage, ['*'], 'page', $page);
 
         $data = $news->map(function ($item) {
             $baseUrl = env('APP_URL', url('/'));
@@ -521,11 +524,11 @@ class NewsController extends Controller
             });
         }
 
-        // Tambahkan filter status published
-        $query->where('status', 'published');
-
-        // Order by DESC berdasarkan created_at (atau updated_at jika lebih sesuai)
-        $news = $query->orderBy('created_at', 'desc')->paginate($perPage, ['*'], 'page', $page);
+        $news = $query
+            ->where('status', 'published')        // Filter status published
+            ->orderBy('created_at', 'desc')       // Urutkan berdasarkan tanggal terbaru
+            ->orderBy('id', 'asc')                // Lalu urutkan ID secara naik jika tanggal sama
+            ->paginate($perPage, ['*'], 'page', $page);
 
         $data = $news->map(function ($item) {
             $baseUrl = env('APP_URL', url('/'));
