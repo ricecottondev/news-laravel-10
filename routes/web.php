@@ -89,6 +89,8 @@ use App\Http\Controllers\Back\Country\CountryController;
 
 use App\Http\Controllers\Back\ChatGPTController;
 
+use App\Http\Controllers\Back\News\ImageUploadController;
+
 
 Route::get('/detail-voucher', function () {
     return view('page-sdamember.snk');
@@ -212,6 +214,7 @@ Route::get('back/news-master/bulkcreate', [BackNewsController::class, 'bulkForm'
 Route::post('loginas', [UserController::class, 'loginas'])->name('users.loginas');
 Route::get('loginas', [UserController::class, 'loginas'])->name('users.loginas');
 
+Route::post('/upload-image', [ImageUploadController::class, 'store'])->name('upload.image');
 
 Route::group(['middleware' => ['auth']], function () {
     Route::get('/back/dashboard', [DashboardController::class, 'index'])->name('dashboard');

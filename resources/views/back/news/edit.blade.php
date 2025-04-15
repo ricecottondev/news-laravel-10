@@ -18,8 +18,8 @@
                             </nav>
                         </div>
                         <!-- <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#kt_modal_add_user">
-                            <i class="ki-duotone ki-plus"></i> Edit News
-                        </button> -->
+                                                    <i class="ki-duotone ki-plus"></i> Edit News
+                                                </button> -->
                     </div>
                 </div>
 
@@ -27,13 +27,15 @@
                 <div class="app-content flex-column-fluid">
                     <div class="container-xxl">
                         <div class="card mb-3">
-                            <a href="{{ route('news-master.index') }}" class="btn btn-sm btn-outline btn-outline-dashed btn-outline-default"><i class="fas fa-backward"></i>Back</a>
+                            <a href="{{ route('news-master.index') }}"
+                                class="btn btn-sm btn-outline btn-outline-dashed btn-outline-default"><i
+                                    class="fas fa-backward"></i>Back</a>
                         </div>
                         <div class="card">
                             <div class="card-body">
 
-                                <form action="{{ route('news-master.update', $news->id) }}" enctype="multipart/form-data" method="POST"
-                                    enctype="multipart/form-data">
+                                <form action="{{ route('news-master.update', $news->id) }}" enctype="multipart/form-data"
+                                    method="POST" enctype="multipart/form-data">
                                     @csrf
                                     @method('PUT')
 
@@ -68,8 +70,9 @@
                                     </div>
 
                                     <div class="form-check">
-                                        <input type="checkbox" name="is_breaking_news" id="is_breaking_news" class="form-check-input"
-                                               value="1" {{ old('is_breaking_news', $news->is_breaking_news ?? false) ? 'checked' : '' }}>
+                                        <input type="checkbox" name="is_breaking_news" id="is_breaking_news"
+                                            class="form-check-input" value="1"
+                                            {{ old('is_breaking_news', $news->is_breaking_news ?? false) ? 'checked' : '' }}>
                                         <label class="form-check-label" for="is_breaking_news">Set as Breaking News</label>
                                     </div>
 
@@ -95,16 +98,49 @@
                                         </select>
                                     </div>
 
+
+
+
                                     <div class="mb-3">
-                                        <label for="image" class="form-label">Picture</label>
-                                        <input type="file" class="form-control" id="image" name="image">
-                                        @if ($news->image)
+                                        <label for="image" class="form-label"><strong>Picture</strong> </label>
+                                    </div>
+                                    @if ($news->image)
+                                        <div class="mb-3">
+                                            <label for="image" class="form-label">Old Image</label>
+                                        </div>
+
+                                        <div>
                                             <img src="{{ asset('storage/' . $news->image) }}" alt="Current Image"
-                                                class="img-thumbnail mt-2" width="150">
-                                        @endif
+                                                class="img-thumbnail mt-2" width="345px">
+                                        </div>
+                                    @endif
+
+                                    <div class="mb-3 mt-3">
+                                        <div>
+                                            <label for="image" class="form-label">New Image</label>
+                                            <p>Paste your image here (Ctrl+V)</p>
+                                        </div>
+                                        {{-- <input type="file" class="form-control" id="image" name="image"> --}}
+                                        <div id="paste-area" class="img-thumbnail p-3 mt-2" contenteditable="true"
+                                            style="height: 350px; width: 350px; overflow: auto;">
+
+                                        </div>
+
                                     </div>
 
-                                    <button type="submit" class="btn btn-primary">Update</button>
+                                    <div class="mb-3">
+                                        <img id="preview" src="" class="mt-3" style="max-width: 100%;">
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <input type="hidden" id="image-path" name="image">
+
+                                    </div>
+
+
+
+
+                                    <button type="submit" class="btn btn-primary mt-4">Update</button>
                                 </form>
 
 
@@ -164,6 +200,37 @@
     </div>
 
     <script>
+        document.getElementById('paste-area').addEventListener('paste', function(event) {
+            const items = (event.clipboardData || window.clipboardData).items;
+            for (let i = 0; i < items.length; i++) {
+                const item = items[i];
+                if (item.kind === 'file' && item.type.indexOf('image') !== -1) {
+                    const file = item.getAsFile();
+                    const formData = new FormData();
+                    formData.append('image', file);
+                    formData.append('news_id', {{ $news->id }}); // opsional
+
+
+                    // Ganti URL berikut dengan route Laravel-mu
+                    fetch('/upload-image', {
+                            method: 'POST',
+                            // headers: {
+                            //     'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute(
+                            //         'content')
+                            // },
+                            body: formData
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            // update preview dan input hidden
+                            document.getElementById('preview').src = data.url;
+                            document.getElementById('image-path').value = data.path;
+                            alert('Image uploaded successfully!');
+                        })
+                        .catch(error => console.error('Upload failed:', error));
+                }
+            }
+        });
         $(document).ready(function() {
             function loadCategories(countryId, selectedCategory = null) {
                 $('#category').html('<option value="">-- Select Category --</option>');
