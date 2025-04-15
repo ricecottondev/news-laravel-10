@@ -185,7 +185,7 @@ class BackNewsController extends Controller
         $news->status = $request->status;
         $news->is_breaking_news = $request->has('is_breaking_news');
 
-        $news->save();
+        // $news->save();
 
         return redirect()->route('news-master.index')->with('success', 'News item updated successfully.');
     }
