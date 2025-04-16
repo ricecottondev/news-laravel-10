@@ -79,79 +79,71 @@
     </section>
 
     <section>
-        <div class="container py-4">
-            @if (session('error'))
-                <div class="alert alert-danger">
-                    {{ session('error') }}
-                </div>
-            @endif
-            @if (session('success'))
-                <div class="alert alert-success">
-                    {{ session('success') }}
-                </div>
-            @endif
-            {{-- <form action="" class="text-start d-flex flex-column gap-4"> --}}
-            <form class="text-start d-flex flex-column gap-4" method="POST" action="{{ route('login') }}">
-                @csrf
-                <div class="form-group">
-                    <label for="" class="form-label">Email</label>
-                    <!--begin::Email-->
-                    @error('email')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                    @enderror
-                    <input type="text" name="email" autocomplete="off"
-                        class="form-control bg-transparent rounded-0" />
-                    <!--end::Email-->
-                    {{-- <input class="form-control rounded-0" type="text" id=""> --}}
-                </div>
-                <div class="form-group">
-                    <label for="" class="form-label">Kata Sandi</label>
-                    <div class="input-group border">
-                        @error('password')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
-                        <input type="password" name="password" autocomplete="off"
-                            class="form-control bg-transparent rounded-0" id="password-field" />
-                        <input type="text" name="password_display" autocomplete="off"
-                            class="form-control bg-transparent rounded-0" id="password-field-display"
-                            style="display: none;" />
-                        <button class="btn" id="toggle-password" type="button">
-                            <i class="bi bi-eye-slash-fill"></i>
-                            <i class="bi bi-eye-fill" style="display: none;"></i>
-                        </button>
+        <div class="container py-5">
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <div class="card shadow-lg border-0 rounded-4">
+                        <div class="card-body p-4">
+
+                            <h3 class="text-center mb-4">Sign In</h3>
+
+                            @if (session('error'))
+                                <div class="alert alert-danger">
+                                    {{ session('error') }}
+                                </div>
+                            @endif
+                            @if (session('success'))
+                                <div class="alert alert-success">
+                                    {{ session('success') }}
+                                </div>
+                            @endif
+
+                            <form method="POST" action="{{ route('login') }}" class="d-flex flex-column gap-3">
+                                @csrf
+
+                                <div class="form-group">
+                                    <label class="form-label">Email</label>
+                                    <input type="text" name="email" class="form-control @error('email') is-invalid @enderror" autocomplete="off">
+                                    @error('email')
+                                        <span class="invalid-feedback" role="alert">{{ $message }}</span>
+                                    @enderror
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label">Password</label>
+                                    <div class="input-group border">
+                                        <input type="password" name="password" id="password-field" class="form-control bg-transparent rounded-0" autocomplete="off">
+                                        <input type="text" name="password_display" id="password-field-display" class="form-control bg-transparent rounded-0" style="display: none;">
+                                        <button class="btn" id="toggle-password" type="button">
+                                            <i class="bi bi-eye-slash-fill"></i>
+                                            <i class="bi bi-eye-fill" style="display: none;"></i>
+                                        </button>
+                                    </div>
+                                    @error('password')
+                                        <span class="invalid-feedback" role="alert">{{ $message }}</span>
+                                    @enderror
+                                </div>
+
+                                <div class="text-end">
+                                    <a href="{{ route('forget.password.get') }}" class="text-decoration-none text-muted small">Forgot Password?</a>
+                                </div>
+
+                                <button type="submit" class="btn btn-dark btn-lg rounded-3 w-100">Login</button>
+
+                                <div class="text-center text-muted my-2">or</div>
+
+                                <a href="/auth/google" class="btn btn-outline-secondary w-100">
+                                    <i class="bi bi-google me-2"></i> Login with Google
+                                </a>
+                            </form>
+
+                        </div>
                     </div>
                 </div>
-                <div class="text-end" style="margin-bottom: 2rem;">
-                    <a class="text-reset text-decoration-none" href="{{ route('forget.password.get') }}">Lupa Kata
-                        Sandi?</a>
-                </div>
-                {{-- <a class="btn btn-lg btn-dark rounded-0" href="akun.html">Masuk</a> --}}
-                <button type="submit" class="btn btn-lg btn-dark rounded-0">
-                    <span class="indicator-label">Masuk </span>
-                </button>
-                <div class="d-flex align-items-center gap-2 d-none">
-                    <hr class="m-0 opacity-100 w-100">
-                    <span>atau</span>
-                    <hr class="m-0 opacity-100 w-100">
-                </div>
-                <div class="text-center fs-3 d-flex align-items-center gap-4 justify-content-center">
-                    <a class="text-reset text-decoration-none" href="/auth/google">
-                        <i class="bi bi-google"></i>
-                    </a>
-                    {{-- <a class="text-reset text-decoration-none" href="#">
-                        <i class="bi bi-facebook"></i>
-                    </a>
-                    <a class="text-reset text-decoration-none" href="#">
-                        <i class="bi bi-apple"></i>
-                    </a> --}}
-                </div>
-            </form>
+            </div>
         </div>
     </section>
+
 
 
     {{-- this loading spinner --}}
