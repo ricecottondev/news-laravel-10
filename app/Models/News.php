@@ -32,6 +32,7 @@ class News extends Model
         'slug',
         'status',
         'image',
+        'video_url',
         'views',
         'created_at',
     ];

@@ -1,4 +1,13 @@
 @extends('front/layouts.layout')
+@php
+    function convertToEmbedUrl($url)
+    {
+        // Convert normal YouTube URL to embed
+        preg_match('/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|v\/))([\w-]{11})/', $url, $matches);
+        return isset($matches[1]) ? 'https://www.youtube.com/embed/' . $matches[1] : $url;
+    }
+@endphp
+
 
 @section('content')
     <div class="container d-flex justify-content-center">
@@ -43,6 +52,14 @@
                         </button>
                     </div>
                 </div>
+
+                @if ($news->video_url)
+                    <div class="mb-4">
+                        <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#videoModal">
+                            <i class="bi bi-play-circle"></i> Watch Video
+                        </button>
+                    </div>
+                @endif
 
 
 
@@ -180,6 +197,29 @@
         </div>
     </div>
 
+    @if ($news->video_url)
+        <!-- Video Modal -->
+        <div class="modal fade" id="videoModal" tabindex="-1" aria-labelledby="videoModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-dialog-centered">
+                <div class="modal-content bg-dark text-white">
+                    <div class="modal-header border-0">
+                        <h5 class="modal-title" id="videoModalLabel">News Video</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body p-0">
+                        <div class="ratio ratio-16x9">
+                            <iframe id="youtubePlayer" width="100%" height="400"
+                                src="{{ convertToEmbedUrl($news->video_url) }}" title="YouTube video" frameborder="0"
+                                allowfullscreen></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif
+
+
     <script>
         function copyLink() {
             const link = "{{ route('front.news.show', $news->slug) }}";
@@ -196,6 +236,19 @@
                 const replyModal = new bootstrap.Modal(document.getElementById('replyModal'));
                 replyModal.show();
             });
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const modal = document.getElementById('videoModal');
+            const iframe = document.getElementById('youtubePlayer');
+            const originalSrc = iframe?.src;
+
+            if (modal && iframe) {
+                modal.addEventListener('hidden.bs.modal', function() {
+                    iframe.src = ''; // stop video
+                    iframe.src = originalSrc; // reset to original URL
+                });
+            }
         });
     </script>
 @endsection
