@@ -232,6 +232,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('back/news-master/{id}/edit', [BackNewsController::class, 'edit'])->name('news-master.edit');
     Route::post('back/news-master/update', [BackNewsController::class, 'update'])->name('news-master.update');
 
+    Route::get('/admin/news-master/uncategorized', [BackNewsController::class, 'uncategorized'])->name('news-master.uncategorized');
+    Route::post('/admin/news-master/assign-category', [BackNewsController::class, 'assignCategory'])->name('news-master.assign.category');
+    Route::post('/admin/assign-uncategorized', [BackNewsController::class, 'assignUncategorized'])->name('admin.assign.uncategorized');
 
     // Rute untuk subscribe
     Route::resource('back/subscribe', SubscribeController::class);

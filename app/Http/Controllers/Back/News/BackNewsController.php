@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Country;
 use App\Models\CountriesCategories;
+use App\Models\CountriesCategoriesNews;
 
 use Maatwebsite\Excel\Facades\Excel;
 use App\Imports\NewsImport;
@@ -247,5 +248,60 @@ class BackNewsController extends Controller
         return view('back.news.bulk', compact('countries'));
     }
 
+    public function uncategorized()
+    {
+        $uncategorizedNews = News::leftJoin('countries_categories_news as ccn', 'news.id', '=', 'ccn.news_id')
+            ->leftJoin('categories as c', 'c.id', '=', 'ccn.category_id')
+            ->whereNull('c.id')
+            ->select('news.*')
+            ->distinct()
+            ->get();
 
+        $countries = Country::all(); // Untuk pilihan negara di modal
+
+        return view('back.news.uncategorized', compact('uncategorizedNews', 'countries'));
+    }
+
+
+    public function assignCategory(Request $request)
+{
+    $request->validate([
+        'news_id' => 'required|exists:news,id',
+        'country_id' => 'required|exists:countries,id',
+    ]);
+
+    CountriesCategoriesNews::create([
+        'news_id' => $request->news_id,
+        'country_id' => $request->country_id,
+        'category_id' => 24, // ID kategori Uncategorized
+        'status' => 'active',
+    ]);
+
+    return response()->json(['success' => true, 'message' => 'Category assigned.']);
+}
+
+public function assignUncategorized(Request $request)
+{
+    $request->validate([
+        'country_id' => 'required|exists:countries,id',
+    ]);
+
+    $uncategorizedNews = News::leftJoin('countries_categories_news as ccn', 'news.id', '=', 'ccn.news_id')
+        ->leftJoin('categories as c', 'c.id', '=', 'ccn.category_id')
+        ->whereNull('c.id')
+        ->select('news.id')
+        ->distinct()
+        ->get();
+
+    foreach ($uncategorizedNews as $news) {
+        \App\Models\CountriesCategoriesNews::create([
+            'country_id' => $request->country_id,
+            'category_id' => 24, // ID untuk "Uncategorized"
+            'news_id' => $news->id,
+            'status' => 'active',
+        ]);
+    }
+
+    return redirect()->route('news-master.uncategorized')->with('success', 'All uncategorized news have been assigned.');
+}
 }

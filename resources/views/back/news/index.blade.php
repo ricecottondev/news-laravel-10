@@ -37,6 +37,8 @@
                             <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#addNewsModal">
                                 <i class="ki-duotone ki-plus"></i> Add News
                             </button>
+                            <a href="{{ route('news-master.uncategorized') }}" class="btn btn-sm btn-primary"><i
+                                class="ki-duotone ki-plus "></i>Uncategorized News</a>
                         </div>
 
                     </div>
