@@ -1,4 +1,57 @@
 @extends('front/layouts.layout')
+
+@push('styles')
+    <style>
+        .custom-separator {
+            font-size: 1rem;
+            gap: 0.25rem;
+            text-align: center;
+            flex-wrap: wrap;
+        }
+
+        .separator-item {
+            white-space: nowrap;
+        }
+
+        .separator-divider {
+            opacity: 0.5;
+        }
+
+        @media (max-width: 430px) {
+            .custom-separator {
+                font-size: 0.765rem;
+                /* 10px */
+            }
+        }
+
+        @media (max-width: 414px) {
+            .custom-separator {
+                font-size: 0.625rem;
+                /* 10px */
+            }
+        }
+
+        @media (max-width: 375px) {
+            .custom-separator {
+                font-size: 0.5rem;
+                /* 8px */
+            }
+        }
+        @media (max-width: 360px) {
+            .custom-separator {
+                font-size: 0.565rem;
+                /* 8px */
+            }
+        }
+
+        @media (max-width: 344px) {
+            .custom-separator {
+                font-size: 0.52rem;
+                /* 8px */
+            }
+        }
+    </style>
+@endpush
 @section('content')
     {{-- ========================== Top News Headline (Hidden Section) ========================== --}}
     <section class="mb-5 d-none">
@@ -81,52 +134,53 @@
 
             <div class="row mb-4">
                 @foreach ($currentChunk as $tnews)
-                <div class="col-md-{{ 12 / $currentCols }} mb-4">
-                    <a href="{{ route('front.news.show', $tnews->slug) }}" class="text-decoration-none text-dark">
-                        <div class="border rounded-5 overflow-hidden h-100 custom-shadow d-flex flex-column" style="min-height: 200px;">
+                    <div class="col-md-{{ 12 / $currentCols }} mb-4">
+                        <a href="{{ route('front.news.show', $tnews->slug) }}" class="text-decoration-none text-dark">
+                            <div class="border rounded-5 overflow-hidden h-100 custom-shadow d-flex flex-column"
+                                style="min-height: 200px;">
 
-                            {{-- Gambar di atas --}}
-                            @if ($tnews->image)
-                            <div class="position-relative" style="height: {{ $currentCols == 3 ? '300px' : '400px' }};">
-                                <img src="{{ asset('storage/' . $tnews->image) }}"
-                                     alt="{{ $tnews->title }}"
-                                     class="img-fluid w-100 h-100"
-                                     style="object-fit: cover;">
-                            </div>
-                            @endif
+                                {{-- Gambar di atas --}}
+                                @if ($tnews->image)
+                                    <div class="position-relative"
+                                        style="height: {{ $currentCols == 3 ? '300px' : '400px' }};">
+                                        <img src="{{ asset('storage/' . $tnews->image) }}" alt="{{ $tnews->title }}"
+                                            class="img-fluid w-100 h-100" style="object-fit: cover;">
+                                    </div>
+                                @endif
 
-                            {{-- Konten di bawah --}}
-                            <div class="p-3 d-flex flex-column justify-content-between h-100">
-                                <div>
-                                    {{-- Kategori --}}
-                                    @php
-                                        $categoryName = $tnews->countriesCategoriesNews->first()?->category?->name ?? 'No Category';
-                                    @endphp
-                                    <span class="badge bg-danger text-white rounded-pill px-2 py-1 mb-2" style="font-size: 0.75rem;">
-                                        {{ strtoupper($categoryName) }}
-                                    </span>
+                                {{-- Konten di bawah --}}
+                                <div class="p-3 d-flex flex-column justify-content-between h-100">
+                                    <div>
+                                        {{-- Kategori --}}
+                                        @php
+                                            $categoryName =
+                                                $tnews->countriesCategoriesNews->first()?->category?->name ??
+                                                'No Category';
+                                        @endphp
+                                        <span class="badge bg-danger text-white rounded-pill px-2 py-1 mb-2"
+                                            style="font-size: 0.75rem;">
+                                            {{ strtoupper($categoryName) }}
+                                        </span>
 
-                                    {{-- Judul --}}
-                                    <h6 class="news-title fw-bold mb-1">{{ Str::limit($tnews->title, 70) }}</h6>
+                                        {{-- Judul --}}
+                                        <h6 class="news-title fw-bold mb-1">{{ Str::limit($tnews->title, 70) }}</h6>
 
-                                    {{-- Deskripsi singkat --}}
-                                    <p class="text-muted mb-0" style="font-size: 0.875rem;">
-                                        {{ Str::words(strip_tags($tnews->content), 25, '...') }}
-                                    </p>
+                                        {{-- Deskripsi singkat --}}
+                                        <p class="text-muted mb-0" style="font-size: 0.875rem;">
+                                            {{ Str::words(strip_tags($tnews->content), 25, '...') }}
+                                        </p>
+                                    </div>
+
+                                    {{-- Tanggal --}}
+                                    <small class="text-muted mt-3">
+                                        <i class="fas fa-calendar-alt me-1"></i>
+                                        {{ $tnews->created_at?->format('F d, Y') }}
+                                    </small>
                                 </div>
 
-                                {{-- Tanggal --}}
-                                <small class="text-muted mt-3">
-                                    <i class="fas fa-calendar-alt me-1"></i> {{ $tnews->created_at?->format('F d, Y') }}
-                                </small>
                             </div>
-
-                        </div>
-                    </a>
-                </div>
-
-
-
+                        </a>
+                    </div>
                 @endforeach
             </div>
 
@@ -323,11 +377,15 @@
                             </li>
                         </ul>
 
-                        <div class="d-flex justify-content-center fw-bold text-warning mb-3" style="font-size: 1rem;">
-                            <span class="me-3">For Professionals</span>
-                            <span class="me-3">For Activists</span>
-                            <span>For Truth Seekers</span>
+                        <div
+                            class="custom-separator d-flex justify-content-center align-items-center flex-wrap text-warning fw-bold mb-3">
+                            <span class="separator-item">For Professionals</span>
+                            <span class="separator-divider mx-2">|</span>
+                            <span class="separator-item">For Activists</span>
+                            <span class="separator-divider mx-2">|</span>
+                            <span class="separator-item">For Truth Seekers</span>
                         </div>
+
 
                         <p class="fs-5 mb-0">
                             We don't do fake balance or billionaire filters.<br>
