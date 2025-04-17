@@ -4,12 +4,13 @@
             <!-- Logo dan Judul -->
             <div class="d-flex align-items-center">
                 <a href="/" class="text-decoration-none text-muted">
-                    <img src="/images/app_logo.png"
-                        alt="Logo" width="50" height="50" class="me-3">
+                    <img src="/images/app_logo.png" alt="Logo" width="50" height="50" class="me-3">
                 </a>
                 <h1 class="h4 mb-0">FactaBot</h1>
             </div>
-
+            <div class="d-md-flex align-items-center gap-3">
+                <a class="btn btn-download text-light d-none d-md-block" href="/download">Download Here</a>
+            </div>
             <div class="d-none d-md-flex align-items-center gap-3">
                 <form action="/search" method="GET" class="d-flex">
                     <input type="text" name="q" class="form-control me-2" placeholder="Search news..."
@@ -34,6 +35,27 @@
                 data-bs-target="#mobile-menu">
                 <i class="fas fa-bars fa-lg"></i>
             </button>
+
+            <div class="offcanvas offcanvas-end bg-dark text-white" tabindex="-1" id="mobile-menu">
+                <div class="offcanvas-header">
+                    <h5 class="offcanvas-title">Menu</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"></button>
+                </div>
+                <div class="offcanvas-body d-flex flex-column gap-3">
+                    <a class="btn btn-download w-100 text-center" href="/download">Download Here</a>
+                    <a class="nav-link text-white" href="/about-us">About Us</a>
+                    <div class="card bg-secondary text-white">
+                        <div class="card-body">
+                            <h6 class="card-title">FAQ</h6>
+                            <p class="card-text">Frequently asked questions about our service.</p>
+                            <a href="/faq" class="btn btn-light btn-sm">Go to FAQ</a>
+                        </div>
+                    </div>
+                    <a class="nav-link text-white" href="/editorial-policy">Editorial Policy</a>
+                    <a class="nav-link text-white" href="/privacy-policy">Privacy Policy</a>
+                    <a class="nav-link text-white" href="/contact-us">Contact Us</a>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -93,19 +115,17 @@
     @endphp
 
     @isset($topnews)
-    <div class="breaking-news-wrapper overflow-auto">
-        <marquee id="breaking-news"
-                 style="background-color: {{ $bgColor }};"
-                 class="text-black py-2 fw-bold"
-                 scrollamount="4">
-            @foreach ($topnews as $tnews)
-                <a href="{{ route('front.news.show', $tnews->slug) }}"
-                   class="text-black text-decoration-none me-4 d-inline-block">
-                    {{ $tnews->title }}
-                </a>
-            @endforeach
-        </marquee>
-    </div>
+        <div class="breaking-news-wrapper overflow-auto">
+            <marquee id="breaking-news" style="background-color: {{ $bgColor }};" class="text-black py-2 fw-bold"
+                scrollamount="4">
+                @foreach ($topnews as $tnews)
+                    <a href="{{ route('front.news.show', $tnews->slug) }}"
+                        class="text-black text-decoration-none me-4 d-inline-block">
+                        {{ $tnews->title }}
+                    </a>
+                @endforeach
+            </marquee>
+        </div>
     @endisset
 
 

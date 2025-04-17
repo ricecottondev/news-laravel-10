@@ -224,6 +224,22 @@
         .category-card .text-secondary {
             color: #999 !important;
         }
+
+
+        .btn-download {
+            background-color: #ffc107;
+            /* warna kuning seperti "subscribe" */
+            border-radius: 6px;
+            padding: 8px 16px;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-download:hover {
+            background-color: #e0a800;
+            color: #1e1e1e;
+            text-decoration: none;
+        }
     </style>
     @stack('styles')
 </head>
