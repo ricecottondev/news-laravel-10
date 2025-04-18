@@ -18,8 +18,8 @@
                             </nav>
                         </div>
                         <!-- <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#kt_modal_add_user">
-                                                    <i class="ki-duotone ki-plus"></i> Edit News
-                                                </button> -->
+                                                            <i class="ki-duotone ki-plus"></i> Edit News
+                                                        </button> -->
                     </div>
                 </div>
 
@@ -206,31 +206,63 @@
                 const item = items[i];
                 if (item.kind === 'file' && item.type.indexOf('image') !== -1) {
                     const file = item.getAsFile();
-                    const formData = new FormData();
-                    formData.append('image', file);
-                    formData.append('news_id', {{ $news->id }}); // opsional
-
-
-                    // Ganti URL berikut dengan route Laravel-mu
-                    fetch('/upload-image', {
-                            method: 'POST',
-                            // headers: {
-                            //     'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute(
-                            //         'content')
-                            // },
-                            body: formData
-                        })
-                        .then(response => response.json())
-                        .then(data => {
-                            // update preview dan input hidden
-                            document.getElementById('preview').src = data.url;
-                            document.getElementById('image-path').value = data.path;
-                            alert('Image uploaded successfully!');
-                        })
-                        .catch(error => console.error('Upload failed:', error));
+                    // alert('ck1');
+                    uploadImageFile(file);
+                } else if (item.kind === 'string' && item.type === 'text/html') {
+                    // alert('ck2');
+                    item.getAsString(function(html) {
+                        const imgTag = html.match(/<img src="([^"]+)"/);
+                        if (imgTag && imgTag[1].startsWith('data:image')) {
+                            uploadBase64Image(imgTag[1]);
+                        }
+                    });
                 }
             }
         });
+
+
+        function uploadImageFile(file) {
+            // alert('not base64');
+            const formData = new FormData();
+            formData.append('image', file);
+            formData.append('news_id', {{ $news->id }});
+
+            fetch('/upload-image', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('preview').src = data.url;
+                    document.getElementById('image-path').value = data.path;
+                    alert('Image uploaded successfully!');
+                })
+                .catch(error => console.error('Upload failed:', error));
+        }
+
+        function uploadBase64Image(dataUrl) {
+            // alert('base64'.dataUrl);
+            fetch('/upload-image-base64', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    },
+                    body: JSON.stringify({
+                        image: dataUrl,
+                        news_id: {{ $news->id }}
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('preview').src = data.url;
+                    document.getElementById('image-path').value = data.path;
+                    alert('Base64 image uploaded successfully!');
+                })
+                .catch(error => console.error('Upload failed:', error));
+        }
+
+
         $(document).ready(function() {
             function loadCategories(countryId, selectedCategory = null) {
                 $('#category').html('<option value="">-- Select Category --</option>');

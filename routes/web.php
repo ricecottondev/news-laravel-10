@@ -215,6 +215,7 @@ Route::post('loginas', [UserController::class, 'loginas'])->name('users.loginas'
 Route::get('loginas', [UserController::class, 'loginas'])->name('users.loginas');
 
 Route::post('/upload-image', [ImageUploadController::class, 'store'])->name('upload.image');
+Route::post('/upload-image-base64', [ImageUploadController::class, 'storeBase64']);
 
 Route::group(['middleware' => ['auth']], function () {
     Route::get('/back/dashboard', [DashboardController::class, 'index'])->name('dashboard');

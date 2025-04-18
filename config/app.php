@@ -154,6 +154,7 @@ return [
     |
     */
 
+
     'providers' => [
 
         /*
@@ -215,6 +216,7 @@ return [
         // 'ExampleClass' => App\Example\ExampleClass::class,
         'Permission' => Spatie\Permission\Facades\Permission::class,
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
+        'Image' => Intervention\Image\Facades\Image::class,
     ])->toArray(),
 
 ];
