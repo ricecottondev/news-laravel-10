@@ -3,8 +3,8 @@
 @push('styles')
     <style>
         .custom-separator {
-            font-size: 1rem;
-            gap: 0.25rem;
+            font-size: 0.8rem;
+            /* gap: 0.25rem; */
             text-align: center;
             flex-wrap: wrap;
         }
@@ -15,6 +15,24 @@
 
         .separator-divider {
             opacity: 0.5;
+        }
+
+        .fade-in-delayed {
+            opacity: 0;
+            animation: fadeIn 1s ease-in-out 1s forwards;
+            /* Durasi: 1s, Delay: 2s, 'forwards' untuk mempertahankan akhir animasi */
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         @media (max-width: 430px) {
@@ -31,12 +49,20 @@
             }
         }
 
+        @media (max-width: 390px) {
+            .custom-separator {
+                font-size: 0.52rem;
+                /* 8px */
+            }
+        }
+
         @media (max-width: 375px) {
             .custom-separator {
                 font-size: 0.5rem;
                 /* 8px */
             }
         }
+
         @media (max-width: 360px) {
             .custom-separator {
                 font-size: 0.565rem;
@@ -49,6 +75,29 @@
                 font-size: 0.52rem;
                 /* 8px */
             }
+        }
+
+
+        .phone-frame-wrapper {
+            background: url('/images/desain_popup_landing.png') no-repeat center center;
+            background-size: contain;
+            position: relative;
+            width: 100%;
+            max-width: 400px;
+            aspect-ratio: 9/18;
+            /* Sesuaikan dengan bentuk handphone */
+            padding: 60px 30px;
+            /* Sesuaikan area layar di dalam bingkai */
+            box-sizing: border-box;
+        }
+
+        .phone-content {
+            height: 100%;
+            overflow-y: auto;
+        }
+
+        .phone-content::-webkit-scrollbar {
+            display: none;
         }
     </style>
 @endpush
@@ -353,44 +402,53 @@
                         Get unfiltered news, biting commentary, and rebel energy—delivered daily to your phone.
                     </p>
 
-                    <div class="text-center">
-                        <button class="btn btn-warning fw-bold px-4 py-2 mb-4" style="font-size: 1.1rem;"
-                            onclick="alert('Download the App')">
-                            Download the App
-                        </button>
-                    </div>
+                    <div class="phone-frame-wrapper mx-auto">
+                        <div class="phone-content text-center text-light">
 
-                    <!-- Konten setelah tombol, semua diratakan tengah -->
-                    <div class="text-center">
-                        <ul class="list-unstyled fs-5 mb-4 d-inline-block text-start">
-                            <li class="mb-2">
-                                <i class="fas fa-check text-warning me-2"></i>No Sugar-Coated Spin
-                            </li>
-                            <li class="mb-2">
-                                <i class="fas fa-check text-warning me-2"></i>Smart, Savage Commentary
-                            </li>
-                            <li class="mb-2">
-                                <i class="fas fa-check text-warning me-2"></i>Built for Rebels & Truth-Seekers
-                            </li>
-                            <li class="mb-2">
-                                <i class="fas fa-check text-warning me-2"></i>No Ads. No Corporate Agenda
-                            </li>
-                        </ul>
+                            <div class="text-center mt-5  fade-in-delayed">
+                                <a href="https://play.google.com/store/apps/details?id=com.rc.news"
+                                    class="btn btn-warning fw-bold px-4 py-2 mb-4" style="font-size: 1.1rem;"
+                                    target="_blank" rel="noopener noreferrer">
+                                    Download the App
+                                </a>
+                            </div>
 
-                        <div
-                            class="custom-separator d-flex justify-content-center align-items-center flex-wrap text-warning fw-bold mb-3">
-                            <span class="separator-item">For Professionals</span>
-                            <span class="separator-divider mx-2">|</span>
-                            <span class="separator-item">For Activists</span>
-                            <span class="separator-divider mx-2">|</span>
-                            <span class="separator-item">For Truth Seekers</span>
+
+                            <!-- Konten setelah tombol, semua diratakan tengah -->
+                            <div class="text-center  fade-in-delayed">
+                                <ul class="list-unstyled fs-5 mb-4 d-inline-block text-start">
+                                    <li class="mb-2">
+                                        <i class="fas fa-check text-warning me-2"></i>No Sugar-Coated Spin
+                                    </li>
+                                    <li class="mb-2">
+                                        <i class="fas fa-check text-warning me-2"></i>Smart, Savage Commentary
+                                    </li>
+                                    <li class="mb-2">
+                                        <i class="fas fa-check text-warning me-2"></i>Built for Rebels & Truth-Seekers
+                                    </li>
+                                    <li class="mb-2">
+                                        <i class="fas fa-check text-warning me-2"></i>No Ads. No Corporate Agenda
+                                    </li>
+                                </ul>
+
+                                <div
+                                    class="custom-separator d-flex justify-content-center align-items-center flex-wrap text-warning fw-bold mb-3">
+                                    <span class="separator-item">For Professionals</span>
+                                    <span class="separator-divider mx-2">|</span>
+                                    <span class="separator-item">For Activists</span>
+                                    <span class="separator-divider mx-2">|</span>
+                                    <span class="separator-item">For Truth Seekers</span>
+                                </div>
+
+
+                                <p class="fs-5 mb-0">
+                                    We don't do fake balance or billionaire filters.<br>
+                                    Just the raw truth with a punchline.
+                                </p>
+                            </div>
+
                         </div>
 
-
-                        <p class="fs-5 mb-0">
-                            We don't do fake balance or billionaire filters.<br>
-                            Just the raw truth with a punchline.
-                        </p>
                     </div>
                 </div>
             </div>
