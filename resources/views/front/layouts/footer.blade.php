@@ -33,7 +33,7 @@
             <div class="col-md-4">
                 <h3 class="h5" style="font-size: 18px ;font-weight: bold;text-decoration: none ;color: rgb(0, 0, 0);">Contact Us</h3>
                 <p style="font-size: 18px ;font-weight: bold;text-decoration: none ;color: rgb(0, 0, 0);">Email: ricecottondev@email.com</p>
-                <p style="font-size: 18px ;font-weight: bold;text-decoration: none ;color: rgb(0, 0, 0);">Phone: (+61) 0424777146</p>
+                {{-- <p style="font-size: 18px ;font-weight: bold;text-decoration: none ;color: rgb(0, 0, 0);">Phone: (+61) 0424777146</p> --}}
             </div>
         </div>
     </div>
