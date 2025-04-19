@@ -142,7 +142,7 @@
             </div>
 
             {{-- Disclaimer --}}
-            <div class="about-disclaimer text-center">
+            <div class="about-disclaimer text-center d-none">
                 <hr class="my-5">
                 <p style="font-size: 10px"><em><strong>Disclaimer: </strong> Eli, Max, and Jonas are fictional alter egos—created to represent every one of us who's fed up with media bias, billionaire narratives, and political spin. They’re not real, but the frustration (and the fight for truth) definitely is.</em></p>
             </div>
