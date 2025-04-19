@@ -76,7 +76,7 @@
 
 
         .news-snippet-detail {
-            text-align: justify;
+            /* text-align: justify; */
             text-justify: inter-word;
             margin-bottom: 0.5rem;
             color: #272727;
@@ -227,18 +227,29 @@
 
 
         .btn-download {
-            background-color: #ffc107;
-            /* warna kuning seperti "subscribe" */
-            border-radius: 6px;
-            padding: 8px 16px;
-            font-weight: 600;
-            transition: background-color 0.3s ease;
+            background-color: #f1c40f;
+            /* Warna kuning */
+            color: black;
+            /* font-weight: bold; */
+            font-size: 0.85rem;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            white-space: nowrap;
+            /* Agar teks tidak pindah baris */
+            display: inline-block;
+            text-align: center;
+            min-width: 110px;
+            /* Atur lebar minimum agar tidak mengecil saat responsive */
+            height: 40px;
+            /* Atur tinggi supaya tetap proporsional */
+            line-height: 1.2;
+            transition: all 0.2s ease-in-out;
         }
 
         .btn-download:hover {
-            background-color: #e0a800;
-            color: #1e1e1e;
-            text-decoration: none;
+            background-color: #e0b800;
+            /* Warna hover */
+            color: #000;
         }
     </style>
     @stack('styles')

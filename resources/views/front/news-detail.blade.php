@@ -19,39 +19,7 @@
             <div class="news-container">
                 <div class="news-title-detail mb-3">{{ $news->title }}</div>
                 <p class="text-secondary mb-4">{{ $news->short_desc }}</p>
-                <div class="mb-4">
-                    <h6>Share this News:</h6>
-                    <div class="d-flex gap-2">
-                        <!-- WhatsApp -->
-                        <a href="https://api.whatsapp.com/send?text={{ urlencode($news->title . ' - ' . route('front.news.show', $news->slug)) }}"
-                            class="btn btn-success btn-sm" target="_blank">
-                            <i class="bi bi-whatsapp"></i> WhatsApp
-                        </a>
 
-                        <!-- Facebook -->
-                        <a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(route('front.news.show', $news->slug)) }}"
-                            class="btn btn-primary btn-sm" target="_blank">
-                            <i class="bi bi-facebook"></i> Facebook
-                        </a>
-
-                        <!-- Twitter -->
-                        <a href="https://twitter.com/intent/tweet?url={{ urlencode(route('front.news.show', $news->slug)) }}&text={{ urlencode($news->title) }}"
-                            class="btn btn-info btn-sm text-white" target="_blank">
-                            <i class="bi bi-twitter-x"></i> Twitter
-                        </a>
-
-                        <!-- Telegram -->
-                        <a href="https://t.me/share/url?url={{ urlencode(route('front.news.show', $news->slug)) }}&text={{ urlencode($news->title) }}"
-                            class="btn btn-secondary btn-sm" target="_blank">
-                            <i class="bi bi-telegram"></i> Telegram
-                        </a>
-
-                        <!-- Copy Link -->
-                        <button onclick="copyLink()" class="btn btn-dark btn-sm">
-                            <i class="bi bi-clipboard"></i> Copy Link
-                        </button>
-                    </div>
-                </div>
 
                 @if ($news->video_url)
                     <div class="mb-4">
@@ -106,6 +74,43 @@
                     @if (!empty(trim($paragraph)))
                         <p class="mb-3 text-justify">{{ trim($paragraph) }}</p>
                     @endif
+
+
+                    <div class="mb-4">
+                        <h6 class="fw-bold mb-2">Share this News:</h6>
+                        <div class="d-flex flex-wrap gap-2">
+
+                            <!-- WhatsApp -->
+                            <a href="https://api.whatsapp.com/send?text={{ urlencode($news->title . ' - ' . route('front.news.show', $news->slug)) }}"
+                               class="btn btn-outline-success d-flex align-items-center gap-2 btn-sm" target="_blank">
+                                <i class="bi bi-whatsapp fs-5"></i> WhatsApp
+                            </a>
+
+                            <!-- Facebook -->
+                            <a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(route('front.news.show', $news->slug)) }}"
+                               class="btn btn-outline-primary d-flex align-items-center gap-2 btn-sm" target="_blank">
+                                <i class="bi bi-facebook fs-5"></i> Facebook
+                            </a>
+
+                            <!-- Twitter -->
+                            <a href="https://twitter.com/intent/tweet?url={{ urlencode(route('front.news.show', $news->slug)) }}&text={{ urlencode($news->title) }}"
+                               class="btn btn-outline-info d-flex align-items-center gap-2 btn-sm text-info" target="_blank">
+                                <i class="bi bi-twitter-x fs-5"></i> Twitter
+                            </a>
+
+                            <!-- Telegram -->
+                            <a href="https://t.me/share/url?url={{ urlencode(route('front.news.show', $news->slug)) }}&text={{ urlencode($news->title) }}"
+                               class="btn btn-outline-secondary d-flex align-items-center gap-2 btn-sm" target="_blank">
+                                <i class="bi bi-telegram fs-5"></i> Telegram
+                            </a>
+
+                            <!-- Copy Link -->
+                            <button onclick="copyLink()" class="btn btn-outline-dark d-flex align-items-center gap-2 btn-sm">
+                                <i class="bi bi-clipboard fs-5"></i> Copy Link
+                            </button>
+                        </div>
+                    </div>
+
                 </div>
 
 
