@@ -457,18 +457,23 @@
 
 
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
+        document.addEventListener("DOMContentLoaded", function () {
             const newsModalEl = document.getElementById('newsPopupModal');
             const newsModal = new bootstrap.Modal(newsModalEl);
-            newsModal.show();
+
+            // Cek apakah modal sudah pernah ditampilkan sebelumnya
+            if (!localStorage.getItem("newsModalShown")) {
+                newsModal.show();
+                localStorage.setItem("newsModalShown", "true");
+            }
 
             // Tombol Close
-            document.getElementById('customCloseBtn').addEventListener('click', function() {
+            document.getElementById('customCloseBtn').addEventListener('click', function () {
                 newsModal.hide();
-                //alert("Modal closed");
             });
         });
     </script>
+
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 @endsection
