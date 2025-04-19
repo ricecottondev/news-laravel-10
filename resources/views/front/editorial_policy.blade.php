@@ -64,14 +64,9 @@
                 If you believe any content in the app infringes your intellectual property rights or violates any laws, please contact us immediately at ricecottondev@gmail.com. We will review any concerns raised and take appropriate action as necessary.
             </p>
 
-            <p><strong>10. Contact Us</strong><br>
-                For any questions regarding this Editorial Policy, please contact us at ricecottondev@gmail.com.
-            </p>
+            <p><strong>10. Fictional Representation Disclaimer</strong><br>
+                The following disclaimer applies to all images, characters, and visual content displayed on this website or within the Factabot app.
 
-            <hr>
-
-            <h3>Fictional Representation Disclaimer</h3>
-            <p>
                 All images, characters, and visual content displayed on this website or within the Factabot app—including any depictions of individuals or team members—are entirely fictional and created for illustrative, satirical, or editorial purposes. Any resemblance to real persons, living or dead, is purely coincidental.
             </p>
             <p>
@@ -80,6 +75,14 @@
             <p>
                 By using this site or app, you acknowledge that these materials are fictional and waive any claim or assumption to the contrary.
             </p>
+
+            <p><strong>11. Contact Us</strong><br>
+                For any questions regarding this Editorial Policy, please contact us at ricecottondev@gmail.com.
+            </p>
+
+            <hr>
+
+
 
         </div>
     </section>
