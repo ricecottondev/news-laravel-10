@@ -65,7 +65,7 @@
 
                                     <button type="submit" class="btn btn-primary">
 
-                                        Ganti Password
+                                        Reset Password
 
                                     </button>
 

@@ -33,7 +33,7 @@
                 </div>
 
 
-                <button class="btn btn-lg btn-dark rounded-0" type="submit">Ganti Password</button>
+                <button class="btn btn-lg btn-dark rounded-0" type="submit">Reset Password</button>
 
 
             </form>
