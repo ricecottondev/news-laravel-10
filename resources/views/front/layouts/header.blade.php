@@ -8,8 +8,8 @@
                 </a>
                 <h1 class="h4 mb-0">FactaBot</h1>
             </div>
-            <div class="d-md-flex align-items-center gap-3">
-                <a class="btn btn-download text-light d-none d-md-block" href="https://play.google.com/store/apps/details?id=com.rc.news">Download Here</a>
+            <div class="d-md-flex align-items-center gap-3 ms-2 me-2">
+                <a class="btn btn-sm btn-download  d-none d-md-block" href="https://play.google.com/store/apps/details?id=com.rc.news">Download Here</a>
             </div>
             <div class="d-none d-md-flex align-items-center gap-3">
                 <form action="/search" method="GET" class="d-flex">
