@@ -170,79 +170,87 @@
 
     {{-- =============================== Breaking News =============================== --}}
     <section class="mb-5">
+
+        @if (count($topnewsChunks) > 0)
         <h2 class="border-bottom pb-2 mb-3 fw-bold text-uppercase">Breaking News</h2>
+            @while ($index < $topnewsChunks->count())
+                @php
+                    $currentCols = $pattern[$patternIndex % count($pattern)]; // 3 or 2
+                    $itemsPerRow = $currentCols;
+                    $rows = 3;
+                    $totalItems = $itemsPerRow * $rows;
+                    $currentChunk = $topnewsChunks->slice($index, $totalItems);
+                @endphp
 
-        @while ($index < $topnewsChunks->count())
-            @php
-                $currentCols = $pattern[$patternIndex % count($pattern)]; // 3 or 2
-                $itemsPerRow = $currentCols;
-                $rows = 3;
-                $totalItems = $itemsPerRow * $rows;
-                $currentChunk = $topnewsChunks->slice($index, $totalItems);
-            @endphp
+                <div class="row mb-4">
+                    @foreach ($currentChunk as $tnews)
+                        <div class="col-md-{{ 12 / $currentCols }} mb-4">
+                            <a href="{{ route('front.news.show', $tnews->slug) }}" class="text-decoration-none text-dark">
+                                <div class="border rounded-5 overflow-hidden h-100 custom-shadow d-flex flex-column"
+                                    style="min-height: 200px;">
 
-            <div class="row mb-4">
-                @foreach ($currentChunk as $tnews)
-                    <div class="col-md-{{ 12 / $currentCols }} mb-4">
-                        <a href="{{ route('front.news.show', $tnews->slug) }}" class="text-decoration-none text-dark">
-                            <div class="border rounded-5 overflow-hidden h-100 custom-shadow d-flex flex-column"
-                                style="min-height: 200px;">
+                                    {{-- Gambar di atas --}}
+                                    @if ($tnews->image)
+                                        <div class="position-relative"
+                                            style="height: {{ $currentCols == 3 ? '300px' : '400px' }};">
+                                            <img src="{{ asset('storage/' . $tnews->image) }}" alt="{{ $tnews->title }}"
+                                                class="img-fluid w-100 h-100" style="object-fit: cover;">
+                                        </div>
+                                    @endif
 
-                                {{-- Gambar di atas --}}
-                                @if ($tnews->image)
-                                    <div class="position-relative"
-                                        style="height: {{ $currentCols == 3 ? '300px' : '400px' }};">
-                                        <img src="{{ asset('storage/' . $tnews->image) }}" alt="{{ $tnews->title }}"
-                                            class="img-fluid w-100 h-100" style="object-fit: cover;">
+                                    {{-- Konten di bawah --}}
+                                    <div class="p-3 d-flex flex-column justify-content-between h-100">
+                                        <div>
+                                            {{-- Kategori --}}
+                                            @php
+                                                $categoryName =
+                                                    $tnews->countriesCategoriesNews->first()?->category?->name ??
+                                                    'No Category';
+                                            @endphp
+                                            <span class="badge bg-danger text-white rounded-pill px-2 py-1 mb-2"
+                                                style="font-size: 0.75rem;">
+                                                {{ strtoupper($categoryName) }}
+                                            </span>
+
+                                            {{-- Judul --}}
+                                            <h6 class="news-title fw-bold mb-1">{{ Str::limit($tnews->title, 70) }}</h6>
+
+                                            {{-- Deskripsi singkat --}}
+                                            <p class="text-muted mb-0" style="font-size: 0.875rem;">
+                                                {{ Str::words(strip_tags($tnews->content), 25, '...') }}
+                                            </p>
+                                        </div>
+
+                                        {{-- Tanggal --}}
+                                        <small class="text-muted mt-3">
+                                            <i class="fas fa-calendar-alt me-1"></i>
+                                            {{ $tnews->created_at?->format('F d, Y') }}
+                                        </small>
                                     </div>
-                                @endif
 
-                                {{-- Konten di bawah --}}
-                                <div class="p-3 d-flex flex-column justify-content-between h-100">
-                                    <div>
-                                        {{-- Kategori --}}
-                                        @php
-                                            $categoryName =
-                                                $tnews->countriesCategoriesNews->first()?->category?->name ??
-                                                'No Category';
-                                        @endphp
-                                        <span class="badge bg-danger text-white rounded-pill px-2 py-1 mb-2"
-                                            style="font-size: 0.75rem;">
-                                            {{ strtoupper($categoryName) }}
-                                        </span>
-
-                                        {{-- Judul --}}
-                                        <h6 class="news-title fw-bold mb-1">{{ Str::limit($tnews->title, 70) }}</h6>
-
-                                        {{-- Deskripsi singkat --}}
-                                        <p class="text-muted mb-0" style="font-size: 0.875rem;">
-                                            {{ Str::words(strip_tags($tnews->content), 25, '...') }}
-                                        </p>
-                                    </div>
-
-                                    {{-- Tanggal --}}
-                                    <small class="text-muted mt-3">
-                                        <i class="fas fa-calendar-alt me-1"></i>
-                                        {{ $tnews->created_at?->format('F d, Y') }}
-                                    </small>
                                 </div>
+                            </a>
+                        </div>
+                    @endforeach
+                </div>
 
-                            </div>
-                        </a>
-                    </div>
-                @endforeach
+                @php
+                    $index += $totalItems;
+                    $patternIndex++;
+                @endphp
+            @endwhile
+
+            <div class="text-start">
+                <a href="{{ url($defaultCountry . '/newscategory/Breaking%20News') }}" class="btn btn-outline-warning text-light">See All
+                    Breaking News</a>
             </div>
-
-            @php
-                $index += $totalItems;
-                $patternIndex++;
-            @endphp
-        @endwhile
-
-        <div class="text-start">
-            <a href="{{ url($defaultCountry . '/newscategory/Breaking%20News') }}" class="btn btn-outline-dark">See All
-                Breaking News</a>
-        </div>
+        {{-- @else
+            <div class="row mb-4">
+                <div class="col-12">
+                    <p class="text-center text-muted">No news available in this category.</p>
+                </div>
+            </div> --}}
+        @endif
     </section>
 
 
@@ -280,7 +288,7 @@
         </div>
 
         <div class="text-start">
-            <a href="{{ url($defaultCountry . '/news') }}" class="btn btn-outline-dark">See All News</a>
+            <a href="{{ url($defaultCountry . '/news') }}" class="btn btn-outline-warning text-light">See All News</a>
         </div>
     </section>
 
@@ -457,7 +465,7 @@
 
 
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
+        document.addEventListener("DOMContentLoaded", function() {
             const newsModalEl = document.getElementById('newsPopupModal');
             const newsModal = new bootstrap.Modal(newsModalEl);
 
@@ -468,7 +476,7 @@
             }
 
             // Tombol Close
-            document.getElementById('customCloseBtn').addEventListener('click', function () {
+            document.getElementById('customCloseBtn').addEventListener('click', function() {
                 newsModal.hide();
             });
         });
