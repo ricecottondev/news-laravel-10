@@ -99,6 +99,50 @@
         .phone-content::-webkit-scrollbar {
             display: none;
         }
+
+
+        .flip-card {
+            perspective: 1000px;
+            height: 100%;
+        }
+
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+
+        .flip-card:hover .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .flip-card-front,
+        .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            backface-visibility: hidden;
+            border-radius: 1.25rem;
+            overflow: hidden;
+            background-color: #fff;
+        }
+
+        .flip-card-front {
+            z-index: 2;
+        }
+
+        .flip-card-back {
+            transform: rotateY(180deg);
+            z-index: 1;
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
     </style>
 @endpush
 @section('content')
@@ -172,7 +216,7 @@
     <section class="mb-5">
 
         @if (count($topnewsChunks) > 0)
-        <h2 class="border-bottom pb-2 mb-3 fw-bold text-uppercase">Breaking News</h2>
+            <h2 class="border-bottom pb-2 mb-3 fw-bold text-uppercase">Breaking News</h2>
             @while ($index < $topnewsChunks->count())
                 @php
                     $currentCols = $pattern[$patternIndex % count($pattern)]; // 3 or 2
@@ -186,48 +230,64 @@
                     @foreach ($currentChunk as $tnews)
                         <div class="col-md-{{ 12 / $currentCols }} mb-4">
                             <a href="{{ route('front.news.show', $tnews->slug) }}" class="text-decoration-none text-dark">
-                                <div class="border rounded-5 overflow-hidden h-100 custom-shadow d-flex flex-column"
+                                <div class=" flip-card border rounded-5 overflow-hidden h-100 custom-shadow d-flex flex-column"
                                     style="min-height: 200px;">
 
-                                    {{-- Gambar di atas --}}
-                                    @if ($tnews->image)
-                                        <div class="position-relative"
-                                            style="height: {{ $currentCols == 3 ? '300px' : '400px' }};">
-                                            <img src="{{ asset('storage/' . $tnews->image) }}" alt="{{ $tnews->title }}"
-                                                class="img-fluid w-100 h-100" style="object-fit: cover;">
+                                    {{-- <div class="flip-card h-100"> --}}
+                                        <div class="flip-card-inner">
+
+                                            {{-- Front Side --}}
+                                            <a href="{{ route('front.news.show', $tnews->slug) }}"
+                                                class="flip-card-front text-decoration-none text-dark">
+                                                <div
+                                                    class="border rounded-5 overflow-hidden h-100 custom-shadow d-flex flex-column">
+                                                    @if ($tnews->image)
+                                                        <div class="position-relative"
+                                                            style="height: {{ $currentCols == 3 ? '300px' : '400px' }};">
+                                                            <img src="{{ asset('storage/' . $tnews->image) }}"
+                                                                alt="{{ $tnews->title }}" class="img-fluid w-100 h-100"
+                                                                style="object-fit: cover;">
+                                                        </div>
+                                                    @endif
+                                                    <div class="p-3 d-flex flex-column justify-content-between h-100">
+                                                        @php
+                                                            $categoryName =
+                                                                $tnews->countriesCategoriesNews->first()?->category
+                                                                    ?->name ?? 'No Category';
+                                                        @endphp
+                                                        <span class="badge bg-danger text-white rounded-pill px-2 py-1 mb-2"
+                                                            style="font-size: 0.75rem;">
+                                                            {{ strtoupper($categoryName) }}
+                                                        </span>
+
+                                                        <h6 class="news-title fw-bold mb-1">
+                                                            {{ Str::limit($tnews->title, 70) }}</h6>
+
+                                                        <p class="text-muted mb-0" style="font-size: 0.875rem;">
+                                                            {{ Str::words(strip_tags($tnews->content), 25, '...') }}
+                                                        </p>
+
+                                                        <small class="text-muted mt-3">
+                                                            <i class="fas fa-calendar-alt me-1"></i>
+                                                            {{ $tnews->created_at?->format('F d, Y') }}
+                                                        </small>
+                                                    </div>
+                                                </div>
+                                            </a>
+
+                                            {{-- Back Side --}}
+                                            <div class="flip-card-back">
+                                                <h6 class="fw-bold mb-2">{{ $tnews->title }}</h6>
+                                                <p class="text-muted mb-2" style="font-size: 0.9rem;">
+                                                    {!! Str::limit(strip_tags($tnews->content), 80, '...') !!}</p>
+                                                <a href="{{ route('front.news.show', $tnews->slug) }}"
+                                                    class="btn btn-outline-primary btn-sm mt-auto">
+                                                    Read More
+                                                </a>
+                                            </div>
+
                                         </div>
-                                    @endif
-
-                                    {{-- Konten di bawah --}}
-                                    <div class="p-3 d-flex flex-column justify-content-between h-100">
-                                        <div>
-                                            {{-- Kategori --}}
-                                            @php
-                                                $categoryName =
-                                                    $tnews->countriesCategoriesNews->first()?->category?->name ??
-                                                    'No Category';
-                                            @endphp
-                                            <span class="badge bg-danger text-white rounded-pill px-2 py-1 mb-2"
-                                                style="font-size: 0.75rem;">
-                                                {{ strtoupper($categoryName) }}
-                                            </span>
-
-                                            {{-- Judul --}}
-                                            <h6 class="news-title fw-bold mb-1">{{ Str::limit($tnews->title, 70) }}</h6>
-
-                                            {{-- Deskripsi singkat --}}
-                                            <p class="text-muted mb-0" style="font-size: 0.875rem;">
-                                                {{ Str::words(strip_tags($tnews->content), 25, '...') }}
-                                            </p>
-                                        </div>
-
-                                        {{-- Tanggal --}}
-                                        <small class="text-muted mt-3">
-                                            <i class="fas fa-calendar-alt me-1"></i>
-                                            {{ $tnews->created_at?->format('F d, Y') }}
-                                        </small>
-                                    </div>
-
+                                    {{-- </div> --}}
                                 </div>
                             </a>
                         </div>
@@ -241,10 +301,11 @@
             @endwhile
 
             <div class="text-start">
-                <a href="{{ url($defaultCountry . '/newscategory/Breaking%20News') }}" class="btn btn-outline-warning text-light">See All
+                <a href="{{ url($defaultCountry . '/newscategory/Breaking%20News') }}"
+                    class="btn btn-outline-warning text-light">See All
                     Breaking News</a>
             </div>
-        {{-- @else
+            {{-- @else
             <div class="row mb-4">
                 <div class="col-12">
                     <p class="text-center text-muted">No news available in this category.</p>
