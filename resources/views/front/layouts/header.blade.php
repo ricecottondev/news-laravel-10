@@ -2,15 +2,16 @@
     <div class="container">
         <div class="d-flex justify-content-between align-items-center py-3">
             <!-- Logo dan Judul -->
-            <div class="d-flex align-items-center">
-                <a href="/" class="text-decoration-none text-muted">
+            <a href="/" class="text-decoration-none text-muted">
+                <div class="d-flex align-items-center">
                     <img src="/images/app_logo.png" alt="Logo" width="50" height="50" class="me-3">
-                </a>
-                <div>
-                    <h1 class="h4 mb-0">FactaBot</h1>
-                    <div class="text-warning" style="font-size: 0.85rem;"><strong>Truth+ Snark, No Billionaire Agenda</strong>  </div>
+                    <div>
+                        <h1 class="h4 mb-0" style="color: white">FactaBot</h1>
+                        <div class="text-warning" style="font-size: 0.85rem;"><strong>Truth+ Snark, No Billionaire Agenda</strong></div>
+                    </div>
                 </div>
-            </div>
+            </a>
+
 
             <div class="d-md-flex align-items-center gap-3 ms-2 me-2">
                 <a class="btn btn-sm btn-download  d-none d-md-block" href="https://play.google.com/store/apps/details?id=com.rc.news">Download Here</a>
