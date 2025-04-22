@@ -3,8 +3,8 @@
 @push('styles')
     <style>
         .custom-separator {
-            font-size: 1rem;
-            gap: 0.25rem;
+            font-size: 0.8rem;
+            /* gap: 0.25rem; */
             text-align: center;
             flex-wrap: wrap;
         }
@@ -15,6 +15,24 @@
 
         .separator-divider {
             opacity: 0.5;
+        }
+
+        .fade-in-delayed {
+            opacity: 0;
+            animation: fadeIn 1s ease-in-out 1s forwards;
+            /* Durasi: 1s, Delay: 2s, 'forwards' untuk mempertahankan akhir animasi */
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         @media (max-width: 430px) {
@@ -31,12 +49,20 @@
             }
         }
 
+        @media (max-width: 390px) {
+            .custom-separator {
+                font-size: 0.52rem;
+                /* 8px */
+            }
+        }
+
         @media (max-width: 375px) {
             .custom-separator {
                 font-size: 0.5rem;
                 /* 8px */
             }
         }
+
         @media (max-width: 360px) {
             .custom-separator {
                 font-size: 0.565rem;
@@ -49,6 +75,29 @@
                 font-size: 0.52rem;
                 /* 8px */
             }
+        }
+
+
+        .phone-frame-wrapper {
+            background: url('/images/desain_popup_landing.png') no-repeat center center;
+            background-size: contain;
+            position: relative;
+            width: 100%;
+            max-width: 400px;
+            aspect-ratio: 9/18;
+            /* Sesuaikan dengan bentuk handphone */
+            padding: 60px 30px;
+            /* Sesuaikan area layar di dalam bingkai */
+            box-sizing: border-box;
+        }
+
+        .phone-content {
+            height: 100%;
+            overflow-y: auto;
+        }
+
+        .phone-content::-webkit-scrollbar {
+            display: none;
         }
     </style>
 @endpush
@@ -121,79 +170,87 @@
 
     {{-- =============================== Breaking News =============================== --}}
     <section class="mb-5">
+
+        @if (count($topnewsChunks) > 0)
         <h2 class="border-bottom pb-2 mb-3 fw-bold text-uppercase">Breaking News</h2>
+            @while ($index < $topnewsChunks->count())
+                @php
+                    $currentCols = $pattern[$patternIndex % count($pattern)]; // 3 or 2
+                    $itemsPerRow = $currentCols;
+                    $rows = 3;
+                    $totalItems = $itemsPerRow * $rows;
+                    $currentChunk = $topnewsChunks->slice($index, $totalItems);
+                @endphp
 
-        @while ($index < $topnewsChunks->count())
-            @php
-                $currentCols = $pattern[$patternIndex % count($pattern)]; // 3 or 2
-                $itemsPerRow = $currentCols;
-                $rows = 3;
-                $totalItems = $itemsPerRow * $rows;
-                $currentChunk = $topnewsChunks->slice($index, $totalItems);
-            @endphp
+                <div class="row mb-4">
+                    @foreach ($currentChunk as $tnews)
+                        <div class="col-md-{{ 12 / $currentCols }} mb-4">
+                            <a href="{{ route('front.news.show', $tnews->slug) }}" class="text-decoration-none text-dark">
+                                <div class="border rounded-5 overflow-hidden h-100 custom-shadow d-flex flex-column"
+                                    style="min-height: 200px;">
 
-            <div class="row mb-4">
-                @foreach ($currentChunk as $tnews)
-                    <div class="col-md-{{ 12 / $currentCols }} mb-4">
-                        <a href="{{ route('front.news.show', $tnews->slug) }}" class="text-decoration-none text-dark">
-                            <div class="border rounded-5 overflow-hidden h-100 custom-shadow d-flex flex-column"
-                                style="min-height: 200px;">
+                                    {{-- Gambar di atas --}}
+                                    @if ($tnews->image)
+                                        <div class="position-relative"
+                                            style="height: {{ $currentCols == 3 ? '300px' : '400px' }};">
+                                            <img src="{{ asset('storage/' . $tnews->image) }}" alt="{{ $tnews->title }}"
+                                                class="img-fluid w-100 h-100" style="object-fit: cover;">
+                                        </div>
+                                    @endif
 
-                                {{-- Gambar di atas --}}
-                                @if ($tnews->image)
-                                    <div class="position-relative"
-                                        style="height: {{ $currentCols == 3 ? '300px' : '400px' }};">
-                                        <img src="{{ asset('storage/' . $tnews->image) }}" alt="{{ $tnews->title }}"
-                                            class="img-fluid w-100 h-100" style="object-fit: cover;">
+                                    {{-- Konten di bawah --}}
+                                    <div class="p-3 d-flex flex-column justify-content-between h-100">
+                                        <div>
+                                            {{-- Kategori --}}
+                                            @php
+                                                $categoryName =
+                                                    $tnews->countriesCategoriesNews->first()?->category?->name ??
+                                                    'No Category';
+                                            @endphp
+                                            <span class="badge bg-danger text-white rounded-pill px-2 py-1 mb-2"
+                                                style="font-size: 0.75rem;">
+                                                {{ strtoupper($categoryName) }}
+                                            </span>
+
+                                            {{-- Judul --}}
+                                            <h6 class="news-title fw-bold mb-1">{{ Str::limit($tnews->title, 70) }}</h6>
+
+                                            {{-- Deskripsi singkat --}}
+                                            <p class="text-muted mb-0" style="font-size: 0.875rem;">
+                                                {{ Str::words(strip_tags($tnews->content), 25, '...') }}
+                                            </p>
+                                        </div>
+
+                                        {{-- Tanggal --}}
+                                        <small class="text-muted mt-3">
+                                            <i class="fas fa-calendar-alt me-1"></i>
+                                            {{ $tnews->created_at?->format('F d, Y') }}
+                                        </small>
                                     </div>
-                                @endif
 
-                                {{-- Konten di bawah --}}
-                                <div class="p-3 d-flex flex-column justify-content-between h-100">
-                                    <div>
-                                        {{-- Kategori --}}
-                                        @php
-                                            $categoryName =
-                                                $tnews->countriesCategoriesNews->first()?->category?->name ??
-                                                'No Category';
-                                        @endphp
-                                        <span class="badge bg-danger text-white rounded-pill px-2 py-1 mb-2"
-                                            style="font-size: 0.75rem;">
-                                            {{ strtoupper($categoryName) }}
-                                        </span>
-
-                                        {{-- Judul --}}
-                                        <h6 class="news-title fw-bold mb-1">{{ Str::limit($tnews->title, 70) }}</h6>
-
-                                        {{-- Deskripsi singkat --}}
-                                        <p class="text-muted mb-0" style="font-size: 0.875rem;">
-                                            {{ Str::words(strip_tags($tnews->content), 25, '...') }}
-                                        </p>
-                                    </div>
-
-                                    {{-- Tanggal --}}
-                                    <small class="text-muted mt-3">
-                                        <i class="fas fa-calendar-alt me-1"></i>
-                                        {{ $tnews->created_at?->format('F d, Y') }}
-                                    </small>
                                 </div>
+                            </a>
+                        </div>
+                    @endforeach
+                </div>
 
-                            </div>
-                        </a>
-                    </div>
-                @endforeach
+                @php
+                    $index += $totalItems;
+                    $patternIndex++;
+                @endphp
+            @endwhile
+
+            <div class="text-start">
+                <a href="{{ url($defaultCountry . '/newscategory/Breaking%20News') }}" class="btn btn-outline-warning text-light">See All
+                    Breaking News</a>
             </div>
-
-            @php
-                $index += $totalItems;
-                $patternIndex++;
-            @endphp
-        @endwhile
-
-        <div class="text-start">
-            <a href="{{ url($defaultCountry . '/newscategory/Breaking%20News') }}" class="btn btn-outline-dark">See All
-                Breaking News</a>
-        </div>
+        {{-- @else
+            <div class="row mb-4">
+                <div class="col-12">
+                    <p class="text-center text-muted">No news available in this category.</p>
+                </div>
+            </div> --}}
+        @endif
     </section>
 
 
@@ -231,7 +288,7 @@
         </div>
 
         <div class="text-start">
-            <a href="{{ url($defaultCountry . '/news') }}" class="btn btn-outline-dark">See All News</a>
+            <a href="{{ url($defaultCountry . '/news') }}" class="btn btn-outline-warning text-light">See All News</a>
         </div>
     </section>
 
@@ -353,44 +410,53 @@
                         Get unfiltered news, biting commentary, and rebel energy—delivered daily to your phone.
                     </p>
 
-                    <div class="text-center">
-                        <button class="btn btn-warning fw-bold px-4 py-2 mb-4" style="font-size: 1.1rem;"
-                            onclick="alert('Download the App')">
-                            Download the App
-                        </button>
-                    </div>
+                    <div class="phone-frame-wrapper mx-auto">
+                        <div class="phone-content text-center text-light">
 
-                    <!-- Konten setelah tombol, semua diratakan tengah -->
-                    <div class="text-center">
-                        <ul class="list-unstyled fs-5 mb-4 d-inline-block text-start">
-                            <li class="mb-2">
-                                <i class="fas fa-check text-warning me-2"></i>No Sugar-Coated Spin
-                            </li>
-                            <li class="mb-2">
-                                <i class="fas fa-check text-warning me-2"></i>Smart, Savage Commentary
-                            </li>
-                            <li class="mb-2">
-                                <i class="fas fa-check text-warning me-2"></i>Built for Rebels & Truth-Seekers
-                            </li>
-                            <li class="mb-2">
-                                <i class="fas fa-check text-warning me-2"></i>No Ads. No Corporate Agenda
-                            </li>
-                        </ul>
+                            <div class="text-center mt-5  fade-in-delayed">
+                                <a href="https://play.google.com/store/apps/details?id=com.rc.news"
+                                    class="btn btn-warning fw-bold px-4 py-2 mb-4" style="font-size: 1.1rem;"
+                                    target="_blank" rel="noopener noreferrer">
+                                    Download the App
+                                </a>
+                            </div>
 
-                        <div
-                            class="custom-separator d-flex justify-content-center align-items-center flex-wrap text-warning fw-bold mb-3">
-                            <span class="separator-item">For Professionals</span>
-                            <span class="separator-divider mx-2">|</span>
-                            <span class="separator-item">For Activists</span>
-                            <span class="separator-divider mx-2">|</span>
-                            <span class="separator-item">For Truth Seekers</span>
+
+                            <!-- Konten setelah tombol, semua diratakan tengah -->
+                            <div class="text-center  fade-in-delayed">
+                                <ul class="list-unstyled fs-5 mb-4 d-inline-block text-start">
+                                    <li class="mb-2">
+                                        <i class="fas fa-check text-warning me-2"></i>No Sugar-Coated Spin
+                                    </li>
+                                    <li class="mb-2">
+                                        <i class="fas fa-check text-warning me-2"></i>Smart, Savage Commentary
+                                    </li>
+                                    <li class="mb-2">
+                                        <i class="fas fa-check text-warning me-2"></i>Built for Rebels & Truth-Seekers
+                                    </li>
+                                    <li class="mb-2">
+                                        <i class="fas fa-check text-warning me-2"></i>No Ads. No Corporate Agenda
+                                    </li>
+                                </ul>
+
+                                <div
+                                    class="custom-separator d-flex justify-content-center align-items-center flex-wrap text-warning fw-bold mb-3">
+                                    <span class="separator-item">For Professionals</span>
+                                    <span class="separator-divider mx-2">|</span>
+                                    <span class="separator-item">For Activists</span>
+                                    <span class="separator-divider mx-2">|</span>
+                                    <span class="separator-item">For Truth Seekers</span>
+                                </div>
+
+
+                                <p class="fs-5 mb-0">
+                                    We don't do fake balance or billionaire filters.<br>
+                                    Just the raw truth with a punchline.
+                                </p>
+                            </div>
+
                         </div>
 
-
-                        <p class="fs-5 mb-0">
-                            We don't do fake balance or billionaire filters.<br>
-                            Just the raw truth with a punchline.
-                        </p>
                     </div>
                 </div>
             </div>
@@ -402,15 +468,20 @@
         document.addEventListener("DOMContentLoaded", function() {
             const newsModalEl = document.getElementById('newsPopupModal');
             const newsModal = new bootstrap.Modal(newsModalEl);
-            newsModal.show();
+
+            // Cek apakah modal sudah pernah ditampilkan sebelumnya
+            if (!localStorage.getItem("newsModalShown")) {
+                newsModal.show();
+                localStorage.setItem("newsModalShown", "true");
+            }
 
             // Tombol Close
             document.getElementById('customCloseBtn').addEventListener('click', function() {
                 newsModal.hide();
-                //alert("Modal closed");
             });
         });
     </script>
+
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 @endsection

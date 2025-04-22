@@ -36,11 +36,13 @@
 <div class="container mt-1">
     <h2 class="text-center mb-4">{{ $categoryName }}</h2>
 
+
+
     <div class="row">
         @if($news->count() > 0)
             @foreach($news as $article)
                 <div class="col-md-6 mb-4 border-bottom pb-3 news-container">
-                    <div class="d-flex">
+                    <div class="news-card h-100 d-flex rounded-5 shadow-sm p-3">
                         <div class="flex-grow-1">
                             <a href="{{ route('front.news.show', $article->slug) }}" class="news-title d-block mb-1">
                                 {{ $article->title }}

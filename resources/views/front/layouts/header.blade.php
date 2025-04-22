@@ -2,14 +2,19 @@
     <div class="container">
         <div class="d-flex justify-content-between align-items-center py-3">
             <!-- Logo dan Judul -->
-            <div class="d-flex align-items-center">
-                <a href="/" class="text-decoration-none text-muted">
+            <a href="/" class="text-decoration-none text-muted">
+                <div class="d-flex align-items-center">
                     <img src="/images/app_logo.png" alt="Logo" width="50" height="50" class="me-3">
-                </a>
-                <h1 class="h4 mb-0">FactaBot</h1>
-            </div>
-            <div class="d-md-flex align-items-center gap-3">
-                <a class="btn btn-download text-light d-none d-md-block" href="/download">Download Here</a>
+                    <div>
+                        <h1 class="h4 mb-0" style="color: white">FactaBot</h1>
+                        <div class="text-warning" style="font-size: 0.85rem;"><strong>Truth+ Snark, No Billionaire Agenda</strong></div>
+                    </div>
+                </div>
+            </a>
+
+
+            <div class="d-md-flex align-items-center gap-3 ms-2 me-2">
+                <a class="btn btn-sm btn-download  d-none d-md-block" href="https://play.google.com/store/apps/details?id=com.rc.news">Download Here</a>
             </div>
             <div class="d-none d-md-flex align-items-center gap-3">
                 <form action="/search" method="GET" class="d-flex">
@@ -42,7 +47,7 @@
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"></button>
                 </div>
                 <div class="offcanvas-body d-flex flex-column gap-3">
-                    <a class="btn btn-download w-100 text-center" href="/download">Download Here</a>
+                    <a class="btn btn-download w-100 text-center" href="https://play.google.com/store/apps/details?id=com.rc.news">Download Here</a>
                     <a class="nav-link text-white" href="/about-us">About Us</a>
                     <div class="card bg-secondary text-white">
                         <div class="card-body">
