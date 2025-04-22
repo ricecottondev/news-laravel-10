@@ -140,7 +140,7 @@
 
 
 
-                                    <button type="submit" class="btn btn-primary mt-4">Update</button>
+                                    {{-- <button type="submit" class="btn btn-primary mt-4">Update</button> --}}
                                 </form>
 
 
@@ -168,7 +168,7 @@
                                         </select>
                                     </div>
 
-                                    <button type="button" id="saveData" class="btn btn-primary">Save</button>
+                                    {{-- <button type="button" id="saveData" class="btn btn-primary">Save</button> --}}
                                 </form>
 
                                 <hr>
