@@ -260,7 +260,7 @@
         <div class="row">
             @foreach ($not_today_news as $ntnews)
                 <div class="col-md-6 mb-4">
-                    <div class="news-card h-100 d-flex rounded-5 shadow-sm p-3">
+                    {{-- <div class="news-card h-100 d-flex rounded-5 shadow-sm p-3">
                         <div class="flex-grow-1">
                             <a href="{{ route('front.news.show', $ntnews->slug) }}"
                                 class="news-title d-block mb-2 fw-bold">
@@ -272,7 +272,7 @@
                             <small class="text-muted d-block">
                                 <i class="fas fa-calendar-alt"></i>
                                 {{ $ntnews->created_at?->format('d M Y') ?? 'Tanggal Tidak Tersedia' }}
-                                {{-- | <i class="fas fa-eye"></i> {{ $ntnews->views ?? 0 }} Views --}}
+
                             </small>
                         </div>
 
@@ -282,7 +282,55 @@
                                     alt="{{ $ntnews->title }}" style="object-fit: cover; height: 100%;">
                             </div>
                         @endif
-                    </div>
+                    </div> --}}
+
+                    {{-- ======================================================= --}}
+                    <a href="{{ route('front.news.show', $ntnews->slug) }}" class="text-decoration-none text-dark">
+                        <div class="border rounded-5 overflow-hidden h-100 custom-shadow d-flex flex-column"
+                            style="min-height: 200px;">
+
+                            {{-- Gambar di atas --}}
+                            @if ($ntnews->image)
+                                <div class="position-relative"
+                                    style="height:'400px';">
+                                    <img src="{{ asset('storage/' . $ntnews->image) }}" alt="{{ $ntnews->title }}"
+                                        class="img-fluid w-100 h-100" style="object-fit: cover;">
+                                </div>
+                            @endif
+
+                            {{-- Konten di bawah --}}
+                            <div class="p-3 d-flex flex-column justify-content-between h-100">
+                                <div>
+                                    {{-- Kategori --}}
+                                    @php
+                                        $categoryName =
+                                            $ntnews->countriesCategoriesNews->first()?->category?->name ??
+                                            'No Category';
+                                    @endphp
+                                    <span class="badge bg-danger text-white rounded-pill px-2 py-1 mb-2"
+                                        style="font-size: 0.75rem;">
+                                        {{ strtoupper($categoryName) }}
+                                    </span>
+
+                                    {{-- Judul --}}
+                                    <h6 class="news-title fw-bold mb-1">{{ Str::limit($ntnews->title, 70) }}</h6>
+
+                                    {{-- Deskripsi singkat --}}
+                                    <p class="text-muted mb-0" style="font-size: 0.875rem;">
+                                        {{ Str::words(strip_tags($ntnews->content), 25, '...') }}
+                                    </p>
+                                </div>
+
+                                {{-- Tanggal --}}
+                                <small class="text-muted mt-3">
+                                    <i class="fas fa-calendar-alt me-1"></i>
+                                    {{ $ntnews->created_at?->format('F d, Y') }}
+                                </small>
+                            </div>
+
+                        </div>
+                    </a>
+
                 </div>
             @endforeach
         </div>
@@ -295,7 +343,7 @@
 
     <section class="mb-5">
 
-        <div class="row">
+
             @php
                 $chunks = $groupedByCategory->chunk(4); // Bagi per 4 kolom kategori
             @endphp
@@ -324,55 +372,65 @@
 
                                 {{-- Berita pertama --}}
                                 @if ($firstNews)
-                                    <div class="d-flex mb-3 align-items-start">
-                                        @if ($firstNews->image)
-                                            <div class="flex-shrink-0 me-3">
-                                                <img src="{{ asset('storage/' . $firstNews->image) }}" class="rounded"
-                                                    alt="{{ $firstNews->title }}"
-                                                    style="width: 80px; height: auto; object-fit: cover;">
-                                            </div>
-                                        @endif
+                                <div class="mb-3">
+                                    @if ($firstNews->image)
+                                        <a href="{{ route('front.news.show', $firstNews->slug) }}">
+                                            <img src="{{ asset('storage/' . $firstNews->image) }}" class="img-fluid rounded mb-3 w-100"
+                                                alt="{{ $firstNews->title }}"
+                                                style="object-fit: cover; max-height: 220px;">
+                                        </a>
+                                    @endif
 
-                                        <div class="flex-grow-1">
-                                            <a href="{{ route('front.news.show', $firstNews->slug) }}"
-                                                class="news-title-after-first d-block mb-1">
-                                                {{ Str::limit($firstNews->title, 70) }}
-                                            </a>
-                                            <p class="news-snippet">
-                                                {{ Str::limit(strip_tags($firstNews->content), $contentLimit) }}
-                                            </p>
-                                            <small class="text-secondary d-block">
-                                                {{ $firstNews->created_at->diffForHumans() }} | {{ $categoryName }}
-                                            </small>
-                                        </div>
-                                    </div>
+                                    <a href="{{ route('front.news.show', $firstNews->slug) }}"
+                                        class="news-title-after-first d-block mb-2 fw-bold fs-6">
+                                        {{ Str::limit($firstNews->title, 90) }}
+                                    </a>
+
+                                    <p class="news-snippet mb-2">
+                                        {{ Str::limit(strip_tags($firstNews->content), $contentLimit) }}
+                                    </p>
+
+                                    <small class="text-muted d-block">
+                                        <i class="bi bi-calendar me-1"></i>
+                                        {{ $firstNews->created_at->format('F d, Y') }} |
+                                        <span class="badge bg-danger text-white rounded-pill px-2 py-1"
+                                            style="font-size: 0.75rem;">
+                                            {{ strtoupper($categoryName) }}
+                                        </span>
+                                    </small>
+                                </div>
+
                                 @endif
 
                                 {{-- Berita lainnya --}}
                                 @foreach ($otherNews as $news)
-                                    <div class="d-flex mb-3 align-items-start">
-                                        @if ($news->image)
-                                            <img src="{{ asset('storage/' . $news->image) }}" class="rounded"
+                                <div class="mb-3">
+                                    @if ($news->image)
+                                        <a href="{{ route('front.news.show', $news->slug) }}">
+                                            <img src="{{ asset('storage/' . $news->image) }}" class="img-fluid rounded mb-3 w-100"
                                                 alt="{{ $news->title }}"
-                                                style="width: 80px; height: auto; object-fit: cover;">
-                                        @endif
-                                        <div class="ms-2">
-                                            <a href="{{ route('front.news.show', $news->slug) }}"
-                                                class="news-title-after-first d-block mb-1">
-                                                {{ Str::limit($news->title, 70) }}
-                                            </a>
-                                            <p class="news-snippet">
-                                                {{ Str::limit(strip_tags($news->content), $contentLimit) }}
-                                            </p>
-                                            <small class="text-muted">
-                                                {{ $news->created_at->diffForHumans() }} |
-                                                <span class="badge bg-danger text-white rounded-pill px-2 py-1"
-                                                    style="font-size: 0.75rem;">
-                                                    {{ strtoupper($categoryName) }}
-                                                </span>
-                                            </small>
-                                        </div>
-                                    </div>
+                                                style="object-fit: cover; max-height: 220px;">
+                                        </a>
+                                    @endif
+
+                                    <a href="{{ route('front.news.show', $news->slug) }}"
+                                        class="news-title-after-first d-block mb-2 fw-bold fs-6">
+                                        {{ Str::limit($news->title, 90) }}
+                                    </a>
+
+                                    <p class="news-snippet mb-2">
+                                        {{ Str::limit(strip_tags($news->content), $contentLimit) }}
+                                    </p>
+
+                                    <small class="text-muted d-block">
+                                        <i class="bi bi-calendar me-1"></i>
+                                        {{ $news->created_at->format('F d, Y') }} |
+                                        <span class="badge bg-danger text-white rounded-pill px-2 py-1"
+                                            style="font-size: 0.75rem;">
+                                            {{ strtoupper($categoryName) }}
+                                        </span>
+                                    </small>
+                                </div>
                                 @endforeach
 
                                 <div class="text-start mt-3">
@@ -384,7 +442,7 @@
                     @endforeach
                 </div>
             @endforeach
-        </div>
+
 
     </section>
 
