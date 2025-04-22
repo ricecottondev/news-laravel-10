@@ -165,7 +165,7 @@ class FrontHomeController extends Controller
         $not_today_news = News::where('status', 'published')
             ->whereDate('created_at', '<', Carbon::today())
             ->orderBy('id', 'desc')
-            ->limit(6)->get();
+            ->limit(8)->get();
         $topnews = News::with(['category', 'countriesCategoriesNews'])
             ->where('status', 'published')
             ->whereDate('created_at', Carbon::today())

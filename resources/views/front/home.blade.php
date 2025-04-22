@@ -23,6 +23,17 @@
             /* Durasi: 1s, Delay: 2s, 'forwards' untuk mempertahankan akhir animasi */
         }
 
+        .card-content {
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            /* Ubah max lines kalau perlu */
+            -webkit-line-clamp: 6;
+            line-height: 1.4em;
+            max-height: calc(1.4em * 6);
+            /* Sesuai jumlah line clamp */
+        }
+
         @keyframes fadeIn {
             from {
                 opacity: 0;
@@ -172,7 +183,7 @@
     <section class="mb-5">
 
         @if (count($topnewsChunks) > 0)
-        <h2 class="border-bottom pb-2 mb-3 fw-bold text-uppercase">Breaking News</h2>
+            <h2 class="border-bottom pb-2 mb-3 fw-bold text-uppercase">Breaking News</h2>
             @while ($index < $topnewsChunks->count())
                 @php
                     $currentCols = $pattern[$patternIndex % count($pattern)]; // 3 or 2
@@ -241,10 +252,11 @@
             @endwhile
 
             <div class="text-start">
-                <a href="{{ url($defaultCountry . '/newscategory/Breaking%20News') }}" class="btn btn-outline-warning text-light">See All
+                <a href="{{ url($defaultCountry . '/newscategory/Breaking%20News') }}"
+                    class="btn btn-outline-warning text-light">See All
                     Breaking News</a>
             </div>
-        {{-- @else
+            {{-- @else
             <div class="row mb-4">
                 <div class="col-12">
                     <p class="text-center text-muted">No news available in this category.</p>
@@ -257,39 +269,16 @@
     {{-- =============================== More News =============================== --}}
     <section class="mb-5">
         <h2 class="border-bottom pb-2 mb-3 fw-bold text-uppercase">More News</h2>
-        <div class="row">
-            @foreach ($not_today_news as $ntnews)
+
+        {{-- @foreach ($not_today_news as $ntnews)
                 <div class="col-md-6 mb-4">
-                    {{-- <div class="news-card h-100 d-flex rounded-5 shadow-sm p-3">
-                        <div class="flex-grow-1">
-                            <a href="{{ route('front.news.show', $ntnews->slug) }}"
-                                class="news-title d-block mb-2 fw-bold">
-                                {{ $ntnews->title }}
-                            </a>
-                            <p class="news-snippet mb-2">
-                                {{ Str::before(Str::limit(strip_tags($ntnews->content), 300), '.') }}.
-                            </p>
-                            <small class="text-muted d-block">
-                                <i class="fas fa-calendar-alt"></i>
-                                {{ $ntnews->created_at?->format('d M Y') ?? 'Tanggal Tidak Tersedia' }}
 
-                            </small>
-                        </div>
 
-                        @if ($ntnews->image)
-                            <div class="ms-3 flex-shrink-0" style="width: 120px;">
-                                <img src="{{ asset('storage/' . $ntnews->image) }}" class="img-fluid rounded"
-                                    alt="{{ $ntnews->title }}" style="object-fit: cover; height: 100%;">
-                            </div>
-                        @endif
-                    </div> --}}
-
-                    {{-- ======================================================= --}}
                     <a href="{{ route('front.news.show', $ntnews->slug) }}" class="text-decoration-none text-dark">
                         <div class="border rounded-5 overflow-hidden h-100 custom-shadow d-flex flex-column"
                             style="min-height: 200px;">
 
-                            {{-- Gambar di atas --}}
+
                             @if ($ntnews->image)
                                 <div class="position-relative"
                                     style="height:'400px';">
@@ -298,10 +287,10 @@
                                 </div>
                             @endif
 
-                            {{-- Konten di bawah --}}
+
                             <div class="p-3 d-flex flex-column justify-content-between h-100">
                                 <div>
-                                    {{-- Kategori --}}
+
                                     @php
                                         $categoryName =
                                             $ntnews->countriesCategoriesNews->first()?->category?->name ??
@@ -312,16 +301,16 @@
                                         {{ strtoupper($categoryName) }}
                                     </span>
 
-                                    {{-- Judul --}}
+
                                     <h6 class="news-title fw-bold mb-1">{{ Str::limit($ntnews->title, 70) }}</h6>
 
-                                    {{-- Deskripsi singkat --}}
+
                                     <p class="text-muted mb-0" style="font-size: 0.875rem;">
                                         {{ Str::words(strip_tags($ntnews->content), 25, '...') }}
                                     </p>
                                 </div>
 
-                                {{-- Tanggal --}}
+
                                 <small class="text-muted mt-3">
                                     <i class="fas fa-calendar-alt me-1"></i>
                                     {{ $ntnews->created_at?->format('F d, Y') }}
@@ -332,8 +321,117 @@
                     </a>
 
                 </div>
-            @endforeach
-        </div>
+            @endforeach --}}
+        @php
+            $newsCount = count($not_today_news);
+        @endphp
+
+        @for ($i = 0; $i < $newsCount; $i += 2)
+            @php
+                $first = $not_today_news[$i];
+                $second = $not_today_news[$i + 1] ?? null;
+
+                $firstHasImage = !empty($first->image);
+                $secondHasImage = $second && !empty($second->image);
+
+                if ($firstHasImage && !$secondHasImage) {
+                    $firstCol = 10;
+                    $secondCol = 2;
+                } elseif (!$firstHasImage && $secondHasImage) {
+                    $firstCol = 2;
+                    $secondCol = 10;
+                } else {
+                    $firstCol = 6;
+                    $secondCol = 6;
+                }
+            @endphp
+
+            {{-- Baris 2 kolom --}}
+            <div class="row mb-4">
+                {{-- First Item --}}
+                <div class="col-md-{{ $firstCol }} mb-4">
+                    <a href="{{ route('front.news.show', $first->slug) }}" class="text-decoration-none text-dark">
+                        <div class="border rounded-5 overflow-hidden h-100 custom-shadow d-flex flex-column"
+                            style="min-height: 100px;">
+                            @if ($firstHasImage)
+                                <div class="position-relative" style="height: 250px;">
+                                    <img src="{{ asset('storage/' . $first->image) }}" alt="{{ $first->title }}"
+                                        class="img-fluid w-100 h-100" style="object-fit: cover;">
+                                </div>
+                            @endif
+
+                            <div class="p-3 d-flex flex-column justify-content-between h-100">
+                                <div>
+                                    @php
+                                        $categoryName =
+                                            $first->countriesCategoriesNews->first()?->category?->name ?? 'No Category';
+                                    @endphp
+                                    <span class="badge bg-danger text-white rounded-pill px-2 py-1 mb-2"
+                                        style="font-size: 0.75rem;">
+                                        {{ strtoupper($categoryName) }}
+                                    </span>
+
+                                    <h6 class="news-title fw-bold mb-1">{{ Str::limit($first->title, 70) }}</h6>
+
+                                    <p class="text-muted mb-0" style="font-size: 0.875rem;">
+                                        {{ Str::words(strip_tags($first->content), 25, '...') }}
+                                    </p>
+                                </div>
+                                <small class="text-muted mt-3">
+                                    <i class="fas fa-calendar-alt me-1"></i>
+                                    {{ $first->created_at?->format('F d, Y') }}
+                                </small>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                {{-- Second Item (optional) --}}
+                @if ($second)
+                    <div class="col-md-{{ $secondCol }} mb-4">
+                        <a href="{{ route('front.news.show', $second->slug) }}" class="text-decoration-none text-dark">
+                            <div class="border rounded-5 overflow-hidden h-100 custom-shadow d-flex flex-column"
+                                style="min-height: 100px;">
+                                @if ($secondHasImage)
+                                    <div class="position-relative" style="height: 250px;">
+                                        <img src="{{ asset('storage/' . $second->image) }}" alt="{{ $second->title }}"
+                                            class="img-fluid w-100 h-100" style="object-fit: cover;">
+                                    </div>
+                                @endif
+
+                                <div class="p-3 d-flex flex-column justify-content-between h-100">
+                                    <div>
+                                        @php
+                                            $categoryName =
+                                                $second->countriesCategoriesNews->first()?->category?->name ??
+                                                'No Category';
+                                        @endphp
+                                        <span class="badge bg-danger text-white rounded-pill px-2 py-1 mb-2"
+                                            style="font-size: 0.75rem;">
+                                            {{ strtoupper($categoryName) }}
+                                        </span>
+
+                                        <h6 class="news-title fw-bold mb-1">{{ Str::limit($second->title, 70) }}</h6>
+
+                                        <p class="text-muted mb-0 card-content" style="font-size: 0.875rem;">
+                                            {{ $second->short_desc }}
+                                        </p>
+                                    </div>
+                                    <small class="text-muted mt-3">
+                                        <i class="fas fa-calendar-alt me-1"></i>
+                                        {{ $second->created_at?->format('F d, Y') }}
+                                    </small>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                @endif
+            </div>
+        @endfor
+
+
+
+
 
         <div class="text-start">
             <a href="{{ url($defaultCountry . '/news') }}" class="btn btn-outline-warning text-light">See All News</a>
@@ -344,39 +442,39 @@
     <section class="mb-5">
 
 
+        @php
+            $chunks = $groupedByCategory->chunk(4); // Bagi per 4 kolom kategori
+        @endphp
+
+        @foreach ($chunks as $categoryChunk)
             @php
-                $chunks = $groupedByCategory->chunk(4); // Bagi per 4 kolom kategori
+                $colCount = $categoryChunk->count();
+                $isSingle = $colCount === 1;
+                $isFiveInTotal = $groupedByCategory->count() === 5 && $loop->last;
             @endphp
 
-            @foreach ($chunks as $categoryChunk)
-                @php
-                    $colCount = $categoryChunk->count();
-                    $isSingle = $colCount === 1;
-                    $isFiveInTotal = $groupedByCategory->count() === 5 && $loop->last;
-                @endphp
+            <div class="row mb-5">
+                @foreach ($categoryChunk as $index => $newsList)
+                    @php
+                        $categoryName = is_string($index) ? $index : $newsList->first()?->category->name;
+                        $isFifth = $isFiveInTotal && $loop->last;
+                        $colSize = $isSingle || $isFifth ? 6 : floor(12 / $colCount);
+                        $firstNews = $newsList->first();
+                        $otherNews = $newsList->skip(1)->take(5);
+                        $contentLimit = $colSize == 12 ? 300 : 100;
+                    @endphp
 
-                <div class="row mb-5">
-                    @foreach ($categoryChunk as $index => $newsList)
-                        @php
-                            $categoryName = is_string($index) ? $index : $newsList->first()?->category->name;
-                            $isFifth = $isFiveInTotal && $loop->last;
-                            $colSize = $isSingle || $isFifth ? 6 : floor(12 / $colCount);
-                            $firstNews = $newsList->first();
-                            $otherNews = $newsList->skip(1)->take(5);
-                            $contentLimit = $colSize == 12 ? 300 : 100;
-                        @endphp
+                    <div class="col-md-{{ $colSize }}">
+                        <div class="category-card p-3 mb-4 rounded-4 shadow-sm h-100">
+                            <h2 class="border-bottom pb-2 mb-3 fw-bold text-uppercase">{{ $categoryName }}</h2>
 
-                        <div class="col-md-{{ $colSize }}">
-                            <div class="category-card p-3 mb-4 rounded-4 shadow-sm h-100">
-                                <h2 class="border-bottom pb-2 mb-3 fw-bold text-uppercase">{{ $categoryName }}</h2>
-
-                                {{-- Berita pertama --}}
-                                @if ($firstNews)
+                            {{-- Berita pertama --}}
+                            @if ($firstNews)
                                 <div class="mb-3">
                                     @if ($firstNews->image)
                                         <a href="{{ route('front.news.show', $firstNews->slug) }}">
-                                            <img src="{{ asset('storage/' . $firstNews->image) }}" class="img-fluid rounded mb-3 w-100"
-                                                alt="{{ $firstNews->title }}"
+                                            <img src="{{ asset('storage/' . $firstNews->image) }}"
+                                                class="img-fluid rounded mb-3 w-100" alt="{{ $firstNews->title }}"
                                                 style="object-fit: cover; max-height: 220px;">
                                         </a>
                                     @endif
@@ -399,16 +497,15 @@
                                         </span>
                                     </small>
                                 </div>
+                            @endif
 
-                                @endif
-
-                                {{-- Berita lainnya --}}
-                                @foreach ($otherNews as $news)
+                            {{-- Berita lainnya --}}
+                            @foreach ($otherNews as $news)
                                 <div class="mb-3">
                                     @if ($news->image)
                                         <a href="{{ route('front.news.show', $news->slug) }}">
-                                            <img src="{{ asset('storage/' . $news->image) }}" class="img-fluid rounded mb-3 w-100"
-                                                alt="{{ $news->title }}"
+                                            <img src="{{ asset('storage/' . $news->image) }}"
+                                                class="img-fluid rounded mb-3 w-100" alt="{{ $news->title }}"
                                                 style="object-fit: cover; max-height: 220px;">
                                         </a>
                                     @endif
@@ -431,17 +528,17 @@
                                         </span>
                                     </small>
                                 </div>
-                                @endforeach
+                            @endforeach
 
-                                <div class="text-start mt-3">
-                                    <a href="{{ url($defaultCountry . '/newscategory/' . $categoryName) }}"
-                                        class="btn btn-outline-dark">See All {{ $categoryName }} News</a>
-                                </div>
+                            <div class="text-start mt-3">
+                                <a href="{{ url($defaultCountry . '/newscategory/' . $categoryName) }}"
+                                    class="btn btn-outline-dark">See All {{ $categoryName }} News</a>
                             </div>
                         </div>
-                    @endforeach
-                </div>
-            @endforeach
+                    </div>
+                @endforeach
+            </div>
+        @endforeach
 
 
     </section>
