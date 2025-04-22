@@ -79,7 +79,7 @@ class NewsController extends Controller
         $data = $news->map(function ($item) {
             $baseUrl = env('APP_URL', url('/'));
 
-            $date = $item->updated_at ?: $item->created_at;
+            $date = $item-> created_at?: $item->updated_at;
             $formattedDate = $date->format('F j, Y');
 
             $categories = $item->countriesCategoriesNews->map(function ($ccn) {
@@ -123,7 +123,7 @@ class NewsController extends Controller
             ->get();
         $datasugestion = $suggestedNews->map(function ($newssugestion) {
             $baseUrl = env('APP_URL', url('/'));
-            $date = $newssugestion->updated_at ? $newssugestion->updated_at : $newssugestion->created_at;
+            $date = $newssugestion->created_at ? $newssugestion->created_at : $newssugestion->updated_at;
             $formattedDate = $date->format('F j, Y'); // Format tanggal sesuai kebutuhan
             $categories = $newssugestion->countriesCategoriesNews->map(function ($ccn) {
                 return $ccn->category ? $ccn->category->name : null;
@@ -243,7 +243,7 @@ class NewsController extends Controller
         $news->increment('views');
 
         $baseUrl = env('APP_URL', url('/'));
-        $date = $news->updated_at ? $news->updated_at : $news->created_at;
+        $date = $news->created_at ? $news->created_at : $news->updated_at;
         $formattedDate = $date->format('F j, Y'); // Format tanggal sesuai kebutuhan
         $categories = $news->countriesCategoriesNews->map(function ($ccn) {
             return $ccn->category ? $ccn->category->name : null;
@@ -384,7 +384,7 @@ class NewsController extends Controller
 
         $data = $news->map(function ($item) {
             $baseUrl = env('APP_URL', url('/'));
-            $date = $item->updated_at ? $item->updated_at : $item->created_at;
+            $date = $item->created_at ? $item->created_at : $item->updated_at;
             $formattedDate = $date->format('F j, Y');
             $categories = $item->countriesCategoriesNews->map(function ($ccn) {
                 return $ccn->category ? $ccn->category->name : null;
@@ -455,13 +455,15 @@ class NewsController extends Controller
             $baseUrl = env('APP_URL', url('/'));
 
             // Tentukan tanggal
-            $date = $item->updated_at ?? $item->created_at;
+            $date = $item->created_at ?? $item->updated_at;
             $formattedDate = $date->format('F j, Y');
 
             // Ambil kategori
             $categories = $item->countriesCategoriesNews->map(function ($ccn) {
                 return $ccn->category ? $ccn->category->name : null;
             })->filter()->unique()->values()->toArray(); // Hapus null, duplikasi, dan reset indeks array
+
+            $categories = count($categories) ? $categories : ['No Category'];
 
             return [
                 'id' => $item->id,
@@ -518,7 +520,7 @@ class NewsController extends Controller
             $baseUrl = env('APP_URL', url('/'));
 
             // Menentukan date berdasarkan created_at atau updated_at
-            $date = $item->updated_at ? $item->updated_at : $item->created_at;
+            $date = $item->created_at ? $item->created_at : $item->updated_at;
             $formattedDate = $date->format('F j, Y'); // Format tanggal sesuai kebutuhan
             $categories = $item->countriesCategoriesNews->map(function ($ccn) {
                 return $ccn->category ? $ccn->category->name : null;
