@@ -31,6 +31,7 @@
             font-weight: 700;
             color: #272727;
             text-decoration: none;
+            font-family: sans-serif;
         }
 
 
@@ -63,6 +64,7 @@
             margin-bottom: 0.5rem;
             color: #272727;
             font-size: 16px;
+            font-family: sans-serif;
         }
 
         /* style for detail news pages */
@@ -72,6 +74,7 @@
             font-weight: 700;
             color: #1a1a1a;
             text-decoration: none;
+            font-family: sans-serif;
         }
 
 
@@ -81,6 +84,7 @@
             margin-bottom: 0.5rem;
             color: #272727;
             font-size: 22px;
+            font-family: sans-serif;
         }
 
         /* Gaya khusus untuk mobile */
@@ -89,6 +93,7 @@
                 font-size: 20px;
                 color: #535353;
                 text-align: center;
+                font-family: sans-serif;
             }
 
             .news-snippet-detail {
@@ -97,6 +102,7 @@
                 padding-left: 10px;
                 padding-right: 10px;
                 line-height: 1.6;
+                font-family: sans-serif;
             }
         }
 

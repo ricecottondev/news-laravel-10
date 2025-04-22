@@ -49,6 +49,7 @@
         @media (max-width: 430px) {
             .custom-separator {
                 font-size: 0.765rem;
+                font-family: sans-serif;
                 /* 10px */
             }
         }
@@ -56,6 +57,7 @@
         @media (max-width: 414px) {
             .custom-separator {
                 font-size: 0.625rem;
+                font-family: sans-serif;
                 /* 10px */
             }
         }
@@ -63,6 +65,7 @@
         @media (max-width: 390px) {
             .custom-separator {
                 font-size: 0.52rem;
+                font-family: sans-serif;
                 /* 8px */
             }
         }
@@ -70,6 +73,7 @@
         @media (max-width: 375px) {
             .custom-separator {
                 font-size: 0.5rem;
+                font-family: sans-serif;
                 /* 8px */
             }
         }
@@ -77,6 +81,7 @@
         @media (max-width: 360px) {
             .custom-separator {
                 font-size: 0.565rem;
+                font-family: sans-serif;
                 /* 8px */
             }
         }
@@ -84,6 +89,7 @@
         @media (max-width: 344px) {
             .custom-separator {
                 font-size: 0.52rem;
+                font-family: sans-serif;
                 /* 8px */
             }
         }
@@ -227,7 +233,7 @@
                                             <h6 class="news-title fw-bold mb-1">{{ Str::limit($tnews->title, 70) }}</h6>
 
                                             {{-- Deskripsi singkat --}}
-                                            <p class="text-muted mb-0" style="font-size: 0.875rem;">
+                                            <p class="text-muted mb-0" style="font-size: 1.25rem;">
                                                 {{ Str::words(strip_tags($tnews->content), 25, '...') }}
                                             </p>
                                         </div>
@@ -305,7 +311,7 @@
                                     <h6 class="news-title fw-bold mb-1">{{ Str::limit($ntnews->title, 70) }}</h6>
 
 
-                                    <p class="text-muted mb-0" style="font-size: 0.875rem;">
+                                    <p class="text-muted mb-0" style="font-size: 1.25rem;">
                                         {{ Str::words(strip_tags($ntnews->content), 25, '...') }}
                                     </p>
                                 </div>
@@ -373,7 +379,7 @@
 
                                     <h6 class="news-title fw-bold mb-1">{{ Str::limit($first->title, 70) }}</h6>
 
-                                    <p class="text-muted mb-0" style="font-size: 0.875rem;">
+                                    <p class="text-muted mb-0" style="font-size: 1.25rem;">
                                         {{ Str::words(strip_tags($first->content), 25, '...') }}
                                     </p>
                                 </div>
@@ -413,7 +419,7 @@
 
                                         <h6 class="news-title fw-bold mb-1">{{ Str::limit($second->title, 70) }}</h6>
 
-                                        <p class="text-muted mb-0 card-content" style="font-size: 0.875rem;">
+                                        <p class="text-muted mb-0 card-content" style="font-size: 1.25rem;">
                                             {{ $second->short_desc }}
                                         </p>
                                     </div>

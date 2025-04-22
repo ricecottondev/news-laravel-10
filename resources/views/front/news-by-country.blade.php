@@ -18,6 +18,7 @@
             color: #4a4a4a;
             font-size: 0.95rem;
             line-height: 1.5;
+            font-family: sans-serif;
         }
 
         .news-container {
@@ -154,7 +155,7 @@
     {{-- ============================================================================================================== --}}
 
 
-    <div class="container mt-1">
+    {{-- <div class="container mt-1">
         <h2 class="text-center mb-4">{{ $categoryName }}</h2>
 
 
@@ -191,5 +192,5 @@
 
 
 
-    </div>
+    </div> --}}
 @endsection
