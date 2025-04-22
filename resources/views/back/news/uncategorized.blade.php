@@ -4,6 +4,30 @@
 <div class="container mt-4">
     <h4>Uncategorized News</h4>
 
+    <form method="GET" action="{{ route('news-master.uncategorized') }}" class="mb-4">
+        <div class="row align-items-end">
+            <div class="col-md-3">
+                <label for="start_date" class="form-label">Start Date</label>
+                <input type="date" name="start_date" value="{{ request('start_date') }}" class="form-control">
+            </div>
+            <div class="col-md-3">
+                <label for="end_date" class="form-label">End Date</label>
+                <input type="date" name="end_date" value="{{ request('end_date') }}" class="form-control">
+            </div>
+            <div class="col-md-3">
+                <button type="submit" class="btn btn-secondary w-100">Filter</button>
+            </div>
+            <div class="col-md-3">
+                <form method="POST" action="{{ route('admin.assign.uncategorized') }}">
+                    @csrf
+                    <input type="hidden" name="country_id" value="{{ request('country_id') }}">
+                    <button type="submit" class="btn btn-primary w-100">Assign All to "Uncategorized"</button>
+                </form>
+            </div>
+        </div>
+    </form>
+
+
     <form method="POST" action="{{ route('admin.assign.uncategorized') }}" class="mb-4">
         @csrf
         <div class="row align-items-end">

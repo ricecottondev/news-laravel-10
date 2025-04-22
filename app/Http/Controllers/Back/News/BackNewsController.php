@@ -248,60 +248,68 @@ class BackNewsController extends Controller
         return view('back.news.bulk', compact('countries'));
     }
 
-    public function uncategorized()
+    public function uncategorized(Request $request)
     {
-        $uncategorizedNews = News::leftJoin('countries_categories_news as ccn', 'news.id', '=', 'ccn.news_id')
+        $query = News::leftJoin('countries_categories_news as ccn', 'news.id', '=', 'ccn.news_id')
             ->leftJoin('categories as c', 'c.id', '=', 'ccn.category_id')
             ->whereNull('c.id')
             ->select('news.*')
-            ->distinct()
-            ->get();
+            ->distinct();
 
-        $countries = Country::all(); // Untuk pilihan negara di modal
+        if ($request->filled('start_date')) {
+            $query->whereDate('news.created_at', '>=', $request->start_date);
+        }
+
+        if ($request->filled('end_date')) {
+            $query->whereDate('news.created_at', '<=', $request->end_date);
+        }
+
+        $uncategorizedNews = $query->get();
+        $countries = Country::all();
 
         return view('back.news.uncategorized', compact('uncategorizedNews', 'countries'));
     }
 
 
     public function assignCategory(Request $request)
-{
-    $request->validate([
-        'news_id' => 'required|exists:news,id',
-        'country_id' => 'required|exists:countries,id',
-    ]);
+    {
+        $request->validate([
+            'news_id' => 'required|exists:news,id',
+            'country_id' => 'required|exists:countries,id',
+        ]);
 
-    CountriesCategoriesNews::create([
-        'news_id' => $request->news_id,
-        'country_id' => $request->country_id,
-        'category_id' => 24, // ID kategori Uncategorized
-        'status' => 'active',
-    ]);
-
-    return response()->json(['success' => true, 'message' => 'Category assigned.']);
-}
-
-public function assignUncategorized(Request $request)
-{
-    $request->validate([
-        'country_id' => 'required|exists:countries,id',
-    ]);
-
-    $uncategorizedNews = News::leftJoin('countries_categories_news as ccn', 'news.id', '=', 'ccn.news_id')
-        ->leftJoin('categories as c', 'c.id', '=', 'ccn.category_id')
-        ->whereNull('c.id')
-        ->select('news.id')
-        ->distinct()
-        ->get();
-
-    foreach ($uncategorizedNews as $news) {
-        \App\Models\CountriesCategoriesNews::create([
+        CountriesCategoriesNews::create([
+            'news_id' => $request->news_id,
             'country_id' => $request->country_id,
-            'category_id' => 24, // ID untuk "Uncategorized"
-            'news_id' => $news->id,
+            'category_id' => 24, // ID kategori Uncategorized
             'status' => 'active',
         ]);
+
+        return response()->json(['success' => true, 'message' => 'Category assigned.']);
     }
 
-    return redirect()->route('news-master.uncategorized')->with('success', 'All uncategorized news have been assigned.');
-}
+    public function assignUncategorized(Request $request)
+    {
+        $request->validate([
+            'country_id' => 'required|exists:countries,id',
+        ]);
+
+        $uncategorizedNews = News::leftJoin('countries_categories_news as ccn', 'news.id', '=', 'ccn.news_id')
+            ->leftJoin('categories as c', 'c.id', '=', 'ccn.category_id')
+            ->whereNull('c.id')
+            ->select('news.id')
+            ->distinct()
+            ->get();
+
+        foreach ($uncategorizedNews as $news) {
+            \App\Models\CountriesCategoriesNews::create([
+                'country_id' => $request->country_id,
+                'category_id' => 24, // ID untuk "Uncategorized"
+                'news_id' => $news->id,
+                'status' => 'active',
+            ]);
+        }
+
+        return redirect()->route('news-master.uncategorized')->with('success', 'All uncategorized news have been assigned.');
+    }
 }
