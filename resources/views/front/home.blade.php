@@ -472,8 +472,16 @@
 
                     <div class="col-md-{{ $colSize }}">
                         <div class="category-card p-3 mb-4 rounded-4 shadow-sm h-100">
+                            <a href="{{ url($defaultCountry . '/newscategory/' . $categoryName) }}" class="text-decoration-none text-dark">
+                                {{-- Kategori --}}
+                                <span class="badge bg-danger text-white rounded-pill px-2 py-1 mb-2"
+                                    style="font-size: 0.75rem;">
+                                    {{ strtoupper($categoryName) }}
+                                </span>
                             <h2 class="border-bottom pb-2 mb-3 fw-bold text-uppercase">{{ $categoryName }}</h2>
+                            </a>
 
+                            {{-- Kategori --}}
                             {{-- Berita pertama --}}
                             @if ($firstNews)
                                 <div class="mb-3">
@@ -527,11 +535,11 @@
 
                                     <small class="text-muted d-block">
                                         <i class="bi bi-calendar me-1"></i>
-                                        {{ $news->created_at->format('F d, Y') }} |
-                                        <span class="badge bg-danger text-white rounded-pill px-2 py-1"
+                                        {{ $news->created_at->format('F d, Y') }}
+                                        {{-- <span class="badge bg-danger text-white rounded-pill px-2 py-1"
                                             style="font-size: 0.75rem;">
                                             {{ strtoupper($categoryName) }}
-                                        </span>
+                                        </span> --}}
                                     </small>
                                 </div>
                             @endforeach
