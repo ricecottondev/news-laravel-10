@@ -26,6 +26,8 @@
             <div class="col-md-4">
                 <a href="/about" style="font-size: 18px ;font-weight: bold;text-decoration: none ;color: rgb(0, 0, 0);">About Us</a>
                 <br>
+                <a href="/history" style="font-size: 18px ;font-weight: bold;text-decoration: none ;color: rgb(0, 0, 0);">History</a>
+                <br>
                 <a href="/editorial-policy" style="font-size: 18px ;font-weight: bold;text-decoration: none ;color: rgb(0, 0, 0);">Editorial Policy</a>
                 <br>
                 <a href="/privacy-policy" style="font-size: 18px ;font-weight: bold;text-decoration: none ;color: rgb(0, 0, 0);">Privacy Policy</a>

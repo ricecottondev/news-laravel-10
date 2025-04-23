@@ -50,6 +50,7 @@
                 <div class="offcanvas-body d-flex flex-column gap-3">
                     <a class="btn btn-download w-100 text-center" href="https://play.google.com/store/apps/details?id=com.rc.news">Download Here</a>
                     <a class="nav-link text-white" href="/about">About Us</a>
+                    <a class="nav-link text-white" href="/history">History</a>
                     <div class="card bg-secondary text-white d-none">
                         <div class="card-body">
                             <h6 class="card-title">FAQ</h6>
