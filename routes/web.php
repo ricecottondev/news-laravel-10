@@ -158,6 +158,10 @@ Route::get('/about', function () {
     return view('front.about');
 });
 
+Route::get('/contact', function () {
+    return view('front.contact');
+});
+
 Route::get('/privacy-policy', function () {
     return view('front.privacy_policy');
 });

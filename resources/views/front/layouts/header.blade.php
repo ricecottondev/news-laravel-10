@@ -49,8 +49,8 @@
                 </div>
                 <div class="offcanvas-body d-flex flex-column gap-3">
                     <a class="btn btn-download w-100 text-center" href="https://play.google.com/store/apps/details?id=com.rc.news">Download Here</a>
-                    <a class="nav-link text-white" href="/about-us">About Us</a>
-                    <div class="card bg-secondary text-white">
+                    <a class="nav-link text-white" href="/about">About Us</a>
+                    <div class="card bg-secondary text-white d-none">
                         <div class="card-body">
                             <h6 class="card-title">FAQ</h6>
                             <p class="card-text">Frequently asked questions about our service.</p>
@@ -59,7 +59,7 @@
                     </div>
                     <a class="nav-link text-white" href="/editorial-policy">Editorial Policy</a>
                     <a class="nav-link text-white" href="/privacy-policy">Privacy Policy</a>
-                    <a class="nav-link text-white" href="/contact-us">Contact Us</a>
+                    <a class="nav-link text-white" href="/contact">Contact Us</a>
                 </div>
             </div>
         </div>
