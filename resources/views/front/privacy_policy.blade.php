@@ -1,4 +1,60 @@
 @extends('front/layouts.layout')
+
+@push('styles')
+    <style>
+        .privacy_policy-container {
+            background-color: #1e1e1e;
+            color: #d6cfbd;
+            font-family: 'Roboto', sans-serif;
+            padding-left: 1rem;
+            padding-right: 1rem;
+            font-size: 18px;
+        }
+
+        .privacy_policy-container h2,
+        .privacy_policy-container h4,
+        .privacy_policy-container h4 {
+            color: #cba34e;
+        }
+
+        .privacy_policy-container p,
+        .privacy_policy-container li {
+            font-size: 18px;
+            line-height: 1.8;
+            margin-bottom: 1rem;
+        }
+
+        .privacy_policy-container ul {
+            padding-left: 1.2rem;
+        }
+
+        .privacy_policy-container ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        .about-image {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.08);
+        }
+
+        .highlight-yellow {
+            color: #cba34e;
+            font-weight: bold;
+        }
+
+        .about-row {
+            margin-bottom: 2.5rem;
+        }
+
+        .about-disclaimer {
+            font-size: 12px;
+            color: #aaa;
+            margin-top: 6rem;
+        }
+    </style>
+@endpush
 @section('content')
 
 
@@ -6,7 +62,7 @@
 
 
     <section>
-        <div class="container py-4">
+        <div class="container privacy_policy-container py-4">
             <a class="text-decoration-none" href="/">
                 <img src="{{ url('') }}/sdamember-template/img/logo/sda-member-logo.png" height="auto"
                     style="width: 65vw; max-width: 320px;" alt="">
@@ -15,7 +71,7 @@
     </section>
 
     <section>
-        <div class="container py-4">
+        <div class="container privacy_policy-container py-4">
             @if (session('error'))
                 <div class="alert alert-danger">
                     {{ session('error') }}
