@@ -7,7 +7,8 @@
                     <img src="/images/app_logo.png" alt="Logo" width="50" height="50" class="me-3">
                     <div>
                         <h1 class="h4 mb-0" style="color: white">FactaBot</h1>
-                        <div class="text-warning" style="font-size: 1.15rem;"><strong>Truth+ Snark, No Billionaire Agenda</strong></div>
+                        <div class="text-warning" style="font-size: 1.15rem;"><strong>Truth+ Snark, No Billionaire
+                                Agenda</strong></div>
                     </div>
                 </div>
             </a>
@@ -15,7 +16,8 @@
 
             <div class="d-md-flex align-items-center gap-3 ms-2 me-2">
 
-                <a class="btn btn-warning text-dark  d-none d-md-block" href="https://play.google.com/store/apps/details?id=com.rc.news">Download Here</a>
+                <a class="btn btn-warning text-dark  d-none d-md-block"
+                    href="https://play.google.com/store/apps/details?id=com.rc.news">Download Here</a>
             </div>
             <div class="d-none d-md-flex align-items-center gap-3">
                 <form action="/search" method="GET" class="d-flex">
@@ -48,7 +50,8 @@
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"></button>
                 </div>
                 <div class="offcanvas-body d-flex flex-column gap-3">
-                    <a class="btn btn-download w-100 text-center" href="https://play.google.com/store/apps/details?id=com.rc.news">Download Here</a>
+                    <a class="btn btn-download w-100 text-center"
+                        href="https://play.google.com/store/apps/details?id=com.rc.news">Download Here</a>
                     <a class="nav-link text-white" href="/about">About Us</a>
                     <a class="nav-link text-white" href="/history">History</a>
                     <div class="card bg-secondary text-white d-none">
@@ -314,7 +317,7 @@
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         const countryApiUrl = "/api/getAllCountry";
-        const categoryApiUrl = "/api/get-categories/"; // Menggunakan endpoint baru
+        const categoryApiUrl = "/api/get-categories/";
 
         const countryMenu = document.getElementById("country-menu");
         const categoryMenu = document.getElementById("category-menu");
@@ -324,51 +327,61 @@
         let selectedCountry = null;
         let selectedCategory = null;
 
-        // Ambil country dan category dari URL
+        // Ambil path URL
         const urlParts = window.location.pathname.split("/");
+
         if (urlParts.length >= 3 && urlParts[2] === "newscategory") {
-            selectedCountry = urlParts[1]; // Ambil country dari URL
-            selectedCategory = urlParts[3]; // Ambil category dari URL
+            selectedCountry = urlParts[1];
+            selectedCategory = urlParts[3];
+        } else if (urlParts.length >= 2 && urlParts[2] !== "newscategory") {
+            selectedCountry = urlParts[1];
         }
 
-        // Fetch Countries
         fetch(countryApiUrl)
-            .then(response => response.json())
+            .then(res => res.json())
             .then(data => {
                 countryMenu.innerHTML = "";
+
                 data.forEach(country => {
                     const countryName = country.country_name.toLowerCase();
                     const countryLink = document.createElement("a");
-                    countryLink.href = `/${countryName}/newscategory/`;
+
+                    countryLink.href = `/${countryName}/news`;
                     countryLink.textContent = country.country_name;
                     countryLink.dataset.countryId = country.id;
 
-                    // Jika country dari URL sama dengan country dari API, tandai sebagai aktif
+                    // Tandai sebagai active jika cocok dengan URL
                     if (selectedCountry && countryName === selectedCountry.toLowerCase()) {
-                        document.querySelectorAll(".country-scroll a").forEach(a => a.classList
-                            .remove("active"));
                         countryLink.classList.add("active");
                         loadCategories(countryName, country.id, selectedCategory);
                     }
 
+                    // On click, load kategori lalu redirect
                     countryLink.addEventListener("click", function(event) {
                         event.preventDefault();
                         const countryId = this.dataset.countryId;
                         selectedCountry = countryName;
-                        document.querySelectorAll(".country-scroll a").forEach(a => a
-                            .classList.remove("active"));
+
+                        document.querySelectorAll(".country-scroll a").forEach(a =>
+                            a.classList.remove("active"));
                         this.classList.add("active");
-                        loadCategories(countryName, countryId, null);
+
+                        loadCategories(countryName, countryId, null)
+                            .then(() => {
+                                setTimeout(() => {
+                                    window.location.href =
+                                        `/${countryName}/news`;
+                                }, 500);
+                            });
                     });
 
                     countryMenu.appendChild(countryLink);
                 });
             })
-            .catch(error => console.error("Error fetching countries:", error));
+            .catch(err => console.error("Error fetching countries:", err));
 
-        // Function untuk memuat kategori berdasarkan country_id
         function loadCategories(countryName, countryId, preselectedCategory) {
-            fetch(categoryApiUrl + countryId)
+            return fetch(categoryApiUrl + countryId)
                 .then(response => response.json())
                 .then(categories => {
                     categoryMenu.innerHTML = "";
@@ -378,12 +391,6 @@
                         const categoryLink = document.createElement("a");
                         categoryLink.href = `/${countryName}/newscategory/${category.name}`;
                         categoryLink.textContent = category.name;
-
-                        // Jika kategori dari URL sama dengan kategori dari API, tandai sebagai aktif
-                        // if (preselectedCategory && category.name.toLowerCase() ===
-                        //     preselectedCategory.toLowerCase()) {
-                        //     categoryLink.classList.add("active");
-                        // }
 
                         if (preselectedCategory && category.name.toLowerCase() ===
                             preselectedCategory.toLowerCase()) {
@@ -399,26 +406,26 @@
                         }
                     });
 
-                    breakingNews.innerHTML = breakingNewsText;
-                    categorySection.style.display = "block"; // Pastikan kategori tetap ditampilkan
+                    categorySection.style.display = "block";
+                    // breakingNews.innerHTML = breakingNewsText;
                 })
-                .catch(error => console.error("Error fetching categories:", error));
+                .catch(err => console.error("Error loading categories:", err));
         }
 
-        // Scroll Buttons
-        document.querySelector(".left-country").addEventListener("click", () => countryMenu.scrollBy({
+        // Scroll buttons
+        document.querySelector(".left-country")?.addEventListener("click", () => countryMenu.scrollBy({
             left: -200,
             behavior: "smooth"
         }));
-        document.querySelector(".right-country").addEventListener("click", () => countryMenu.scrollBy({
+        document.querySelector(".right-country")?.addEventListener("click", () => countryMenu.scrollBy({
             left: 200,
             behavior: "smooth"
         }));
-        document.querySelector(".left-category").addEventListener("click", () => categoryMenu.scrollBy({
+        document.querySelector(".left-category")?.addEventListener("click", () => categoryMenu.scrollBy({
             left: -200,
             behavior: "smooth"
         }));
-        document.querySelector(".right-category").addEventListener("click", () => categoryMenu.scrollBy({
+        document.querySelector(".right-category")?.addEventListener("click", () => categoryMenu.scrollBy({
             left: 200,
             behavior: "smooth"
         }));
