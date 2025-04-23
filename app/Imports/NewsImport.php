@@ -20,6 +20,19 @@ class NewsImport implements ToModel, WithHeadingRow
         $country_id = Session::get('import_country_id');
         // $category_id = Session::get('import_category_id');
 
+        $title = trim($row['title'] ?? '');
+
+        // Abaikan jika judul kosong
+        if (empty($title)) {
+            return null;
+        }
+
+        // ✅ Cek apakah judul sudah ada
+        $existing = News::where('title', $title)->exists();
+        if ($existing) {
+            return null; // Skip jika sudah ada
+        }
+
         // Konversi tanggal dari Excel ke format datetime Laravel
         $dateString = $row['date'] ?? null;
 
