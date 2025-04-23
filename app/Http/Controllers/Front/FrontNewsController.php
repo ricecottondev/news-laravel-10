@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Member as MemberModel;
 use Illuminate\Support\Facades\Session;
 use App\Models\News;
+use App\Http\Controllers\Front\FrontHomeController;
 
 class FrontNewsController extends Controller
 {
@@ -198,7 +199,7 @@ class FrontNewsController extends Controller
                 });
             });
         }
-
+        $news = $query->where('status', 'published');
         // Order by DESC berdasarkan created_at (atau updated_at jika lebih sesuai)
         $news = $query->orderBy('created_at', 'desc')
             ->get();
@@ -232,6 +233,8 @@ class FrontNewsController extends Controller
             });
         }
 
+        $news = $query->where('status', 'published');
+
         // Order by DESC berdasarkan created_at (atau updated_at jika lebih sesuai)
         $news = $query->orderBy('created_at', 'desc')
             ->get();
@@ -239,31 +242,23 @@ class FrontNewsController extends Controller
         return view('front.news-by-category', compact("news", "categoryName"));
     }
 
-    public function shownewsbyCountry($country)
+    public function shownewsbyCountry($countryname)
     {
-        // Mengambil parameter dari request
-        $countryName = $country;
+        $homeController = new FrontHomeController();
+        $country = $homeController->getDefaultcountry();
+        $defaultCountry = $country;
 
-
-        // Mengambil berita dengan relasi kategori
-        $query = News::with('category');
-
-        // Jika country_name diberikan, filter berdasarkan country
-        if ($countryName) {
-            $query->whereHas('countriesCategoriesNews', function ($q) use ($countryName) {
-                $q->whereHas('country', function ($q) use ($countryName) {
-                    $q->where('country_name', $countryName);
-                });
-            });
-        }
-
-
-
-        // Order by DESC berdasarkan created_at (atau updated_at jika lebih sesuai)
-        $news = $query->orderBy('created_at', 'desc')
+        $news = News::select('news.*')
+            ->join('countries_categories_news as ccn', 'ccn.news_id', '=', 'news.id')
+            ->join('categories as cat', 'ccn.category_id', '=', 'cat.id')
+            ->join('countries as c', 'ccn.country_id', '=', 'c.id')
+            ->where('c.country_name', $countryname)
+            ->where('news.status', 'published')
+            ->orderBy('news.id', 'desc')
+            ->distinct()
             ->get();
-        // dd($news);
-        return view('front.news-by-country', compact("news"));
+
+        return view('front.news-by-country', compact('news', 'defaultCountry'));
     }
 
     public function search(Request $request)
@@ -271,9 +266,13 @@ class FrontNewsController extends Controller
         $query = $request->input('q');
 
         // Cari berita berdasarkan judul atau konten
-        $news = News::where('title', 'LIKE', "%$query%")
-            ->orWhere('content', 'LIKE', "%$query%")
+        $news = News::where(function ($q) use ($query) {
+            $q->where('title', 'LIKE', "%$query%")
+                ->orWhere('content', 'LIKE', "%$query%");
+        })
+            ->where('status', 'published')
             ->paginate(10);
+
 
         return view('front.news-search', compact('news', 'query'));
     }
