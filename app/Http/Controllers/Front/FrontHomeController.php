@@ -151,6 +151,8 @@ class FrontHomeController extends Controller
             }
         }
 
+        $defaultCountry = $this->getDefaultcountry();
+
         // dd( $defaultCountry);
 
         $breaking_news = News::where('status', 'published')
@@ -224,6 +226,123 @@ class FrontHomeController extends Controller
 
 
         return abort(404);
+    }
+
+    public function getDefaultcountry()
+    {
+        $ip = $this->getIpAddress();
+        // dump($ip);
+        // if (!$this->isValidIpAddress($ip)) {
+        //     abort(403, 'Invalid IP address');
+        // }
+        $geoLocationData = $this->getLocation($ip);
+        // if (!$geoLocationData || !isset($geoLocationData['country'])) {
+        //     abort(500, 'Failed to retrieve geolocation data');
+        // }
+        $country = $geoLocationData['country'];
+        // dump($country);
+        // switch ($country) {
+        //     case 'Indonesia':
+        //         header('Location: https://www.beta.sda.co.id');
+        //         exit;
+        //     case 'Singapore':
+        //         header('Location: https://www.sda.co.id');
+        //         exit;
+        //     default:
+        //         header('Location: https://www.sda.co.id');
+        //         exit;
+        // }
+
+
+        $countryGroups = [
+            'Asia' => [
+                'Indonesia',
+                'Brunei Darussalam',
+                'Kamboja',
+                'Filipina',
+                'Singapura',
+                'Thailand',
+                'Timor Leste',
+                'Laos',
+                'Vietnam',
+                'Malaysia',
+                'Myanmar',
+            ],
+            'USA' => ['USA'],
+            'China' => ['China'],
+            'Australia' => ['Australia'],
+            'Europe' => [
+                'Albania',
+                'Andorra',
+                'Armenia',
+                'Azerbaijan',
+                'Austria',
+                'Belanda',
+                'Belarus',
+                'Belgia',
+                'Bosnia',
+                'Herzegovina',
+                'Bulgaria',
+                'Kroasia',
+                'Siprus',
+                'Ceko',
+                'Denmark',
+                'Estonia',
+                'Finlandia',
+                'Prancis',
+                'Georgia',
+                'Jerman',
+                'Yunani',
+                'Hungaria',
+                'Islandia',
+                'Irlandia',
+                'Italia',
+                'Kazakhstan',
+                'Latvia',
+                'Liechtenstein',
+                'Lituania',
+                'Luksemburg',
+                'Makedonia Utara',
+                'Malta',
+                'Moldova',
+                'Monako',
+                'Montenegro',
+                'Norwegia',
+                'Polandia',
+                'Portugal',
+                'Rumania',
+                'Rusia',
+                'San Marino',
+                'Serbia',
+                'Slowakia',
+                'Slovenia',
+                'Spanyol',
+                'Swedia',
+                'Swiss',
+                'Turki',
+                'Ukraina',
+                'UK',
+                'Vatikan'
+            ]
+        ];
+
+
+        // $location = geoip()->getLocation(); // hasilnya biasanya seperti ['country' => 'Indonesia']
+        // $detectedCountry = $location->country ?? '';
+
+        $detectedCountry = $country; // Ganti dengan cara Anda mendeteksi negara
+        $detectedCountry = 'Australia';
+        // Cek apakah termasuk dalam kelompok
+        $defaultCountry = 'Australia'; // default fallback
+        foreach ($countryGroups as $group => $countries) {
+            if (in_array($detectedCountry, $countries)) {
+                $defaultCountry = $group;
+                break;
+            }
+        }
+
+        return $defaultCountry;
+
     }
 
     public function login()
