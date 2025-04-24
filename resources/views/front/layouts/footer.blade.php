@@ -1,5 +1,5 @@
 <!-- Footer -->
-<footer class="text-white py-4" style="background-color: #ffca2c;">
+<footer class="text-white py-4" style="background-color: #cba34e;">
     <div class="container">
         <div class="row">
             <div class="col-md-4 d-none">
@@ -24,18 +24,20 @@
                 </div>
             </div>
             <div class="col-md-4">
-                <a href="/about" style="font-size: 18px ;font-weight: bold;text-decoration: none ;color: rgb(0, 0, 0);">About Us</a>
+                <a href="/about" style="font-size: 18px ;font-weight: bold;text-decoration: none ;color:#4d4d4d">About Us</a>
                 <br>
-                <a href="/history" style="font-size: 18px ;font-weight: bold;text-decoration: none ;color: rgb(0, 0, 0);">History</a>
+                <a href="/history" style="font-size: 18px ;font-weight: bold;text-decoration: none ;color:#4d4d4d">History</a>
                 <br>
-                <a href="/editorial-policy" style="font-size: 18px ;font-weight: bold;text-decoration: none ;color: rgb(0, 0, 0);">Editorial Policy</a>
+                <a href="/faq" style="font-size: 18px ;font-weight: bold;text-decoration: none ;color:#4d4d4d">FAQ</a>
                 <br>
-                <a href="/privacy-policy" style="font-size: 18px ;font-weight: bold;text-decoration: none ;color: rgb(0, 0, 0);">Privacy Policy</a>
+                <a href="/editorial-policy" style="font-size: 18px ;font-weight: bold;text-decoration: none ;color:#4d4d4d">Editorial Policy</a>
+                <br>
+                <a href="/privacy-policy" style="font-size: 18px ;font-weight: bold;text-decoration: none ;color:#4d4d4d">Privacy Policy</a>
             </div>
             <div class="col-md-4">
-                <h3 class="h5" style="font-size: 18px ;font-weight: bold;text-decoration: none ;color: rgb(0, 0, 0);">Contact Us</h3>
-                <p style="font-size: 18px ;font-weight: bold;text-decoration: none ;color: rgb(0, 0, 0);">Email: ricecottondev@email.com</p>
-                {{-- <p style="font-size: 18px ;font-weight: bold;text-decoration: none ;color: rgb(0, 0, 0);">Phone: (+61) 0424777146</p> --}}
+                <h3 class="h5" style="font-size: 18px ;font-weight: bold;text-decoration: none ;color:#4d4d4d">Contact Us</h3>
+                <p style="font-size: 18px ;font-weight: bold;text-decoration: none ;color:#4d4d4d">Email: ricecottondev@email.com</p>
+                {{-- <p style="font-size: 18px ;font-weight: bold;text-decoration: none ;color:#4d4d4d">Phone: (+61) 0424777146</p> --}}
             </div>
         </div>
     </div>

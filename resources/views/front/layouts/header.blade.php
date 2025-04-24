@@ -7,7 +7,7 @@
                     <img src="/images/app_logo.png" alt="Logo" width="50" height="50" class="me-3">
                     <div>
                         <h1 class="h4 mb-0" style="color: white">FactaBot</h1>
-                        <div class="text-warning" style="font-size: 1.15rem;"><strong>Truth+ Snark, No Billionaire
+                        <div class="" style="font-size: 1.15rem;color: #cba34e"><strong>Truth+ Snark, No Billionaire
                                 Agenda</strong></div>
                     </div>
                 </div>
@@ -16,7 +16,7 @@
 
             <div class="d-md-flex align-items-center gap-3 ms-2 me-2">
 
-                <a class="btn btn-warning text-dark  d-none d-md-block"
+                <a class="btn text-dark  d-none d-md-block" style="font-weight: bold;background-color: #cba34e"
                     href="https://play.google.com/store/apps/details?id=com.rc.news">Download Here</a>
             </div>
             <div class="d-none d-md-flex align-items-center gap-3">
@@ -35,7 +35,7 @@
                     <a class="btn btn-outline-light" href="{{ route('login') }}">Login</a>
                 @endauth
 
-                <a class="btn btn-warning text-dark" href="/subscribes">Subscribe</a>
+                <a class="btn text-dark" href="/subscribes" style="font-weight: bold;background-color: #cba34e">Subscribe</a>
             </div>
 
             <!-- Tombol Menu Mobile -->
@@ -54,7 +54,7 @@
                         href="https://play.google.com/store/apps/details?id=com.rc.news">Download Here</a>
                     <a class="nav-link text-white" href="/about">About Us</a>
                     <a class="nav-link text-white" href="/history">History</a>
-                    <div class="card bg-secondary text-white d-none">
+                    <div class="card bg-secondary text-white">
                         <div class="card-body">
                             <h6 class="card-title">FAQ</h6>
                             <p class="card-text">Frequently asked questions about our service.</p>
@@ -109,7 +109,7 @@
         $defaultCountry = session('default_country');
         $bgColor = match ($defaultCountry) {
             // 'Australia' => '#19b5ee',
-            'Australia' => '#ffc107',
+            'Australia' => '#cba34e',
             // 'Asia' =>'#ef0810'
             'Asia' => '#ffc107',
             // 'Europe' => '#fea500',
