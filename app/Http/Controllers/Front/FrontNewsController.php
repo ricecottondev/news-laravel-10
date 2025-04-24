@@ -12,6 +12,7 @@ use App\Models\Member as MemberModel;
 use Illuminate\Support\Facades\Session;
 use App\Models\News;
 use App\Http\Controllers\Front\FrontHomeController;
+use App\Models\NewsVisit;
 
 class FrontNewsController extends Controller
 {
@@ -75,6 +76,14 @@ class FrontNewsController extends Controller
         $news = News::where('slug', $slug)->firstOrFail();
         // Ambil kata-kata dari judul (tanpa stopword atau kata umum)
         $keywords = explode(' ', $news->title);
+
+        NewsVisit::create([
+            'news_id' => $news->id,
+            'ip' => request()->ip(),
+            'user_agent' => request()->header('User-Agent'),
+            'referer' => request()->headers->get('referer'),
+            'visited_at' => now(),
+        ]);
 
         // Ambil berita terkait berdasarkan kesamaan kata di judul
         $suggestedNews = News::where('id', '!=', $news->id) // Hindari berita yang sedang dibaca
