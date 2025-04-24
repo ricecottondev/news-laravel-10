@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Session;
 use App\Models\News;
 use App\Http\Controllers\Front\FrontHomeController;
 use App\Models\NewsVisit;
+use Jenssegers\Agent\Agent;
 
 class FrontNewsController extends Controller
 {
@@ -71,7 +72,9 @@ class FrontNewsController extends Controller
 
     public function show($slug)
     {
-
+        $agent = new Agent();
+        $browser = $agent->browser();
+        $platform = $agent->platform();
 
         $news = News::where('slug', $slug)->firstOrFail();
         // Ambil kata-kata dari judul (tanpa stopword atau kata umum)
@@ -83,6 +86,8 @@ class FrontNewsController extends Controller
             'user_agent' => request()->header('User-Agent'),
             'referer' => request()->headers->get('referer'),
             'visited_at' => now(),
+            'browser' => $agent->browser(),
+            'platform' => $agent->platform(),
         ]);
 
         // Ambil berita terkait berdasarkan kesamaan kata di judul
