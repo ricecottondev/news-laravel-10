@@ -192,14 +192,66 @@ class FrontHomeController extends Controller
         //     return optional($item->countriesCategoriesNews->first()?->category)->name ?? 'Uncategorized';
         // });
         // Kelompokkan berita berdasarkan kategori tanpa breaking news
-        $groupedByCategory = $newsbycountry
-            ->filter(function ($item) {
-                $categoryId = $item->countriesCategoriesNews->first()?->category_id;
-                return $categoryId != 8;
-            })
-            ->groupBy(function ($item) {
-                return optional($item->countriesCategoriesNews->first()?->category)->name ?? 'Uncategorized';
-            });
+
+        // $groupedByCategory = $newsbycountry
+        //     ->filter(function ($item) {
+        //         $categoryId = $item->countriesCategoriesNews->first()?->category_id;
+        //         return $categoryId != 8;
+        //     })
+        //     ->groupBy(function ($item) {
+        //         return optional($item->countriesCategoriesNews->first()?->category)->name ?? 'Uncategorized';
+        //     });
+
+        $preferredOrder = [
+            'Breaking News',
+            'Politics',
+            'World',
+            'Business',
+            'Finance',
+            'Sports',
+            'Health',
+            'Opinions',
+            'Technology',
+            'Travel & Lifestyle',
+            'Entertainment'
+        ];
+
+        $mappedNews = collect();
+
+        // Pisahkan kategori "Finance & Finance" menjadi 1 "Finance"
+        $normalizedNews = $newsbycountry->map(function ($item) {
+            $categoryName = $item->countriesCategoriesNews->first()?->category?->name ?? 'Uncategorized';
+            if (strtolower($categoryName) === 'finance & finance') {
+                $item->countriesCategoriesNews->first()->category->name = 'Finance';
+            }
+            return $item;
+        });
+
+        // Kelompokkan berdasarkan kategori
+        $grouped = $normalizedNews->groupBy(function ($item) {
+            return optional($item->countriesCategoriesNews->first()?->category)->name ?? 'Uncategorized';
+        });
+
+        // Buat array untuk kategori yang sudah sesuai urutan
+        foreach ($preferredOrder as $categoryName) {
+            if ($grouped->has($categoryName)) {
+                $mappedNews->put($categoryName, $grouped->get($categoryName));
+            }
+        }
+
+        // Tambahkan kategori lain ke MISC
+        $miscItems = collect();
+        foreach ($grouped as $key => $value) {
+            if (!in_array($key, $preferredOrder)) {
+                $miscItems = $miscItems->merge($value);
+            }
+        }
+        if ($miscItems->isNotEmpty()) {
+            $mappedNews->put('MISC', $miscItems);
+        }
+
+        $groupedByCategory = $mappedNews;
+
         Session::forget('default_country');
 
         Session::put('default_country', $defaultCountry);

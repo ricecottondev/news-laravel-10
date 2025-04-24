@@ -38,7 +38,7 @@
 
     {{-- ============================================================================================================== --}}
 
-
+<h2 class="text-center mb-4">{{ $categoryName }}</h2>
 
     @php
         $newsCount = count($news);
@@ -69,7 +69,7 @@
             }
         @endphp
         <div class="container mt-1">
-            <h2 class="text-center mb-4">{{ $categoryName }}</h2>
+
 
             {{-- Baris 2 kolom --}}
             <div class="row mb-4">

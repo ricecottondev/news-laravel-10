@@ -209,14 +209,27 @@ class FrontNewsController extends Controller
 
     public function shownewsbycategoryandCountry($country, $category)
     {
-        // Mengambil parameter dari request
         $countryName = $country;
         $categoryName = $category;
 
-        // Mengambil berita dengan relasi kategori
-        $query = News::with('category');
+        $excludedCategories = [
+            "Breaking News",
+            "Politics",
+            "World",
+            "Business",
+            "Finance",
+            "Sports",
+            "Health",
+            "Opinions",
+            "Technology",
+            "Travel & Lifestyle",
+            "Entertainment"
+        ];
 
-        // Jika country_name diberikan, filter berdasarkan country
+        // Base query with relationships
+        $query = News::with(['category', 'countriesCategoriesNews.country', 'countriesCategoriesNews.category']);
+
+        // Filter by country
         if ($countryName) {
             $query->whereHas('countriesCategoriesNews', function ($q) use ($countryName) {
                 $q->whereHas('country', function ($q) use ($countryName) {
@@ -225,7 +238,14 @@ class FrontNewsController extends Controller
             });
         }
 
-        if ($categoryName) {
+        // Filter by category or exclude certain categories if 'MISC'
+        if (strtolower($categoryName) === 'misc') {
+            $query->whereHas('countriesCategoriesNews', function ($q) use ($excludedCategories) {
+                $q->whereHas('category', function ($q) use ($excludedCategories) {
+                    $q->whereNotIn('name', $excludedCategories);
+                });
+            });
+        } else {
             $query->whereHas('countriesCategoriesNews', function ($q) use ($categoryName) {
                 $q->whereHas('category', function ($q) use ($categoryName) {
                     $q->where('name', $categoryName);
@@ -233,14 +253,13 @@ class FrontNewsController extends Controller
             });
         }
 
-        $news = $query->where('status', 'published');
-
-        // Order by DESC berdasarkan created_at (atau updated_at jika lebih sesuai)
-        $news = $query->orderBy('created_at', 'desc')
+        $news = $query->where('status', 'published')
+            ->orderBy('created_at', 'desc')
             ->get();
-        // dd($news);
+
         return view('front.news-by-category', compact("news", "categoryName"));
     }
+
 
     public function shownewsbyCountry($countryname)
     {

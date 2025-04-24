@@ -7,7 +7,8 @@
                     <img src="/images/app_logo.png" alt="Logo" width="50" height="50" class="me-3">
                     <div>
                         <h1 class="h4 mb-0" style="color: white">FactaBot</h1>
-                        <div class="" style="font-size: 1.15rem;color: #cba34e"><strong>Truth+ Snark, No Billionaire
+                        <div class="" style="font-size: 1.15rem;color: #cba34e"><strong>Truth+ Snark, No
+                                Billionaire
                                 Agenda</strong></div>
                     </div>
                 </div>
@@ -35,7 +36,8 @@
                     <a class="btn btn-outline-light" href="{{ route('login') }}">Login</a>
                 @endauth
 
-                <a class="btn text-dark" href="/subscribes" style="font-weight: bold;background-color: #cba34e">Subscribe</a>
+                <a class="btn text-dark" href="/subscribes"
+                    style="font-weight: bold;background-color: #cba34e">Subscribe</a>
             </div>
 
             <!-- Tombol Menu Mobile -->
@@ -387,7 +389,37 @@
                     categoryMenu.innerHTML = "";
                     let breakingNewsText = "No breaking news available.";
 
+                    const preferredOrder = [
+                        'Breaking News',
+                        'Politics',
+                        'World',
+                        'Business',
+                        'Finance',
+                        'Sports',
+                        'Health',
+                        'Opinions',
+                        'Technology',
+                        'Travel & Lifestyle',
+                        'Entertainment'
+                    ];
+
+                    const miscCategories = [];
+
+                    // Normalize and classify categories
+                    const sortedCategories = preferredOrder.map(name => {
+                        return categories.find(cat => cat.name.toLowerCase() === name
+                    .toLowerCase());
+                    }).filter(Boolean); // remove undefined
+
                     categories.forEach(category => {
+                        if (!preferredOrder.some(name => name.toLowerCase() === category.name
+                                .toLowerCase())) {
+                            miscCategories.push(category);
+                        }
+                    });
+
+                    // Render sorted preferred categories
+                    sortedCategories.forEach(category => {
                         const categoryLink = document.createElement("a");
                         categoryLink.href = `/${countryName}/newscategory/${category.name}`;
                         categoryLink.textContent = category.name;
@@ -406,11 +438,28 @@
                         }
                     });
 
+                    // Tambahkan 1 link MISC jika ada kategori lainnya
+                    if (miscCategories.length > 0) {
+                        const miscLink = document.createElement("a");
+                        miscLink.href = `/${countryName}/newscategory/MISC`;
+                        miscLink.textContent = "MISC";
+
+                        if (preselectedCategory && preselectedCategory.toLowerCase() === 'misc') {
+                            document.querySelectorAll(".category-scroll a").forEach(a => a.classList.remove(
+                                "active"));
+                            miscLink.classList.add("active");
+                        }
+
+                        categoryMenu.appendChild(miscLink);
+                    }
+
                     categorySection.style.display = "block";
                     // breakingNews.innerHTML = breakingNewsText;
                 })
                 .catch(err => console.error("Error loading categories:", err));
         }
+
+
 
         // Scroll buttons
         document.querySelector(".left-country")?.addEventListener("click", () => countryMenu.scrollBy({
