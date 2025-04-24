@@ -162,6 +162,10 @@ Route::get('/history', function () {
     return view('front.history');
 });
 
+Route::get('/faq', function () {
+    return view('front.faq');
+});
+
 Route::get('/contact', function () {
     return view('front.contact');
 });
