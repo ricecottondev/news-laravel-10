@@ -26,4 +26,6 @@ class NewsVisit extends Model
     {
         return $this->belongsTo(News::class);
     }
+
+
 }

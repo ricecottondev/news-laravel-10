@@ -91,6 +91,8 @@ use App\Http\Controllers\Back\ChatGPTController;
 
 use App\Http\Controllers\Back\News\ImageUploadController;
 
+use App\Http\Controllers\Back\News\NewsVisitController;
+
 
 Route::get('/detail-voucher', function () {
     return view('page-sdamember.snk');
@@ -222,6 +224,8 @@ Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
 Route::get('back/news-master/import', [BackNewsController::class, 'importForm'])->name('news-master.import.form');
 Route::get('back/news-master/bulkcreate', [BackNewsController::class, 'bulkForm'])->name('news-master.bulk-form');
+
+Route::get('back/news-visits', [NewsVisitController::class, 'index'])->name('admin.news.visits');
 
 Route::post('loginas', [UserController::class, 'loginas'])->name('users.loginas');
 Route::get('loginas', [UserController::class, 'loginas'])->name('users.loginas');
