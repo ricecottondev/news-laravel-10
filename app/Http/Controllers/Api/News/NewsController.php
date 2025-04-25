@@ -117,6 +117,7 @@ class NewsController extends Controller
 
         $keywords = explode(' ', $item->title);
         $suggestedNews = News::where('id', '!=', $item->id) // Hindari berita yang sedang dibaca
+            ->where('status', 'published')
             ->where(function ($query) use ($keywords) {
                 foreach ($keywords as $word) {
                     $query->orWhere('title', 'LIKE', "%{$word}%");
