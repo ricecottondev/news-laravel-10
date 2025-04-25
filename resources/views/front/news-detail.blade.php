@@ -104,6 +104,11 @@
                                 <i class="bi bi-telegram fs-5"></i> Telegram
                             </a>
 
+                            <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ urlencode(route('front.news.show', $news->slug)) }}"
+                                class="btn btn-outline-primary d-flex align-items-center gap-2 btn-sm" target="_blank">
+                                 <i class="bi bi-linkedin fs-5"></i> LinkedIn
+                             </a>
+
                             <!-- Copy Link -->
                             <button onclick="copyLink()" class="btn btn-outline-dark d-flex align-items-center gap-2 btn-sm">
                                 <i class="bi bi-clipboard fs-5"></i> Copy Link
