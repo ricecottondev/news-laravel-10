@@ -72,6 +72,7 @@ class NewsController extends Controller
 
         $news = $query
             ->where('status', 'published')        // Filter status published
+            ->whereDate('created_at', '<=', Carbon::today())  // Cegah berita dari besok dan seterusnya
             ->orderBy('created_at', 'desc')       // Urutkan berdasarkan tanggal terbaru
             ->orderBy('id', 'asc')                // Lalu urutkan ID secara naik jika tanggal sama
             ->paginate($perPage, ['*'], 'page', $page);
@@ -118,6 +119,7 @@ class NewsController extends Controller
         $keywords = explode(' ', $item->title);
         $suggestedNews = News::where('id', '!=', $item->id) // Hindari berita yang sedang dibaca
             ->where('status', 'published')
+            ->whereDate('created_at', '<=', Carbon::today())  // Cegah berita dari besok dan seterusnya
             ->where(function ($query) use ($keywords) {
                 foreach ($keywords as $word) {
                     $query->orWhere('title', 'LIKE', "%{$word}%");
@@ -382,6 +384,7 @@ class NewsController extends Controller
 
         $news = $newsQuery
             ->where('status', 'published')        // Filter status published
+            ->whereDate('created_at', '<=', Carbon::today())  // Cegah berita dari besok dan seterusnya
             ->orderBy('created_at', 'desc')       // Urutkan berdasarkan tanggal terbaru
             ->orderBy('id', 'asc')                // Lalu urutkan ID secara naik jika tanggal sama
             ->paginate($perPage, ['*'], 'page', $page);
@@ -516,6 +519,7 @@ class NewsController extends Controller
 
         $news = $query
             ->where('status', 'published')        // Filter status published
+            ->whereDate('created_at', '<=', Carbon::today())  // Cegah berita dari besok dan seterusnya
             ->orderBy('created_at', 'desc')       // Urutkan berdasarkan tanggal terbaru
             ->orderBy('id', 'asc')                // Lalu urutkan ID secara naik jika tanggal sama
             ->paginate($perPage, ['*'], 'page', $page);
