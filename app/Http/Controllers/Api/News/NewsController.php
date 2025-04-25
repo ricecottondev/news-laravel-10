@@ -79,15 +79,18 @@ class NewsController extends Controller
         $data = $news->map(function ($item) {
             $baseUrl = env('APP_URL', url('/'));
 
-            $date = $item-> created_at?: $item->updated_at;
+            $date = $item->created_at ?: $item->updated_at;
             $formattedDate = $date->format('F j, Y');
 
             $categories = $item->countriesCategoriesNews->map(function ($ccn) {
                 return $ccn->category ? $ccn->category->name : null;
             })->filter()->unique()->values()->toArray();
 
-            $newssugestion = $this->newssugestions($item);
-
+            $newssugestion = collect();
+            // dd($categories[0]);
+            if (in_array($categories[0], ["Breaking News", "Politics", "Business"])) {
+                $newssugestion = $this->newssugestions($item);
+            }
             return [
                 'id' => $item->id,
                 'title' => $item->title,
