@@ -72,7 +72,7 @@
     </div>
 
     <!-- Scrollable Country -->
-    <div class="country-container bg-secondary text-white py-2">
+    <div class="country-container bg-secondary text-white">
         <div class="container position-relative">
             <!-- Tombol Navigasi Kiri -->
             <button class="scroll-btn left-country d-none d-md-flex">
@@ -92,7 +92,7 @@
     </div>
 
     <!-- Scrollable Category (Awalnya disembunyikan) -->
-    <div class="category-container bg-dark text-white py-2" id="category-section" style="display: none">
+    <div class="category-container text-white" id="category-section" style="display: none;background-color: #212529;">
         <div class="container position-relative">
             <button class="scroll-btn left-category d-none d-md-flex">
                 <i class="fas fa-chevron-left"></i>
@@ -157,7 +157,7 @@
         scrollbar-width: none;
         -ms-overflow-style: none;
         scroll-behavior: smooth;
-        padding-bottom: 5px;
+        /* padding-bottom: 5px; */
     }
 
     .country-scroll::-webkit-scrollbar {
@@ -196,7 +196,7 @@
         scroll-behavior: smooth;
         white-space: nowrap;
         /* Mencegah kategori turun ke baris berikutnya */
-        padding-bottom: 5px;
+        /* padding-bottom: 5px; */
     }
 
     .category-scroll::-webkit-scrollbar {
@@ -215,19 +215,20 @@
     .category-scroll a {
         flex: 0 0 auto;
         padding: 8px 12px;
-        background-color: rgba(255, 255, 255, 0.2);
+        background-color: #494949;
         /* Background tetap */
         border-radius: 5px;
         text-decoration: none;
         color: white;
         white-space: nowrap;
-        transition: background 0.3s ease;
+        /* transition: background 0.3s ease; */
     }
 
     /* Kategori yang dipilih */
     .category-scroll a.active {
         background-color: #ffc107;
         font-weight: bold;
+        color: black;
     }
 
     /* .category-scroll a:hover {
