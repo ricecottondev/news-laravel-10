@@ -247,109 +247,155 @@
                         @if (isset($noImage[$noImageIndex]))
                             @php $news = $noImage[$noImageIndex++] @endphp
                             <div class="col-md-4 mb-3">
-                                <div class="border rounded-4 p-3 h-100 custom-shadow">
-                                    <div>
-                                        {{-- Kategori --}}
-                                        @php
-                                            $categoryName =
-                                                $news->countriesCategoriesNews->first()?->category?->name ??
-                                                'No Category';
-                                        @endphp
-                                        <span class="badge bg-danger text-white rounded-pill px-2 py-1 mb-2"
-                                            style="font-size: 0.75rem;">
-                                            {{ strtoupper($categoryName) }}
-                                        </span>
+                                <a href="{{ route('front.news.show', $news->slug) }}"
+                                    class="text-decoration-none text-dark d-block h-100">
+                                    <div class="border rounded-4 p-3 h-100 custom-shadow">
+                                        <div>
+                                            {{-- Kategori --}}
+                                            @php
+                                                $categoryName =
+                                                    $news->countriesCategoriesNews->first()?->category?->name ??
+                                                    'No Category';
+                                            @endphp
+                                            <span class="badge bg-danger text-white rounded-pill px-2 py-1 mb-2"
+                                                style="font-size: 0.75rem;">
+                                                {{ strtoupper($categoryName) }}
+                                            </span>
 
-                                        {{-- Judul --}}
-                                        <h6 class="news-title fw-bold mb-1">{{ Str::limit($news->title, 70) }}</h6>
+                                            {{-- Judul --}}
+                                            <h6 class="news-title fw-bold mb-1">{{ Str::limit($news->title, 70) }}</h6>
 
-                                        {{-- Deskripsi singkat --}}
-                                        <p class="text-muted mb-0" style="font-size: 1.25rem;">
-                                            {{ Str::words(strip_tags($news->content), 25, '...') }}
-                                        </p>
+                                            {{-- Deskripsi singkat --}}
+                                            <p class="text-muted mb-0" style="font-size: 1.25rem;">
+                                                {{ Str::words(strip_tags($news->content), 25, '...') }}
+                                            </p>
+                                        </div>
+                                        <small class="text-muted">
+                                            <i class="fas fa-calendar-alt me-1"></i>
+                                            {{ $news->created_at->format('F d, Y') }}
+                                        </small>
                                     </div>
-                                    <small class="text-muted">
-                                        <i class="fas fa-calendar-alt me-1"></i> {{ $news->created_at->format('F d, Y') }}
-                                    </small>
-                                </div>
+                                </a>
                             </div>
                         @endif
                     @endfor
                 </div>
-            @elseif (in_array($layoutStep, [10, 11, 12, 13]))
-                {{-- 1 berita bergambar + 3 tanpa gambar --}}
-                <div class="row mb-4">
-                    <div class="col-md-6 mb-3">
-                        @if (isset($withImage[$withImageIndex]))
-                            @php $news = $withImage[$withImageIndex++] @endphp
-                            <div class="border rounded-5 overflow-hidden h-100 custom-shadow d-flex flex-column"
-                                style="min-height: 200px;">
-                                <div class="position-relative" style="height: 300px;">
-                                    <img src="{{ asset('storage/' . $news->image) }}" alt="{{ $news->title }}"
-                                        class="img-fluid w-100 h-100" style="object-fit: cover;">
-                                </div>
-                                <div class="p-3 d-flex flex-column justify-content-between h-100">
-                                    <div>
-                                        {{-- Kategori --}}
-                                        @php
-                                            $categoryName =
-                                                $news->countriesCategoriesNews->first()?->category?->name ??
-                                                'No Category';
-                                        @endphp
-                                        <span class="badge bg-danger text-white rounded-pill px-2 py-1 mb-2"
-                                            style="font-size: 0.75rem;">
-                                            {{ strtoupper($categoryName) }}
-                                        </span>
+                @elseif (in_array($layoutStep, [10, 11, 12, 13]))
+                @php
+                    // Jika berita tanpa gambar sudah habis
+                    $isNoImageAvailable = isset($noImage[$noImageIndex]);
+                @endphp
 
-                                        {{-- Judul --}}
-                                        <h6 class="news-title fw-bold mb-1">{{ Str::limit($news->title, 70) }}</h6>
+                @if (!$isNoImageAvailable && isset($withImage[$withImageIndex]) && isset($withImage[$withImageIndex + 1]))
+                    {{-- Fallback: tampilkan 2 berita bergambar sejajar --}}
+                    <div class="row mb-4">
+                        @for ($i = 0; $i < 2; $i++)
+                            @if (isset($withImage[$withImageIndex]))
+                                @php $news = $withImage[$withImageIndex++] @endphp
+                                <div class="col-md-6 mb-3">
+                                    <a href="{{ route('front.news.show', $news->slug) }}" class="text-decoration-none text-dark">
+                                        <div class="border rounded-5 overflow-hidden h-100 custom-shadow d-flex flex-column"
+                                            style="min-height: 200px;">
+                                            <div class="position-relative" style="height: 300px;">
+                                                <img src="{{ asset('storage/' . $news->image) }}" alt="{{ $news->title }}"
+                                                    class="img-fluid w-100 h-100" style="object-fit: cover;">
+                                            </div>
+                                            <div class="p-3 d-flex flex-column justify-content-between h-100">
+                                                <div>
+                                                    @php
+                                                        $categoryName =
+                                                            $news->countriesCategoriesNews->first()?->category?->name ??
+                                                            'No Category';
+                                                    @endphp
+                                                    <span class="badge bg-danger text-white rounded-pill px-2 py-1 mb-2"
+                                                        style="font-size: 0.75rem;">
+                                                        {{ strtoupper($categoryName) }}
+                                                    </span>
 
-                                        {{-- Deskripsi singkat --}}
-                                        <p class="text-muted mb-0" style="font-size: 1.25rem;">
-                                            {{ Str::words(strip_tags($news->content), 25, '...') }}
-                                        </p>
-                                    </div>
-                                    <small class="text-muted mt-3">
-                                        <i class="fas fa-calendar-alt me-1"></i> {{ $news->created_at->format('F d, Y') }}
-                                    </small>
-                                </div>
-                            </div>
-                        @endif
-                    </div>
-                    <div class="col-md-6">
-                        @for ($i = 0; $i < 3; $i++)
-                            @if (isset($noImage[$noImageIndex]))
-                                @php $news = $noImage[$noImageIndex++] @endphp
-                                <div class="mb-3 border rounded-4 p-3 custom-shadow">
-                                    <div>
-                                        {{-- Kategori --}}
-                                        @php
-                                            $categoryName =
-                                                $news->countriesCategoriesNews->first()?->category?->name ??
-                                                'No Category';
-                                        @endphp
-                                        <span class="badge bg-danger text-white rounded-pill px-2 py-1 mb-2"
-                                            style="font-size: 0.75rem;">
-                                            {{ strtoupper($categoryName) }}
-                                        </span>
-
-                                        {{-- Judul --}}
-                                        <h6 class="news-title fw-bold mb-1">{{ Str::limit($news->title, 70) }}</h6>
-
-                                        {{-- Deskripsi singkat --}}
-                                        <p class="text-muted mb-0" style="font-size: 1.25rem;">
-                                            {{ Str::words(strip_tags($news->content), 25, '...') }}
-                                        </p>
-                                    </div>
-                                    <small class="text-muted">
-                                        <i class="fas fa-calendar-alt me-1"></i> {{ $news->created_at->format('F d, Y') }}
-                                    </small>
+                                                    <h6 class="news-title fw-bold mb-1">{{ Str::limit($news->title, 70) }}</h6>
+                                                    <p class="text-muted mb-0" style="font-size: 1.25rem;">
+                                                        {{ Str::words(strip_tags($news->content), 25, '...') }}
+                                                    </p>
+                                                </div>
+                                                <small class="text-muted mt-3">
+                                                    <i class="fas fa-calendar-alt me-1"></i>
+                                                    {{ $news->created_at->format('F d, Y') }}
+                                                </small>
+                                            </div>
+                                        </div>
+                                    </a>
                                 </div>
                             @endif
                         @endfor
                     </div>
-                </div>
+                @else
+                    {{-- Normal layout: 1 berita bergambar + 3 tanpa gambar --}}
+                    <div class="row mb-4">
+                        <div class="col-md-6 mb-3">
+                            @if (isset($withImage[$withImageIndex]))
+                                @php $news = $withImage[$withImageIndex++] @endphp
+                                <a href="{{ route('front.news.show', $news->slug) }}" class="text-decoration-none text-dark">
+                                    <div class="border rounded-5 overflow-hidden h-100 custom-shadow d-flex flex-column"
+                                        style="min-height: 200px;">
+                                        <div class="position-relative" style="height: 300px;">
+                                            <img src="{{ asset('storage/' . $news->image) }}" alt="{{ $news->title }}"
+                                                class="img-fluid w-100 h-100" style="object-fit: cover;">
+                                        </div>
+                                        <div class="p-3 d-flex flex-column justify-content-between h-100">
+                                            <div>
+                                                @php
+                                                    $categoryName =
+                                                        $news->countriesCategoriesNews->first()?->category?->name ??
+                                                        'No Category';
+                                                @endphp
+                                                <span class="badge bg-danger text-white rounded-pill px-2 py-1 mb-2"
+                                                    style="font-size: 0.75rem;">
+                                                    {{ strtoupper($categoryName) }}
+                                                </span>
+                                                <h6 class="news-title fw-bold mb-1">{{ Str::limit($news->title, 70) }}</h6>
+                                                <p class="text-muted mb-0" style="font-size: 1.25rem;">
+                                                    {{ Str::words(strip_tags($news->content), 25, '...') }}
+                                                </p>
+                                            </div>
+                                            <small class="text-muted mt-3">
+                                                <i class="fas fa-calendar-alt me-1"></i>
+                                                {{ $news->created_at->format('F d, Y') }}
+                                            </small>
+                                        </div>
+                                    </div>
+                                </a>
+                            @endif
+                        </div>
+                        <div class="col-md-6">
+                            @for ($i = 0; $i < 3; $i++)
+                                @if (isset($noImage[$noImageIndex]))
+                                    @php $news = $noImage[$noImageIndex++] @endphp
+                                    <div class="mb-3 border rounded-4 p-3 custom-shadow">
+                                        <div>
+                                            @php
+                                                $categoryName =
+                                                    $news->countriesCategoriesNews->first()?->category?->name ?? 'No Category';
+                                            @endphp
+                                            <span class="badge bg-danger text-white rounded-pill px-2 py-1 mb-2"
+                                                style="font-size: 0.75rem;">
+                                                {{ strtoupper($categoryName) }}
+                                            </span>
+                                            <h6 class="news-title fw-bold mb-1">{{ Str::limit($news->title, 70) }}</h6>
+                                            <p class="text-muted mb-0" style="font-size: 1.25rem;">
+                                                {{ Str::words(strip_tags($news->content), 25, '...') }}
+                                            </p>
+                                        </div>
+                                        <small class="text-muted">
+                                            <i class="fas fa-calendar-alt me-1"></i> {{ $news->created_at->format('F d, Y') }}
+                                        </small>
+                                    </div>
+                                @endif
+                            @endfor
+                        </div>
+                    </div>
+                @endif
             @endif
+
 
             @php
                 $layoutStep++;
@@ -559,7 +605,7 @@
                         $contentLimit = $colSize == 12 ? 300 : 100;
                     @endphp
 
-                    <div class="col-md-{{ $colSize }}">
+                    <div class="col-md-{{ $colSize }} mb-4">
                         <div class="category-card p-3 mb-4 rounded-4 shadow-sm h-100">
                             <a href="{{ url($defaultCountry . '/newscategory/' . $categoryName) }}"
                                 class="text-decoration-none text-dark">
