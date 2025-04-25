@@ -90,15 +90,25 @@ class FrontNewsController extends Controller
             'platform' => $agent->platform(),
         ]);
 
-        // Ambil berita terkait berdasarkan kesamaan kata di judul
-        $suggestedNews = News::where('id', '!=', $news->id) // Hindari berita yang sedang dibaca
-            ->where(function ($query) use ($keywords) {
-                foreach ($keywords as $word) {
-                    $query->orWhere('title', 'LIKE', "%{$word}%");
-                }
-            })
-            ->limit(5) // Ambil maksimal 5 berita
-            ->get();
+
+        // Cek apakah kategori id 8,9,10
+        $suggestedNews = collect(); // default kosong
+
+        $categoryId = $news->countriesCategoriesNews->first()?->category_id;
+
+        if (in_array($categoryId, [8, 9, 10])) {
+            $keywords = explode(' ', $news->title);
+
+            $suggestedNews = News::where('id', '!=', $news->id)
+                ->where('status', 'published')
+                ->where(function ($query) use ($keywords) {
+                    foreach ($keywords as $word) {
+                        $query->orWhere('title', 'LIKE', "%{$word}%");
+                    }
+                })
+                ->limit(5)
+                ->get();
+        }
 
         // Cek apakah user login
         // $this->cek_subs();
