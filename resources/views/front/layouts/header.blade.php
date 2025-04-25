@@ -390,38 +390,33 @@
                     let breakingNewsText = "No breaking news available.";
 
                     const preferredOrder = [
-                        'Breaking News',
-                        'Politics',
-                        'World',
-                        'Business',
-                        'Finance',
-                        'Sports',
-                        'Health',
-                        'Opinions',
-                        'Technology',
-                        'Travel & Lifestyle',
-                        'Entertainment'
+                        'Breaking News', 'Politics', 'World', 'Business', 'Finance',
+                        'Sports', 'Health', 'Opinions', 'Technology',
+                        'Travel & Lifestyle', 'Entertainment'
                     ];
 
                     const miscCategories = [];
 
-                    // Normalize and classify categories
+                    // Sort preferred categories
                     const sortedCategories = preferredOrder.map(name => {
-                        return categories.find(cat => cat.name.toLowerCase() === name
-                    .toLowerCase());
-                    }).filter(Boolean); // remove undefined
+                        return categories.find(cat => cat?.name?.toLowerCase() === name
+                        .toLowerCase());
+                    }).filter(cat => cat && cat.name); // ensure cat is not null and has name
 
+                    // Group misc
                     categories.forEach(category => {
+                        if (!category?.name) return; // Skip null or malformed category
                         if (!preferredOrder.some(name => name.toLowerCase() === category.name
                                 .toLowerCase())) {
                             miscCategories.push(category);
                         }
                     });
 
-                    // Render sorted preferred categories
+                    // Render preferred categories
                     sortedCategories.forEach(category => {
                         const categoryLink = document.createElement("a");
-                        categoryLink.href = `/${countryName}/newscategory/${category.name}`;
+                        categoryLink.href =
+                            `/${countryName}/newscategory/${encodeURIComponent(category.name)}`;
                         categoryLink.textContent = category.name;
 
                         if (preselectedCategory && category.name.toLowerCase() ===
@@ -438,7 +433,7 @@
                         }
                     });
 
-                    // Tambahkan 1 link MISC jika ada kategori lainnya
+                    // Render MISC if any
                     if (miscCategories.length > 0) {
                         const miscLink = document.createElement("a");
                         miscLink.href = `/${countryName}/newscategory/MISC`;
@@ -454,10 +449,10 @@
                     }
 
                     categorySection.style.display = "block";
-                    // breakingNews.innerHTML = breakingNewsText;
                 })
                 .catch(err => console.error("Error loading categories:", err));
         }
+
 
 
 
