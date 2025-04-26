@@ -14,6 +14,7 @@ use App\Models\News;
 use App\Http\Controllers\Front\FrontHomeController;
 use App\Models\NewsVisit;
 use Jenssegers\Agent\Agent;
+use Illuminate\Support\Carbon;
 
 class FrontNewsController extends Controller
 {
@@ -297,9 +298,17 @@ class FrontNewsController extends Controller
             ->join('countries as c', 'ccn.country_id', '=', 'c.id')
             ->where('c.country_name', $countryname)
             ->where('news.status', 'published')
-            ->orderBy('news.id', 'desc')
-            ->distinct()
+            ->orderBy('news.created_at', 'desc')
+            ->orderBy('news.id', 'asc')
+
             ->get();
+
+            // $news = News::with(['category', 'countriesCategoriesNews'])
+            // ->where('status', 'published')
+            // ->whereDate('created_at', Carbon::today())
+            // ->orderBy('created_at', 'desc') // urutkan berdasarkan tanggal terbaru
+            // ->orderBy('id', 'asc')          // dalam tanggal yang sama, urut berdasarkan ID kecil ke besar
+            // ->get();
 
         return view('front.news-by-country', compact('news', 'defaultCountry'));
     }
