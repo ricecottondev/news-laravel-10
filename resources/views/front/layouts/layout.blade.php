@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="google-site-verification" content="77JWxQbqV-H-A9qKsDqm75U3ZdugkZOSvHAYtlj2gYA" />
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
     <title>@yield('title', 'News Website')</title>
 
     <!-- Bootstrap CSS -->

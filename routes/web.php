@@ -48,6 +48,8 @@ use App\Http\Controllers\Back\Subscribe\SubscribeController;
 
 use App\Http\Controllers\AccountDeletionController;
 
+use App\Http\Controllers\Front\ContributorSignupController;
+
 
 
 /*
@@ -180,6 +182,8 @@ Route::get('/editorial-policy', function () {
     return view('front.editorial_policy');
 });
 
+
+Route::post('/contributor-signup', [ContributorSignupController::class, 'store']);
 
 //===================================================================================================front end===================================================================================================
 
