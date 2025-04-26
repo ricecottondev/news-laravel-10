@@ -12,14 +12,36 @@ class ContributorSignupController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|email|max:255|unique:contributor_signups,email',
+            'email' => 'required|email|max:255|email',
         ]);
 
+        // Honeypot anti-spam
+        if ($request->filled('website')) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Spam detected.'
+            ]);
+        }
+
+        // Cek apakah email sudah pernah submit
+        $existing = ContributorSignup::where('email', $request->email)->first();
+
+        if ($existing) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Email already exists.'
+            ]);
+        }
+
+        // Simpan data baru
         ContributorSignup::create([
             'name' => $request->name,
             'email' => $request->email,
         ]);
 
-        return response()->json(['message' => 'Signup successful!']);
+        return response()->json([
+            'success' => true,
+            'message' => 'Signup successful!'
+        ]);
     }
 }
