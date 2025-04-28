@@ -68,7 +68,7 @@ class NewsController extends Controller
             });
         }
 
-        // if ($categoryName) {
+     if ($categoryName) {
         //     $query->whereHas('countriesCategoriesNews.category', function ($q) use ($categoryName) {
         //         $q->where('name', $categoryName);
         //     });
@@ -89,6 +89,7 @@ class NewsController extends Controller
                 });
             });
         }
+    }
 
         // Filter berita 7 hari terakhir
         $last7Days = $request->input('last_7_days');
