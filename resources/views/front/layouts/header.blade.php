@@ -40,8 +40,8 @@
                     style="font-weight: bold;background-color: #cba34e">Subscribe</a>
             </div>
 
-            <!-- Tombol Menu Mobile -->
-            <button class="btn text-white d-md-none" type="button" data-bs-toggle="offcanvas"
+            <!-- Tombol Menu Mobile  / hamburger-->
+            <button class="btn text-white " type="button" data-bs-toggle="offcanvas"
                 data-bs-target="#mobile-menu">
                 <i class="fas fa-bars fa-lg"></i>
             </button>
@@ -52,19 +52,27 @@
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"></button>
                 </div>
                 <div class="offcanvas-body d-flex flex-column gap-3">
-                    <a class="btn btn-download w-100 text-center"
-                        href="https://play.google.com/store/apps/details?id=com.rc.news">Download Here</a>
+                    {{-- <a class="btn btn-download w-100 text-center text-dark" style="font-weight: bold;background-color: #cba34e"
+                        href="https://play.google.com/store/apps/details?id=com.rc.news">Download Here</a> --}}
+
+                        <div class="d-md-flex align-items-center gap-3 ms-2 me-2">
+
+                            <a class="btn text-dark w-100 d-none d-md-block" style="font-weight: bold;background-color: #cba34e"
+                                href="https://play.google.com/store/apps/details?id=com.rc.news">Download Here</a>
+                        </div>
                     <a class="nav-link text-white" href="/about">About Us</a>
                     <a class="nav-link text-white" href="/history">History</a>
-                    <div class="card bg-secondary text-white">
+                    <a class="nav-link text-white" href="/faq">FAQ</a>
+                    {{-- <div class="card bg-secondary text-white">
                         <div class="card-body">
                             <h6 class="card-title">FAQ</h6>
                             <p class="card-text">Frequently asked questions about our service.</p>
                             <a href="/faq" class="btn btn-light btn-sm">Go to FAQ</a>
                         </div>
-                    </div>
+                    </div> --}}
                     <a class="nav-link text-white" href="/editorial-policy">Editorial Policy</a>
                     <a class="nav-link text-white" href="/privacy-policy">Privacy Policy</a>
+                    <a class="nav-link text-white" href="/terms">Terms And Conditions</a>
                     <a class="nav-link text-white" href="/contact">Contact Us</a>
                 </div>
             </div>

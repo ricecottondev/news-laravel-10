@@ -182,6 +182,10 @@ Route::get('/editorial-policy', function () {
     return view('front.editorial_policy');
 });
 
+Route::get('/terms', function () {
+    return view('front.terms');
+});
+
 
 Route::post('/contributor-signup', [ContributorSignupController::class, 'store']);
 

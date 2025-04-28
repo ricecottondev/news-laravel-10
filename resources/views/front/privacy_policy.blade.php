@@ -61,7 +61,7 @@
 
 
 
-    <section>
+    <section class="d-none">
         <div class="container privacy_policy-container py-4">
             <a class="text-decoration-none" href="/">
                 <img src="{{ url('') }}/sdamember-template/img/logo/sda-member-logo.png" height="auto"
@@ -127,13 +127,16 @@
                     </ul>
 
                     <h4>6. Third-Party Links</h4>
-                    <p>When you click on external links from Factabot, you are subject to their privacy policies, not ours.</p>
+                    <p>When you click on external links from Factabot, you are subject to their privacy policies, not ours.
+                        (We’re not responsible if you end up buying weird things at 2 a.m.)</p>
 
                     <h4>7. Data Retention</h4>
-                    <p>We only keep your data as long as necessary to operate Factabot smoothly. If you unsubscribe or ask us nicely, we’ll delete your data.</p>
+                    <p>We only keep your data as long as necessary to operate Factabot smoothly.
+                        If you unsubscribe or ask us nicely, we’ll delete your data.</p>
 
                     <h4>8. Changes to This Policy</h4>
-                    <p>We may update this Privacy Policy from time to time. Changes take effect once posted here.</p>
+                    <p>We may update this Privacy Policy from time to time.
+                        Changes take effect once posted here.</p>
 
                     <h4>9. Contact Us</h4>
                     <p>Questions about privacy?<br>
