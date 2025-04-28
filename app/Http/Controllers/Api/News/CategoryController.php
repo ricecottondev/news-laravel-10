@@ -99,25 +99,72 @@ class CategoryController extends Controller
 
     public function categoriesWithNews(Request $request)
 {
-        // Ambil country_name dari request
-        $countryName = $request->input('country_name');
+    // Ambil country_name dari request
+    $countryName = $request->input('country_name');
 
-        // Ambil ID negara berdasarkan country_name
-        $country = Country::where('country_name', $countryName)->first();
+    // Ambil ID negara berdasarkan country_name
+    $country = Country::where('country_name', $countryName)->first();
 
-        if (!$country) {
-            return response()->json(['message' => 'Country not found'], 404);
-        }
-
-        // Ambil kategori yang memiliki news di negara tertentu
-        $categories = Category::whereHas('countriesCategoriesNews', function ($query) use ($country) {
-            $query->where('country_id', $country->id)
-                ->whereHas('news'); // Pastikan ada berita
-        })
-            ->select('id', 'name', 'description')
-            ->get()->pluck('name')->toArray();
-
-        // Kembalikan response dalam format JSON
-        return response()->json(['categories' => $categories]);
+    if (!$country) {
+        return response()->json(['message' => 'Country not found'], 404);
     }
+
+    // List kategori prioritas urutan
+    $preferredOrder = [
+        'Breaking News',
+        'Politics',
+        'World',
+        'Business',
+        'Finance',
+        'Sports',
+        'Health',
+        'Opinions', // Kita pakai hanya "Opinions" (gabungan)
+        'Technology',
+        'Travel & Lifestyle',
+        'Entertainment'
+    ];
+
+    // Ambil semua kategori yang ada berita untuk country tersebut
+    $categories = Category::whereHas('countriesCategoriesNews', function ($query) use ($country) {
+            $query->where('country_id', $country->id)
+                  ->whereHas('news');
+        })
+        ->select('id', 'name', 'description')
+        ->get()
+        ->pluck('name')
+        ->toArray();
+
+    // Pisahkan kategori
+    $sortedCategories = [];
+    $otherCategories = [];
+
+    foreach ($categories as $cat) {
+        // Gabungkan Opinion dan Opinions menjadi Opinions
+        if (strtolower($cat) === 'opinion' || strtolower($cat) === 'opinions') {
+            if (!in_array('Opinions', $sortedCategories)) {
+                $sortedCategories[] = 'Opinions';
+            }
+        } elseif (in_array($cat, $preferredOrder)) {
+            $sortedCategories[] = $cat;
+        } else {
+            $otherCategories[] = $cat;
+        }
+    }
+
+    // Urutkan berdasarkan $preferredOrder
+    $finalCategories = [];
+    foreach ($preferredOrder as $order) {
+        if (in_array($order, $sortedCategories)) {
+            $finalCategories[] = $order;
+        }
+    }
+
+    // Jika ada kategori lain, masukkan jadi 1 kategori 'Misc'
+    if (count($otherCategories) > 0) {
+        $finalCategories[] = 'Misc';
+    }
+
+    return response()->json(['categories' => $finalCategories]);
+}
+
 }

@@ -24,6 +24,20 @@ class NewsController extends Controller
         $countryName = $request->input('country_name');
         $categoryName = $request->input('category_name');
 
+        $excludedCategories = [
+            "Breaking News",
+            "Politics",
+            "World",
+            "Business",
+            "Finance",
+            "Sports",
+            "Health",
+            "Opinions",
+            "Technology",
+            "Travel & Lifestyle",
+            "Entertainment"
+        ];
+
         // Mapping country ke region
         $asiaCountries = ['indonesia', 'malaysia', 'singapore', 'japan', 'india', 'thailand', 'philippines', 'vietnam', 'south korea'];
         $europeCountries = ['united kingdom', 'germany', 'france', 'italy', 'netherlands', 'spain', 'sweden', 'switzerland', 'norway', 'denmark'];
@@ -54,9 +68,25 @@ class NewsController extends Controller
             });
         }
 
-        if ($categoryName) {
-            $query->whereHas('countriesCategoriesNews.category', function ($q) use ($categoryName) {
-                $q->where('name', $categoryName);
+        // if ($categoryName) {
+        //     $query->whereHas('countriesCategoriesNews.category', function ($q) use ($categoryName) {
+        //         $q->where('name', $categoryName);
+        //     });
+        // }
+        if ((strtolower($categoryName) === 'opinion') || ((strtolower($categoryName) === 'opinions'))) {
+            $query->whereHas('countriesCategoriesNews.category', function ($q) {
+                $q->whereIn('name', ['Opinion', 'Opinions']);
+            });
+        } else
+        if (strtolower($categoryName) === 'misc') {
+            $query->whereHas('countriesCategoriesNews.category', function ($q) use ($excludedCategories) {
+                $q->whereNotIn('name', $excludedCategories);
+            });
+        } else {
+            $query->whereHas('countriesCategoriesNews', function ($q) use ($categoryName) {
+                $q->whereHas('category', function ($q) use ($categoryName) {
+                    $q->where('name', $categoryName);
+                });
             });
         }
 
