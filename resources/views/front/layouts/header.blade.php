@@ -61,7 +61,7 @@
                                 href="https://play.google.com/store/apps/details?id=com.rc.news">Download Here</a>
                         </div>
                     <a class="nav-link text-white" href="/about">About Us</a>
-                    <a class="nav-link text-white" href="/history">History</a>
+                    <a class="nav-link text-white" href="/history">Our History</a>
                     <a class="nav-link text-white" href="/faq">FAQ</a>
                     {{-- <div class="card bg-secondary text-white">
                         <div class="card-body">
