@@ -75,6 +75,16 @@
                         <p class="mb-3 text-justify">{{ trim($paragraph) }}</p>
                     @endif
 
+                    <div class="mb-4">
+                        <h5><strong>Disclaimer:</strong></h5>
+                        <h5>Factabot provides satirical commentary based on real-world events.
+                        While rooted in factual news reporting, our content uses humor, exaggeration, and parody for
+                        entertainment and opinion purposes.
+                        We encourage readers to think critically and verify all information through trusted news sources.
+                        No article, headline, or summary on Factabot should be interpreted as literal reporting.
+                    </h5>
+                    </div>
+
 
                     <div class="mb-4">
                         <h6 class="fw-bold mb-2">Share this News:</h6>
@@ -82,35 +92,37 @@
 
                             <!-- WhatsApp -->
                             <a href="https://api.whatsapp.com/send?text={{ urlencode($news->title . ' - ' . route('front.news.show', $news->slug)) }}"
-                               class="btn btn-outline-success d-flex align-items-center gap-2 btn-sm" target="_blank">
+                                class="btn btn-outline-success d-flex align-items-center gap-2 btn-sm" target="_blank">
                                 <i class="bi bi-whatsapp fs-5"></i> WhatsApp
                             </a>
 
                             <!-- Facebook -->
                             <a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(route('front.news.show', $news->slug)) }}"
-                               class="btn btn-outline-primary d-flex align-items-center gap-2 btn-sm" target="_blank">
+                                class="btn btn-outline-primary d-flex align-items-center gap-2 btn-sm" target="_blank">
                                 <i class="bi bi-facebook fs-5"></i> Facebook
                             </a>
 
                             <!-- Twitter -->
                             <a href="https://twitter.com/intent/tweet?url={{ urlencode(route('front.news.show', $news->slug)) }}&text={{ urlencode($news->title) }}"
-                               class="btn btn-outline-info d-flex align-items-center gap-2 btn-sm text-info" target="_blank">
+                                class="btn btn-outline-info d-flex align-items-center gap-2 btn-sm text-info"
+                                target="_blank">
                                 <i class="bi bi-twitter-x fs-5"></i> Twitter
                             </a>
 
                             <!-- Telegram -->
                             <a href="https://t.me/share/url?url={{ urlencode(route('front.news.show', $news->slug)) }}&text={{ urlencode($news->title) }}"
-                               class="btn btn-outline-secondary d-flex align-items-center gap-2 btn-sm" target="_blank">
+                                class="btn btn-outline-secondary d-flex align-items-center gap-2 btn-sm" target="_blank">
                                 <i class="bi bi-telegram fs-5"></i> Telegram
                             </a>
 
                             <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ urlencode(route('front.news.show', $news->slug)) }}"
                                 class="btn btn-outline-primary d-flex align-items-center gap-2 btn-sm" target="_blank">
-                                 <i class="bi bi-linkedin fs-5"></i> LinkedIn
-                             </a>
+                                <i class="bi bi-linkedin fs-5"></i> LinkedIn
+                            </a>
 
                             <!-- Copy Link -->
-                            <button onclick="copyLink()" class="btn btn-outline-dark d-flex align-items-center gap-2 btn-sm">
+                            <button onclick="copyLink()"
+                                class="btn btn-outline-dark d-flex align-items-center gap-2 btn-sm">
                                 <i class="bi bi-clipboard fs-5"></i> Copy Link
                             </button>
                         </div>
