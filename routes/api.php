@@ -56,6 +56,10 @@ use App\Http\Controllers\NotificationController;
 
 use App\Http\Controllers\Api\Subscribes\SubscribesController;
 
+use App\Http\Controllers\Front\ContributorSignupController;
+
+
+
 
 
 
@@ -74,6 +78,9 @@ use App\Http\Controllers\Api\Subscribes\SubscribesController;
 
 
  Route::post('apilogin', [ApiController::class, 'index']);
+
+ Route::post('/contributor-signup', [ContributorSignupController::class, 'store']);
+
 
  #AUTH
 Route::post('login', [ApiController::class, 'authenticate']);
