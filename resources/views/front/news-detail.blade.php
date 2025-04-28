@@ -140,6 +140,7 @@
 
             <!-- Comments Section -->
             <h4 class="mt-5">Comments ({{ $news->comments->count() }})</h4>
+            <h6>*We remove anything illegal, hateful, defamatory.</h6>
             <div class="mt-4">
                 @foreach ($news->comments->where('parent_id', null) as $comment)
                     <div class="border p-3 mb-3">
