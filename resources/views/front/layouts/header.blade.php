@@ -7,9 +7,7 @@
                     <img src="/images/app_logo.png" alt="Logo" width="50" height="50" class="me-3">
                     <div>
                         <h1 class="h4 mb-0" style="color: white">FactaBot</h1>
-                        <div class="" style="font-size: 1.15rem;color: #cba34e"><strong>Truth+ Snark, No
-                                Billionaire
-                                Agenda</strong></div>
+                        <div class="" style="font-size: 1.15rem;color: #cba34e"><strong>Real news. Sharp jokes. Zero puppeteers</strong></div>
                     </div>
                 </div>
             </a>
