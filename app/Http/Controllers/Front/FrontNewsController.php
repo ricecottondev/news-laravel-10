@@ -319,8 +319,8 @@ class FrontNewsController extends Controller
 
         // Cari berita berdasarkan judul atau konten
         $news = News::where(function ($q) use ($query) {
-            $q->where('title', 'LIKE', "%$query%")
-                ->orWhere('content', 'LIKE', "%$query%");
+            $q->where('title', 'LIKE', "%$query%");
+                // ->orWhere('content', 'LIKE', "%$query%");
         })
             ->where('status', 'published')
             ->paginate(10);
