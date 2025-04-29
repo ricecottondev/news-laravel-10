@@ -185,7 +185,7 @@
     });
 </script>
 
-document.addEventListener("DOMContentLoaded", function () {
+{{-- document.addEventListener("DOMContentLoaded", function () {
 const modal = new bootstrap.Modal(document.getElementById('newsPopupModal'), {
 backdrop: 'static',
 keyboard: false
@@ -235,4 +235,4 @@ alert("Please fill your name and email!");
 }
 });
 });
-</script>
+</script> --}}
