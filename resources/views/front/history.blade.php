@@ -113,9 +113,9 @@
                     <img src="{{ url('') }}/images/about_us_4.png" class="img-fluid about-image" alt="Factabot Image">
                 </div>
                 <div class="col-md-6">
-                    <p class="highlight-yellow">So we built Factabot—a digital middle finger to partisan manipulation.</p>
+                    {{-- <p class="highlight-yellow">So we built Factabot—a digital middle finger to partisan manipulation.</p>
                     <p>We use AI to pull stories from all sides of the ideological battlefield. Left, right, establishment, independent. We strip the spin, call out the contradictions, and serve it straight. You get the facts, the context, the receipts—then you make up your own damn mind.</p>
-                    <p>We don’t believe in echo chambers. We believe in clarity, complexity, and calling BS when we see it—no matter who it comes from.</p>
+                    <p>We don’t believe in echo chambers. We believe in clarity, complexity, and calling BS when we see it—no matter who it comes from.</p> --}}
                 </div>
             </div>
 
@@ -125,10 +125,10 @@
                     <img src="{{ url('') }}/images/about_us_5.png" class="img-fluid about-image" alt="Factabot Image">
                 </div>
                 <div class="col-md-6 text-start">
-                    <p class="highlight-yellow">
+                    {{-- <p class="highlight-yellow">
                         We’re not here to win elections or sell you merch.<br>
                         We’re here because truth deserves better. And so do you.
-                    </p>
+                    </p> --}}
                     <div class="mt-3">
                         <p><strong>Jonas</strong> – The witty one. Ex-copywriter turned spin-slayer. Obsessed with logic, language, and chess. Writes the headlines that make you spit out your coffee.</p>
                         <p><strong>Eli</strong> – The thoughtful one. Quietly brilliant, loves data visualizations and sci-fi paperbacks. Always the first to say, “Wait, that headline feels off.”</p>
