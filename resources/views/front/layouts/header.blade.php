@@ -7,7 +7,8 @@
                     <img src="/images/app_logo.png" alt="Logo" width="50" height="50" class="me-3">
                     <div>
                         <h1 class="h4 mb-0" style="color: white">FactaBot</h1>
-                        <div class="" style="font-size: 1.15rem;color: #cba34e"><strong>Real news. Sharp jokes. Zero puppeteers</strong></div>
+                        <div class="" style="font-size: 1.15rem;color: #cba34e"><strong>Real news. Sharp jokes.
+                                Zero puppeteers</strong></div>
                     </div>
                 </div>
             </a>
@@ -39,8 +40,7 @@
             </div>
 
             <!-- Tombol Menu Mobile  / hamburger-->
-            <button class="btn text-white " type="button" data-bs-toggle="offcanvas"
-                data-bs-target="#mobile-menu">
+            <button class="btn text-white " type="button" data-bs-toggle="offcanvas" data-bs-target="#mobile-menu">
                 <i class="fas fa-bars fa-lg"></i>
             </button>
 
@@ -53,11 +53,12 @@
                     {{-- <a class="btn btn-download w-100 text-center text-dark" style="font-weight: bold;background-color: #cba34e"
                         href="https://play.google.com/store/apps/details?id=com.rc.news">Download Here</a> --}}
 
-                        <div class="d-md-flex align-items-center gap-3 ms-2 me-2">
+                    <div class="d-md-flex align-items-center gap-3 ms-2 me-2">
 
-                            <a class="btn text-dark w-100 d-none d-md-block" style="font-weight: bold;background-color: #cba34e"
-                                href="https://play.google.com/store/apps/details?id=com.rc.news">Download Here</a>
-                        </div>
+                        <a class="btn text-dark w-100 d-none d-md-block"
+                            style="font-weight: bold;background-color: #cba34e"
+                            href="https://play.google.com/store/apps/details?id=com.rc.news">Download Here</a>
+                    </div>
                     <a class="nav-link text-white" href="/about">About Us</a>
                     <a class="nav-link text-white" href="/history">Our History</a>
                     <a class="nav-link text-white" href="/faq">FAQ</a>
@@ -346,6 +347,14 @@
             selectedCountry = urlParts[1];
         }
 
+        // ❗ Tambahkan fallback jika tidak ada input sama sekali
+        if (!selectedCountry) {
+            selectedCountry = "australia"; // fallback negara default
+        }
+        if (!selectedCategory) {
+            selectedCategory = "breaking news"; // fallback kategori default
+        }
+
         fetch(countryApiUrl)
             .then(res => res.json())
             .then(data => {
@@ -407,7 +416,7 @@
                     // Sort preferred categories
                     const sortedCategories = preferredOrder.map(name => {
                         return categories.find(cat => cat?.name?.toLowerCase() === name
-                        .toLowerCase());
+                            .toLowerCase());
                     }).filter(cat => cat && cat.name); // ensure cat is not null and has name
 
                     // Group misc
@@ -426,17 +435,24 @@
                             `/${countryName}/newscategory/${encodeURIComponent(category.name)}`;
                         categoryLink.textContent = category.name;
 
-                        if (preselectedCategory && category.name.toLowerCase() ===
-                            preselectedCategory.toLowerCase()) {
-                            document.querySelectorAll(".category-scroll a").forEach(a => a.classList
-                                .remove("active"));
-                            categoryLink.classList.add("active");
+                        if (preselectedCategory) {
+                            const decodedCategory = decodeURIComponent(preselectedCategory)
+                                .toLowerCase();
+                            const currentCategory = category.name.toLowerCase();
+
+                            if (decodedCategory === currentCategory) {
+                                document.querySelectorAll(".category-scroll a").forEach(a => a
+                                    .classList.remove("active"));
+                                categoryLink.classList.add("active");
+
+                            }
                         }
 
                         categoryMenu.appendChild(categoryLink);
 
                         if (category.name.toLowerCase() === "breaking news") {
                             breakingNewsText = category.description || "Breaking news update!";
+
                         }
                     });
 
