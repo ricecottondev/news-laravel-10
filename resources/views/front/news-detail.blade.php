@@ -75,14 +75,14 @@
                         <p class="mb-3 text-justify">{{ trim($paragraph) }}</p>
                     @endif
 
-                    <div class="mb-4">
-                        <h5><strong>Disclaimer:</strong></h5>
-                        <h5>Factabot provides satirical commentary based on real-world events.
+                    <div class="mb-4" style="font-size: 11px; font-style: italic">
+                        <strong>Disclaimer:</strong>
+                        Factabot provides satirical commentary based on real-world events.
                         While rooted in factual news reporting, our content uses humor, exaggeration, and parody for
                         entertainment and opinion purposes.
                         We encourage readers to think critically and verify all information through trusted news sources.
                         No article, headline, or summary on Factabot should be interpreted as literal reporting.
-                    </h5>
+
                     </div>
 
 
