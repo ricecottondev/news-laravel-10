@@ -168,12 +168,23 @@ class FrontHomeController extends Controller
             ->whereDate('created_at', '<', Carbon::today())
             ->orderBy('id', 'desc')
             ->limit(8)->get();
+        // $topnews = News::with(['category', 'countriesCategoriesNews'])
+        //     ->where('status', 'published')
+        //     ->whereDate('created_at', Carbon::today())
+        //     ->orderBy('created_at', 'desc') // urutkan berdasarkan tanggal terbaru
+        //     ->orderBy('id', 'asc')          // dalam tanggal yang sama, urut berdasarkan ID kecil ke besar
+        //     ->get();
+
         $topnews = News::with(['category', 'countriesCategoriesNews'])
-            ->where('status', 'published')
-            ->whereDate('created_at', Carbon::today())
-            ->orderBy('created_at', 'desc') // urutkan berdasarkan tanggal terbaru
-            ->orderBy('id', 'asc')          // dalam tanggal yang sama, urut berdasarkan ID kecil ke besar
-            ->get();
+        ->where('status', 'published')
+        ->whereDate('created_at', Carbon::today())
+        ->whereHas('countriesCategoriesNews.country', function ($query) {
+            $query->where('country_name', 'Australia');
+        })
+        ->orderBy('created_at', 'desc')
+        ->orderBy('id', 'asc')
+        ->get();
+
         $news = News::where('status', 'published')->orderBy('id', 'desc')->limit(6)->get();
 
 
