@@ -270,7 +270,12 @@ class FrontNewsController extends Controller
                     $q->whereNotIn('name', $excludedCategories);
                 });
             });
-        } else {
+        } else
+        if (strtolower($categoryName) === 'breaking news') {
+
+        }
+        else
+        {
             $query->whereHas('countriesCategoriesNews', function ($q) use ($categoryName) {
                 $q->whereHas('category', function ($q) use ($categoryName) {
                     $q->where('name', $categoryName);
@@ -280,6 +285,7 @@ class FrontNewsController extends Controller
 
         $news = $query->where('status', 'published')
             ->orderBy('created_at', 'desc')
+            ->orderBy('id', 'asc')
             ->get();
 
         return view('front.news-by-category', compact("news", "categoryName"));
