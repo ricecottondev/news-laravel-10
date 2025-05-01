@@ -66,9 +66,24 @@
                                     <!--end::Search-->
                                 </div>
                             </div>
-                            <div class="card-body pt-0">
 
-                                <table class="table align-middle table-row-dashed fs-6 gy-5" id="kt_ecommerce_sales_table">
+
+
+                            <div class="card-body pt-0">
+                                <form method="GET" action="{{ route('news-master.index') }}" class="mb-4 d-flex">
+                                    <input type="text" name="search" class="form-control me-2" placeholder="Search news..."
+                                        value="{{ request('search') }}">
+                                    <button type="submit" class="btn btn-dark me-2">Search</button>
+                                    <a href="{{ route('news-master.index') }}" class="btn btn-danger">Reset</a>
+                                </form>
+
+                                {{-- <form method="GET" action="{{ route('news-master.index') }}">
+                                    <input type="text" name="keyword" value="{{ request('keyword') }}" placeholder="Cari berita...">
+                                    <button type="submit">Cari</button>
+                                    <a href="{{ route('news-master.index') }}" class="btn-reset">Reset</a>
+                                </form> --}}
+
+                                <table class="table align-middle table-row-dashed fs-6 gy-5" id="">
                                     <thead>
                                         <tr>
                                             <th>Gambar</th>
@@ -97,7 +112,20 @@
                                                 </td>
                                                 <td>{{ $item->short_desc }}</td>
                                                 <td>{{ $item->author }}</td>
-                                                <td>{{ $item->status }}</td>
+                                                <td>
+                                                    <span class="badge status-badge
+                                                        @if ($item->status == 'draft') bg-danger
+                                                        @elseif($item->status == 'progress') bg-warning text-dark
+                                                        @elseif($item->status == 'published') bg-success
+                                                        @elseif($item->status == 'revision') bg-warning text-dark @endif"
+                                                        style="cursor: pointer;"
+                                                        data-bs-toggle="modal"
+                                                        data-bs-target="#updateStatusModal"
+                                                        data-id="{{ $item->id }}"
+                                                        data-status="{{ $item->status }}">
+                                                        {{ ucfirst($item->status) }}
+                                                    </span>
+                                                </td>
                                                 <td>
                                                     <a href="{{ route('news-master.edit', $item->id) }}"
                                                         class="btn btn-sm btn-outline btn-outline-dashed btn-outline-default px-4 me-2"><i
@@ -117,6 +145,8 @@
                                     </tbody>
                                 </table>
 
+
+                                {{ $news->withQueryString()->links() }}
 
                                 <!--end::Table-->
                             </div>
@@ -248,6 +278,49 @@
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="updateStatusModal" tabindex="-1" aria-labelledby="updateStatusModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <form method="POST" action="{{ route('news.updateStatus') }}">
+                @csrf
+                @method('POST')
+                <input type="input" name="news_id" id="modalPlanId">
+
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Update News Status</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <label for="new_status" class="form-label">Select New Status</label>
+                        <select name="new_status" id="modalNewStatus" class="form-select" required>
+                            <option value="draft">draft</option>
+
+                            <option value="published">Published</option>
+
+                        </select>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Update Status</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const updateStatusModal = document.getElementById('updateStatusModal');
+        updateStatusModal.addEventListener('show.bs.modal', function (event) {
+            const button = event.relatedTarget;
+            const planId = button.getAttribute('data-id');
+            const currentStatus = button.getAttribute('data-status');
+
+            document.getElementById('modalPlanId').value = planId;
+            document.getElementById('modalNewStatus').value = currentStatus;
+        });
+    </script>
+
+
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             // Check the number of columns in thead

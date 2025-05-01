@@ -23,15 +23,26 @@ class BackNewsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        // dd("test");
         $countries = Country::all();
-        $categories = Category::all(); // Ambil semua kategori
-        // $countriescategoriesnews = $news->countriesCategoriesNews()->get();
-        $news = News::with('category')->orderBy('id', 'desc')->get();
+        $categories = Category::all();
+
+        $query = News::with('category')->orderBy('id', 'desc');
+
+        // Search by title or short_desc
+        if ($request->has('search') && $request->search != '') {
+            $query->where(function ($q) use ($request) {
+                $q->where('title', 'like', '%' . $request->search . '%')
+                    ->orWhere('short_desc', 'like', '%' . $request->search . '%');
+            });
+        }
+
+        $news = $query->paginate(10); // 10 items per page
+
         return view('back.news.index', compact('news', 'countries', 'categories'));
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -311,5 +322,21 @@ class BackNewsController extends Controller
         }
 
         return redirect()->route('news-master.uncategorized')->with('success', 'All uncategorized news have been assigned.');
+    }
+
+
+    public function updateStatus(Request $request)
+    {
+        $request->validate([
+            // 'news_id' => 'required|exists:plans,id',
+            'new_status' => 'required|in:draft,published',
+        ]);
+
+        $news = News::findOrFail($request->news_id);
+        $news->status = $request->new_status;
+        // $news->modified_by_id = Auth::id() ?? 1;
+        $news->save();
+
+        return redirect()->back()->with('success', 'News status updated.');
     }
 }
