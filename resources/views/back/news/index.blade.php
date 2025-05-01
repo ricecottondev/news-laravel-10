@@ -284,7 +284,7 @@
             <form method="POST" action="{{ route('news.updateStatus') }}">
                 @csrf
                 @method('POST')
-                <input type="input" name="news_id" id="modalPlanId">
+                <input type="hidden" name="news_id" id="modalPlanId">
 
                 <div class="modal-content">
                     <div class="modal-header">
