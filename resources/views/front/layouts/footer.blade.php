@@ -36,9 +36,39 @@
             </div>
             <div class="col-md-4">
                 <h3 class="h5" style="font-size: 18px ;font-weight: bold;text-decoration: none ;color:#4d4d4d">Contact Us</h3>
-                <p style="font-size: 18px ;font-weight: bold;text-decoration: none ;color:#4d4d4d">Email: ricecottondev@email.com</p>
+                <p style="font-size: 18px ;font-weight: bold;text-decoration: none ;color:#4d4d4d">Email: factabot@gmail.com</p>
                 {{-- <p style="font-size: 18px ;font-weight: bold;text-decoration: none ;color:#4d4d4d">Phone: (+61) 0424777146</p> --}}
+            </div>
+
+            <div class="text-center mt-3" style="color: #4d4d4d; font-weight: bold; font-size: 16px;">
+                <span id="current-time"></span>
             </div>
         </div>
     </div>
+
+    <script>
+        const timezone = "{{ config('app.timezone') }}";
+
+        function updateTime() {
+            // Pakai Intl.DateTimeFormat untuk format lokal dengan timezone
+            const now = new Date();
+
+            const formatter = new Intl.DateTimeFormat('en-NZ', {
+                timeZone: timezone,
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: false
+            });
+
+            document.getElementById('current-time').innerText = formatter.format(now);
+        }
+
+        // Update setiap detik
+        setInterval(updateTime, 1000);
+        updateTime(); // panggil pertama kali
+    </script>
 </footer>
