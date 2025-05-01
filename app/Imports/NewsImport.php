@@ -20,7 +20,7 @@ class NewsImport implements ToModel, WithHeadingRow
         $country_id = Session::get('import_country_id');
         // $category_id = Session::get('import_category_id');
 
-        $title = trim($row['title'] ?? '');
+        $title = trim($row['headline'] ?? '');
 
         // Abaikan jika judul kosong
         if (empty($title)) {
@@ -70,8 +70,8 @@ class NewsImport implements ToModel, WithHeadingRow
         //dd($createdAt);
 
         $news = new News([
-            'title' => $row['title'],
-            'short_desc' => $row['short_desc'],
+            'title' => $row['headline'],
+            'short_desc' => $row['summary'],
             'content' => $row['content'],
             'is_breaking_news' => 0,
             'author' => 'factabot',
