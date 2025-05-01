@@ -167,8 +167,8 @@
                                             <option value="">-- Select Category --</option>
                                         </select>
                                     </div>
-
-                                    {{-- <button type="button" id="saveData" class="btn btn-primary">Save</button> --}}
+                                    *this button only for save data country and category
+                                    <button type="button" id="saveData" class="btn btn-danger">Save country & category</button>
                                 </form>
 
                                 <hr>
