@@ -200,7 +200,7 @@ return [
         App\Providers\RouteServiceProvider::class,
 
         Spatie\Permission\PermissionServiceProvider::class,
-
+        Jenssegers\Agent\AgentServiceProvider::class,
     ],
 
     /*
@@ -219,6 +219,7 @@ return [
         'Permission' => Spatie\Permission\Facades\Permission::class,
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
         'Image' => Intervention\Image\Facades\Image::class,
+        'Agent' => Jenssegers\Agent\Facades\Agent::class,
     ])->toArray(),
 
 ];

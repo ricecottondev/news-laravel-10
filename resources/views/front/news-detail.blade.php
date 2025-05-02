@@ -242,6 +242,20 @@
         </div>
     @endif
 
+    <script>
+        let startTime = Date.now();
+
+        window.addEventListener("beforeunload", function () {
+            const endTime = Date.now();
+            const durationSeconds = Math.floor((endTime - startTime) / 1000);
+
+            navigator.sendBeacon("/track-duration", JSON.stringify({
+                news_id: {{ $news->id }},
+                duration: durationSeconds
+            }));
+        });
+    </script>
+
 
     <script>
         function copyLink() {

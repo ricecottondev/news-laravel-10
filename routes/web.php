@@ -141,6 +141,11 @@ Route::get('/search', [FrontNewsController::class, 'search'])->name('news.search
 
 Route::post('/news/{id}/comment', [NewsCommentController::class, 'store'])->name('news.comment');
 
+Route::post('/track-duration', [\App\Http\Controllers\Front\TrackingController::class, 'trackNewsDuration']);
+Route::post('/track-page-duration', [\App\Http\Controllers\Front\TrackingController::class, 'trackPageDuration']);
+
+
+
 //Route::post('/comments', [NewsCommentController::class, 'store'])->name('comments.store');
 // Route::get('/subscribes',[FrontHomeController::class, 'subscribes'])->name('home.subscribes');
 Route::get('/subscribes', function () {

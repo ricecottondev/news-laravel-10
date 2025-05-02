@@ -86,4 +86,18 @@
             <p>Slide into our DMs, drop us an email, or shout into the void (just kidding—we don’t monitor the void). We actually read every message. If your tip is gold, we might even feature it (and credit you—unless your username is “xXx420BlazeNewsxXx”).</p>
         </div>
     </section>
+
+    <script>
+        let startTime = Date.now();
+        window.addEventListener("beforeunload", function () {
+            const duration = Math.round((Date.now() - startTime) / 1000);
+            const data = {
+                url: window.location.pathname,
+                duration: duration
+            };
+
+            const blob = new Blob([JSON.stringify(data)], { type: 'application/json' });
+            navigator.sendBeacon('/track-page-duration', blob);
+        });
+    </script>
 @endsection

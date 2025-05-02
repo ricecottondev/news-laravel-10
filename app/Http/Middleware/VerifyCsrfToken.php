@@ -14,5 +14,7 @@ class VerifyCsrfToken extends Middleware
     protected $except = [
         'upload-image',
         'contributor-signup',
+        '/track-duration',
+        '/track-page-duration'
     ];
 }
