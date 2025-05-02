@@ -21,7 +21,7 @@ class NewsImport implements ToModel, WithHeadingRow
         // $category_id = Session::get('import_category_id');
 
         $title = trim($row['headline'] ?? '');
-
+        // dump($title);
         // Abaikan jika judul kosong
         if (empty($title)) {
             return null;
@@ -30,13 +30,14 @@ class NewsImport implements ToModel, WithHeadingRow
         // ✅ Cek apakah judul sudah ada
         $existing = News::where('title', $title)->exists();
         if ($existing) {
+            dump("existing, abort save");
             return null; // Skip jika sudah ada
         }
 
         // Konversi tanggal dari Excel ke format datetime Laravel
         $dateString = $row['date'] ?? null;
 
-        dump($dateString);
+        // dump($dateString);
         $createdAt = null;
         if (!empty($row['date'])) {
             $rawDate = $row['date'];
@@ -68,14 +69,14 @@ class NewsImport implements ToModel, WithHeadingRow
         // $createdAt = !empty($row['date']) ? Date::excelToDateTimeObject($row['date']) : now();
 
         //dd($createdAt);
-
+        // dump("already to save");
         $news = new News([
             'title' => $row['headline'],
             'short_desc' => $row['summary'],
             'content' => $row['content'],
             'is_breaking_news' => 0,
             'author' => 'factabot',
-            'slug' => Str::slug($row['title']),
+            'slug' => Str::slug($row['headline']),
             'status' => 'published',
             'views' => 0,
             'created_at' => $createdAt,
@@ -83,6 +84,7 @@ class NewsImport implements ToModel, WithHeadingRow
 
         // $news->timestamps = false; // <-- Ini penting
         $news->save();
+        dump('news saved');
 
         // Simpan relasi country & category dengan news
         // CountriesCategoriesNews::create([
@@ -94,6 +96,7 @@ class NewsImport implements ToModel, WithHeadingRow
 
         // Proses banyak kategori
         if (!empty($row['category'])) {
+            dump($row['category']);
             $categoryNames = explode(';', $row['category']);
 
             foreach ($categoryNames as $name) {
