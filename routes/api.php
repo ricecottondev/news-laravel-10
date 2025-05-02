@@ -148,6 +148,7 @@ Route::get('/get-categories/{country_id}', function ($country_id) {
 
 Route::post('/postComment', [NewsCommentController::class, 'postComment']); // Post comment
 Route::get('/getComment', [NewsCommentController::class, 'getComment']); // Get comment
+Route::post('/postTrackVisit', [\App\Http\Controllers\Api\News\MobileVisitController::class, 'trackVisit']);
 
 
 
