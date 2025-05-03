@@ -11,20 +11,10 @@ class ScrappingController extends Controller
 {
     public function index(Request $request)
     {
-        // Jika tidak ada input URL, tampilkan view kosong
         $data = null;
-        if (!$request->has('url')) {
-            return view('back.Scrapper.scrapper-index', compact('data'));
-        }
 
-        $request->validate([
-            'url' => 'required|url'
-        ]);
-
-        try {
+        if ($request->has('url')) {
             $data = $this->scrapper($request->url);
-        } catch (\Exception $e) {
-            return back()->with('error', 'Gagal mengambil data: ' . $e->getMessage());
         }
 
         return view('back.Scrapper.scrapper-index', compact('data'));
@@ -33,25 +23,63 @@ class ScrappingController extends Controller
     public function scrapper($url)
     {
         $client = new Client();
-        $client->setServerParameter('HTTP_USER_AGENT', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0 Safari/537.36');
+        $client->setServerParameter('HTTP_USER_AGENT', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)');
 
-        $website = $client->request('GET', $url);
+        try {
+            $crawler = $client->request('GET', $url);
 
-        $headings = [
-            'title' => [],
-            'h1' => [],
-            'h2' => [],
-            'h3' => [],
-            'P' => [],
-        ];
-        $arrkeys = array_keys($headings);
+            $headings = [
+                'title' => [],
+                'h1' => [],
+                'h2' => [],
+                'h3' => [],
+                'P' => [],
+                'div' => [],
+            ];
+            $arrkeys = array_keys($headings);
 
-        foreach ($arrkeys as $tag) {
-            $website->filter($tag)->each(function ($node) use (&$headings, $tag) {
-                $headings[$tag][] = $node->text();
-            });
+            foreach ($arrkeys as $tag) {
+                $crawler->filter($tag)->each(function ($node) use (&$headings, $tag) {
+                    $headings[$tag][] = $node->text();
+                });
+            }
+
+            return $headings;
+        } catch (\Exception $e) {
+            return [
+                'error' => 'Gagal mengambil data: ' . $e->getMessage(),
+            ];
         }
+    }
 
-        return $headings;
+    public function scrapperFulltext($url)
+    {
+        $client = new Client();
+        $client->setServerParameter('HTTP_USER_AGENT', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)');
+
+        try {
+            $crawler = $client->request('GET', $url);
+
+            // Ambil semua teks dalam satu string
+            $fullText = $crawler->text();
+
+            // Ambil semua teks dari setiap node (tanpa filter tag)
+            $allNodesText = [];
+            $crawler->filterXPath('//*')->each(function ($node) use (&$allNodesText) {
+                $text = trim($node->text());
+                if ($text !== '') {
+                    $allNodesText[] = $text;
+                }
+            });
+
+            return [
+                'full_text' => $fullText,
+                'node_texts' => $allNodesText,
+            ];
+        } catch (\Exception $e) {
+            return [
+                'error' => 'Gagal mengambil data: ' . $e->getMessage(),
+            ];
+        }
     }
 }
