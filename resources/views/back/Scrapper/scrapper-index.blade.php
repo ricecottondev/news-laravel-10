@@ -72,6 +72,25 @@
                                         </div>
                                     @endforeach
                                 @endisset
+
+                                {{-- FOR FULL TEXT --}}
+                                {{-- @if (isset($data['error']))
+                                    <div class="alert alert-danger mt-4">
+                                        {{ $data['error'] }}
+                                    </div>
+                                @elseif($data)
+                                    <div class="mt-4">
+                                        <h4>Full Text (Gabungan semua teks halaman):</h4>
+                                        <pre style="white-space: pre-wrap;">{{ $data['full_text'] }}</pre>
+
+                                        <h4 class="mt-5">Semua Teks per Elemen (tanpa filter tag):</h4>
+                                        <ul>
+                                            @foreach ($data['node_texts'] as $text)
+                                                <li>{{ $text }}</li>
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                @endif --}}
                             </div>
                         </div>
                     </div>
