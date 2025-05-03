@@ -1,204 +1,239 @@
 @extends('back.layouts.layout')
+
+
+
 @section('content')
-    <div class="d-flex flex-column flex-column-fluid">
-        <div class="app-main flex-column flex-row-fluid" id="kt_app_main">
-            <div class="d-flex flex-column flex-column-fluid">
-
-                {{-- Header --}}
-                <div class="app-toolbar py-3 py-lg-6">
-                    <div class="container-xxl d-flex justify-content-between align-items-center">
-                        <div>
-                            <h1 class="fw-bold fs-3 text-dark">Edit News</h1>
-                            <nav aria-label="breadcrumb">
-                                <ol class="breadcrumb">
-                                    <li class="breadcrumb-item"><a href="#"
-                                            class="text-muted text-decoration-none">Master</a></li>
-                                    <li class="breadcrumb-item text-muted">News</li>
-                                </ol>
-                            </nav>
+    <nav class="page-breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="#">Data</a></li>
+            <li class="breadcrumb-item active" aria-current="page">News</li>
+        </ol>
+    </nav>
+    <div class="col-md-12 grid-margin">
+        <div class="card">
+            <div class="card-body">
+                <h6 class="card-title">Input Form Pricelist</h6>
+                <form class="forms-sample">
+                    <div class="row mb-3 d-none">
+                        <div class="col">
+                            <label class="form-label">Header Logo</label>
+                            <input class="form-control mb-4 mb-md-0" data-inputmask="'alias': 'datetime'"
+                                data-inputmask-inputformat="dd/mm/yyyy" inputmode="numeric">
                         </div>
-                        <!-- <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#kt_modal_add_user">
-                                                            <i class="ki-duotone ki-plus"></i> Edit News
-                                                        </button> -->
+                        <div class="col-md-6">
+                            <label class="form-label">Title</label>
+                            <input class="form-control" data-inputmask="'alias': 'datetime'"
+                                data-inputmask-inputformat="hh:mm tt" inputmode="numeric">
+                        </div>
                     </div>
-                </div>
-
-                {{-- Content --}}
-                <div class="app-content flex-column-fluid">
-                    <div class="container-xxl">
-                        <div class="card mb-3">
-                            <a href="{{ route('news-master.index') }}"
-                                class="btn btn-sm btn-outline btn-outline-dashed btn-outline-default"><i
-                                    class="fas fa-backward"></i>Back</a>
+                    <div class="row mb-3 d-none">
+                        <div class="col-md-6">
+                            <label class="form-label">Footer Text</label>
+                            <input class="form-control mb-4 mb-md-0" data-inputmask="'alias': 'datetime'"
+                                data-inputmask-inputformat="dd/mm/yyyy HH:MM:ss" inputmode="numeric">
                         </div>
-                        <div class="card">
-                            <div class="card-body">
-
-                                <form action="{{ route('news-master.update', $news->id) }}" enctype="multipart/form-data"
-                                    method="POST" enctype="multipart/form-data">
-                                    @csrf
-                                    @method('PUT')
-
-                                    <div class="mb-3">
-                                        <label for="title" class="form-label">Title</label>
-                                        <input type="text" class="form-control" id="title" name="title"
-                                            value="{{ $news->title }}" required>
-                                    </div>
-
-                                    {{-- <div class="mb-3">
-                                        <label for="category_id" class="form-label">Category</label>
-                                        <select class="form-select" name="category_id" id="category_id" required>
-                                            <option value="">Select Category</option>
-                                            @foreach ($categories as $category)
-                                                <option value="{{ $category->id }}"
-                                                    {{ $news->category_id == $category->id ? 'selected' : '' }}>
-                                                    {{ $category->name }}
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                    </div> --}}
-
-                                    <div class="mb-3">
-                                        <label for="short_desc" class="form-label">Short Desc</label>
-                                        <input type="text" class="form-control" id="short_desc" name="short_desc"
-                                            value="{{ $news->short_desc }}" required>
-                                    </div>
-
-                                    <div class="mb-3">
-                                        <label for="content" class="form-label">Content</label>
-                                        <textarea class="form-control" id="content" name="content" rows="5" required>{{ $news->content }}</textarea>
-                                    </div>
-
-                                    <div class="form-check">
-                                        <input type="checkbox" name="is_breaking_news" id="is_breaking_news"
-                                            class="form-check-input" value="1"
-                                            {{ old('is_breaking_news', $news->is_breaking_news ?? false) ? 'checked' : '' }}>
-                                        <label class="form-check-label" for="is_breaking_news">Set as Breaking News</label>
-                                    </div>
-
-                                    <div class="mb-3">
-                                        <label for="author" class="form-label">Author</label>
-                                        <input type="text" class="form-control" id="author" name="author"
-                                            value="{{ $news->author }}" required>
-                                    </div>
-
-                                    {{-- <div class="mb-3">
-                                        <label for="slug" class="form-label">Slug</label>
-                                        <input type="text" class="form-control" id="slug" name="slug"
-                                            value="{{ $news->slug }}" required>
-                                    </div> --}}
-
-                                    <div class="mb-3">
-                                        <label for="status" class="form-label">Status</label>
-                                        <select class="form-select" id="status" name="status" required>
-                                            <option value="published" {{ $news->status == 'published' ? 'selected' : '' }}>
-                                                Published</option>
-                                            <option value="draft" {{ $news->status == 'draft' ? 'selected' : '' }}>Draft
-                                            </option>
-                                        </select>
-                                    </div>
-
-
-
-
-                                    <div class="mb-3">
-                                        <label for="image" class="form-label"><strong>Picture</strong> </label>
-                                    </div>
-                                    @if ($news->image)
-                                        <div class="mb-3">
-                                            <label for="image" class="form-label">Old Image</label>
-                                        </div>
-
-                                        <div>
-                                            <img src="{{ asset('storage/' . $news->image) }}" alt="Current Image"
-                                                class="img-thumbnail mt-2" width="345px">
-                                        </div>
-                                    @endif
-
-                                    <div class="mb-3 mt-3">
-                                        <div>
-                                            <label for="image" class="form-label">New Image</label>
-                                            <p>Paste your image here (Ctrl+V)</p>
-                                        </div>
-                                        {{-- <input type="file" class="form-control" id="image" name="image"> --}}
-                                        <div id="paste-area" class="img-thumbnail p-3 mt-2" contenteditable="true"
-                                            style="height: 350px; width: 350px; overflow: auto;">
-
-                                        </div>
-
-                                    </div>
-
-                                    <div class="mb-3">
-                                        <img id="preview" src="" class="mt-3" style="max-width: 100%;">
-                                    </div>
-
-                                    <div class="mb-3">
-                                        <input type="hidden" id="image-path" name="image">
-
-                                    </div>
-
-
-
-
-                                    {{-- <button type="submit" class="btn btn-primary mt-4">Update</button> --}}
-                                </form>
-
-
-
-                                <form>
-                                    <div class="mb-3">
-                                        <label for="country" class="form-label">Select Country:</label>
-                                        <select id="country" name="country" class="form-select"
-                                            data-default="{{ $defaultCountry }}">
-                                            <option value="">-- Select Country --</option>
-                                            @foreach ($countries as $country)
-                                                <option value="{{ $country->id }}"
-                                                    {{ $country->id == $defaultCountry ? 'selected' : '' }}>
-                                                    {{ $country->country_name }}
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-
-                                    <div class="mb-3">
-                                        <label for="category" class="form-label">Select Category:</label>
-                                        <select id="category" name="category" class="form-select"
-                                            data-default="{{ $defaultCategory }}">
-                                            <option value="">-- Select Category --</option>
-                                        </select>
-                                    </div>
-                                    *this button only for save data country and category
-                                    <button type="button" id="saveData" class="btn btn-danger">Save country & category</button>
-                                </form>
-
-                                <hr>
-
-                                <h3>Saved Data:</h3>
-                                <div class="table-responsive">
-                                    <table class="table table-bordered">
-                                        <thead class="table-dark">
-                                            <tr>
-                                                <th>Country</th>
-                                                <th>Category</th>
-                                                <th>News ID</th>
-                                                <th>Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="savedDataTable">
-                                            <!-- Data dari AJAX akan muncul di sini -->
-                                        </tbody>
-                                    </table>
-                                </div>
-
-
+                        <div class="col-md-6">
+                            <label class="form-label">Date</label>
+                            <div class="input-group flatpickr  me-2 mb-2 mb-md-0" id="dashboardDate">
+                                <span class="input-group-text input-group-addon bg-transparent" data-toggle><i
+                                        data-feather="calendar" class="text-primary"></i></span>
+                                <input type="text" class="form-control bg-transparent" placeholder="Select date"
+                                    data-input>
                             </div>
                         </div>
                     </div>
+                    <div class="row mb-3 d-none">
+                        <div class="col-md-6">
+                            <label class="form-label">Currency</label>
+                            <select class="form-select" name="currency" id="currency">
+                                <option selected="" disabled="">Select</option>
+                                <option>IDR</option>
+                                <option>USD</option>
+                                <option>SGD</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Show Payment Method</label>
+                            <select class="form-select" name="payment" id="payment">
+                                <option selected="" disabled="">Select</option>
+                                <option>Ya</option>
+                                <option>Tidak</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row mb-3 d-none">
+                        <div class="col-md-12">
+                            <label class="form-label">Notes</label>
+                            <textarea id="maxlength-textarea" class="form-control" maxlength="100" rows="8"
+                                placeholder="This textarea has a limit of 100 chars."></textarea>
+
+                        </div>
+                    </div>
+                </form>
+
+                <form action="{{ route('news-master.update', $news->id) }}" enctype="multipart/form-data"
+                    method="POST" enctype="multipart/form-data">
+                    @csrf
+                    @method('PUT')
+
+                    <div class="mb-3">
+                        <label for="title" class="form-label">Title</label>
+                        <input type="text" class="form-control" id="title" name="title"
+                            value="{{ $news->title }}" required>
+                    </div>
+
+                    {{-- <div class="mb-3">
+                        <label for="category_id" class="form-label">Category</label>
+                        <select class="form-select" name="category_id" id="category_id" required>
+                            <option value="">Select Category</option>
+                            @foreach ($categories as $category)
+                                <option value="{{ $category->id }}"
+                                    {{ $news->category_id == $category->id ? 'selected' : '' }}>
+                                    {{ $category->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div> --}}
+
+                    <div class="mb-3">
+                        <label for="short_desc" class="form-label">Short Desc</label>
+                        <input type="text" class="form-control" id="short_desc" name="short_desc"
+                            value="{{ $news->short_desc }}" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="content" class="form-label">Content</label>
+                        <textarea class="form-control" id="content" name="content" rows="5" required>{{ $news->content }}</textarea>
+                    </div>
+
+                    <div class="form-check">
+                        <input type="checkbox" name="is_breaking_news" id="is_breaking_news"
+                            class="form-check-input" value="1"
+                            {{ old('is_breaking_news', $news->is_breaking_news ?? false) ? 'checked' : '' }}>
+                        <label class="form-check-label" for="is_breaking_news">Set as Breaking News</label>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="author" class="form-label">Author</label>
+                        <input type="text" class="form-control" id="author" name="author"
+                            value="{{ $news->author }}" required>
+                    </div>
+
+                    {{-- <div class="mb-3">
+                        <label for="slug" class="form-label">Slug</label>
+                        <input type="text" class="form-control" id="slug" name="slug"
+                            value="{{ $news->slug }}" required>
+                    </div> --}}
+
+                    <div class="mb-3">
+                        <label for="status" class="form-label">Status</label>
+                        <select class="form-select" id="status" name="status" required>
+                            <option value="published" {{ $news->status == 'published' ? 'selected' : '' }}>
+                                Published</option>
+                            <option value="draft" {{ $news->status == 'draft' ? 'selected' : '' }}>Draft
+                            </option>
+                        </select>
+                    </div>
+
+
+
+
+                    <div class="mb-3">
+                        <label for="image" class="form-label"><strong>Picture</strong> </label>
+                    </div>
+                    @if ($news->image)
+                        <div class="mb-3">
+                            <label for="image" class="form-label">Old Image</label>
+                        </div>
+
+                        <div>
+                            <img src="{{ asset('storage/' . $news->image) }}" alt="Current Image"
+                                class="img-thumbnail mt-2" width="345px">
+                        </div>
+                    @endif
+
+                    <div class="mb-3 mt-3">
+                        <div>
+                            <label for="image" class="form-label">New Image</label>
+                            <p>Paste your image here (Ctrl+V)</p>
+                        </div>
+                        {{-- <input type="file" class="form-control" id="image" name="image"> --}}
+                        <div id="paste-area" class="img-thumbnail p-3 mt-2" contenteditable="true"
+                            style="height: 350px; width: 350px; overflow: auto;">
+
+                        </div>
+
+                    </div>
+
+                    <div class="mb-3">
+                        <img id="preview" src="" class="mt-3" style="max-width: 100%;">
+                    </div>
+
+                    <div class="mb-3">
+                        <input type="hidden" id="image-path" name="image">
+
+                    </div>
+                    {{-- <button type="submit" class="btn btn-primary mt-4">Update</button> --}}
+                </form>
+
+                <hr>
+
+                <form>
+                    <div class="mb-3">
+                        <label for="country" class="form-label">Select Country:</label>
+                        <select id="country" name="country" class="form-select"
+                            data-default="{{ $defaultCountry }}">
+                            <option value="">-- Select Country --</option>
+                            @foreach ($countries as $country)
+                                <option value="{{ $country->id }}"
+                                    {{ $country->id == $defaultCountry ? 'selected' : '' }}>
+                                    {{ $country->country_name }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="category" class="form-label">Select Category:</label>
+                        <select id="category" name="category" class="form-select"
+                            data-default="{{ $defaultCategory }}">
+                            <option value="">-- Select Category --</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        *this button only for save data country and category
+                    </div>
+
+                    <button type="button" id="saveData" class="btn btn-danger">Save country & category</button>
+                </form>
+
+                <hr>
+
+                <h3>Saved Data:</h3>
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Country</th>
+                                <th>Category</th>
+                                <th>News ID</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="savedDataTable">
+                            <!-- Data dari AJAX akan muncul di sini -->
+                        </tbody>
+                    </table>
                 </div>
+
+
             </div>
+
+
+
+
         </div>
     </div>
-
     <script>
         document.getElementById('paste-area').addEventListener('paste', function(event) {
             const items = (event.clipboardData || window.clipboardData).items;
@@ -384,4 +419,193 @@
             });
         });
     </script>
+@endsection
+
+
+@section('content')
+    <div class="d-flex flex-column flex-column-fluid">
+        <div class="app-main flex-column flex-row-fluid" id="kt_app_main">
+            <div class="d-flex flex-column flex-column-fluid">
+
+                {{-- Header --}}
+                <div class="app-toolbar py-3 py-lg-6">
+                    <div class="container-xxl d-flex justify-content-between align-items-center">
+                        <div>
+                            <h1 class="fw-bold fs-3 text-dark">Edit News</h1>
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="#"
+                                            class="text-muted text-decoration-none">Master</a></li>
+                                    <li class="breadcrumb-item text-muted">News</li>
+                                </ol>
+                            </nav>
+                        </div>
+                        <!-- <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#kt_modal_add_user">
+                                                            <i class="ki-duotone ki-plus"></i> Edit News
+                                                        </button> -->
+                    </div>
+                </div>
+
+                {{-- Content --}}
+                <div class="app-content flex-column-fluid">
+                    <div class="container-xxl">
+                        <div class="card mb-3">
+                            <a href="{{ route('news-master.index') }}"
+                                class="btn btn-sm btn-outline btn-outline-dashed btn-outline-default"><i
+                                    class="fas fa-backward"></i>Back</a>
+                        </div>
+                        <div class="card">
+                            <div class="card-body">
+
+                                <form action="{{ route('news-master.update', $news->id) }}" enctype="multipart/form-data"
+                                    method="POST" enctype="multipart/form-data">
+                                    @csrf
+                                    @method('PUT')
+
+                                    <div class="mb-3">
+                                        <label for="title" class="form-label">Title</label>
+                                        <input type="text" class="form-control" id="title" name="title"
+                                            value="{{ $news->title }}" required>
+                                    </div>
+
+                                    {{-- <div class="mb-3">
+                                        <label for="category_id" class="form-label">Category</label>
+                                        <select class="form-select" name="category_id" id="category_id" required>
+                                            <option value="">Select Category</option>
+                                            @foreach ($categories as $category)
+                                                <option value="{{ $category->id }}"
+                                                    {{ $news->category_id == $category->id ? 'selected' : '' }}>
+                                                    {{ $category->name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div> --}}
+
+                                    <div class="mb-3">
+                                        <label for="short_desc" class="form-label">Short Desc</label>
+                                        <input type="text" class="form-control" id="short_desc" name="short_desc"
+                                            value="{{ $news->short_desc }}" required>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="content" class="form-label">Content</label>
+                                        <textarea class="form-control" id="content" name="content" rows="5" required>{{ $news->content }}</textarea>
+                                    </div>
+
+                                    <div class="form-check">
+                                        <input type="checkbox" name="is_breaking_news" id="is_breaking_news"
+                                            class="form-check-input" value="1"
+                                            {{ old('is_breaking_news', $news->is_breaking_news ?? false) ? 'checked' : '' }}>
+                                        <label class="form-check-label" for="is_breaking_news">Set as Breaking News</label>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="author" class="form-label">Author</label>
+                                        <input type="text" class="form-control" id="author" name="author"
+                                            value="{{ $news->author }}" required>
+                                    </div>
+
+                                    {{-- <div class="mb-3">
+                                        <label for="slug" class="form-label">Slug</label>
+                                        <input type="text" class="form-control" id="slug" name="slug"
+                                            value="{{ $news->slug }}" required>
+                                    </div> --}}
+
+                                    <div class="mb-3">
+                                        <label for="status" class="form-label">Status</label>
+                                        <select class="form-select" id="status" name="status" required>
+                                            <option value="published" {{ $news->status == 'published' ? 'selected' : '' }}>
+                                                Published</option>
+                                            <option value="draft" {{ $news->status == 'draft' ? 'selected' : '' }}>Draft
+                                            </option>
+                                        </select>
+                                    </div>
+
+
+
+
+                                    <div class="mb-3">
+                                        <label for="image" class="form-label"><strong>Picture</strong> </label>
+                                    </div>
+                                    @if ($news->image)
+                                        <div class="mb-3">
+                                            <label for="image" class="form-label">Old Image</label>
+                                        </div>
+
+                                        <div>
+                                            <img src="{{ asset('storage/' . $news->image) }}" alt="Current Image"
+                                                class="img-thumbnail mt-2" width="345px">
+                                        </div>
+                                    @endif
+
+                                    <div class="mb-3 mt-3">
+                                        <div>
+                                            <label for="image" class="form-label">New Image</label>
+                                            <p>Paste your image here (Ctrl+V)</p>
+                                        </div>
+                                        {{-- <input type="file" class="form-control" id="image" name="image"> --}}
+                                        <div id="paste-area" class="img-thumbnail p-3 mt-2" contenteditable="true"
+                                            style="height: 350px; width: 350px; overflow: auto;">
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <img id="preview" src="" class="mt-3" style="max-width: 100%;">
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <input type="hidden" id="image-path" name="image">
+
+                                    </div>
+
+
+
+
+                                    {{-- <button type="submit" class="btn btn-primary mt-4">Update</button> --}}
+                                </form>
+
+
+
+                                <form>
+                                    <div class="mb-3">
+                                        <label for="country" class="form-label">Select Country:</label>
+                                        <select id="country" name="country" class="form-select"
+                                            data-default="{{ $defaultCountry }}">
+                                            <option value="">-- Select Country --</option>
+                                            @foreach ($countries as $country)
+                                                <option value="{{ $country->id }}"
+                                                    {{ $country->id == $defaultCountry ? 'selected' : '' }}>
+                                                    {{ $country->country_name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="category" class="form-label">Select Category:</label>
+                                        <select id="category" name="category" class="form-select"
+                                            data-default="{{ $defaultCategory }}">
+                                            <option value="">-- Select Category --</option>
+                                        </select>
+                                    </div>
+                                    *this button only for save data country and category
+                                    <button type="button" id="saveData" class="btn btn-danger">Save country & category</button>
+                                </form>
+
+                                <hr>
+
+
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
 @endsection

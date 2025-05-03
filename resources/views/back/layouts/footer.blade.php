@@ -1,27 +1,25 @@
-<!--begin::Footer-->
-<div id="kt_app_footer" class="app-footer">
-    <!--begin::Footer container-->
-    <div class="app-container container-fluid d-flex flex-column flex-md-row flex-center flex-md-stack py-3">
-        <!--begin::Copyright-->
-        <div class="text-dark order-2 order-md-1">
-            <span class="text-muted fw-semibold me-1">2025&copy;</span>
-            <a href="https://keenthemes.com" target="_blank" class="text-gray-800 text-hover-primary">RiceCotton</a>
-        </div>
-        <!--end::Copyright-->
-        <!--begin::Menu-->
-        <ul class="menu menu-gray-600 menu-hover-primary fw-semibold order-1">
-            <li class="menu-item">
-                <a href="https://keenthemes.com" target="_blank" class="menu-link px-2">About</a>
-            </li>
-            <li class="menu-item">
-                <a href="https://devs.keenthemes.com" target="_blank" class="menu-link px-2">Support</a>
-            </li>
-            <li class="menu-item">
-                <a href="https://1.envato.market/EA4JP" target="_blank" class="menu-link px-2">Purchase</a>
-            </li>
-        </ul>
-        <!--end::Menu-->
-    </div>
-    <!--end::Footer container-->
-</div>
-<!--end::Footer-->
+ <!-- core:js -->
+ <script src="assets/js/core.js"></script>
+ <!-- endinject -->
+
+ <!-- Plugin js for this page -->
+ <script src="assets/js/flatpickr.min.js"></script>
+ <script src="assets/js/apexcharts.min.js"></script>
+ <!-- End plugin js for this page -->
+
+ <!-- inject:js -->
+ <script src="assets/js/feather.min.js"></script>
+ <script src="assets/js/app.js"></script>
+ <!-- endinject -->
+
+ <!-- Custom js for this page -->
+ <script src="assets/js/dashboard.js"></script>
+ <!-- End custom js for this page -->
+
+ <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+ <script src="/assets/js/dataTables.js"></script>
+ <script src="/assets/js/dataTables.bootstrap5.js"></script>
+
+ </body>
+
+ </html>

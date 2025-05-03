@@ -1,407 +1,1089 @@
-@extends('back/layouts.layout')
+@extends('back.layouts.layout')
+
 @section('content')
-    <div class="d-flex flex-column flex-column-fluid">
-        <div id="kt_app_toolbar" class="app-toolbar py-3 py-lg-6">
-            <div id="kt_app_toolbar_container" class="app-container container-fluid d-flex flex-stack">
-                <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
-                    <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">DASHBOARD
-                    </h1>
-                    <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-0 pt-1">
-                        <li class="breadcrumb-item text-muted">
-                            <a href="../../demo1/dist/index.html" class="text-muted text-hover-primary">Home</a>
-                        </li>
-                        <li class="breadcrumb-item">
-                            <span class="bullet bg-gray-400 w-5px h-2px"></span>
-                        </li>
-                        <li class="breadcrumb-item text-muted">Dashboards</li>
-                    </ul>
-                </div>
-                <div class="d-flex align-items-center gap-2 gap-lg-3 d-none">
-                    <a href="#" class="btn btn-sm fw-bold bg-body btn-color-gray-700 btn-active-color-primary"
-                        data-bs-toggle="modal" data-bs-target="#kt_modal_create_app">Rollover</a>
-                    <a href="#" class="btn btn-sm fw-bold btn-primary" data-bs-toggle="modal"
-                        data-bs-target="#kt_modal_new_target">Add Target</a>
-                </div>
-            </div>
+    <div class="d-flex justify-content-between align-items-center flex-wrap grid-margin">
+        <div>
+            <h4 class="mb-3 mb-md-0">Welcome to Dashboard</h4>
         </div>
-        <div id="kt_app_content" class="app-content flex-column-fluid">
-            <div id="kt_app_content_container" class="app-container container-fluid">
-                {{-- coba struktur baru --}}
-                {{--  <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 mb-5 mb-xl-10 g-3 g-md-4 g-xl-10"> --}}
-                <div class="row mb-5 mb-xl-10 g-3 g-md-4 g-xl-10">
-
-                    <div class="col-12 col-md-6 col-lg-4 col-xl-12">
-                        <div
-                            class="card card-flush bgi-no-repeat bgi-size-contain bgi-position-x-end h-md-100 mb-5 mb-xl-10">
-
-                            <div class="card-header pt-5">
-                                <h3 class="card-title text-gray-800 fw-bold">Links</h3>
-                                <div class="card-toolbar">
-                                    <button
-                                        class="btn btn-icon btn-color-gray-400 btn-active-color-primary justify-content-end"
-                                        data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end"
-                                        data-kt-menu-overflow="true">
-                                        <i class="ki-duotone ki-dots-square fs-1 text-gray-300 me-n1">
-                                            <span class="path1"></span>
-                                            <span class="path2"></span>
-                                            <span class="path3"></span>
-                                            <span class="path4"></span>
-                                        </i>
-                                    </button>
-                                    <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg-light-primary fw-semibold w-200px d-none"
-                                        data-kt-menu="true">
-                                        <div class="menu-item px-3">
-                                            <div class="menu-content fs-6 text-dark fw-bold px-3 py-4">Quick Actions</div>
-                                        </div>
-                                        <div class="separator mb-3 opacity-75"></div>
-                                        <div class="menu-item px-3">
-                                            <a href="#" class="menu-link px-3">New Ticket</a>
-                                        </div>
-                                        <div class="menu-item px-3">
-                                            <a href="#" class="menu-link px-3">New Customer</a>
-                                        </div>
-                                        <div class="menu-item px-3" data-kt-menu-trigger="hover"
-                                            data-kt-menu-placement="right-start">
-                                            <a href="#" class="menu-link px-3">
-                                                <span class="menu-title">New Group</span>
-                                                <span class="menu-arrow"></span>
-                                            </a>
-                                            <div class="menu-sub menu-sub-dropdown w-175px py-4">
-                                                <div class="menu-item px-3">
-                                                    <a href="#" class="menu-link px-3">Admin Group</a>
-                                                </div>
-                                                <div class="menu-item px-3">
-                                                    <a href="#" class="menu-link px-3">Staff Group</a>
-                                                </div>
-                                                <div class="menu-item px-3">
-                                                    <a href="#" class="menu-link px-3">Member Group</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="menu-item px-3">
-                                            <a href="#" class="menu-link px-3">New Contact</a>
-                                        </div>
-                                        <div class="separator mt-3 opacity-75"></div>
-                                        <div class="menu-item px-3">
-                                            <div class="menu-content px-3 py-3">
-                                                <a class="btn btn-primary btn-sm px-4" href="#">Generate Reports</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card-body pt-5">
-                                <div class="d-flex flex-stack">
-                                    <a href="back/users" class="text-primary fw-semibold fs-6 me-2" target="_blank">User</a>
-                                    <button type="button"
-                                        class="btn btn-icon btn-sm h-auto btn-color-gray-400 btn-active-color-primary justify-content-end">
-                                        <i class="ki-duotone ki-exit-right-corner fs-2">
-                                            <span class="path1"></span>
-                                            <span class="path2"></span>
-                                        </i>
-                                    </button>
-                                </div>
-
-                                <div class="separator separator-dashed my-3"></div>
-                                <div class="d-flex flex-stack">
-                                    <a href="onepoint_uniquecode" class="text-primary fw-semibold fs-6 me-2"
-                                        target="_blank">Subscribes</a>
-                                    <button type="button"
-                                        class="btn btn-icon btn-sm h-auto btn-color-gray-400 btn-active-color-primary justify-content-end">
-                                        <i class="ki-duotone ki-exit-right-corner fs-2">
-                                            <span class="path1"></span>
-                                            <span class="path2"></span>
-                                        </i>
-                                    </button>
-                                </div>
-
-                                <div class="separator separator-dashed my-3"></div>
-                                <div class="d-flex flex-stack">
-                                    <a href="news" class="text-primary fw-semibold fs-6 me-2" target="_blank">News</a>
-                                    <button type="button"
-                                        class="btn btn-icon btn-sm h-auto btn-color-gray-400 btn-active-color-primary justify-content-end">
-                                        <i class="ki-duotone ki-exit-right-corner fs-2">
-                                            <span class="path1"></span>
-                                            <span class="path2"></span>
-                                        </i>
-                                    </button>
-                                </div>
-
-                            </div>
-
-                        </div>
-                    </div>
-
-                    <div class="col-6 mt-5">
-                        <div
-                            class="card card-flush bgi-no-repeat bgi-size-contain bgi-position-x-end h-md-100 mb-5 mb-xl-10">
-                            <div class="card-header"></div>
-                            <div class="card-body">
-                                <h2 class="mb-4">Top Visited News</h2>
-
-                                <table class="table table-bordered table-striped">
-                                    <thead>
-                                        <tr>
-                                            <th>#</th>
-                                            <th>Title</th>
-                                            <th>Visit Count</th>
-                                            <th>View</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @forelse ($topNews as $index => $item)
-                                            <tr>
-                                                <td>{{ $topNews->firstItem() + $index }}</td>
-                                                <td>{{ $newsDetails[$item->news_id]->title ?? 'Unknown' }}</td>
-                                                <td>{{ $item->visit_count }}</td>
-                                                <td>
-                                                    <a href="{{ route('front.news.show', $newsDetails[$item->news_id]->slug ?? '#') }}"
-                                                        target="_blank" class="btn btn-sm btn-primary">View</a>
-                                                </td>
-                                            </tr>
-                                        @empty
-                                            <tr>
-                                                <td colspan="4">No data available.</td>
-                                            </tr>
-                                        @endforelse
-                                    </tbody>
-                                </table>
-
-                                <div class="d-flex justify-content-center">
-                                    {!! $topNews->links() !!}
-                                </div>
-                            </div>
-                            <div class="card-footer"></div>
-                        </div>
-                    </div>
-
-                    <div class="col-6 mt-5">
-                        <div
-                            class="card card-flush bgi-no-repeat bgi-size-contain bgi-position-x-end h-md-100 mb-5 mb-xl-10">
-                            <div class="card-header">
-
-                            </div>
-                            <div class="card-body">
-                                <h2 class="mb-4">Top Visited News (Platform ≠ 0)</h2>
-                                <table class="table table-bordered table-striped">
-                                    <thead>
-                                        <tr>
-                                            <th>#</th>
-                                            <th>Title</th>
-                                            <th>Visit Count</th>
-                                            <th>View</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @forelse ($filteredTopNews as $index => $item)
-                                            <tr>
-                                                <td>{{ $filteredTopNews->firstItem() + $index }}</td>
-                                                <td>{{ $newsDetailsFiltered[$item->news_id]->title ?? 'Unknown' }}</td>
-                                                <td>{{ $item->visit_count }}</td>
-                                                <td>
-                                                    <a href="{{ route('front.news.show', $newsDetailsFiltered[$item->news_id]->slug ?? '#') }}"
-                                                        target="_blank" class="btn btn-sm btn-primary">View</a>
-                                                </td>
-                                            </tr>
-                                        @empty
-                                            <tr>
-                                                <td colspan="4">No data available.</td>
-                                            </tr>
-                                        @endforelse
-                                    </tbody>
-                                </table>
-
-                                <div class="d-flex justify-content-center">
-                                    {!! $filteredTopNews->links() !!}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-6 mt-5">
-                        <div
-                            class="card card-flush bgi-no-repeat bgi-size-contain bgi-position-x-end h-md-100 mb-5 mb-xl-10">
-                            <div class="card-header">
-
-                            </div>
-                            <div class="card-body">
-                                <h2 class="mb-4">Top Duration News (Platform ≠ 0)</h2>
-                                <table class="table table-bordered table-striped">
-                                    <thead>
-                                        <tr>
-                                            <th>#</th>
-                                            <th>News Title</th>
-                                            <th>Total Visits</th>
-                                            <th>Total Duration (s)</th>
-                                            <th>Average Duration (s)</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @forelse ($filteredDurationNews as $index => $item)
-                                            <tr>
-                                                <td>{{ $filteredDurationNews->firstItem() + $index }}</td>
-                                                <td>{{ $newsDetailsFiltered[$item->news_id]->title ?? 'Unknown' }}</td>
-                                                <td>{{ $item->visit_count }}</td>
-                                                <td>{{ $item->total_duration }}</td>
-                                                <td>{{ number_format($item->avg_duration, 2) }}</td>
-                                            </tr>
-                                        @empty
-                                            <tr>
-                                                <td colspan="4">No data available.</td>
-                                            </tr>
-                                        @endforelse
-                                    </tbody>
-                                </table>
-
-                                <div class="d-flex justify-content-center">
-                                    {!! $filteredDurationNews->links() !!}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-4 mt-5">
-                        <div class="card card-flush">
-                            <div class="card-header">
-                                <h3 class="card-title">Page Visit Count</h3>
-                            </div>
-                            <div class="card-body">
-                                <table class="table table-bordered">
-                                    <thead>
-                                        <tr>
-                                            <th>Page</th>
-                                            <th>Total Visits</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach ($pageViews as $item)
-                                            <tr>
-                                                <td>{{ $item->url }}</td>
-                                                <td>{{ $item->total_visits }}</td>
-                                            </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-4 mt-5">
-                        <div class="card card-flush">
-                            <div class="card-header">
-                                <h3 class="card-title">Page Duration Stats</h3>
-                            </div>
-                            <div class="card-body">
-                                <table class="table table-bordered">
-                                    <thead>
-                                        <tr>
-                                            <th>Page</th>
-                                            <th>Total Visits</th>
-                                            <th>Total Duration (s)</th>
-                                            <th>Average Duration (s)</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach ($pageDurations as $item)
-                                            <tr>
-                                                <td>{{ $item->url }}</td>
-                                                <td>{{ $item->visits }}</td>
-                                                <td>{{ $item->total_duration }}</td>
-                                                <td>{{ number_format($item->avg_duration, 2) }}</td>
-                                            </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-4 mt-5">
-                        <div class="card card-flush">
-                            <div class="card-header">
-                                <h3 class="card-title">Visitor Duration by IP</h3>
-                            </div>
-                            <div class="card-body">
-                                <table class="table table-bordered">
-                                    <thead>
-                                        <tr>
-                                            <th>IP Address</th>
-                                            <th>Total Visits</th>
-                                            <th>Total Duration (s)</th>
-                                            <th>Avg Duration (s)</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach ($ipDurations as $item)
-                                            <tr>
-                                                <td>{{ $item->ip }}</td>
-                                                <td>{{ $item->visits }}</td>
-                                                <td>{{ $item->total_duration }}</td>
-                                                <td>{{ number_format($item->avg_duration, 2) }}</td>
-                                            </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-4 mt-5">
-                        <div
-                            class="card card-flush bgi-no-repeat bgi-size-contain bgi-position-x-end h-md-100 mb-5 mb-xl-10">
-                            <div class="card-header"></div>
-                            <div class="card-body">
-                                <h2 class="mb-4">Platform Usage (Visits)</h2>
-
-                                <div class="card p-4">
-                                    <canvas id="platformChart" width="400" height="400"></canvas>
-                                </div>
-
-                                <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-                                <script>
-                                    const ctx = document.getElementById('platformChart').getContext('2d');
-                                    const platformChart = new Chart(ctx, {
-                                        type: 'pie',
-                                        data: {
-                                            labels: {!! json_encode($platforms) !!},
-                                            datasets: [{
-                                                data: {!! json_encode($counts) !!},
-                                                backgroundColor: [
-                                                    '#007bff', '#28a745', '#ffc107', '#dc3545', '#6f42c1', '#fd7e14'
-                                                ],
-                                                borderWidth: 1
-                                            }]
-                                        },
-                                        options: {
-                                            responsive: true,
-                                            plugins: {
-                                                legend: {
-                                                    position: 'right'
-                                                },
-                                                title: {
-                                                    display: true,
-                                                    text: 'Visitor Platforms'
-                                                }
-                                            }
-                                        }
-                                    });
-                                </script>
-
-                            </div>
-                            <div class="card-footer"></div>
-                        </div>
-                    </div>
-
-
-                </div>
-
+        <div class="d-flex align-items-center flex-wrap text-nowrap">
+            <div class="input-group flatpickr w-200px me-2 mb-2 mb-md-0" id="dashboardDate">
+                <span class="input-group-text input-group-addon bg-transparent border-primary" data-toggle><i
+                        data-feather="calendar" class="text-primary"></i></span>
+                <input type="text" class="form-control bg-transparent border-primary" placeholder="Select date" data-input>
             </div>
+            <button type="button" class="btn btn-outline-primary btn-icon-text me-2 mb-2 mb-md-0">
+                <i class="btn-icon-prepend" data-feather="printer"></i>
+                Print
+            </button>
+            <button type="button" class="btn btn-primary btn-icon-text mb-2 mb-md-0">
+                <i class="btn-icon-prepend" data-feather="download-cloud"></i>
+                Download Report
+            </button>
         </div>
     </div>
 
-    <script src="{{ URL::asset('/assets/libs/apexcharts/apexcharts.min.js') }}"></script>
+    <div class="row">
+        <div class="col-12 col-xl-12 stretch-card">
+            <div class="row flex-grow-1">
+                <div class="col-md-2 grid-margin stretch-card">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-baseline">
+                                <h6 class="card-title mb-0">Unique Visitors (UVs)</h6>
 
-    <script src="{{ URL::asset('/assets/js/pages/dashboard.init.js') }}"></script>
+                            </div>
+                            <div class="row">
+                                <div class="col-6 col-md-12 col-xl-5">
+                                    <h3 class="mb-2">3,897</h3>
+                                    <div class="d-flex align-items-baseline">
+                                        <p class="text-success">
+                                            <span>+3.3%</span>
+                                            <i data-feather="arrow-up" class="icon-sm mb-1"></i>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-md-12 col-xl-7">
+                                    <div id="customersChart" class="mt-md-3 mt-xl-0"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2 grid-margin stretch-card">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-baseline">
+                                <h6 class="card-title mb-0">Page Views (PVs)</h6>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js" charset="utf-8"></script>
+                            </div>
+                            <div class="row">
+                                <div class="col-6 col-md-12 col-xl-5">
+                                    <h3 class="mb-2">3,897</h3>
+                                    <div class="d-flex align-items-baseline">
+                                        <p class="text-success">
+                                            <span>+3.3%</span>
+                                            <i data-feather="arrow-up" class="icon-sm mb-1"></i>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-md-12 col-xl-7">
+                                    <div id="customersChart" class="mt-md-3 mt-xl-0"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2 grid-margin stretch-card">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-baseline">
+                                <h6 class="card-title mb-0">Sessions per User</h6>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-6 col-md-12 col-xl-5">
+                                    <h3 class="mb-2">3,897</h3>
+                                    <div class="d-flex align-items-baseline">
+                                        <p class="text-success">
+                                            <span>+3.3%</span>
+                                            <i data-feather="arrow-up" class="icon-sm mb-1"></i>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-md-12 col-xl-7">
+                                    <div id="customersChart" class="mt-md-3 mt-xl-0"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2 grid-margin stretch-card">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-baseline">
+                                <h6 class="card-title mb-0">Bounce Rate</h6>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-6 col-md-12 col-xl-5">
+                                    <h3 class="mb-2">3,897</h3>
+                                    <div class="d-flex align-items-baseline">
+                                        <p class="text-success">
+                                            <span>+3.3%</span>
+                                            <i data-feather="arrow-up" class="icon-sm mb-1"></i>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-md-12 col-xl-7">
+                                    <div id="customersChart" class="mt-md-3 mt-xl-0"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2 grid-margin stretch-card">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-baseline">
+                                <h6 class="card-title mb-0">Average Session Duration</h6>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-6 col-md-12 col-xl-5">
+                                    <h3 class="mb-2">3,897</h3>
+                                    <div class="d-flex align-items-baseline">
+                                        <p class="text-success">
+                                            <span>+3.3%</span>
+                                            <i data-feather="arrow-up" class="icon-sm mb-1"></i>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-md-12 col-xl-7">
+                                    <div id="customersChart" class="mt-md-3 mt-xl-0"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2 grid-margin stretch-card">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-baseline">
+                                <h6 class="card-title mb-0">Top Entry Pages</h6>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-6 col-md-12 col-xl-5">
+                                    <h3 class="mb-2">3,897</h3>
+                                    <div class="d-flex align-items-baseline">
+                                        <p class="text-success">
+                                            <span>+3.3%</span>
+                                            <i data-feather="arrow-up" class="icon-sm mb-1"></i>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-md-12 col-xl-7">
+                                    <div id="customersChart" class="mt-md-3 mt-xl-0"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="col-md-2 grid-margin stretch-card">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-baseline">
+                                <h6 class="card-title mb-0">Top Exit Pages</h6>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-6 col-md-12 col-xl-5">
+                                    <h3 class="mb-2">3,897</h3>
+                                    <div class="d-flex align-items-baseline">
+                                        <p class="text-success">
+                                            <span>+3.3%</span>
+                                            <i data-feather="arrow-up" class="icon-sm mb-1"></i>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-md-12 col-xl-7">
+                                    <div id="customersChart" class="mt-md-3 mt-xl-0"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2 grid-margin stretch-card">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-baseline">
+                                <h6 class="card-title mb-0">Most Read Article Today</h6>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-6 col-md-12 col-xl-5">
+                                    <h3 class="mb-2">3,897</h3>
+                                    <div class="d-flex align-items-baseline">
+                                        <p class="text-success">
+                                            <span>+3.3%</span>
+                                            <i data-feather="arrow-up" class="icon-sm mb-1"></i>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-md-12 col-xl-7">
+                                    <div id="customersChart" class="mt-md-3 mt-xl-0"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2 grid-margin stretch-card">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-baseline">
+                                <h6 class="card-title mb-0">Most Shared Article</h6>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-6 col-md-12 col-xl-5">
+                                    <h3 class="mb-2">3,897</h3>
+                                    <div class="d-flex align-items-baseline">
+                                        <p class="text-success">
+                                            <span>+3.3%</span>
+                                            <i data-feather="arrow-up" class="icon-sm mb-1"></i>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-md-12 col-xl-7">
+                                    <div id="customersChart" class="mt-md-3 mt-xl-0"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2 grid-margin stretch-card">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-baseline">
+                                <h6 class="card-title mb-0">Completion Rate (per article)</h6>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-6 col-md-12 col-xl-5">
+                                    <h3 class="mb-2">3,897</h3>
+                                    <div class="d-flex align-items-baseline">
+                                        <p class="text-success">
+                                            <span>+3.3%</span>
+                                            <i data-feather="arrow-up" class="icon-sm mb-1"></i>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-md-12 col-xl-7">
+                                    <div id="customersChart" class="mt-md-3 mt-xl-0"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2 grid-margin stretch-card">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-baseline">
+                                <h6 class="card-title mb-0">Click-Through Rate (CTR)</h6>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-6 col-md-12 col-xl-5">
+                                    <h3 class="mb-2">3,897</h3>
+                                    <div class="d-flex align-items-baseline">
+                                        <p class="text-success">
+                                            <span>+3.3%</span>
+                                            <i data-feather="arrow-up" class="icon-sm mb-1"></i>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-md-12 col-xl-7">
+                                    <div id="customersChart" class="mt-md-3 mt-xl-0"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2 grid-margin stretch-card">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-baseline">
+                                <h6 class="card-title mb-0">Search Terms Used</h6>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-6 col-md-12 col-xl-5">
+                                    <h3 class="mb-2">3,897</h3>
+                                    <div class="d-flex align-items-baseline">
+                                        <p class="text-success">
+                                            <span>+3.3%</span>
+                                            <i data-feather="arrow-up" class="icon-sm mb-1"></i>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-md-12 col-xl-7">
+                                    <div id="customersChart" class="mt-md-3 mt-xl-0"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="col-md-2 grid-margin stretch-card">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-baseline">
+                                <h6 class="card-title mb-0">Peak Hour(s) of Engagement</h6>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-6 col-md-12 col-xl-5">
+                                    <h3 class="mb-2">3,897</h3>
+                                    <div class="d-flex align-items-baseline">
+                                        <p class="text-success">
+                                            <span>+3.3%</span>
+                                            <i data-feather="arrow-up" class="icon-sm mb-1"></i>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-md-12 col-xl-7">
+                                    <div id="customersChart" class="mt-md-3 mt-xl-0"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2 grid-margin stretch-card">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-baseline">
+                                <h6 class="card-title mb-0">User Drop-off by Hour</h6>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-6 col-md-12 col-xl-5">
+                                    <h3 class="mb-2">3,897</h3>
+                                    <div class="d-flex align-items-baseline">
+                                        <p class="text-success">
+                                            <span>+3.3%</span>
+                                            <i data-feather="arrow-up" class="icon-sm mb-1"></i>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-md-12 col-xl-7">
+                                    <div id="customersChart" class="mt-md-3 mt-xl-0"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2 grid-margin stretch-card">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-baseline">
+                                <h6 class="card-title mb-0">Notification Open Rates</h6>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-6 col-md-12 col-xl-5">
+                                    <h3 class="mb-2">3,897</h3>
+                                    <div class="d-flex align-items-baseline">
+                                        <p class="text-success">
+                                            <span>+3.3%</span>
+                                            <i data-feather="arrow-up" class="icon-sm mb-1"></i>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-md-12 col-xl-7">
+                                    <div id="customersChart" class="mt-md-3 mt-xl-0"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2 grid-margin stretch-card">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-baseline">
+                                <h6 class="card-title mb-0">Traffic by Device</h6>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-6 col-md-12 col-xl-5">
+                                    <h3 class="mb-2">3,897</h3>
+                                    <div class="d-flex align-items-baseline">
+                                        <p class="text-success">
+                                            <span>+3.3%</span>
+                                            <i data-feather="arrow-up" class="icon-sm mb-1"></i>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-md-12 col-xl-7">
+                                    <div id="customersChart" class="mt-md-3 mt-xl-0"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2 grid-margin stretch-card">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-baseline">
+                                <h6 class="card-title mb-0">Top Referring Pages</h6>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-6 col-md-12 col-xl-5">
+                                    <h3 class="mb-2">3,897</h3>
+                                    <div class="d-flex align-items-baseline">
+                                        <p class="text-success">
+                                            <span>+3.3%</span>
+                                            <i data-feather="arrow-up" class="icon-sm mb-1"></i>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-md-12 col-xl-7">
+                                    <div id="customersChart" class="mt-md-3 mt-xl-0"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2 grid-margin stretch-card">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-baseline">
+                                <h6 class="card-title mb-0">Ad Clicks / Impressions</h6>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-6 col-md-12 col-xl-5">
+                                    <h3 class="mb-2">3,897</h3>
+                                    <div class="d-flex align-items-baseline">
+                                        <p class="text-success">
+                                            <span>+3.3%</span>
+                                            <i data-feather="arrow-up" class="icon-sm mb-1"></i>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-md-12 col-xl-7">
+                                    <div id="customersChart" class="mt-md-3 mt-xl-0"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-2 grid-margin stretch-card">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-baseline">
+                                <h6 class="card-title mb-0">Conversion Events</h6>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-6 col-md-12 col-xl-5">
+                                    <h3 class="mb-2">3,897</h3>
+                                    <div class="d-flex align-items-baseline">
+                                        <p class="text-success">
+                                            <span>+3.3%</span>
+                                            <i data-feather="arrow-up" class="icon-sm mb-1"></i>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-md-12 col-xl-7">
+                                    <div id="customersChart" class="mt-md-3 mt-xl-0"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2 grid-margin stretch-card">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-baseline">
+                                <h6 class="card-title mb-0">Cost per Acquisition (CPA)</h6>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-6 col-md-12 col-xl-5">
+                                    <h3 class="mb-2">3,897</h3>
+                                    <div class="d-flex align-items-baseline">
+                                        <p class="text-success">
+                                            <span>+3.3%</span>
+                                            <i data-feather="arrow-up" class="icon-sm mb-1"></i>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-md-12 col-xl-7">
+                                    <div id="customersChart" class="mt-md-3 mt-xl-0"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2 grid-margin stretch-card">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-baseline">
+                                <h6 class="card-title mb-0">Rage Clicks or Scroll Velocity</h6>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-6 col-md-12 col-xl-5">
+                                    <h3 class="mb-2">3,897</h3>
+                                    <div class="d-flex align-items-baseline">
+                                        <p class="text-success">
+                                            <span>+3.3%</span>
+                                            <i data-feather="arrow-up" class="icon-sm mb-1"></i>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-md-12 col-xl-7">
+                                    <div id="customersChart" class="mt-md-3 mt-xl-0"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2 grid-margin stretch-card">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-baseline">
+                                <h6 class="card-title mb-0">Heatmap Snapshots</h6>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-6 col-md-12 col-xl-5">
+                                    <h3 class="mb-2">3,897</h3>
+                                    <div class="d-flex align-items-baseline">
+                                        <p class="text-success">
+                                            <span>+3.3%</span>
+                                            <i data-feather="arrow-up" class="icon-sm mb-1"></i>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-md-12 col-xl-7">
+                                    <div id="customersChart" class="mt-md-3 mt-xl-0"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2 grid-margin stretch-card">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-baseline">
+                                <h6 class="card-title mb-0">Comment Volume / Sentiment</h6>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-6 col-md-12 col-xl-5">
+                                    <h3 class="mb-2">3,897</h3>
+                                    <div class="d-flex align-items-baseline">
+                                        <p class="text-success">
+                                            <span>+3.3%</span>
+                                            <i data-feather="arrow-up" class="icon-sm mb-1"></i>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-md-12 col-xl-7">
+                                    <div id="customersChart" class="mt-md-3 mt-xl-0"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div> <!-- row -->
+
+    <div class="row d-none">
+        <div class="col-12 col-xl-12 grid-margin stretch-card">
+            <div class="card overflow-hidden">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-baseline mb-4 mb-md-3">
+                        <h6 class="card-title mb-0">Revenue</h6>
+                        <div class="dropdown">
+                            <a type="button" id="dropdownMenuButton3" data-bs-toggle="dropdown" aria-haspopup="true"
+                                aria-expanded="false">
+                                <i class="icon-lg text-secondary pb-3px" data-feather="more-horizontal"></i>
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton3">
+                                <a class="dropdown-item d-flex align-items-center" href="javascript:;"><i
+                                        data-feather="eye" class="icon-sm me-2"></i> <span class="">View</span></a>
+                                <a class="dropdown-item d-flex align-items-center" href="javascript:;"><i
+                                        data-feather="edit-2" class="icon-sm me-2"></i> <span
+                                        class="">Edit</span></a>
+                                <a class="dropdown-item d-flex align-items-center" href="javascript:;"><i
+                                        data-feather="trash" class="icon-sm me-2"></i> <span
+                                        class="">Delete</span></a>
+                                <a class="dropdown-item d-flex align-items-center" href="javascript:;"><i
+                                        data-feather="printer" class="icon-sm me-2"></i> <span
+                                        class="">Print</span></a>
+                                <a class="dropdown-item d-flex align-items-center" href="javascript:;"><i
+                                        data-feather="download" class="icon-sm me-2"></i> <span
+                                        class="">Download</span></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row align-items-start">
+                        <div class="col-md-7">
+                            <p class="text-secondary fs-13px mb-3 mb-md-0">Revenue is the income that a business has from
+                                its normal business activities, usually from the sale of goods and services to customers.
+                            </p>
+                        </div>
+                        <div class="col-md-5 d-flex justify-content-md-end">
+                            <div class="btn-group mb-3 mb-md-0" role="group" aria-label="Basic example">
+                                <button type="button" class="btn btn-outline-primary">Today</button>
+                                <button type="button" class="btn btn-outline-primary d-none d-md-block">Week</button>
+                                <button type="button" class="btn btn-primary">Month</button>
+                                <button type="button" class="btn btn-outline-primary">Year</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="revenueChart"></div>
+                </div>
+            </div>
+        </div>
+    </div> <!-- row -->
+
+    <div class="row">
+        <div class="col-lg-6 col-xl-6 grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-baseline mb-2">
+                        <h6 class="card-title mb-0">News</h6>
+
+                    </div>
+                    <h2 class="mb-4">Top Visited News</h2>
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Title</th>
+                                    <th>Visit Count</th>
+                                    {{-- <th>View</th> --}}
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @forelse ($topNews as $index => $item)
+                                    <tr>
+                                        <td>{{ $topNews->firstItem() + $index }}</td>
+                                        <td>{{ $newsDetails[$item->news_id]->title ?? 'Unknown' }}</td>
+                                        <td>{{ $item->visit_count }}</td>
+                                        {{-- <td>
+                                                    <a href="{{ route('front.news.show', $newsDetails[$item->news_id]->slug ?? '#') }}"
+                                                        target="_blank" class="btn btn-sm btn-primary">View</a>
+                                                </td> --}}
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="4">No data available.</td>
+                                    </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+
+                        <div class="d-flex justify-content-center">
+                            {!! $topNews->links() !!}
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6 col-xl-6 grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-baseline mb-2">
+                        <h6 class="card-title mb-0">News</h6>
+
+                    </div>
+
+                    <h2 class="mb-4">Top Visited News (Platform ≠ 0)</h2>
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped table-responsive">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Title</th>
+                                    <th>Visit Count</th>
+                                    {{-- <th>View</th> --}}
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @forelse ($filteredTopNews as $index => $item)
+                                    <tr>
+                                        <td>{{ $filteredTopNews->firstItem() + $index }}</td>
+                                        <td>{{ $newsDetailsFiltered[$item->news_id]->title ?? 'Unknown' }}</td>
+                                        <td>{{ $item->visit_count }}</td>
+                                        {{-- <td>
+                                            <a href="{{ route('front.news.show', $newsDetailsFiltered[$item->news_id]->slug ?? '#') }}"
+                                                target="_blank" class="btn btn-sm btn-primary">View</a>
+                                        </td> --}}
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="4">No data available.</td>
+                                    </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+
+                        <div class="d-flex justify-content-center">
+                            {!! $filteredTopNews->links() !!}
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4 col-xl-4 grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-baseline mb-2">
+                        <h6 class="card-title mb-0">Pages</h6>
+
+                    </div>
+                    <h2 class="mb-4">Page Visit Count</h2>
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Page</th>
+                                    <th>Total Visits</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($pageViews as $item)
+                                    <tr>
+                                        <td>{{ $item->url }}</td>
+                                        <td>{{ $item->total_visits }}</td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4 col-xl-4 grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-baseline mb-2">
+                        <h6 class="card-title mb-0">Pages</h6>
+
+                    </div>
+                    <h2 class="mb-4">Page Duration Stats</h2>
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Page</th>
+                                    <th>Total Visits</th>
+                                    <th>Total Duration (s)</th>
+                                    <th>Average Duration (s)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($pageDurations as $item)
+                                    <tr>
+                                        <td>{{ $item->url }}</td>
+                                        <td>{{ $item->visits }}</td>
+                                        <td>{{ $item->total_duration }}</td>
+                                        <td>{{ number_format($item->avg_duration, 2) }}</td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4 col-xl-4 grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-baseline mb-2">
+                        <h6 class="card-title mb-0">Pages</h6>
+
+                    </div>
+                    <h2 class="mb-4">Visitor Duration by IP</h2>
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>IP Address</th>
+                                    <th>Total Visits</th>
+                                    <th>Total Duration (s)</th>
+                                    <th>Avg Duration (s)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($ipDurations as $item)
+                                    <tr>
+                                        <td>{{ $item->ip }}</td>
+                                        <td>{{ $item->visits }}</td>
+                                        <td>{{ $item->total_duration }}</td>
+                                        <td>{{ number_format($item->avg_duration, 2) }}</td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-5 col-xl-4 grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-baseline">
+                        <h6 class="card-title mb-0">Cloud storage</h6>
+                        <div class="dropdown mb-2">
+                            <a type="button" id="dropdownMenuButton5" data-bs-toggle="dropdown" aria-haspopup="true"
+                                aria-expanded="false">
+                                <i class="icon-lg text-secondary pb-3px" data-feather="more-horizontal"></i>
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton5">
+                                <a class="dropdown-item d-flex align-items-center" href="javascript:;"><i
+                                        data-feather="eye" class="icon-sm me-2"></i> <span class="">View</span></a>
+                                <a class="dropdown-item d-flex align-items-center" href="javascript:;"><i
+                                        data-feather="edit-2" class="icon-sm me-2"></i> <span
+                                        class="">Edit</span></a>
+                                <a class="dropdown-item d-flex align-items-center" href="javascript:;"><i
+                                        data-feather="trash" class="icon-sm me-2"></i> <span
+                                        class="">Delete</span></a>
+                                <a class="dropdown-item d-flex align-items-center" href="javascript:;"><i
+                                        data-feather="printer" class="icon-sm me-2"></i> <span
+                                        class="">Print</span></a>
+                                <a class="dropdown-item d-flex align-items-center" href="javascript:;"><i
+                                        data-feather="download" class="icon-sm me-2"></i> <span
+                                        class="">Download</span></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="storageChart"></div>
+                    <div class="row mb-3">
+                        <div class="col-6 d-flex justify-content-end">
+                            <div>
+                                <label
+                                    class="d-flex align-items-center justify-content-end fs-10px text-uppercase fw-bolder">Total
+                                    storage <span class="p-1 ms-1 rounded-circle bg-secondary"></span></label>
+                                <h5 class="fw-bolder mb-0 text-end">8TB</h5>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div>
+                                <label class="d-flex align-items-center fs-10px text-uppercase fw-bolder"><span
+                                        class="p-1 me-1 rounded-circle bg-primary"></span> Used storage</label>
+                                <h5 class="fw-bolder mb-0">~5TB</h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-grid">
+                        <button class="btn btn-primary">Upgrade storage</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> <!-- row -->
+
+    <div class="row d-none">
+        <div class="col-lg-5 col-xl-4 grid-margin grid-margin-xl-0 stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-baseline mb-2">
+                        <h6 class="card-title mb-0">Inbox</h6>
+                        <div class="dropdown mb-2">
+                            <a type="button" id="dropdownMenuButton6" data-bs-toggle="dropdown" aria-haspopup="true"
+                                aria-expanded="false">
+                                <i class="icon-lg text-secondary pb-3px" data-feather="more-horizontal"></i>
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton6">
+                                <a class="dropdown-item d-flex align-items-center" href="javascript:;"><i
+                                        data-feather="eye" class="icon-sm me-2"></i> <span class="">View</span></a>
+                                <a class="dropdown-item d-flex align-items-center" href="javascript:;"><i
+                                        data-feather="edit-2" class="icon-sm me-2"></i> <span
+                                        class="">Edit</span></a>
+                                <a class="dropdown-item d-flex align-items-center" href="javascript:;"><i
+                                        data-feather="trash" class="icon-sm me-2"></i> <span
+                                        class="">Delete</span></a>
+                                <a class="dropdown-item d-flex align-items-center" href="javascript:;"><i
+                                        data-feather="printer" class="icon-sm me-2"></i> <span
+                                        class="">Print</span></a>
+                                <a class="dropdown-item d-flex align-items-center" href="javascript:;"><i
+                                        data-feather="download" class="icon-sm me-2"></i> <span
+                                        class="">Download</span></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex flex-column">
+                        <a href="javascript:;" class="d-flex align-items-center border-bottom pb-3">
+                            <div class="me-3">
+                                <img src="../assets/images/faces/face2.jpg" class="rounded-circle w-35px" alt="user">
+                            </div>
+                            <div class="w-100">
+                                <div class="d-flex justify-content-between">
+                                    <h6 class="text-body mb-2">Leonardo Payne</h6>
+                                    <p class="text-secondary fs-12px">12.30 PM</p>
+                                </div>
+                                <p class="text-secondary fs-13px">Hey! there I'm available...</p>
+                            </div>
+                        </a>
+                        <a href="javascript:;" class="d-flex align-items-center border-bottom py-3">
+                            <div class="me-3">
+                                <img src="../assets/images/faces/face3.jpg" class="rounded-circle w-35px" alt="user">
+                            </div>
+                            <div class="w-100">
+                                <div class="d-flex justify-content-between">
+                                    <h6 class="text-body mb-2">Carl Henson</h6>
+                                    <p class="text-secondary fs-12px">02.14 AM</p>
+                                </div>
+                                <p class="text-secondary fs-13px">I've finished it! See you so..</p>
+                            </div>
+                        </a>
+                        <a href="javascript:;" class="d-flex align-items-center border-bottom py-3">
+                            <div class="me-3">
+                                <img src="../assets/images/faces/face4.jpg" class="rounded-circle w-35px" alt="user">
+                            </div>
+                            <div class="w-100">
+                                <div class="d-flex justify-content-between">
+                                    <h6 class="text-body mb-2">Jensen Combs</h6>
+                                    <p class="text-secondary fs-12px">08.22 PM</p>
+                                </div>
+                                <p class="text-secondary fs-13px">This template is awesome!</p>
+                            </div>
+                        </a>
+                        <a href="javascript:;" class="d-flex align-items-center border-bottom py-3">
+                            <div class="me-3">
+                                <img src="../assets/images/faces/face5.jpg" class="rounded-circle w-35px" alt="user">
+                            </div>
+                            <div class="w-100">
+                                <div class="d-flex justify-content-between">
+                                    <h6 class="text-body mb-2">Amiah Burton</h6>
+                                    <p class="text-secondary fs-12px">05.49 AM</p>
+                                </div>
+                                <p class="text-secondary fs-13px">Nice to meet you</p>
+                            </div>
+                        </a>
+                        <a href="javascript:;" class="d-flex align-items-center border-bottom py-3">
+                            <div class="me-3">
+                                <img src="../assets/images/faces/face6.jpg" class="rounded-circle w-35px" alt="user">
+                            </div>
+                            <div class="w-100">
+                                <div class="d-flex justify-content-between">
+                                    <h6 class="text-body mb-2">Yaretzi Mayo</h6>
+                                    <p class="text-secondary fs-12px">01.19 AM</p>
+                                </div>
+                                <p class="text-secondary fs-13px">Hey! there I'm available...</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-7 col-xl-8 stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-baseline mb-2">
+                        <h6 class="card-title mb-0">Projects</h6>
+                        <div class="dropdown mb-2">
+                            <a type="button" id="dropdownMenuButton7" data-bs-toggle="dropdown" aria-haspopup="true"
+                                aria-expanded="false">
+                                <i class="icon-lg text-secondary pb-3px" data-feather="more-horizontal"></i>
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton7">
+                                <a class="dropdown-item d-flex align-items-center" href="javascript:;"><i
+                                        data-feather="eye" class="icon-sm me-2"></i> <span class="">View</span></a>
+                                <a class="dropdown-item d-flex align-items-center" href="javascript:;"><i
+                                        data-feather="edit-2" class="icon-sm me-2"></i> <span
+                                        class="">Edit</span></a>
+                                <a class="dropdown-item d-flex align-items-center" href="javascript:;"><i
+                                        data-feather="trash" class="icon-sm me-2"></i> <span
+                                        class="">Delete</span></a>
+                                <a class="dropdown-item d-flex align-items-center" href="javascript:;"><i
+                                        data-feather="printer" class="icon-sm me-2"></i> <span
+                                        class="">Print</span></a>
+                                <a class="dropdown-item d-flex align-items-center" href="javascript:;"><i
+                                        data-feather="download" class="icon-sm me-2"></i> <span
+                                        class="">Download</span></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0">
+                            <thead>
+                                <tr>
+                                    <th class="pt-0">#</th>
+                                    <th class="pt-0">Project Name</th>
+                                    <th class="pt-0">Start Date</th>
+                                    <th class="pt-0">Due Date</th>
+                                    <th class="pt-0">Status</th>
+                                    <th class="pt-0">Assign</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>NobleUI jQuery</td>
+                                    <td>01/01/2024</td>
+                                    <td>26/04/2024</td>
+                                    <td><span class="badge bg-danger">Released</span></td>
+                                    <td>Leonardo Payne</td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>NobleUI Angular</td>
+                                    <td>01/01/2024</td>
+                                    <td>26/04/2024</td>
+                                    <td><span class="badge bg-success">Review</span></td>
+                                    <td>Carl Henson</td>
+                                </tr>
+                                <tr>
+                                    <td>3</td>
+                                    <td>NobleUI ReactJs</td>
+                                    <td>01/05/2024</td>
+                                    <td>10/09/2024</td>
+                                    <td><span class="badge bg-info">Pending</span></td>
+                                    <td>Jensen Combs</td>
+                                </tr>
+                                <tr>
+                                    <td>4</td>
+                                    <td>NobleUI VueJs</td>
+                                    <td>01/01/2024</td>
+                                    <td>31/11/2024</td>
+                                    <td><span class="badge bg-warning">Work in Progress</span>
+                                    </td>
+                                    <td>Amiah Burton</td>
+                                </tr>
+                                <tr>
+                                    <td>5</td>
+                                    <td>NobleUI Laravel</td>
+                                    <td>01/01/2024</td>
+                                    <td>31/12/2024</td>
+                                    <td><span class="badge bg-danger">Coming soon</span></td>
+                                    <td>Yaretzi Mayo</td>
+                                </tr>
+                                <tr>
+                                    <td>6</td>
+                                    <td>NobleUI NodeJs</td>
+                                    <td>01/01/2024</td>
+                                    <td>31/12/2024</td>
+                                    <td><span class="badge bg-primary">Coming soon</span></td>
+                                    <td>Carl Henson</td>
+                                </tr>
+                                <tr>
+                                    <td class="border-bottom">3</td>
+                                    <td class="border-bottom">NobleUI EmberJs</td>
+                                    <td class="border-bottom">01/05/2024</td>
+                                    <td class="border-bottom">10/11/2024</td>
+                                    <td class="border-bottom"><span class="badge bg-info">Pending</span></td>
+                                    <td class="border-bottom">Jensen Combs</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> <!-- row -->
 @endsection
