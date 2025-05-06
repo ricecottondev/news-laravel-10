@@ -14,10 +14,10 @@
             </a>
 
 
-            <div class="d-md-flex align-items-center gap-3 ms-2 me-2">
+            <div class="d-md-flex align-items-center gap-3 ms-2 me-2 d-none">
 
-                <a class="btn text-dark  d-none d-md-block" style="font-weight: bold;background-color: #cba34e"
-                    href="https://play.google.com/store/apps/details?id=com.rc.news">Download Here</a>
+                {{-- <a class="btn text-dark  d-none d-md-block" style="font-weight: bold;background-color: #cba34e"
+                    href="https://play.google.com/store/apps/details?id=com.rc.news">Download Here</a> --}}
             </div>
             <div class="d-none d-md-flex align-items-center gap-3">
                 <form action="/search" method="GET" class="d-flex">
@@ -35,7 +35,7 @@
                     <a class="btn btn-outline-light" href="{{ route('login') }}">Login</a>
                 @endauth
 
-                <a class="btn text-dark" href="/subscribes"
+                <a class="btn text-dark d-none" href="/subscribes"
                     style="font-weight: bold;background-color: #cba34e">Subscribe</a>
             </div>
 
@@ -55,9 +55,9 @@
 
                     <div class="d-md-flex align-items-center gap-3 ms-2 me-2">
 
-                        <a class="btn text-dark w-100 d-none d-md-block"
+                        {{-- <a class="btn text-dark w-100 d-none d-md-block"
                             style="font-weight: bold;background-color: #cba34e"
-                            href="https://play.google.com/store/apps/details?id=com.rc.news">Download Here</a>
+                            href="https://play.google.com/store/apps/details?id=com.rc.news">Download Here</a> --}}
                     </div>
                     <a class="nav-link text-white" href="/about">About Us</a>
                     <a class="nav-link text-white" href="/history">Our History</a>
