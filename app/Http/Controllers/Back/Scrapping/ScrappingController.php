@@ -14,7 +14,8 @@ class ScrappingController extends Controller
         $data = null;
 
         if ($request->has('url')) {
-            $data = $this->scrapper($request->url);
+            $data = $this->scrapperFulltext($request->url);
+            // $data = $this->scrapper($request->url);
         }
 
         return view('back.Scrapper.scrapper-index', compact('data'));
@@ -28,29 +29,86 @@ class ScrappingController extends Controller
         try {
             $crawler = $client->request('GET', $url);
 
-            $headings = [
+            $data = [
                 'title' => [],
                 'h1' => [],
                 'h2' => [],
                 'h3' => [],
-                'P' => [],
-                'div' => [],
+                'p' => [],
+                'span' => [],
+                'a' => [],
+                'a_links' => [],
+                'img_srcs' => [],
             ];
-            $arrkeys = array_keys($headings);
 
-            foreach ($arrkeys as $tag) {
-                $crawler->filter($tag)->each(function ($node) use (&$headings, $tag) {
-                    $headings[$tag][] = $node->text();
+            // Text content for specific tags
+            foreach (['title', 'h1', 'h2', 'h3', 'p', 'span', 'a'] as $tag) {
+                $crawler->filter($tag)->each(function ($node) use (&$data, $tag) {
+                    $text = trim($node->text());
+                    if ($text !== '') {
+                        $data[$tag][] = $text;
+                    }
                 });
             }
 
-            return $headings;
+            // Get href from <a> tags
+            $crawler->filter('a')->each(function ($node) use (&$data) {
+                $href = $node->attr('href');
+                if ($href) {
+                    $data['a_links'][] = $href;
+                }
+            });
+
+            // Get src from <img> tags
+            $crawler->filter('img')->each(function ($node) use (&$data) {
+                $src = $node->attr('src');
+                if ($src) {
+                    $data['img_srcs'][] = $src;
+                }
+            });
+
+            return $data;
         } catch (\Exception $e) {
             return [
                 'error' => 'Gagal mengambil data: ' . $e->getMessage(),
             ];
         }
     }
+
+
+    // public function scrapper($url)
+    // {
+    //     $client = new Client();
+    //     $client->setServerParameter('HTTP_USER_AGENT', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)');
+
+    //     try {
+    //         $crawler = $client->request('GET', $url);
+
+    //         $headings = [
+    //             'title' => [],
+    //             'h1' => [],
+    //             'h2' => [],
+    //             'h3' => [],
+    //             'P' => [],
+    //             'a' => [],
+    //             'src' => [],
+    //             // 'div' => [],
+    //         ];
+    //         $arrkeys = array_keys($headings);
+
+    //         foreach ($arrkeys as $tag) {
+    //             $crawler->filter($tag)->each(function ($node) use (&$headings, $tag) {
+    //                 $headings[$tag][] = $node->text();
+    //             });
+    //         }
+
+    //         return $headings;
+    //     } catch (\Exception $e) {
+    //         return [
+    //             'error' => 'Gagal mengambil data: ' . $e->getMessage(),
+    //         ];
+    //     }
+    // }
 
     public function scrapperFulltext($url)
     {
@@ -61,20 +119,61 @@ class ScrappingController extends Controller
             $crawler = $client->request('GET', $url);
 
             // Ambil semua teks dalam satu string
-            $fullText = $crawler->text();
+            $fullText = null;
+            // $fullText = $crawler->text();
 
-            // Ambil semua teks dari setiap node (tanpa filter tag)
-            $allNodesText = [];
-            $crawler->filterXPath('//*')->each(function ($node) use (&$allNodesText) {
+            // Daftar tag yang ingin dikecualikan
+            $excludedTags = [
+                'html',
+                'body',
+                'header',
+                'footer',
+                'script',
+                'style',
+                'meta',
+                'link',
+                'head',
+                'noscript'
+            ];
+
+            // Kelompokkan teks berdasarkan tag
+            $groupedByTag = [];
+
+            $crawler->filterXPath('//*')->each(function ($node) use (&$groupedByTag, $excludedTags) {
+                $tag = $node->nodeName();
                 $text = trim($node->text());
+
+                // Skip tag tertentu
+                if (in_array($tag, $excludedTags)) return;
+
                 if ($text !== '') {
-                    $allNodesText[] = $text;
+                    $groupedByTag[$tag][] = $text;
+                }
+
+                // Tangani khusus untuk <a> dan <img>
+                if ($tag === 'a') {
+                    $href = $node->attr('href');
+                    if ($href) {
+                        $groupedByTag['a_href'][] = $href;
+                    }
+                }
+
+                if ($tag === 'img') {
+                    $src = $node->attr('src');
+                    if ($src) {
+                        $groupedByTag['img_src'][] = $src;
+                    }
                 }
             });
 
+            // Hilangkan duplikat
+            foreach ($groupedByTag as $tag => $texts) {
+                $groupedByTag[$tag] = array_values(array_unique($texts));
+            }
+
             return [
                 'full_text' => $fullText,
-                'node_texts' => $allNodesText,
+                'grouped_by_tag' => $groupedByTag,
             ];
         } catch (\Exception $e) {
             return [
