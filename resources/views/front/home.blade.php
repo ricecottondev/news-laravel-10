@@ -201,7 +201,7 @@
                                 @php $news = $withImage[$withImageIndex++] @endphp
                                 <a href="{{ route('front.news.show', $news->slug) }}"
                                     class="text-decoration-none text-dark">
-                                    <div class="border rounded-5 overflow-hidden h-100 custom-shadow d-flex flex-column"
+                                    <div class="rounded-5 overflow-hidden h-100 d-flex flex-column"
                                         style="min-height: 200px;">
                                         <div class="position-relative" style="height: 300px;">
                                             <img src="{{ asset('storage/' . $news->image) }}" alt="{{ $news->title }}"
@@ -249,7 +249,7 @@
                             <div class="col-md-4 mb-3">
                                 <a href="{{ route('front.news.show', $news->slug) }}"
                                     class="text-decoration-none text-dark d-block h-100">
-                                    <div class="border rounded-4 p-3 h-100 custom-shadow">
+                                    <div class="rounded-4 p-3 h-100">
                                         <div>
                                             {{-- Kategori --}}
                                             @php
@@ -266,7 +266,7 @@
                                             <h6 class="news-title fw-bold mb-1">{{ Str::limit($news->title, 70) }}</h6>
 
                                             {{-- Deskripsi singkat --}}
-                                            <p class="text-muted mb-0" style="font-size: 1.25rem;">
+                                            <p class="text-white mb-0" style="font-size: 1.25rem;">
                                                 {{ Str::words(strip_tags($news->content), 25, '...') }}
                                             </p>
                                         </div>
@@ -294,7 +294,7 @@
                                 @php $news = $withImage[$withImageIndex++] @endphp
                                 <div class="col-md-6 mb-3">
                                     <a href="{{ route('front.news.show', $news->slug) }}" class="text-decoration-none text-dark">
-                                        <div class="border rounded-5 overflow-hidden h-100 custom-shadow d-flex flex-column"
+                                        <div class="rounded-5 overflow-hidden h-100 d-flex flex-column"
                                             style="min-height: 200px;">
                                             <div class="position-relative" style="height: 300px;">
                                                 <img src="{{ asset('storage/' . $news->image) }}" alt="{{ $news->title }}"
@@ -313,7 +313,7 @@
                                                     </span>
 
                                                     <h6 class="news-title fw-bold mb-1">{{ Str::limit($news->title, 70) }}</h6>
-                                                    <p class="text-muted mb-0" style="font-size: 1.25rem;">
+                                                    <p class="text-white mb-0" style="font-size: 1.25rem;">
                                                         {{ Str::words(strip_tags($news->content), 25, '...') }}
                                                     </p>
                                                 </div>
@@ -335,7 +335,7 @@
                             @if (isset($withImage[$withImageIndex]))
                                 @php $news = $withImage[$withImageIndex++] @endphp
                                 <a href="{{ route('front.news.show', $news->slug) }}" class="text-decoration-none text-dark">
-                                    <div class="border rounded-5 overflow-hidden h-100 custom-shadow d-flex flex-column"
+                                    <div class="rounded-5 overflow-hidden h-100 d-flex flex-column"
                                         style="min-height: 200px;">
                                         <div class="position-relative" style="height: 300px;">
                                             <img src="{{ asset('storage/' . $news->image) }}" alt="{{ $news->title }}"
@@ -370,7 +370,7 @@
                             @for ($i = 0; $i < 3; $i++)
                                 @if (isset($noImage[$noImageIndex]))
                                     @php $news = $noImage[$noImageIndex++] @endphp
-                                    <div class="mb-3 border rounded-4 p-3 custom-shadow">
+                                    <div class="mb-3 border rounded-4 p-3">
                                         <div>
                                             @php
                                                 $categoryName =
@@ -381,11 +381,11 @@
                                                 {{ strtoupper($categoryName) }}
                                             </span>
                                             <h6 class="news-title fw-bold mb-1">{{ Str::limit($news->title, 70) }}</h6>
-                                            <p class="text-muted mb-0" style="font-size: 1.25rem;">
+                                            <p class="text-white mb-0" style="font-size: 1.25rem;">
                                                 {{ Str::words(strip_tags($news->content), 25, '...') }}
                                             </p>
                                         </div>
-                                        <small class="text-muted">
+                                        <small class="text-white">
                                             <i class="fas fa-calendar-alt me-1"></i> {{ $news->created_at->format('F d, Y') }}
                                         </small>
                                     </div>
@@ -492,7 +492,7 @@
                 {{-- First Item --}}
                 <div class="col-md-{{ $firstCol }} mb-4">
                     <a href="{{ route('front.news.show', $first->slug) }}" class="text-decoration-none text-dark">
-                        <div class="border rounded-5 overflow-hidden h-100 custom-shadow d-flex flex-column"
+                        <div class="rounded-5 overflow-hidden h-100 d-flex flex-column"
                             style="min-height: 100px;">
                             @if ($firstHasImage)
                                 <div class="position-relative" style="height: 250px;">
@@ -514,11 +514,11 @@
 
                                     <h6 class="news-title fw-bold mb-1">{{ Str::limit($first->title, 70) }}</h6>
 
-                                    <p class="text-muted mb-0" style="font-size: 1.25rem;">
+                                    <p class="text-white mb-0" style="font-size: 1.25rem;">
                                         {{ Str::words(strip_tags($first->content), 25, '...') }}
                                     </p>
                                 </div>
-                                <small class="text-muted mt-3">
+                                <small class="text-white mt-3">
                                     <i class="fas fa-calendar-alt me-1"></i>
                                     {{ $first->created_at?->format('F d, Y') }}
                                 </small>
@@ -531,7 +531,7 @@
                 @if ($second)
                     <div class="col-md-{{ $secondCol }} mb-4">
                         <a href="{{ route('front.news.show', $second->slug) }}" class="text-decoration-none text-dark">
-                            <div class="border rounded-5 overflow-hidden h-100 custom-shadow d-flex flex-column"
+                            <div class="rounded-5 overflow-hidden h-100 d-flex flex-column"
                                 style="min-height: 100px;">
                                 @if ($secondHasImage)
                                     <div class="position-relative" style="height: 250px;">
@@ -554,11 +554,11 @@
 
                                         <h6 class="news-title fw-bold mb-1">{{ Str::limit($second->title, 70) }}</h6>
 
-                                        <p class="text-muted mb-0 card-content" style="font-size: 1.25rem;">
+                                        <p class="text-white mb-0 card-content" style="font-size: 1.25rem;">
                                             {{ $second->short_desc }}
                                         </p>
                                     </div>
-                                    <small class="text-muted mt-3">
+                                    <small class="text-white mt-3">
                                         <i class="fas fa-calendar-alt me-1"></i>
                                         {{ $second->created_at?->format('F d, Y') }}
                                     </small>
@@ -638,7 +638,7 @@
                                         {{ Str::limit(strip_tags($firstNews->content), $contentLimit) }}
                                     </p>
 
-                                    <small class="text-muted d-block">
+                                    <small class="text-white d-block">
                                         <i class="bi bi-calendar me-1"></i>
                                         {{ $firstNews->created_at->format('F d, Y') }}
                                         {{-- <span class="badge bg-danger text-white rounded-pill px-2 py-1"
