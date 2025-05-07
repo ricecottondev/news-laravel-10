@@ -56,7 +56,7 @@
 
                                 @dump($data)
                                 {{-- Scraped Data --}}
-                                @isset($data)
+                                {{-- @isset($data)
                                     <hr>
                                     <h4>Scraped Headings</h4>
                                     @foreach ($data as $tag => $headings)
@@ -71,7 +71,7 @@
                                             </ul>
                                         </div>
                                     @endforeach
-                                @endisset
+                                @endisset --}}
 
                                 {{-- FOR FULL TEXT --}}
                                 {{-- @if (isset($data['error']))
@@ -91,6 +91,31 @@
                                         </ul>
                                     </div>
                                 @endif --}}
+
+                                @if (isset($data['error']))
+                                    <div class="alert alert-danger mt-4">
+                                        {{ $data['error'] }}
+                                    </div>
+                                @elseif(!empty($data))
+                                    <div class="mt-4">
+                                        {{-- <h4>Full Text (Gabungan semua teks halaman):</h4> --}}
+                                        {{-- <pre style="white-space: pre-wrap;">{{ $data['full_text'] }}</pre> --}}
+
+                                        <h4 class="mt-5">Teks Dikelompokkan Berdasarkan Tag HTML:</h4>
+
+                                        @foreach ($data['grouped_by_tag'] as $tag => $texts)
+                                            <div class="mt-3">
+                                                <h5><code>&lt;{{ $tag }}&gt;</code></h5>
+                                                <ul>
+                                                    @foreach ($texts as $text)
+                                                        <li>{{ $text }}</li>
+                                                    @endforeach
+                                                </ul>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                @endif
+
                             </div>
                         </div>
                     </div>
