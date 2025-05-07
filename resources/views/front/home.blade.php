@@ -119,6 +119,31 @@
     </style>
 @endpush
 @section('content')
+
+
+<section class="mb-5" style="padding-top: 180px;">
+  <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <img src="/assets/banner/banner1.png" class="d-block w-100" alt="...">
+      </div>
+      <div class="carousel-item">
+        <img src="/assets/banner/banner2.png" class="d-block w-100" alt="...">
+      </div>
+      <div class="carousel-item">
+        <img src="/assets/banner/banner3.png" class="d-block w-100" alt="...">
+      </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>
+</section>
     {{-- ========================== Top News Headline (Hidden Section) ========================== --}}
     <section class="mb-5 d-none">
         <div class="row">
@@ -188,7 +213,7 @@
     @endphp
 
     {{-- =============================== Breaking News =============================== --}}
-    <section class="mb-5">
+    <section class="mb-5" style="padding-top: 180px;">
         <h2 class="border-bottom pb-2 mb-3 fw-bold text-uppercase">Breaking News</h2>
 
         @while ($withImageIndex < $withImage->count() || $noImageIndex < $noImage->count())
@@ -408,7 +433,7 @@
 
 
     {{-- =============================== More News =============================== --}}
-    <section class="mb-5">
+    <section class="mb-5" style="padding-top: 180px;">
         <h2 class="border-bottom pb-2 mb-3 fw-bold text-uppercase">More News</h2>
 
         {{-- @foreach ($not_today_news as $ntnews)
@@ -580,7 +605,7 @@
     </section>
 
 
-    <section class="mb-5">
+    <section class="mb-5" style="padding-top: 180px;">
 
 
         @php
