@@ -120,7 +120,8 @@ class NewsController extends Controller
 
             $newssugestion = collect();
             // dd($categories[0]);
-            if (in_array($categories[0], ["Breaking News", "Politics", "Business"])) {
+            // Cek dulu apakah elemen 0 ada sebelum mengaksesnya
+            if (collect($categories)->intersect(["Breaking News", "Politics", "Business"])->isNotEmpty()) {
                 $newssugestion = $this->newssugestions($item);
             }
             return [
