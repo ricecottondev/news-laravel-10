@@ -135,7 +135,10 @@
 
     @isset($topnews)
         <div class="breaking-news-wrapper overflow-auto">
-            <marquee id="breaking-news" style="background-color: {{ $bgColor }};" class="text-black py-2 fw-bold"
+            <!-- Garis pink di atas -->
+            <div style="height: 4px; background-color: #ff00b3;"></div>
+
+            <marquee id="breaking-news" style="background-color: {{ $bgColor }}; height: 28px;" class="text-black py-1 fw-bold small"
                 scrollamount="4">
                 @foreach ($topnews as $tnews)
                     <a href="{{ route('front.news.show', $tnews->slug) }}"
