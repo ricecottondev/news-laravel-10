@@ -6,7 +6,7 @@
         .news-title {
             font-size: 1.25rem;
             font-weight: 700;
-            color: #1a1a1a;
+            color: #ff00b3;
             text-decoration: none;
             font-family: sans-serif;
         }
@@ -63,7 +63,7 @@ $layoutStep = 1;
                         @php $news = $withImage[$withImageIndex++] @endphp
                         <a href="{{ route('front.news.show', $news->slug) }}"
                             class="text-decoration-none text-dark">
-                            <div class="border rounded-5 overflow-hidden h-100 custom-shadow d-flex flex-column"
+                            <div class="rounded-5 overflow-hidden h-100  d-flex flex-column"
                                 style="min-height: 200px;">
                                 <div class="position-relative" style="height: 300px;">
                                     <img src="{{ asset('storage/' . $news->image) }}" alt="{{ $news->title }}"
@@ -87,11 +87,13 @@ $layoutStep = 1;
                                         <h6 class="news-title fw-bold mb-1">{{ Str::limit($news->title, 70) }}</h6>
 
                                         {{-- Deskripsi singkat --}}
-                                        <p class="text-muted mb-0" style="font-size: 1.25rem;">
+                                        <p class="text-white mb-0" style="font-size: 1.25rem; font-color: #fafafa;">
+                                            {{-- {{ Str::before(Str::limit(strip_tags($news->content), 300), '.') }} --}}
+                                            {{-- {{ Str::limit(strip_tags($news->content), 300) }} --}}
                                             {{ Str::words(strip_tags($news->content), 25, '...') }}
                                         </p>
                                     </div>
-                                    <small class="text-muted mt-3">
+                                    <small class="text-white mt-3">
                                         <i class="fas fa-calendar-alt me-1"></i>
                                         {{ $news->created_at->format('F d, Y') }}
                                     </small>
@@ -111,7 +113,7 @@ $layoutStep = 1;
                     <div class="col-md-4 mb-3">
                         <a href="{{ route('front.news.show', $news->slug) }}"
                             class="text-decoration-none text-dark d-block h-100">
-                            <div class="border rounded-4 p-3 h-100 custom-shadow">
+                            <div class="rounded-4 p-3 h-100">
                                 <div>
                                     {{-- Kategori --}}
                                     @php
@@ -128,11 +130,11 @@ $layoutStep = 1;
                                     <h6 class="news-title fw-bold mb-1">{{ Str::limit($news->title, 70) }}</h6>
 
                                     {{-- Deskripsi singkat --}}
-                                    <p class="text-muted mb-0" style="font-size: 1.25rem;">
+                                    <p class="text-white mb-0" style="font-size: 1.25rem;">
                                         {{ Str::words(strip_tags($news->content), 25, '...') }}
                                     </p>
                                 </div>
-                                <small class="text-muted">
+                                <small class="text-white">
                                     <i class="fas fa-calendar-alt me-1"></i>
                                     {{ $news->created_at->format('F d, Y') }}
                                 </small>
@@ -156,7 +158,7 @@ $layoutStep = 1;
                         @php $news = $withImage[$withImageIndex++] @endphp
                         <div class="col-md-6 mb-3">
                             <a href="{{ route('front.news.show', $news->slug) }}" class="text-decoration-none text-dark">
-                                <div class="border rounded-5 overflow-hidden h-100 custom-shadow d-flex flex-column"
+                                <div class="rounded-5 overflow-hidden h-100 d-flex flex-column"
                                     style="min-height: 200px;">
                                     <div class="position-relative" style="height: 300px;">
                                         <img src="{{ asset('storage/' . $news->image) }}" alt="{{ $news->title }}"
@@ -175,11 +177,11 @@ $layoutStep = 1;
                                             </span>
 
                                             <h6 class="news-title fw-bold mb-1">{{ Str::limit($news->title, 70) }}</h6>
-                                            <p class="text-muted mb-0" style="font-size: 1.25rem;">
+                                            <p class="text-white mb-0" style="font-size: 1.25rem;">
                                                 {{ Str::words(strip_tags($news->content), 25, '...') }}
                                             </p>
                                         </div>
-                                        <small class="text-muted mt-3">
+                                        <small class="text-white mt-3">
                                             <i class="fas fa-calendar-alt me-1"></i>
                                             {{ $news->created_at->format('F d, Y') }}
                                         </small>
@@ -197,7 +199,7 @@ $layoutStep = 1;
                     @if (isset($withImage[$withImageIndex]))
                         @php $news = $withImage[$withImageIndex++] @endphp
                         <a href="{{ route('front.news.show', $news->slug) }}" class="text-decoration-none text-dark">
-                            <div class="border rounded-5 overflow-hidden h-100 custom-shadow d-flex flex-column"
+                            <div class="rounded-5 overflow-hidden h-100 d-flex flex-column"
                                 style="min-height: 200px;">
                                 <div class="position-relative" style="height: 300px;">
                                     <img src="{{ asset('storage/' . $news->image) }}" alt="{{ $news->title }}"
@@ -215,11 +217,11 @@ $layoutStep = 1;
                                             {{ strtoupper($categoryName) }}
                                         </span>
                                         <h6 class="news-title fw-bold mb-1">{{ Str::limit($news->title, 70) }}</h6>
-                                        <p class="text-muted mb-0" style="font-size: 1.25rem;">
+                                        <p class="text-white mb-0" style="font-size: 1.25rem;">
                                             {{ Str::words(strip_tags($news->content), 25, '...') }}
                                         </p>
                                     </div>
-                                    <small class="text-muted mt-3">
+                                    <small class="text-white mt-3">
                                         <i class="fas fa-calendar-alt me-1"></i>
                                         {{ $news->created_at->format('F d, Y') }}
                                     </small>
@@ -232,7 +234,7 @@ $layoutStep = 1;
                     @for ($i = 0; $i < 3; $i++)
                         @if (isset($noImage[$noImageIndex]))
                             @php $news = $noImage[$noImageIndex++] @endphp
-                            <div class="mb-3 border rounded-4 p-3 custom-shadow">
+                            <div class="mb-3 rounded-4 p-3">
                                 <div>
                                     @php
                                         $categoryName =
@@ -243,11 +245,11 @@ $layoutStep = 1;
                                         {{ strtoupper($categoryName) }}
                                     </span>
                                     <h6 class="news-title fw-bold mb-1">{{ Str::limit($news->title, 70) }}</h6>
-                                    <p class="text-muted mb-0" style="font-size: 1.25rem;">
+                                    <p class="text-white mb-0" style="font-size: 1.25rem;">
                                         {{ Str::words(strip_tags($news->content), 25, '...') }}
                                     </p>
                                 </div>
-                                <small class="text-muted">
+                                <small class="text-white">
                                     <i class="fas fa-calendar-alt me-1"></i> {{ $news->created_at->format('F d, Y') }}
                                 </small>
                             </div>

@@ -31,7 +31,7 @@
         .news-title {
             font-size: 22px;
             font-weight: 700;
-            color: #272727;
+            color: #ff00b3;
             text-decoration: none;
             font-family: sans-serif;
         }
@@ -41,7 +41,7 @@
         .news-sugestion {
             font-size: 16px;
             font-weight: 700;
-            color: #696969;
+            color: #ac5151;
             text-decoration: none;
         }
 
@@ -50,7 +50,7 @@
             text-decoration: none;
             font-size: 14px;
             font-weight: 700;
-            color: #535353;
+            color: #7bff00;
         }
 
 
