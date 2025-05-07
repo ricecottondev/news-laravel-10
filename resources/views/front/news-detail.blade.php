@@ -245,7 +245,7 @@
     <script>
         let startTime = Date.now();
 
-        window.addEventListener("beforeunload", function () {
+        window.addEventListener("beforeunload", function() {
             const endTime = Date.now();
             const durationSeconds = Math.floor((endTime - startTime) / 1000);
 
@@ -286,6 +286,11 @@
                     iframe.src = originalSrc; // reset to original URL
                 });
             }
+
+            const sound = new Audio('/assets/sound/kids-saying-yay-sound-effect.mp3');
+            sound.play().catch((e) => {
+                console.log("Playback failed:", e); // misal autoplay diblokir
+            });
         });
     </script>
 @endsection

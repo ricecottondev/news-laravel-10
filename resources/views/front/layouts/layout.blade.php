@@ -280,6 +280,28 @@
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const sound = new Audio('/assets/sound/ding-sound-effect.mp3');
+            const links = document.querySelectorAll('.play-sound-link');
+
+            links.forEach(link => {
+                link.addEventListener('click', function (e) {
+                    e.preventDefault(); // stop link from navigating immediately
+                    const href = this.href;
+
+                    sound.currentTime = 0;
+                    sound.play();
+
+                    // Delay navigation to allow the sound to play (~300ms)
+                    setTimeout(() => {
+                        window.location.href = href;
+                    }, 300);
+                });
+            });
+        });
+    </script>
+
 </body>
 
 </html>

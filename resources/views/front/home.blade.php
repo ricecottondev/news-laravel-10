@@ -200,7 +200,7 @@
                             <div class="col-md-4 mb-3">
                                 @php $news = $withImage[$withImageIndex++] @endphp
                                 <a href="{{ route('front.news.show', $news->slug) }}"
-                                    class="text-decoration-none text-dark">
+                                    class="text-decoration-none text-dark play-sound-link">
                                     <div class="rounded-5 overflow-hidden h-100 d-flex flex-column"
                                         style="min-height: 200px;">
                                         <div class="position-relative" style="height: 300px;">
