@@ -94,7 +94,7 @@ use App\Http\Controllers\Back\ChatGPTController;
 use App\Http\Controllers\Back\News\ImageUploadController;
 
 use App\Http\Controllers\Back\News\NewsVisitController;
-
+use App\Http\Controllers\Back\Scrapping\ScrappingController;
 
 Route::get('/detail-voucher', function () {
     return view('page-sdamember.snk');
@@ -276,6 +276,8 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::get('/back/profil', [MemberProfilController::class, 'index'])->name('profil.index');
 
+    Route::get('/back/scrapper', [ScrappingController::class, 'index'])->name('scrapper.index');
+    // Route::post('/back/scrapper', [ScrappingController::class, 'index'])->name('scrapper.index.post');
 
     Route::resource('back/permissions', PermissionsController::class);
 
