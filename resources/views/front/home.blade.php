@@ -404,6 +404,13 @@
                 }
             @endphp
         @endwhile
+        <h4 class="fw-bold text-uppercase text-end mb-3" style="font-size: 0.9rem;">
+            <a href="{{ url($defaultCountry . '/newscategory/Breaking%20News') }}"
+               class="text-decoration-underline"
+               style="color: #ff00b3;">
+               More Breaking News
+            </a>
+        </h4>
     </section>
 
 
