@@ -194,6 +194,8 @@ Route::get('/terms', function () {
 
 Route::post('/contributor-signup', [ContributorSignupController::class, 'store']);
 
+Route::post('/log-share', [App\Http\Controllers\ShareLogController::class, 'store']);
+
 //===================================================================================================front end===================================================================================================
 
 
