@@ -17,6 +17,22 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
 
     <style>
+
+html, body {
+      height: 100%;
+      margin: 0;
+      scroll-behavior: smooth;
+      scroll-snap-type: y mandatory;
+      overflow-y: scroll;
+    }
+
+    section {
+      scroll-snap-align: start;
+      /* height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center; */
+    }
         body {
             font-family: 'Roboto', sans-serif;
             display: flex;
