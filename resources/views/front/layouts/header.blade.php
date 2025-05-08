@@ -7,7 +7,7 @@
                     <img src="/images/app_logo.png" alt="Logo" width="50" height="50" class="me-3">
                     <div>
                         <h1 class="h4 mb-0" style="color: white">FactaBot</h1>
-                        <div class="" style="font-size: 1.15rem;color: #cba34e"><strong>Real news. Sharp jokes.
+                        <div class="text-uppercase" style="font-size: 0.7rem;color: #cba34e"><strong>Real news. Sharp jokes.
                                 Zero puppeteers</strong></div>
                     </div>
                 </div>
@@ -87,7 +87,7 @@
             </button>
 
             <!-- Country -->
-            <div class="country-scroll d-flex align-items-center gap-3" id="country-menu">
+            <div class="country-scroll d-flex align-items-center py-1 column-gap-2 small" id="country-menu">
                 <!-- Country dimasukkan lewat JavaScript -->
             </div>
 
@@ -105,7 +105,7 @@
                 <i class="fas fa-chevron-left"></i>
             </button>
 
-            <div class="category-scroll d-flex align-items-center gap-3" id="category-menu"></div>
+            <div class="category-scroll d-flex align-items-center py-1 column-gap-2" id="category-menu"></div>
 
             <button class="scroll-btn right-category d-none d-md-flex">
                 <i class="fas fa-chevron-right"></i>
@@ -161,6 +161,20 @@
         overflow: hidden;
     }
 
+    @media (min-width: 768px) {
+    .country-container .container {
+        padding-left: 48px;
+        padding-right: 48px;
+    }
+    }
+
+    @media (min-width: 768px) {
+    .category-container .container {
+        padding-left: 48px;
+        padding-right: 48px;
+    }
+    }
+
     .country-scroll {
         display: flex;
         overflow-x: auto;
@@ -176,7 +190,8 @@
 
     .country-scroll a {
         flex: 0 0 auto;
-        padding: 8px 12px;
+        padding: .25rem .5rem;
+        font-size: .990em;
         background-color: rgba(255, 255, 255, 0.1);
         border-radius: 5px;
         text-decoration: none;
@@ -224,7 +239,8 @@
     /* Style untuk Kategori */
     .category-scroll a {
         flex: 0 0 auto;
-        padding: 8px 12px;
+        padding: .25rem .5rem;
+        font-size: .900em;
         background-color: #494949;
         /* Background tetap */
         border-radius: 5px;
