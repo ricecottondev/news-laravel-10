@@ -121,7 +121,7 @@
 @section('content')
 
 
-<section class="mb-5" style="padding-top: 180px;">
+<section class="mb-5" >
   <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">
     <div class="carousel-inner">
       <div class="carousel-item active">
@@ -213,7 +213,7 @@
     @endphp
 
     {{-- =============================== Breaking News =============================== --}}
-    <section class="mb-5" style="padding-top: 180px;">
+    <section class="mb-5" >
         <h2 class="border-bottom pb-2 mb-3 fw-bold text-uppercase">Breaking News</h2>
 
         @while ($withImageIndex < $withImage->count() || $noImageIndex < $noImage->count())
@@ -440,7 +440,7 @@
 
 
     {{-- =============================== More News =============================== --}}
-    <section class="mb-5" style="padding-top: 180px;">
+    <section class="mb-5" >
         <h2 class="border-bottom pb-2 mb-3 fw-bold text-uppercase">More News</h2>
 
         {{-- @foreach ($not_today_news as $ntnews)
@@ -612,7 +612,7 @@
     </section>
 
 
-    <section class="mb-5" style="padding-top: 180px;">
+    <section class="mb-5" >
 
 
         @php

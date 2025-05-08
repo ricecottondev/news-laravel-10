@@ -1,6 +1,6 @@
 <header class="bg-dark text-white sticky-top shadow">
-    <div class="container">
-        <div class="d-flex justify-content-between align-items-center py-3">
+    <div class="container p-0 p-lg-2">
+        <div class="d-flex justify-content-between align-items-center py-lg-3">
             <!-- Logo dan Judul -->
             <a href="/" class="text-decoration-none text-muted">
                 <div class="d-flex align-items-center">
