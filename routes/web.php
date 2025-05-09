@@ -85,6 +85,7 @@ use App\Http\Controllers\Back\OnepointSocialAccount\SocialAccountController;
 
 
 use App\Http\Controllers\Admin\FileController;
+use App\Http\Controllers\Back\Banner\BannerController;
 use App\Http\Controllers\Back\Categories\CategoryController;
 use App\Http\Controllers\Back\News\BackNewsController;
 use App\Http\Controllers\Back\Country\CountryController;
@@ -279,6 +280,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/back/profil', [MemberProfilController::class, 'index'])->name('profil.index');
 
     Route::get('/back/scrapper', [ScrappingController::class, 'index'])->name('scrapper.index');
+    Route::resource('/back/banner',BannerController::class);
     // Route::post('/back/scrapper', [ScrappingController::class, 'index'])->name('scrapper.index.post');
 
     Route::resource('back/permissions', PermissionsController::class);
