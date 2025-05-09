@@ -136,7 +136,7 @@
     @isset($topnews)
         <div class="breaking-news-wrapper overflow-auto">
             <!-- Garis pink di atas -->
-            <div style="height: 4px; background-color: #ff00b3;"></div>
+            <div style="height: 4px; background-color: #FF4EB0;"></div>
 
             <marquee id="breaking-news" style="background-color: {{ $bgColor }}; height: 28px;" class="text-black py-1 fw-bold small"
                 scrollamount="4">
