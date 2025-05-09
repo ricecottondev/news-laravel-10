@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\App;
 use App\Http\Controllers\Controller;
+use App\Models\Banner;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Member as MemberModel;
 use Illuminate\Support\Facades\Session;
@@ -25,9 +26,12 @@ class FrontHomeController extends Controller
      *
      * @return void
      */
+    protected $pathImage;
+
     public function __construct()
     {
         // $this->middleware('auth');
+        $this->pathImage = 'assets/banner/';
     }
 
     /**
@@ -39,7 +43,7 @@ class FrontHomeController extends Controller
     public function index(Request $request)
     {
 
-
+        $pathimg = $this->pathImage;
         $ip = $this->getIpAddress();
         // dump($ip);
         // if (!$this->isValidIpAddress($ip)) {
@@ -176,14 +180,14 @@ class FrontHomeController extends Controller
         //     ->get();
 
         $topnews = News::with(['category', 'countriesCategoriesNews'])
-        ->where('status', 'published')
-        ->whereDate('created_at', Carbon::today())
-        ->whereHas('countriesCategoriesNews.country', function ($query) {
-            $query->where('country_name', 'Australia');
-        })
-        ->orderBy('created_at', 'desc')
-        ->orderBy('id', 'asc')
-        ->get();
+            ->where('status', 'published')
+            ->whereDate('created_at', Carbon::today())
+            ->whereHas('countriesCategoriesNews.country', function ($query) {
+                $query->where('country_name', 'Australia');
+            })
+            ->orderBy('created_at', 'desc')
+            ->orderBy('id', 'asc')
+            ->get();
 
         $news = News::where('status', 'published')->orderBy('id', 'desc')->limit(6)->get();
 
@@ -267,7 +271,20 @@ class FrontHomeController extends Controller
 
         Session::put('default_country', $defaultCountry);
 
-        return view('front.home', compact("breaking_news", "topnews", "news", "today_news", "not_today_news", "groupedByCategory", "defaultCountry"));
+        $banner_status = env('BANNER_STATUS',true);
+        $now = date('Y-m-d');
+        $banner = Banner::where('start', '<=', $now)
+            ->where('end', '>=', $now)
+            ->where('status', 'active')
+            ->where(function ($query) {
+                $query->where('deleted', false)
+                    ->orWhere('deleted', 0);
+            })
+            ->get();
+
+
+
+        return view('front.home', compact("breaking_news", "topnews", "news", "today_news", "not_today_news", "groupedByCategory", "defaultCountry", "banner","pathimg","banner_status"));
 
         dd("ini home");
         #Get Data Auth user
@@ -405,7 +422,6 @@ class FrontHomeController extends Controller
         }
 
         return $defaultCountry;
-
     }
 
     public function login()
