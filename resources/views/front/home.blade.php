@@ -121,7 +121,11 @@
 @section('content')
 
 {{-- ========================== Section image slider (Hidden Section) ========================== --}}
-<section class="mb-3 d-none" >
+
+<section class="mb-3" >
+    <h6 class="text-4xl font-bold mb-4" style="color: #FF4EB0;">
+        The News Is Full of Spin. Here’s the Sarcastic Truth.
+      </h6>
   <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">
     <div class="carousel-inner">
       <div class="carousel-item active">
@@ -213,8 +217,8 @@
     @endphp
 
     {{-- =============================== Breaking News =============================== --}}
-    <section class="mb-5 {{ count($topnews) == 0 ? "d-none" : "" }}" >
-        <h2 class="border-bottom pb-2 mb-3 fw-bold text-uppercase">Breaking News</h2>
+    <section class="mb-5" >
+        <h2 class="border-bottom pb-2 mb-3 fw-bold text-uppercase" style="color: #FF4EB0;">Breaking News</h2>
 
         @while ($withImageIndex < $withImage->count() || $noImageIndex < $noImage->count())
             @if (in_array($layoutStep, [1, 3, 5, 6, 8, 9]))
@@ -432,7 +436,7 @@
         <h4 class="fw-bold text-uppercase text-end mb-3" style="font-size: 0.9rem;">
             <a href="{{ url($defaultCountry . '/newscategory/Breaking%20News') }}"
                class="text-decoration-underline"
-               style="color: #ff00b3;">
+               style="color: #FF4EB0;">
                More Breaking News
             </a>
         </h4>
@@ -441,7 +445,7 @@
 
     {{-- =============================== More News =============================== --}}
     <section class="mb-5" >
-        <h2 class="border-bottom pb-2 mb-3 fw-bold text-uppercase">More News</h2>
+        <h2 class="border-bottom pb-2 mb-3 fw-bold text-uppercase" style="color: #FF4EB0;">More News</h2>
 
         {{-- @foreach ($not_today_news as $ntnews)
                 <div class="col-md-6 mb-4">
