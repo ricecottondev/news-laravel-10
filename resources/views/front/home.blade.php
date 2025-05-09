@@ -120,8 +120,8 @@
 @endpush
 @section('content')
 
-
-<section class="mb-5" >
+{{-- ========================== Section image slider (Hidden Section) ========================== --}}
+<section class="mb-3 d-none" >
   <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">
     <div class="carousel-inner">
       <div class="carousel-item active">
@@ -213,7 +213,7 @@
     @endphp
 
     {{-- =============================== Breaking News =============================== --}}
-    <section class="mb-5" >
+    <section class="mb-5 {{ count($topnews) == 0 ? "d-none" : "" }}" >
         <h2 class="border-bottom pb-2 mb-3 fw-bold text-uppercase">Breaking News</h2>
 
         @while ($withImageIndex < $withImage->count() || $noImageIndex < $noImage->count())
