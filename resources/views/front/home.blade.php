@@ -120,34 +120,60 @@
 @endpush
 @section('content')
 
-{{-- ========================== Section image slider (Hidden Section) ========================== --}}
+    {{-- ========================== Section image slider (Hidden Section) ========================== --}}
 
-<section class="mb-3" >
-    <h6 class="text-4xl font-bold mb-4" style="color: #FF4EB0;">
-        The News Is Full of Spin. Here’s the Sarcastic Truth.
-      </h6>
-  <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">
-    <div class="carousel-inner">
-      <div class="carousel-item active">
-        <img src="/assets/banner/banner1.png" class="d-block w-100" alt="...">
-      </div>
-      <div class="carousel-item">
-        <img src="/assets/banner/banner2.png" class="d-block w-100" alt="...">
-      </div>
-      <div class="carousel-item">
-        <img src="/assets/banner/banner3.png" class="d-block w-100" alt="...">
-      </div>
-    </div>
-    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="prev">
-      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Previous</span>
-    </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="next">
-      <span class="carousel-control-next-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Next</span>
-    </button>
-  </div>
-</section>
+    <section class="mb-3">
+        <h6 class="text-4xl font-bold mb-4" style="color: #FF4EB0;">
+            The News Is Full of Spin. Here’s the Sarcastic Truth.
+        </h6>
+        @if ($banner_status)
+            <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    @foreach ($banner as $index => $value)
+                        <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
+                            <img src="{{ asset($pathimg . $value->image_desktop) }}" class="d-block w-100"
+                                alt="{{ $value->title ?? 'Banner' }}">
+                        </div>
+                    @endforeach
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying"
+                    data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleAutoplaying"
+                    data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+        @endif
+
+
+        {{-- <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img src="/assets/banner/banner1.png" class="d-block w-100" alt="...">
+                </div>
+                <div class="carousel-item">
+                    <img src="/assets/banner/banner2.png" class="d-block w-100" alt="...">
+                </div>
+                <div class="carousel-item">
+                    <img src="/assets/banner/banner3.png" class="d-block w-100" alt="...">
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying"
+                data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleAutoplaying"
+                data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div> --}}
+    </section>
     {{-- ========================== Top News Headline (Hidden Section) ========================== --}}
     <section class="mb-5 d-none">
         <div class="row">
@@ -217,7 +243,7 @@
     @endphp
 
     {{-- =============================== Breaking News =============================== --}}
-    <section class="mb-5" >
+    <section class="mb-5">
         <h2 class="border-bottom pb-2 mb-3 fw-bold text-uppercase" style="color: #FF4EB0;">Breaking News</h2>
 
         @while ($withImageIndex < $withImage->count() || $noImageIndex < $noImage->count())
@@ -309,7 +335,7 @@
                         @endif
                     @endfor
                 </div>
-                @elseif (in_array($layoutStep, [10, 11, 12, 13]))
+            @elseif (in_array($layoutStep, [10, 11, 12, 13]))
                 @php
                     // Jika berita tanpa gambar sudah habis
                     $isNoImageAvailable = isset($noImage[$noImageIndex]);
@@ -322,12 +348,14 @@
                             @if (isset($withImage[$withImageIndex]))
                                 @php $news = $withImage[$withImageIndex++] @endphp
                                 <div class="col-md-6 mb-3">
-                                    <a href="{{ route('front.news.show', $news->slug) }}" class="text-decoration-none text-dark">
+                                    <a href="{{ route('front.news.show', $news->slug) }}"
+                                        class="text-decoration-none text-dark">
                                         <div class="rounded-5 overflow-hidden h-100 d-flex flex-column"
                                             style="min-height: 200px;">
                                             <div class="position-relative" style="height: 300px;">
-                                                <img src="{{ asset('storage/' . $news->image) }}" alt="{{ $news->title }}"
-                                                    class="img-fluid w-100 h-100" style="object-fit: cover;">
+                                                <img src="{{ asset('storage/' . $news->image) }}"
+                                                    alt="{{ $news->title }}" class="img-fluid w-100 h-100"
+                                                    style="object-fit: cover;">
                                             </div>
                                             <div class="p-3 d-flex flex-column justify-content-between h-100">
                                                 <div>
@@ -341,7 +369,8 @@
                                                         {{ strtoupper($categoryName) }}
                                                     </span>
 
-                                                    <h6 class="news-title fw-bold mb-1">{{ Str::limit($news->title, 70) }}</h6>
+                                                    <h6 class="news-title fw-bold mb-1">{{ Str::limit($news->title, 70) }}
+                                                    </h6>
                                                     <p class="text-white mb-0" style="font-size: 1.25rem;">
                                                         {{ Str::words(strip_tags($news->content), 25, '...') }}
                                                     </p>
@@ -363,7 +392,8 @@
                         <div class="col-md-6 mb-3">
                             @if (isset($withImage[$withImageIndex]))
                                 @php $news = $withImage[$withImageIndex++] @endphp
-                                <a href="{{ route('front.news.show', $news->slug) }}" class="text-decoration-none text-dark">
+                                <a href="{{ route('front.news.show', $news->slug) }}"
+                                    class="text-decoration-none text-dark">
                                     <div class="rounded-5 overflow-hidden h-100 d-flex flex-column"
                                         style="min-height: 200px;">
                                         <div class="position-relative" style="height: 300px;">
@@ -381,7 +411,8 @@
                                                     style="font-size: 0.75rem;">
                                                     {{ strtoupper($categoryName) }}
                                                 </span>
-                                                <h6 class="news-title fw-bold mb-1">{{ Str::limit($news->title, 70) }}</h6>
+                                                <h6 class="news-title fw-bold mb-1">{{ Str::limit($news->title, 70) }}
+                                                </h6>
                                                 <p class="text-muted mb-0" style="font-size: 1.25rem;">
                                                     {{ Str::words(strip_tags($news->content), 25, '...') }}
                                                 </p>
@@ -403,7 +434,8 @@
                                         <div>
                                             @php
                                                 $categoryName =
-                                                    $news->countriesCategoriesNews->first()?->category?->name ?? 'No Category';
+                                                    $news->countriesCategoriesNews->first()?->category?->name ??
+                                                    'No Category';
                                             @endphp
                                             <span class="badge bg-danger text-white rounded-pill px-2 py-1 mb-2"
                                                 style="font-size: 0.75rem;">
@@ -415,7 +447,8 @@
                                             </p>
                                         </div>
                                         <small class="text-white">
-                                            <i class="fas fa-calendar-alt me-1"></i> {{ $news->created_at->format('F d, Y') }}
+                                            <i class="fas fa-calendar-alt me-1"></i>
+                                            {{ $news->created_at->format('F d, Y') }}
                                         </small>
                                     </div>
                                 @endif
@@ -434,17 +467,16 @@
             @endphp
         @endwhile
         <h4 class="fw-bold text-uppercase text-end mb-3" style="font-size: 0.9rem;">
-            <a href="{{ url($defaultCountry . '/newscategory/Breaking%20News') }}"
-               class="text-decoration-underline"
-               style="color: #FF4EB0;">
-               More Breaking News
+            <a href="{{ url($defaultCountry . '/newscategory/Breaking%20News') }}" class="text-decoration-underline"
+                style="color: #FF4EB0;">
+                More Breaking News
             </a>
         </h4>
     </section>
 
 
     {{-- =============================== More News =============================== --}}
-    <section class="mb-5" >
+    <section class="mb-5">
         <h2 class="border-bottom pb-2 mb-3 fw-bold text-uppercase" style="color: #FF4EB0;">More News</h2>
 
         {{-- @foreach ($not_today_news as $ntnews)
@@ -528,8 +560,7 @@
                 {{-- First Item --}}
                 <div class="col-md-{{ $firstCol }} mb-4">
                     <a href="{{ route('front.news.show', $first->slug) }}" class="text-decoration-none text-dark">
-                        <div class="rounded-5 overflow-hidden h-100 d-flex flex-column"
-                            style="min-height: 100px;">
+                        <div class="rounded-5 overflow-hidden h-100 d-flex flex-column" style="min-height: 100px;">
                             @if ($firstHasImage)
                                 <div class="position-relative" style="height: 250px;">
                                     <img src="{{ asset('storage/' . $first->image) }}" alt="{{ $first->title }}"
@@ -567,8 +598,7 @@
                 @if ($second)
                     <div class="col-md-{{ $secondCol }} mb-4">
                         <a href="{{ route('front.news.show', $second->slug) }}" class="text-decoration-none text-dark">
-                            <div class="rounded-5 overflow-hidden h-100 d-flex flex-column"
-                                style="min-height: 100px;">
+                            <div class="rounded-5 overflow-hidden h-100 d-flex flex-column" style="min-height: 100px;">
                                 @if ($secondHasImage)
                                     <div class="position-relative" style="height: 250px;">
                                         <img src="{{ asset('storage/' . $second->image) }}" alt="{{ $second->title }}"
@@ -616,7 +646,7 @@
     </section>
 
 
-    <section class="mb-5" >
+    <section class="mb-5">
 
 
         @php
@@ -733,14 +763,16 @@
 
     <script>
         let startTime = Date.now();
-        window.addEventListener("beforeunload", function () {
+        window.addEventListener("beforeunload", function() {
             const duration = Math.round((Date.now() - startTime) / 1000);
             const data = {
                 url: window.location.pathname,
                 duration: duration
             };
 
-            const blob = new Blob([JSON.stringify(data)], { type: 'application/json' });
+            const blob = new Blob([JSON.stringify(data)], {
+                type: 'application/json'
+            });
             navigator.sendBeacon('/track-page-duration', blob);
         });
     </script>
@@ -753,7 +785,7 @@
 
             // Cek apakah modal sudah pernah ditampilkan sebelumnya
             // if (!localStorage.getItem("newsModalShown")) {
-                 newsModal.show();
+            newsModal.show();
             //     localStorage.setItem("newsModalShown", "true");
             // }
 
