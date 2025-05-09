@@ -119,6 +119,35 @@
     </style>
 @endpush
 @section('content')
+
+{{-- ========================== Section image slider (Hidden Section) ========================== --}}
+
+<section class="mb-3" >
+    <h6 class="text-4xl font-bold mb-4" style="color: #FF4EB0;">
+        The News Is Full of Spin. Here’s the Sarcastic Truth.
+      </h6>
+  <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <img src="/assets/banner/banner1.png" class="d-block w-100" alt="...">
+      </div>
+      <div class="carousel-item">
+        <img src="/assets/banner/banner2.png" class="d-block w-100" alt="...">
+      </div>
+      <div class="carousel-item">
+        <img src="/assets/banner/banner3.png" class="d-block w-100" alt="...">
+      </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>
+</section>
     {{-- ========================== Top News Headline (Hidden Section) ========================== --}}
     <section class="mb-5 d-none">
         <div class="row">
@@ -188,8 +217,8 @@
     @endphp
 
     {{-- =============================== Breaking News =============================== --}}
-    <section class="mb-5">
-        <h2 class="border-bottom pb-2 mb-3 fw-bold text-uppercase">Breaking News</h2>
+    <section class="mb-5" >
+        <h2 class="border-bottom pb-2 mb-3 fw-bold text-uppercase" style="color: #FF4EB0;">Breaking News</h2>
 
         @while ($withImageIndex < $withImage->count() || $noImageIndex < $noImage->count())
             @if (in_array($layoutStep, [1, 3, 5, 6, 8, 9]))
@@ -200,8 +229,8 @@
                             <div class="col-md-4 mb-3">
                                 @php $news = $withImage[$withImageIndex++] @endphp
                                 <a href="{{ route('front.news.show', $news->slug) }}"
-                                    class="text-decoration-none text-dark">
-                                    <div class="border rounded-5 overflow-hidden h-100 custom-shadow d-flex flex-column"
+                                    class="text-decoration-none text-dark play-sound-link">
+                                    <div class="rounded-5 overflow-hidden h-100 d-flex flex-column"
                                         style="min-height: 200px;">
                                         <div class="position-relative" style="height: 300px;">
                                             <img src="{{ asset('storage/' . $news->image) }}" alt="{{ $news->title }}"
@@ -249,7 +278,7 @@
                             <div class="col-md-4 mb-3">
                                 <a href="{{ route('front.news.show', $news->slug) }}"
                                     class="text-decoration-none text-dark d-block h-100">
-                                    <div class="border rounded-4 p-3 h-100 custom-shadow">
+                                    <div class="rounded-4 p-3 h-100">
                                         <div>
                                             {{-- Kategori --}}
                                             @php
@@ -266,7 +295,7 @@
                                             <h6 class="news-title fw-bold mb-1">{{ Str::limit($news->title, 70) }}</h6>
 
                                             {{-- Deskripsi singkat --}}
-                                            <p class="text-muted mb-0" style="font-size: 1.25rem;">
+                                            <p class="text-white mb-0" style="font-size: 1.25rem;">
                                                 {{ Str::words(strip_tags($news->content), 25, '...') }}
                                             </p>
                                         </div>
@@ -294,7 +323,7 @@
                                 @php $news = $withImage[$withImageIndex++] @endphp
                                 <div class="col-md-6 mb-3">
                                     <a href="{{ route('front.news.show', $news->slug) }}" class="text-decoration-none text-dark">
-                                        <div class="border rounded-5 overflow-hidden h-100 custom-shadow d-flex flex-column"
+                                        <div class="rounded-5 overflow-hidden h-100 d-flex flex-column"
                                             style="min-height: 200px;">
                                             <div class="position-relative" style="height: 300px;">
                                                 <img src="{{ asset('storage/' . $news->image) }}" alt="{{ $news->title }}"
@@ -313,7 +342,7 @@
                                                     </span>
 
                                                     <h6 class="news-title fw-bold mb-1">{{ Str::limit($news->title, 70) }}</h6>
-                                                    <p class="text-muted mb-0" style="font-size: 1.25rem;">
+                                                    <p class="text-white mb-0" style="font-size: 1.25rem;">
                                                         {{ Str::words(strip_tags($news->content), 25, '...') }}
                                                     </p>
                                                 </div>
@@ -335,7 +364,7 @@
                             @if (isset($withImage[$withImageIndex]))
                                 @php $news = $withImage[$withImageIndex++] @endphp
                                 <a href="{{ route('front.news.show', $news->slug) }}" class="text-decoration-none text-dark">
-                                    <div class="border rounded-5 overflow-hidden h-100 custom-shadow d-flex flex-column"
+                                    <div class="rounded-5 overflow-hidden h-100 d-flex flex-column"
                                         style="min-height: 200px;">
                                         <div class="position-relative" style="height: 300px;">
                                             <img src="{{ asset('storage/' . $news->image) }}" alt="{{ $news->title }}"
@@ -370,7 +399,7 @@
                             @for ($i = 0; $i < 3; $i++)
                                 @if (isset($noImage[$noImageIndex]))
                                     @php $news = $noImage[$noImageIndex++] @endphp
-                                    <div class="mb-3 border rounded-4 p-3 custom-shadow">
+                                    <div class="mb-3 border rounded-4 p-3">
                                         <div>
                                             @php
                                                 $categoryName =
@@ -381,11 +410,11 @@
                                                 {{ strtoupper($categoryName) }}
                                             </span>
                                             <h6 class="news-title fw-bold mb-1">{{ Str::limit($news->title, 70) }}</h6>
-                                            <p class="text-muted mb-0" style="font-size: 1.25rem;">
+                                            <p class="text-white mb-0" style="font-size: 1.25rem;">
                                                 {{ Str::words(strip_tags($news->content), 25, '...') }}
                                             </p>
                                         </div>
-                                        <small class="text-muted">
+                                        <small class="text-white">
                                             <i class="fas fa-calendar-alt me-1"></i> {{ $news->created_at->format('F d, Y') }}
                                         </small>
                                     </div>
@@ -404,12 +433,19 @@
                 }
             @endphp
         @endwhile
+        <h4 class="fw-bold text-uppercase text-end mb-3" style="font-size: 0.9rem;">
+            <a href="{{ url($defaultCountry . '/newscategory/Breaking%20News') }}"
+               class="text-decoration-underline"
+               style="color: #FF4EB0;">
+               More Breaking News
+            </a>
+        </h4>
     </section>
 
 
     {{-- =============================== More News =============================== --}}
-    <section class="mb-5">
-        <h2 class="border-bottom pb-2 mb-3 fw-bold text-uppercase">More News</h2>
+    <section class="mb-5" >
+        <h2 class="border-bottom pb-2 mb-3 fw-bold text-uppercase" style="color: #FF4EB0;">More News</h2>
 
         {{-- @foreach ($not_today_news as $ntnews)
                 <div class="col-md-6 mb-4">
@@ -492,7 +528,7 @@
                 {{-- First Item --}}
                 <div class="col-md-{{ $firstCol }} mb-4">
                     <a href="{{ route('front.news.show', $first->slug) }}" class="text-decoration-none text-dark">
-                        <div class="border rounded-5 overflow-hidden h-100 custom-shadow d-flex flex-column"
+                        <div class="rounded-5 overflow-hidden h-100 d-flex flex-column"
                             style="min-height: 100px;">
                             @if ($firstHasImage)
                                 <div class="position-relative" style="height: 250px;">
@@ -514,11 +550,11 @@
 
                                     <h6 class="news-title fw-bold mb-1">{{ Str::limit($first->title, 70) }}</h6>
 
-                                    <p class="text-muted mb-0" style="font-size: 1.25rem;">
+                                    <p class="text-white mb-0" style="font-size: 1.25rem;">
                                         {{ Str::words(strip_tags($first->content), 25, '...') }}
                                     </p>
                                 </div>
-                                <small class="text-muted mt-3">
+                                <small class="text-white mt-3">
                                     <i class="fas fa-calendar-alt me-1"></i>
                                     {{ $first->created_at?->format('F d, Y') }}
                                 </small>
@@ -531,7 +567,7 @@
                 @if ($second)
                     <div class="col-md-{{ $secondCol }} mb-4">
                         <a href="{{ route('front.news.show', $second->slug) }}" class="text-decoration-none text-dark">
-                            <div class="border rounded-5 overflow-hidden h-100 custom-shadow d-flex flex-column"
+                            <div class="rounded-5 overflow-hidden h-100 d-flex flex-column"
                                 style="min-height: 100px;">
                                 @if ($secondHasImage)
                                     <div class="position-relative" style="height: 250px;">
@@ -554,11 +590,11 @@
 
                                         <h6 class="news-title fw-bold mb-1">{{ Str::limit($second->title, 70) }}</h6>
 
-                                        <p class="text-muted mb-0 card-content" style="font-size: 1.25rem;">
+                                        <p class="text-white mb-0 card-content" style="font-size: 1.25rem;">
                                             {{ $second->short_desc }}
                                         </p>
                                     </div>
-                                    <small class="text-muted mt-3">
+                                    <small class="text-white mt-3">
                                         <i class="fas fa-calendar-alt me-1"></i>
                                         {{ $second->created_at?->format('F d, Y') }}
                                     </small>
@@ -580,7 +616,7 @@
     </section>
 
 
-    <section class="mb-5">
+    <section class="mb-5" >
 
 
         @php
@@ -638,7 +674,7 @@
                                         {{ Str::limit(strip_tags($firstNews->content), $contentLimit) }}
                                     </p>
 
-                                    <small class="text-muted d-block">
+                                    <small class="text-white d-block">
                                         <i class="bi bi-calendar me-1"></i>
                                         {{ $firstNews->created_at->format('F d, Y') }}
                                         {{-- <span class="badge bg-danger text-white rounded-pill px-2 py-1"

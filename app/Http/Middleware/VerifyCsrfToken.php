@@ -15,6 +15,7 @@ class VerifyCsrfToken extends Middleware
         'upload-image',
         'contributor-signup',
         '/track-duration',
-        '/track-page-duration'
+        '/track-page-duration',
+        '/log-share'
     ];
 }

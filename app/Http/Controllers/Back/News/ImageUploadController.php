@@ -38,15 +38,23 @@ class ImageUploadController extends Controller
 
     // Resize dan konversi ke WebP
     $resized = $manager->read($image->getPathname())
-    ->cover(800, 800)
-    ->toWebp(80);
+    ->cover(800, 800);
 
+
+    // Tambahkan watermark teks
+    // Baca watermark image (harus PNG dengan transparansi agar bagus)
+    $watermarkPath = public_path('assets/watermark/watermark1_10.png'); // Pastikan file ini ada
+    $watermark = $manager->read($watermarkPath); // Atur ukuran watermark
+
+    // Tempelkan watermark di pojok kanan bawah
+    $resized->place($watermark);
+    $encoded = $resized->toWebp(80);
     // Generate nama file unik dan path
     $filename = Str::uuid() . '.webp';
     $path = 'images/news/' . $filename;
 
     // Simpan ke storage
-    Storage::disk('public')->put($path, (string) $resized);
+    Storage::disk('public')->put($path, $encoded->toString());
 
     // Update pada record News jika tersedia
     if ($request->filled('news_id')) {

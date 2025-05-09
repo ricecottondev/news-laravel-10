@@ -92,31 +92,31 @@
 
                             <!-- WhatsApp -->
                             <a href="https://api.whatsapp.com/send?text={{ urlencode($news->title . ' - ' . route('front.news.show', $news->slug)) }}"
-                                class="btn btn-outline-success d-flex align-items-center gap-2 btn-sm" target="_blank">
+                                class="btn btn-outline-success d-flex align-items-center gap-2 btn-sm" target="_blank" onclick="logShare({{ $news->id }}, 'whatsapp')">
                                 <i class="bi bi-whatsapp fs-5"></i> WhatsApp
                             </a>
 
                             <!-- Facebook -->
                             <a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(route('front.news.show', $news->slug)) }}"
-                                class="btn btn-outline-primary d-flex align-items-center gap-2 btn-sm" target="_blank">
+                                class="btn btn-outline-primary d-flex align-items-center gap-2 btn-sm" target="_blank" onclick="logShare({{ $news->id }}, 'facebook')">
                                 <i class="bi bi-facebook fs-5"></i> Facebook
                             </a>
 
                             <!-- Twitter -->
                             <a href="https://twitter.com/intent/tweet?url={{ urlencode(route('front.news.show', $news->slug)) }}&text={{ urlencode($news->title) }}"
                                 class="btn btn-outline-info d-flex align-items-center gap-2 btn-sm text-info"
-                                target="_blank">
+                                target="_blank" onclick="logShare({{ $news->id }}, 'twitter')>
                                 <i class="bi bi-twitter-x fs-5"></i> Twitter
                             </a>
 
                             <!-- Telegram -->
                             <a href="https://t.me/share/url?url={{ urlencode(route('front.news.show', $news->slug)) }}&text={{ urlencode($news->title) }}"
-                                class="btn btn-outline-secondary d-flex align-items-center gap-2 btn-sm" target="_blank">
+                                class="btn btn-outline-secondary d-flex align-items-center gap-2 btn-sm" target="_blank" onclick="logShare({{ $news->id }}, 'telegram')>
                                 <i class="bi bi-telegram fs-5"></i> Telegram
                             </a>
 
                             <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ urlencode(route('front.news.show', $news->slug)) }}"
-                                class="btn btn-outline-primary d-flex align-items-center gap-2 btn-sm" target="_blank">
+                                class="btn btn-outline-primary d-flex align-items-center gap-2 btn-sm" target="_blank" onclick="logShare({{ $news->id }}, 'linkedin')>
                                 <i class="bi bi-linkedin fs-5"></i> LinkedIn
                             </a>
 
@@ -243,9 +243,28 @@
     @endif
 
     <script>
+        function logShare(newsId, platform) {
+            fetch('/log-share', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                },
+                body: JSON.stringify({
+                    news_id: newsId,
+                    platform: platform
+                })
+            }).then(res => res.json())
+              .then(data => console.log('Logged share:', data))
+              .catch(err => console.error('Share log error:', err));
+        }
+    </script>
+
+
+    <script>
         let startTime = Date.now();
 
-        window.addEventListener("beforeunload", function () {
+        window.addEventListener("beforeunload", function() {
             const endTime = Date.now();
             const durationSeconds = Math.floor((endTime - startTime) / 1000);
 
@@ -286,6 +305,11 @@
                     iframe.src = originalSrc; // reset to original URL
                 });
             }
+
+            const sound = new Audio('/assets/sound/kids-saying-yay-sound-effect.mp3');
+            sound.play().catch((e) => {
+                console.log("Playback failed:", e); // misal autoplay diblokir
+            });
         });
     </script>
 @endsection

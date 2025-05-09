@@ -50,8 +50,15 @@
                 <!-- Form Section -->
                 <div id="formSection">
                     <form id="contributorForm">
-                        <h1 class="text-danger fw-bold mb-4 text-center" style="font-size: 2rem;">You're Early. And
-                            Kinda Legendary.</h1>
+                        <h1 class="fw-bold mb-4 text-center" style="font-size: 2rem;">
+                            <span style="color: #cba34e; border-bottom: 4px solid #FF4EB0; display: inline-block;">
+                              You're Early.
+                            </span><br>
+                            <span style="color: #cba34e; border-bottom: 4px solid #FF4EB0; display: inline-block;">
+                              And Kinda Legendary.
+                            </span>
+                        </h1>
+
 
                         <p class="mb-4" style="color: #cba34e; font-size: 1.1rem;">
                             Factabot is in beta—and you showed up before it was polished, perfect, or even stable.
@@ -79,8 +86,14 @@
                 <!-- Thank You Section -->
                 <div id="thankYouSection" class="d-none text-center">
 
-                    <h1 class="fw-bold mb-4 text-danger text-uppercase" style="font-size: 1.8rem;">You Beautiful<br>Beta
-                        Hero, You.</h1>
+                    <h1 class="fw-bold mb-4 text-danger text-uppercase" style="font-size: 1.8rem;">
+                        <span style="color: #cba34e; border-bottom: 4px solid #FF4EB0; display: inline-block;">
+                        You Beautiful.
+                        </span><br>
+                        <span style="color: #cba34e; border-bottom: 4px solid #FF4EB0; display: inline-block;">
+                        Beta Hero, You..
+                        </span>
+                    </h1>
 
                     <p class="mb-4" style="color: #cba34e; font-size: 1.1rem;">
                         Your name’s in. Your place in Factabot history is secured.

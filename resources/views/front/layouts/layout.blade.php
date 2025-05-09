@@ -17,6 +17,22 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
 
     <style>
+
+html, body {
+      height: 100%;
+      margin: 0;
+      scroll-behavior: smooth;
+      scroll-snap-type: y mandatory;
+      overflow-y: scroll;
+    }
+
+    section {
+      /* scroll-snap-align: start; */
+      /* height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center; */
+    }
         body {
             font-family: 'Roboto', sans-serif;
             display: flex;
@@ -31,7 +47,7 @@
         .news-title {
             font-size: 22px;
             font-weight: 700;
-            color: #272727;
+            color: #ff00b3;
             text-decoration: none;
             font-family: sans-serif;
         }
@@ -41,7 +57,7 @@
         .news-sugestion {
             font-size: 16px;
             font-weight: 700;
-            color: #696969;
+            color: #ac5151;
             text-decoration: none;
         }
 
@@ -50,7 +66,7 @@
             text-decoration: none;
             font-size: 14px;
             font-weight: 700;
-            color: #535353;
+            color: #7bff00;
         }
 
 
@@ -280,6 +296,28 @@
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const sound = new Audio('/assets/sound/ding-sound-effect.mp3');
+            const links = document.querySelectorAll('.play-sound-link');
+
+            links.forEach(link => {
+                link.addEventListener('click', function (e) {
+                    e.preventDefault(); // stop link from navigating immediately
+                    const href = this.href;
+
+                    sound.currentTime = 0;
+                    sound.play();
+
+                    // Delay navigation to allow the sound to play (~300ms)
+                    setTimeout(() => {
+                        window.location.href = href;
+                    }, 300);
+                });
+            });
+        });
+    </script>
+
 </body>
 
 </html>

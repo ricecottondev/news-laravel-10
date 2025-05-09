@@ -1,23 +1,23 @@
 <header class="bg-dark text-white sticky-top shadow">
-    <div class="container">
-        <div class="d-flex justify-content-between align-items-center py-3">
+    <div class="container p-0 p-lg-2">
+        <div class="d-flex justify-content-between align-items-center py-lg-3">
             <!-- Logo dan Judul -->
             <a href="/" class="text-decoration-none text-muted">
                 <div class="d-flex align-items-center">
                     <img src="/images/app_logo.png" alt="Logo" width="50" height="50" class="me-3">
                     <div>
                         <h1 class="h4 mb-0" style="color: white">FactaBot</h1>
-                        <div class="" style="font-size: 1.15rem;color: #cba34e"><strong>Real news. Sharp jokes.
+                        <div class="text-uppercase" style="font-size: 0.7rem;color: #cba34e"><strong>Real news. Sharp jokes.
                                 Zero puppeteers</strong></div>
                     </div>
                 </div>
             </a>
 
 
-            <div class="d-md-flex align-items-center gap-3 ms-2 me-2">
+            <div class="d-md-flex align-items-center gap-3 ms-2 me-2 d-none">
 
-                <a class="btn text-dark  d-none d-md-block" style="font-weight: bold;background-color: #cba34e"
-                    href="https://play.google.com/store/apps/details?id=com.rc.news">Download Here</a>
+                {{-- <a class="btn text-dark  d-none d-md-block" style="font-weight: bold;background-color: #cba34e"
+                    href="https://play.google.com/store/apps/details?id=com.rc.news">Download Here</a> --}}
             </div>
             <div class="d-none d-md-flex align-items-center gap-3">
                 <form action="/search" method="GET" class="d-flex">
@@ -35,7 +35,7 @@
                     <a class="btn btn-outline-light" href="{{ route('login') }}">Login</a>
                 @endauth
 
-                <a class="btn text-dark" href="/subscribes"
+                <a class="btn text-dark d-none" href="/subscribes"
                     style="font-weight: bold;background-color: #cba34e">Subscribe</a>
             </div>
 
@@ -55,9 +55,9 @@
 
                     <div class="d-md-flex align-items-center gap-3 ms-2 me-2">
 
-                        <a class="btn text-dark w-100 d-none d-md-block"
+                        {{-- <a class="btn text-dark w-100 d-none d-md-block"
                             style="font-weight: bold;background-color: #cba34e"
-                            href="https://play.google.com/store/apps/details?id=com.rc.news">Download Here</a>
+                            href="https://play.google.com/store/apps/details?id=com.rc.news">Download Here</a> --}}
                     </div>
                     <a class="nav-link text-white" href="/about">About Us</a>
                     <a class="nav-link text-white" href="/history">Our History</a>
@@ -87,7 +87,7 @@
             </button>
 
             <!-- Country -->
-            <div class="country-scroll d-flex align-items-center gap-3" id="country-menu">
+            <div class="country-scroll d-flex align-items-center py-1 column-gap-2 small" id="country-menu">
                 <!-- Country dimasukkan lewat JavaScript -->
             </div>
 
@@ -105,7 +105,7 @@
                 <i class="fas fa-chevron-left"></i>
             </button>
 
-            <div class="category-scroll d-flex align-items-center gap-3" id="category-menu"></div>
+            <div class="category-scroll d-flex align-items-center py-1 column-gap-2" id="category-menu"></div>
 
             <button class="scroll-btn right-category d-none d-md-flex">
                 <i class="fas fa-chevron-right"></i>
@@ -135,7 +135,10 @@
 
     @isset($topnews)
         <div class="breaking-news-wrapper overflow-auto">
-            <marquee id="breaking-news" style="background-color: {{ $bgColor }};" class="text-black py-2 fw-bold"
+            <!-- Garis pink di atas -->
+            <div style="height: 4px; background-color: #FF4EB0;"></div>
+
+            <marquee id="breaking-news" style="background-color: {{ $bgColor }}; height: 28px;" class="text-black py-1 fw-bold small"
                 scrollamount="4">
                 @foreach ($topnews as $tnews)
                     <a href="{{ route('front.news.show', $tnews->slug) }}"
@@ -158,6 +161,20 @@
         overflow: hidden;
     }
 
+    @media (min-width: 768px) {
+    .country-container .container {
+        padding-left: 48px;
+        padding-right: 48px;
+    }
+    }
+
+    @media (min-width: 768px) {
+    .category-container .container {
+        padding-left: 48px;
+        padding-right: 48px;
+    }
+    }
+
     .country-scroll {
         display: flex;
         overflow-x: auto;
@@ -173,7 +190,8 @@
 
     .country-scroll a {
         flex: 0 0 auto;
-        padding: 8px 12px;
+        padding: .25rem .5rem;
+        font-size: .990em;
         background-color: rgba(255, 255, 255, 0.1);
         border-radius: 5px;
         text-decoration: none;
@@ -221,7 +239,8 @@
     /* Style untuk Kategori */
     .category-scroll a {
         flex: 0 0 auto;
-        padding: 8px 12px;
+        padding: .25rem .5rem;
+        font-size: .900em;
         background-color: #494949;
         /* Background tetap */
         border-radius: 5px;
