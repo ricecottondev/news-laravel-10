@@ -13,7 +13,7 @@ trait ImageUploadTraits
             $image = $request->file($inputName);  // Get the file
             $ext = $image->getClientOriginalExtension();  // Get the file extension
 
-            $imageName = $filename . '_' . uniqid() . '.' . $ext;  // Generate the filename
+            $imageName = Str::slug($filename) . '_' . uniqid() . '.' . $ext;  // Generate the filename
 
             // Ensure the directory exists
             if (!File::exists(public_path($path))) {
