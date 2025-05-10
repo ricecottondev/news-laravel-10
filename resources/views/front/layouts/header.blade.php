@@ -134,7 +134,8 @@
     @endphp
 
     @isset($topnews)
-        <div class="breaking-news-wrapper overflow-auto">
+        @if ($topnews->isNotEmpty())
+             <div class="breaking-news-wrapper overflow-auto">
             <!-- Garis pink di atas -->
             <div style="height: 4px; background-color: #FF4EB0;"></div>
 
@@ -148,6 +149,9 @@
                 @endforeach
             </marquee>
         </div>
+
+        @endif
+
     @endisset
 
 

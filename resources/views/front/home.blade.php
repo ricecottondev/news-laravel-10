@@ -243,7 +243,7 @@
     @endphp
 
     {{-- =============================== Breaking News =============================== --}}
-    <section class="mb-5">
+    <section class="mb-5 {{ count($topnews)==0 ? "d-none" : "" }}" >
         <h2 class="border-bottom pb-2 mb-3 fw-bold text-uppercase" style="color: #FF4EB0;">Breaking News</h2>
 
         @while ($withImageIndex < $withImage->count() || $noImageIndex < $noImage->count())
