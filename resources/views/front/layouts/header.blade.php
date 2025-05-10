@@ -7,7 +7,8 @@
                     <img src="/images/app_logo.png" alt="Logo" width="50" height="50" class="me-3">
                     <div>
                         <h1 class="h4 mb-0" style="color: white">FactaBot</h1>
-                        <div class="text-uppercase" style="font-size: 0.7rem;color: #cba34e"><strong>Real news. Sharp jokes.
+                        <div class="text-uppercase" style="font-size: 0.7rem;color: #cba34e"><strong>Real news. Sharp
+                                jokes.
                                 Zero puppeteers</strong></div>
                     </div>
                 </div>
@@ -19,30 +20,32 @@
                 {{-- <a class="btn text-dark  d-none d-md-block" style="font-weight: bold;background-color: #cba34e"
                     href="https://play.google.com/store/apps/details?id=com.rc.news">Download Here</a> --}}
             </div>
-            <div class="d-none d-md-flex align-items-center gap-3">
-                <form action="/search" method="GET" class="d-flex">
-                    <input type="text" name="q" class="form-control me-2" placeholder="Search news..."
-                        required>
-                    <button type="submit" class="btn btn-light"><i class="fas fa-search"></i></button>
-                </form>
-
-                @auth
-                    <form action="{{ route('logout') }}" method="POST">
-                        @csrf
-                        <button type="submit" class="btn btn-outline-light">Logout</button>
+            <div class="d-flex">
+                <div class="d-none d-md-flex align-items-center gap-3">
+                    <form action="/search" method="GET" class="d-flex">
+                        <input type="text" name="q" class="form-control me-2" placeholder="Search news..."
+                            required>
+                        <button type="submit" class="btn btn-light"><i class="fas fa-search"></i></button>
                     </form>
-                @else
-                    <a class="btn btn-outline-light" href="{{ route('login') }}">Login</a>
-                @endauth
 
-                <a class="btn text-dark d-none" href="/subscribes"
-                    style="font-weight: bold;background-color: #cba34e">Subscribe</a>
+                    @auth
+                        <form action="{{ route('logout') }}" method="POST">
+                            @csrf
+                            <button type="submit" class="btn btn-outline-light">Logout</button>
+                        </form>
+                    @else
+                        <a class="btn btn-outline-light" href="{{ route('login') }}">Login</a>
+                    @endauth
+
+                    <a class="btn text-dark d-none" href="/subscribes"
+                        style="font-weight: bold;background-color: #cba34e">Subscribe</a>
+                </div>
+
+                <!-- Tombol Menu Mobile  / hamburger-->
+                <button class="btn text-white " type="button" data-bs-toggle="offcanvas" data-bs-target="#mobile-menu">
+                    <i class="fas fa-bars fa-lg"></i>
+                </button>
             </div>
-
-            <!-- Tombol Menu Mobile  / hamburger-->
-            <button class="btn text-white " type="button" data-bs-toggle="offcanvas" data-bs-target="#mobile-menu">
-                <i class="fas fa-bars fa-lg"></i>
-            </button>
 
             <div class="offcanvas offcanvas-end bg-dark text-white" tabindex="-1" id="mobile-menu">
                 <div class="offcanvas-header">
@@ -135,21 +138,20 @@
 
     @isset($topnews)
         @if ($topnews->isNotEmpty())
-             <div class="breaking-news-wrapper overflow-auto">
-            <!-- Garis pink di atas -->
-            <div style="height: 4px; background-color: #FF4EB0;"></div>
+            <div class="breaking-news-wrapper overflow-auto">
+                <!-- Garis pink di atas -->
+                <div style="height: 4px; background-color: #FF4EB0;"></div>
 
-            <marquee id="breaking-news" style="background-color: {{ $bgColor }}; height: 28px;" class="text-black py-1 fw-bold small"
-                scrollamount="4">
-                @foreach ($topnews as $tnews)
-                    <a href="{{ route('front.news.show', $tnews->slug) }}"
-                        class="text-black text-decoration-none me-4 d-inline-block">
-                        {{ $tnews->title }}
-                    </a>
-                @endforeach
-            </marquee>
-        </div>
-
+                <marquee id="breaking-news" style="background-color: {{ $bgColor }}; height: 28px;"
+                    class="text-black py-1 fw-bold small" scrollamount="4">
+                    @foreach ($topnews as $tnews)
+                        <a href="{{ route('front.news.show', $tnews->slug) }}"
+                            class="text-black text-decoration-none me-4 d-inline-block">
+                            {{ $tnews->title }}
+                        </a>
+                    @endforeach
+                </marquee>
+            </div>
         @endif
 
     @endisset
@@ -166,17 +168,17 @@
     }
 
     @media (min-width: 768px) {
-    .country-container .container {
-        padding-left: 48px;
-        padding-right: 48px;
-    }
+        .country-container .container {
+            padding-left: 48px;
+            padding-right: 48px;
+        }
     }
 
     @media (min-width: 768px) {
-    .category-container .container {
-        padding-left: 48px;
-        padding-right: 48px;
-    }
+        .category-container .container {
+            padding-left: 48px;
+            padding-right: 48px;
+        }
     }
 
     .country-scroll {
