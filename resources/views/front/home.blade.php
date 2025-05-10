@@ -672,7 +672,7 @@
                     @endphp
 
                     <div class="col-md-{{ $colSize }} mb-4">
-                        <div class="category-card p-3 mb-4 rounded-4 shadow-sm h-100">
+                        <div class="p-3 mb-4 rounded-4 shadow-sm h-100">
                             <a href="{{ url($defaultCountry . '/newscategory/' . $categoryName) }}"
                                 class="text-decoration-none text-dark">
                                 {{-- Kategori --}}
@@ -680,7 +680,7 @@
                                     style="font-size: 0.75rem;">
                                     {{ strtoupper($categoryName) }}
                                 </span> --}}
-                                <h2 class="border-bottom pb-2 mb-3 fw-bold text-uppercase">{{ $categoryName }}</h2>
+                                <h2 class="border-bottom pb-2 mb-3 fw-bold text-uppercase" style="color: #FF4EB0;">{{ $categoryName }}</h2>
                             </a>
 
                             {{-- Kategori --}}
@@ -700,7 +700,8 @@
                                         {{ Str::limit($firstNews->title, 90) }}
                                     </a>
 
-                                    <p class="news-snippet mb-2">
+                                    <p class="text-white mb-0 card-content" style="font-size: 1.25rem;">
+                                    {{-- <p class="text-white news-snippet mb-2"> --}}
                                         {{ Str::limit(strip_tags($firstNews->content), $contentLimit) }}
                                     </p>
 
@@ -731,11 +732,12 @@
                                         {{ Str::limit($news->title, 90) }}
                                     </a>
 
-                                    <p class="news-snippet mb-2">
+                                    <p class="text-white mb-0 card-content" style="font-size: 1.25rem;">
+                                    {{-- <p class="news-snippet mb-2"> --}}
                                         {{ Str::limit(strip_tags($news->content), $contentLimit) }}
                                     </p>
 
-                                    <small class="text-muted d-block">
+                                    <small class="text-white d-block">
                                         <i class="bi bi-calendar me-1"></i>
                                         {{ $news->created_at->format('F d, Y') }}
                                         {{-- <span class="badge bg-danger text-white rounded-pill px-2 py-1"

@@ -66,7 +66,7 @@ html, body {
             text-decoration: none;
             font-size: 14px;
             font-weight: 700;
-            color: #7bff00;
+            color: #ff00b3;
         }
 
 
