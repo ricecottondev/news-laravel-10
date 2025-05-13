@@ -39,10 +39,11 @@
                 <h3 class="h5 footer-link">Contact Us</h3>
                 <p class="footer-link">Email: factabot@gmail.com</p>
                 <br>
-                <p class="footer-link">The News Is Full of Spin. Here’s the Sarcastic Truth, straight from:</p>
-                <img src="/assets/logo/abc_logo_v1.png" alt="ABC Logo" class="img-fluid" style="max-height: 40px;">
-                <img src="/assets/logo/theguardian_logo.png" alt="The Guardian Logo" class="img-fluid" style="max-height: 40px;">
-                <img src="/assets/logo/sbsnews_logo.png" alt="SBS News Logo" class="img-fluid" style="max-height: 40px;">
+                <p class="footer-link">The News Is Full of Spin. Here’s the Sarcastic Truth, straight from </p>
+                <img src="/assets/logo/abc_logo_v1.png" alt="ABC Logo" class="img-fluid" style="max-height: 30px;">
+                <img src="/assets/logo/theguardian_logo.png" alt="The Guardian Logo" class="img-fluid" style="max-height: 30px;">
+                <img src="/assets/logo/sbsnews_logo.png" alt="SBS News Logo" class="img-fluid" style="max-height: 30px;">
+                <p class="footer-link">and anyone who still does journalism</p>
             </div>
 
         </div>
