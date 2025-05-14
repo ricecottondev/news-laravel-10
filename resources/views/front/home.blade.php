@@ -94,6 +94,55 @@
             }
         }
 
+        .responsive-title {
+        font-size: 1.5rem;
+        }
+
+        .responsive-title-2 {
+        font-size: 1.1rem;
+        }
+
+        /* Tablet */
+        @media (min-width: 576px) {
+            .responsive-title {
+                font-size: 1.5rem;
+            }
+            .responsive-title-2 {
+                font-size: 1.1rem;
+            }
+            .responsive-desc {
+                font-size: 1.1rem;
+            }
+            .responsive-time {
+                font-size: 0.95rem;
+            }
+        }
+
+        /* Laptop/Desktop */
+        @media (min-width: 992px) {
+            .responsive-title {
+                font-size: 1.9rem;
+            }
+            .responsive-title-2 {
+                font-size: 1.2rem;
+            }
+            .responsive-desc {
+                font-size: 1.2rem;
+            }
+            .responsive-time {
+                font-size: 1rem;
+            }
+        }
+
+        /* Very large screen (≥1200px) */
+        @media (min-width: 1200px) {
+            .responsive-title {
+                font-size: 2.2rem;
+            }
+            .responsive-title-2 {
+                font-size: 1.4rem;
+            }
+        }
 
         .phone-frame-wrapper {
             background: url('/images/desain_popup_landing.png') no-repeat center center;
@@ -243,12 +292,102 @@
     @endphp
 
     {{-- =============================== Breaking News =============================== --}}
-    <section class="mb-5 {{ count($topnews) == 0 ? 'd-none' : '' }}">
+
+    {{-- desktop --}}
+    <section class="mb-5 {{ count($topnews)==0 ? "d-none" : "" }}" >
         <h2 class="border-bottom pb-2 mb-3 fw-bold text-uppercase" style="color: #FF4EB0;">Breaking News</h2>
 
         @while ($withImageIndex < $withImage->count() || $noImageIndex < $noImage->count())
             @if (in_array($layoutStep, [1, 3, 5, 6, 8, 9]))
                 {{-- 1 berita bergambar (col-6 + col-6) --}}
+                @if (in_array($layoutStep, [1]))
+                <div class="row mb-4">
+                    {{-- Kiri: 1 berita besar (70%) --}}
+                    @if (isset($withImage[$withImageIndex]))
+                        <div class="col-12 col-md-8 mb-3">
+                            @php $news = $withImage[$withImageIndex++] @endphp
+                            <a href="{{ route('front.news.show', $news->slug) }}"
+                                class="text-decoration-none text-dark play-sound-link">
+                                <div class="rounded-2 overflow-hidden h-100 d-flex flex-column" style="min-height: 100%;">
+                                    <div class="position-relative" style="height: 400px;">
+                                        <img src="{{ asset('storage/' . $news->image) }}" alt="{{ $news->title }}"
+                                            class="img-fluid w-100 h-100" style="object-fit: cover;">
+                                    </div>
+                                    <div class="p-3 d-flex flex-column">
+                                        @php
+                                            $categoryName = $news->countriesCategoriesNews->first()?->category?->name ?? 'No Category';
+                                        @endphp
+                                        <span class="badge bg-danger text-white rounded-pill px-2 py-1 mb-2"
+                                        style="font-size: 0.75rem; width: fit-content;">
+                                        {{ strtoupper($categoryName) }}
+                                        </span>
+
+                                        <h5 class="news-title fw-bold mb-1 responsive-title">{{ Str::limit($news->title, 80) }}</h5>
+
+                                        <p class="text-white mb-0" style="font-size: 1rem;">
+                                            {{ Str::words(strip_tags($news->content), 25, '...') }}
+                                        </p>
+
+                                        <small class="text-white mt-3">
+                                            <i class="fas fa-calendar-alt me-1"></i>
+                                            {{ $news->created_at->format('F d, Y') }}
+                                        </small>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    @endif
+
+                    {{-- Kanan: 2 berita kecil bertumpuk (30%) --}}
+                    <div class="col-12 col-md-4">
+                        <div class="row">
+                            @for ($j = 0; $j < 2; $j++)
+                                @if (isset($withImage[$withImageIndex]))
+                                    <div class="col-md-12 mb-3">
+                                        @php $news = $withImage[$withImageIndex++] @endphp
+                                        <a href="{{ route('front.news.show', $news->slug) }}"
+                                            class="text-decoration-none text-dark play-sound-link">
+                                            <div class="rounded-2 overflow-hidden d-flex flex-column" style="min-height: 100%;">
+                                                <div class="position-relative" style="height: 180px;">
+                                                    <img src="{{ asset('storage/' . $news->image) }}" alt="{{ $news->title }}"
+                                                        class="img-fluid w-100 h-100" style="object-fit: cover;">
+                                                </div>
+                                                <div class="p-2 d-flex flex-column justify-content-between">
+
+                                                    {{-- Kategori --}}
+                                                    @php
+                                                        $categoryName = $news->countriesCategoriesNews->first()?->category?->name ?? 'No Category';
+                                                    @endphp
+                                                    <span class="badge bg-danger text-white rounded-pill px-2 py-1 mb-2"
+                                                        style="font-size: 0.75rem; width: fit-content;">
+                                                        {{ strtoupper($categoryName) }}
+                                                    </span>
+
+                                                    {{-- Judul --}}
+                                                    <h6 class="news-title fw-bold mb-1 responsive-title-2">
+                                                        {{ Str::limit($news->title, 60) }}
+                                                    </h6>
+
+                                                    {{-- Deskripsi --}}
+                                                    <p class="text-white mb-0" style="font-size: 1rem;">
+                                                        {{ Str::words(strip_tags($news->content), 15, '...') }}
+                                                    </p>
+
+                                                    {{-- Tanggal --}}
+                                                    <small class="text-white mt-2">
+                                                        <i class="fas fa-calendar-alt me-1"></i>
+                                                        {{ $news->created_at->format('F d, Y') }}
+                                                    </small>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                @endif
+                            @endfor
+                        </div>
+                    </div>
+                </div>
+                @else
                 <div class="row mb-4">
                     @for ($i = 0; $i < 3; $i++)
                         @if (isset($withImage[$withImageIndex]))
@@ -256,7 +395,7 @@
                                 @php $news = $withImage[$withImageIndex++] @endphp
                                 <a href="{{ route('front.news.show', $news->slug) }}"
                                     class="text-decoration-none text-dark play-sound-link">
-                                    <div class="rounded-5 overflow-hidden h-100 d-flex flex-column"
+                                    <div class="rounded-2 overflow-hidden h-100 d-flex flex-column"
                                         style="min-height: 200px;">
                                         <div class="position-relative" style="height: 300px;">
                                             <img src="{{ asset('storage/' . $news->image) }}" alt="{{ $news->title }}"
@@ -280,11 +419,11 @@
                                                 <h6 class="news-title fw-bold mb-1">{{ Str::limit($news->title, 70) }}</h6>
 
                                                 {{-- Deskripsi singkat --}}
-                                                <p class="text-muted mb-0" style="font-size: 1.25rem;">
+                                                <p class="text-white mb-0" style="font-size: 1rem;">
                                                     {{ Str::words(strip_tags($news->content), 25, '...') }}
                                                 </p>
                                             </div>
-                                            <small class="text-muted mt-3">
+                                            <small class="text-white mt-3">
                                                 <i class="fas fa-calendar-alt me-1"></i>
                                                 {{ $news->created_at->format('F d, Y') }}
                                             </small>
@@ -295,6 +434,7 @@
                         @endif
                     @endfor
                 </div>
+                @endif
             @elseif (in_array($layoutStep, [2, 4, 7]))
                 {{-- 3 berita tanpa gambar --}}
                 <div class="row mb-4">
@@ -321,11 +461,11 @@
                                             <h6 class="news-title fw-bold mb-1">{{ Str::limit($news->title, 70) }}</h6>
 
                                             {{-- Deskripsi singkat --}}
-                                            <p class="text-white mb-0" style="font-size: 1.25rem;">
+                                            <p class="text-white mb-0" style="font-size: 1rem;">
                                                 {{ Str::words(strip_tags($news->content), 25, '...') }}
                                             </p>
                                         </div>
-                                        <small class="text-muted">
+                                        <small class="text-white">
                                             <i class="fas fa-calendar-alt me-1"></i>
                                             {{ $news->created_at->format('F d, Y') }}
                                         </small>
@@ -350,7 +490,7 @@
                                 <div class="col-md-6 mb-3">
                                     <a href="{{ route('front.news.show', $news->slug) }}"
                                         class="text-decoration-none text-dark">
-                                        <div class="rounded-5 overflow-hidden h-100 d-flex flex-column"
+                                        <div class="rounded-2 overflow-hidden h-100 d-flex flex-column"
                                             style="min-height: 200px;">
                                             <div class="position-relative" style="height: 300px;">
                                                 <img src="{{ asset('storage/' . $news->image) }}"
@@ -371,7 +511,7 @@
 
                                                     <h6 class="news-title fw-bold mb-1">{{ Str::limit($news->title, 70) }}
                                                     </h6>
-                                                    <p class="text-white mb-0" style="font-size: 1.25rem;">
+                                                    <p class="text-white mb-0" style="font-size: 1rem;">
                                                         {{ Str::words(strip_tags($news->content), 25, '...') }}
                                                     </p>
                                                 </div>
@@ -394,7 +534,7 @@
                                 @php $news = $withImage[$withImageIndex++] @endphp
                                 <a href="{{ route('front.news.show', $news->slug) }}"
                                     class="text-decoration-none text-dark">
-                                    <div class="rounded-5 overflow-hidden h-100 d-flex flex-column"
+                                    <div class="rounded-2 overflow-hidden h-100 d-flex flex-column"
                                         style="min-height: 200px;">
                                         <div class="position-relative" style="height: 300px;">
                                             <img src="{{ asset('storage/' . $news->image) }}" alt="{{ $news->title }}"
@@ -413,7 +553,7 @@
                                                 </span>
                                                 <h6 class="news-title fw-bold mb-1">{{ Str::limit($news->title, 70) }}
                                                 </h6>
-                                                <p class="text-muted mb-0" style="font-size: 1.25rem;">
+                                                <p class="text-muted mb-0" style="font-size: 1rem;">
                                                     {{ Str::words(strip_tags($news->content), 25, '...') }}
                                                 </p>
                                             </div>
@@ -442,7 +582,7 @@
                                                 {{ strtoupper($categoryName) }}
                                             </span>
                                             <h6 class="news-title fw-bold mb-1">{{ Str::limit($news->title, 70) }}</h6>
-                                            <p class="text-white mb-0" style="font-size: 1.25rem;">
+                                            <p class="text-white mb-0" style="font-size: 1rem;">
                                                 {{ Str::words(strip_tags($news->content), 25, '...') }}
                                             </p>
                                         </div>
@@ -733,11 +873,10 @@
                                         {{ Str::limit($news->title, 90) }}
                                     </a>
 
-
-                                    <p class="text-white mb-0 card-content" style="font-size: 1.25rem;">
-                                        {{-- <p class="news-snippet mb-2"> --}}
-
                                     <p class="text-white mb-0 card-content" style="font-size: 0.8rem;">
+                                    {{-- <p class="news-snippet mb-2"> --}}
+                                        {{ Str::limit(strip_tags($news->content), $contentLimit) }}
+                                    </p>
 
                                     <small class="text-white d-block">
                                         {{ $news->created_at->format('F d, Y') }}
