@@ -7,7 +7,7 @@
                     <img src="/images/app_logo.png" alt="Logo" width="50" height="50" class="me-3">
                     <div>
                         <h1 class="h4 mb-0" style="color: white">FactaBot</h1>
-                        <div class="text-uppercase" style="font-size: 0.7rem;color: #cba34e"><strong>Real news. Sharp
+                        <div class="text-uppercase" style="font-size: 0.7rem;color: #f7ca46;"><strong>Real news. Sharp
                                 jokes.
                                 Zero puppeteers</strong></div>
                     </div>
@@ -123,15 +123,15 @@
             // 'Australia' => '#19b5ee',
             'Australia' => '#cba34e',
             // 'Asia' =>'#ef0810'
-            'Asia' => '#ffc107',
+            'Asia' => '#f7ca46',
             // 'Europe' => '#fea500',
-            'Europe' => '#ffc107',
+            'Europe' => '#f7ca46',
             // 'Africa' => '#ab2bb4',
-            'Africa' => '#ffc107',
+            'Africa' => '#f7ca46',
             // 'America' => '#0eaec4',
-            'America' => '#ffc107',
+            'America' => '#f7ca46',
             // default => '#19b5ee', // default warna jika negara tidak terdefinisi
-            default => '#ffc107',
+            default => '#f7ca46',
         };
 
     @endphp
@@ -142,7 +142,7 @@
                 <!-- Garis pink di atas -->
                 <div style="height: 4px; background-color: #FF4EB0;"></div>
 
-                <marquee id="breaking-news" style="background-color: {{ $bgColor }}; height: 28px;"
+                <marquee id="breaking-news" style="background-color: #f7ca46; height: 28px;"
                     class="text-black py-1 fw-bold small" scrollamount="4">
                     @foreach ($topnews as $tnews)
                         <a href="{{ route('front.news.show', $tnews->slug) }}"
@@ -206,7 +206,7 @@
     }
 
     .country-scroll a.active {
-        background-color: #ffc107;
+        background-color: #f7ca46;
         font-weight: bold;
         color: black;
     }
@@ -258,7 +258,7 @@
 
     /* Kategori yang dipilih */
     .category-scroll a.active {
-        background-color: #ffc107;
+        background-color: #f7ca46;
         font-weight: bold;
         color: black;
     }

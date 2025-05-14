@@ -697,12 +697,12 @@
                                     @endif
 
                                     <a href="{{ route('front.news.show', $firstNews->slug) }}"
-                                        class="news-title-after-first d-block mb-2 fw-bold fs-6">
+                                        class="news-title-after-first d-block mb-2 fw-bold fs-6"  style="font-size: 1rem;">
                                         {{ Str::limit($firstNews->title, 90) }}
                                     </a>
 
-                                    <p class="text-white mb-0 card-content" style="font-size: 1.25rem;">
-                                        {{-- <p class="text-white news-snippet mb-2"> --}}
+                                    <p class="text-white mb-0 card-content" style="font-size: 0.8rem;">
+                                    {{-- <p class="text-white news-snippet mb-2"> --}}
                                         {{ Str::limit(strip_tags($firstNews->content), $contentLimit) }}
                                     </p>
 
@@ -729,17 +729,17 @@
                                     @endif
 
                                     <a href="{{ route('front.news.show', $news->slug) }}"
-                                        class="news-title-after-first d-block mb-2 fw-bold fs-6">
+                                        class="news-title-after-first d-block mb-2 fw-bold fs-6" style="font-size: 1rem;">
                                         {{ Str::limit($news->title, 90) }}
                                     </a>
 
+
                                     <p class="text-white mb-0 card-content" style="font-size: 1.25rem;">
                                         {{-- <p class="news-snippet mb-2"> --}}
-                                        {{ Str::limit(strip_tags($news->content), $contentLimit) }}
-                                    </p>
+
+                                    <p class="text-white mb-0 card-content" style="font-size: 0.8rem;">
 
                                     <small class="text-white d-block">
-                                        <i class="bi bi-calendar me-1"></i>
                                         {{ $news->created_at->format('F d, Y') }}
                                         {{-- <span class="badge bg-danger text-white rounded-pill px-2 py-1"
                                             style="font-size: 0.75rem;">

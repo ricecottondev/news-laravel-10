@@ -1,5 +1,5 @@
 <!-- Footer -->
-<footer class="text-white py-4" style="background-color: #cba34e;">
+<footer class="text-white py-4" style="background-color: #f7ca46;">
     <div class="container">
         <div class="row">
             <!-- About Us Section (hidden) -->
@@ -38,11 +38,12 @@
             <div class="col-md-4">
                 <h3 class="h5 footer-link">Contact Us</h3>
                 <p class="footer-link">Email: factabot@gmail.com</p>
-                <img src="/assets/logo/abc_logo_v1.png" alt="ABC Logo" class="img-fluid" style="max-height: 40px;">
-                <img src="/assets/logo/theguardian_logo.png" alt="The Guardian Logo" class="img-fluid"
-                    style="max-height: 40px;">
-                <img src="/assets/logo/sbsnews_logo.png" alt="SBS News Logo" class="img-fluid"
-                    style="max-height: 40px;">
+                <br>
+                <p class="footer-link">The News Is Full of Spin. Here’s the Sarcastic Truth, straight from </p>
+                <img src="/assets/logo/abc_logo_v1.png" alt="ABC Logo" class="img-fluid" style="max-height: 30px;">
+                <img src="/assets/logo/theguardian_logo.png" alt="The Guardian Logo" class="img-fluid" style="max-height: 30px;">
+                <img src="/assets/logo/sbsnews_logo.png" alt="SBS News Logo" class="img-fluid" style="max-height: 30px;">
+                <p class="footer-link">and anyone who still does journalism</p>
             </div>
 
         </div>
@@ -110,12 +111,12 @@
             font-size: 18px;
             font-weight: bold;
             text-decoration: none;
-            color: #4d4d4d;
+            color: #121212;
         }
 
         .footer-link:hover {
             text-decoration: underline;
-            color: #333333;
+            color: #121212;
         }
     </style>
 </footer>
