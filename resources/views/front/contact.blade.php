@@ -81,7 +81,7 @@
 
         </div>
     </section>
-    <script>
+    {{-- <script>
         let startTime = Date.now();
         window.addEventListener("beforeunload", function () {
             const duration = Math.round((Date.now() - startTime) / 1000);
@@ -93,5 +93,5 @@
             const blob = new Blob([JSON.stringify(data)], { type: 'application/json' });
             navigator.sendBeacon('/track-page-duration', blob);
         });
-    </script>
+    </script> --}}
 @endsection

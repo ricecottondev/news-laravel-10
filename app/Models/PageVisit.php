@@ -9,6 +9,6 @@ class PageVisit extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['url', 'ip', 'browser', 'platform', 'user_agent', 'duration', 'visited_at'];
+    protected $fillable = ['url','referrer', 'source', 'ip', 'browser', 'platform', 'user_agent', 'duration', 'visited_at'];
     public $timestamps = false;
 }

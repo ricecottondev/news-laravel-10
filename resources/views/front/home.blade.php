@@ -820,7 +820,8 @@
                                     style="font-size: 0.75rem;">
                                     {{ strtoupper($categoryName) }}
                                 </span> --}}
-                                <h2 class="border-bottom pb-2 mb-3 fw-bold text-uppercase" style="color: #FF4EB0;">{{ $categoryName }}</h2>
+                                <h2 class="border-bottom pb-2 mb-3 fw-bold text-uppercase" style="color: #FF4EB0;">
+                                    {{ $categoryName }}</h2>
                             </a>
 
                             {{-- Kategori --}}
@@ -878,7 +879,6 @@
                                     </p>
 
                                     <small class="text-white d-block">
-                                        <i class="bi bi-calendar me-1"></i>
                                         {{ $news->created_at->format('F d, Y') }}
                                         {{-- <span class="badge bg-danger text-white rounded-pill px-2 py-1"
                                             style="font-size: 0.75rem;">
@@ -903,7 +903,8 @@
 
     @include('front.layouts.modalpopup_new')
 
-    <script>
+
+    {{-- <script>
         let startTime = Date.now();
         window.addEventListener("beforeunload", function() {
             const duration = Math.round((Date.now() - startTime) / 1000);
@@ -917,7 +918,7 @@
             });
             navigator.sendBeacon('/track-page-duration', blob);
         });
-    </script>
+    </script> --}}
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
