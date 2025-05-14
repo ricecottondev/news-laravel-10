@@ -9,6 +9,8 @@ use App\Models\News;
 use Illuminate\Support\Facades\Auth;
 use Jenssegers\Agent\Agent;
 use App\Models\PageVisit;
+use Illuminate\Support\Str;
+
 
 class TrackingController extends Controller
 {
@@ -39,24 +41,56 @@ class TrackingController extends Controller
         $agent = new Agent();
 
         try {
-            $data = json_decode(file_get_contents('php://input'), true); // karena sendBeacon tidak pakai header JSON
+            $data = json_decode(file_get_contents('php://input'), true); // untuk sendBeacon
 
-            $agent = new Agent();
+            $referrer = $request->headers->get('referer');
+            $userAgent = $request->header('User-Agent');
+
+            // Prioritas: dari body JSON, dari query string, lalu dari referrer
+            $source = $data['source'] ?? $request->query('source') ?? $this->detectSource($referrer);
 
             PageVisit::create([
                 'url' => $data['url'] ?? '',
                 'ip' => $request->ip(),
-                'user_agent' => $request->header('User-Agent'),
+                'user_agent' => $userAgent,
                 'browser' => $agent->browser(),
                 'platform' => $agent->platform(),
                 'duration' => $data['duration'] ?? 0,
                 'visited_at' => now(),
+                'referrer' => $referrer,
+                'source' => $source,
             ]);
 
-            return response()->json(['message' => 'Tracked']);
+            return response()->json([
+                'message' => 'Tracked',
+                'source' => $source,
+                'referrer' => $referrer,
+            ]);
         } catch (\Exception $e) {
             \Log::error('Tracking Error: ' . $e->getMessage());
             return response()->json(['error' => 'Server error'], 500);
         }
+    }
+
+
+
+    private function detectSource(?string $referrer): ?string
+    {
+        if (!$referrer) return 'direct';
+
+        $referrer = strtolower($referrer);
+
+        return match (true) {
+            str_contains($referrer, 'facebook.com') => 'facebook',
+            str_contains($referrer, 'twitter.com') => 'twitter',
+            str_contains($referrer, 'instagram.com') => 'instagram',
+            str_contains($referrer, 't.co') => 'twitter-short',
+            str_contains($referrer, 'wa.me'), str_contains($referrer, 'whatsapp.com') => 'whatsapp',
+            str_contains($referrer, 'telegram.org'), str_contains($referrer, 't.me') => 'telegram',
+            str_contains($referrer, 'linkedin.com') => 'linkedin',
+            str_contains($referrer, 'youtube.com') => 'youtube',
+            str_contains($referrer, 'google.com') => 'google',
+            default => 'other',
+        };
     }
 }

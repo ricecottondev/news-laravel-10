@@ -243,7 +243,7 @@
     @endphp
 
     {{-- =============================== Breaking News =============================== --}}
-    <section class="mb-5 {{ count($topnews)==0 ? "d-none" : "" }}" >
+    <section class="mb-5 {{ count($topnews) == 0 ? 'd-none' : '' }}">
         <h2 class="border-bottom pb-2 mb-3 fw-bold text-uppercase" style="color: #FF4EB0;">Breaking News</h2>
 
         @while ($withImageIndex < $withImage->count() || $noImageIndex < $noImage->count())
@@ -680,7 +680,8 @@
                                     style="font-size: 0.75rem;">
                                     {{ strtoupper($categoryName) }}
                                 </span> --}}
-                                <h2 class="border-bottom pb-2 mb-3 fw-bold text-uppercase" style="color: #FF4EB0;">{{ $categoryName }}</h2>
+                                <h2 class="border-bottom pb-2 mb-3 fw-bold text-uppercase" style="color: #FF4EB0;">
+                                    {{ $categoryName }}</h2>
                             </a>
 
                             {{-- Kategori --}}
@@ -701,7 +702,7 @@
                                     </a>
 
                                     <p class="text-white mb-0 card-content" style="font-size: 1.25rem;">
-                                    {{-- <p class="text-white news-snippet mb-2"> --}}
+                                        {{-- <p class="text-white news-snippet mb-2"> --}}
                                         {{ Str::limit(strip_tags($firstNews->content), $contentLimit) }}
                                     </p>
 
@@ -733,7 +734,7 @@
                                     </a>
 
                                     <p class="text-white mb-0 card-content" style="font-size: 1.25rem;">
-                                    {{-- <p class="news-snippet mb-2"> --}}
+                                        {{-- <p class="news-snippet mb-2"> --}}
                                         {{ Str::limit(strip_tags($news->content), $contentLimit) }}
                                     </p>
 
@@ -763,7 +764,8 @@
 
     @include('front.layouts.modalpopup_new')
 
-    <script>
+
+    {{-- <script>
         let startTime = Date.now();
         window.addEventListener("beforeunload", function() {
             const duration = Math.round((Date.now() - startTime) / 1000);
@@ -777,7 +779,7 @@
             });
             navigator.sendBeacon('/track-page-duration', blob);
         });
-    </script>
+    </script> --}}
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {

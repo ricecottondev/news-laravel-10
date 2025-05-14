@@ -39,8 +39,10 @@
                 <h3 class="h5 footer-link">Contact Us</h3>
                 <p class="footer-link">Email: factabot@gmail.com</p>
                 <img src="/assets/logo/abc_logo_v1.png" alt="ABC Logo" class="img-fluid" style="max-height: 40px;">
-                <img src="/assets/logo/theguardian_logo.png" alt="The Guardian Logo" class="img-fluid" style="max-height: 40px;">
-                <img src="/assets/logo/sbsnews_logo.png" alt="SBS News Logo" class="img-fluid" style="max-height: 40px;">
+                <img src="/assets/logo/theguardian_logo.png" alt="The Guardian Logo" class="img-fluid"
+                    style="max-height: 40px;">
+                <img src="/assets/logo/sbsnews_logo.png" alt="SBS News Logo" class="img-fluid"
+                    style="max-height: 40px;">
             </div>
 
         </div>
@@ -55,6 +57,30 @@
             <span id="current-time"></span>
         </div>
     </div>
+
+    <script>
+
+        function getQueryParam(key) {
+            const params = new URLSearchParams(window.location.search);
+            return params.get(key);
+        }
+
+        // window.addEventListener("unload", function() {
+            navigator.sendBeacon("/track-page-duration", JSON.stringify({
+                url: window.location.href,
+                duration: Math.round(performance.now() / 1000),
+                source: getQueryParam('source') // kirimkan source jika ada
+            }));
+        //});
+
+        window.addEventListener("unload", function() {
+            navigator.sendBeacon("/track-page-duration", JSON.stringify({
+                url: window.location.href,
+                duration: Math.round(performance.now() / 1000),
+                source: getQueryParam('source') // kirimkan source jika ada
+            }));
+        });
+    </script>
 
     <script>
         const timezone = "{{ config('app.timezone') }}";
