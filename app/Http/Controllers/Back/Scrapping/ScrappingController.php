@@ -190,51 +190,95 @@ class ScrappingController extends Controller
         try {
             $crawler = $client->request('GET', $url);
 
-            // Daftar tag yang ingin dikecualikan
+            // Tag yang ingin dikecualikan dari hasil
             $excludedTags = [
+                // Metadata dan layout
                 'script',
                 'style',
                 'meta',
                 'link',
                 'head',
                 'noscript',
-                'a',
+                'base',
+
+                // Navigasi & struktur
+                'header',
+                'footer',
+                'nav',
+                'aside',
+                'section',
+
+                // Media & embed
+                'iframe',
+                'svg',
+                'canvas',
                 'img',
+                'video',
+                'audio',
+                'source',
+                'embed',
+                'object',
+                'picture',
+                'symbol',
+                'polygon',
+                'time',
+
+                // Form & UI
+                'form',
+                'input',
+                'button',
+                'select',
+                'textarea',
+                'label',
+                'details',
+                'summary',
+
+                // Navigasi dan tautan
+                'a',
+
+                // Struktur halaman
                 'html',
                 'body',
-                'header',
-                'footer'
+
+                // Tambahan tag pembungkus/umum
+                // 'div',
+                // 'span',
+                'main',
+                'defs'
             ];
 
             $orderedText = [];
 
-            // Ambil semua elemen dan urutkan berdasarkan DOM
+            // Ambil semua elemen dan filter
+            // $crawler->filterXPath('//*')->each(function ($node) use (&$orderedText, $excludedTags) {
+            //     $tag = $node->nodeName();
+
+            //     if (in_array($tag, $excludedTags)) return;
+
+            //     $text = trim($node->text());
+            //     $html = trim($node->html());
+
+            //     // Tambahkan HTML lengkap jika valid
+            //     if ($text !== '' && strip_tags($html) !== '') {
+            //         $orderedText[] = $node->outerHtml(); // tampilkan dengan tag HTML
+            //     }
+            // });
             $crawler->filterXPath('//*')->each(function ($node) use (&$orderedText, $excludedTags) {
                 $tag = $node->nodeName();
 
-                // Lewati tag yang dikecualikan
                 if (in_array($tag, $excludedTags)) return;
 
-                // Ambil teks
                 $text = trim($node->text());
-                if ($text !== '') {
-                    $orderedText[] = $text;
+                if ($text === '') return;
+
+                if (in_array($tag, ['div', 'span', 'li', 'article'])) {
+                    // Kosongkan semua tag di dalam, hanya ambil teks, tapi tetap gunakan tag aslinya
+                    $cleanText = htmlspecialchars($text, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+                    $orderedText[] = "<{$tag}>{$cleanText}</{$tag}>";
+                } else {
+                    // Ambil outer HTML utuh untuk tag lainnya
+                    $orderedText[] = $node->outerHtml();
                 }
-
-                // Jika ada <a> atau <img>, simpan juga src/href
-                // if ($tag === 'a') {
-                //     $href = $node->attr('href');
-                //     if ($href) {
-                //         $orderedText[] = '[Link: ' . $href . ']';
-                //     }
-                // }
-
-                // if ($tag === 'img') {
-                //     $src = $node->attr('src');
-                //     if ($src) {
-                //         $orderedText[] = '[Image: ' . $src . ']';
-                //     }
-                // }
             });
 
             // Bersihkan data yang mengandung JSON
