@@ -110,6 +110,78 @@ class ScrappingController extends Controller
     //     }
     // }
 
+    // public function scrapperFulltext($url)
+    // {
+    //     $client = new Client();
+    //     $client->setServerParameter('HTTP_USER_AGENT', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)');
+
+    //     try {
+    //         $crawler = $client->request('GET', $url);
+
+    //         // Ambil semua teks dalam satu string
+    //         $fullText = null;
+    //         // $fullText = $crawler->text();
+
+    //         // Daftar tag yang ingin dikecualikan
+    //         $excludedTags = [
+    //             'html',
+    //             'body',
+    //             'header',
+    //             'footer',
+    //             'script',
+    //             'style',
+    //             'meta',
+    //             'link',
+    //             'head',
+    //             'noscript'
+    //         ];
+
+    //         // Kelompokkan teks berdasarkan tag
+    //         $groupedByTag = [];
+
+    //         $crawler->filterXPath('//*')->each(function ($node) use (&$groupedByTag, $excludedTags) {
+    //             $tag = $node->nodeName();
+    //             $text = trim($node->text());
+
+    //             // Skip tag tertentu
+    //             if (in_array($tag, $excludedTags)) return;
+
+    //             if ($text !== '') {
+    //                 $groupedByTag[$tag][] = $text;
+    //             }
+
+    //             // Tangani khusus untuk <a> dan <img>
+    //             if ($tag === 'a') {
+    //                 $href = $node->attr('href');
+    //                 if ($href) {
+    //                     $groupedByTag['a_href'][] = $href;
+    //                 }
+    //             }
+
+    //             if ($tag === 'img') {
+    //                 $src = $node->attr('src');
+    //                 if ($src) {
+    //                     $groupedByTag['img_src'][] = $src;
+    //                 }
+    //             }
+    //         });
+
+    //         // Hilangkan duplikat
+    //         foreach ($groupedByTag as $tag => $texts) {
+    //             $groupedByTag[$tag] = array_values(array_unique($texts));
+    //         }
+
+    //         return [
+    //             'full_text' => $fullText,
+    //             'grouped_by_tag' => $groupedByTag,
+    //         ];
+    //     } catch (\Exception $e) {
+    //         return [
+    //             'error' => 'Gagal mengambil data: ' . $e->getMessage(),
+    //         ];
+    //     }
+    // }
+
     public function scrapperFulltext($url)
     {
         $client = new Client();
@@ -118,67 +190,84 @@ class ScrappingController extends Controller
         try {
             $crawler = $client->request('GET', $url);
 
-            // Ambil semua teks dalam satu string
-            $fullText = null;
-            // $fullText = $crawler->text();
-
             // Daftar tag yang ingin dikecualikan
             $excludedTags = [
-                'html',
-                'body',
-                'header',
-                'footer',
                 'script',
                 'style',
                 'meta',
                 'link',
                 'head',
-                'noscript'
+                'noscript',
+                'a',
+                'img',
+                'html',
+                'body',
+                'header',
+                'footer'
             ];
 
-            // Kelompokkan teks berdasarkan tag
-            $groupedByTag = [];
+            $orderedText = [];
 
-            $crawler->filterXPath('//*')->each(function ($node) use (&$groupedByTag, $excludedTags) {
+            // Ambil semua elemen dan urutkan berdasarkan DOM
+            $crawler->filterXPath('//*')->each(function ($node) use (&$orderedText, $excludedTags) {
                 $tag = $node->nodeName();
-                $text = trim($node->text());
 
-                // Skip tag tertentu
+                // Lewati tag yang dikecualikan
                 if (in_array($tag, $excludedTags)) return;
 
+                // Ambil teks
+                $text = trim($node->text());
                 if ($text !== '') {
-                    $groupedByTag[$tag][] = $text;
+                    $orderedText[] = $text;
                 }
 
-                // Tangani khusus untuk <a> dan <img>
-                if ($tag === 'a') {
-                    $href = $node->attr('href');
-                    if ($href) {
-                        $groupedByTag['a_href'][] = $href;
-                    }
-                }
+                // Jika ada <a> atau <img>, simpan juga src/href
+                // if ($tag === 'a') {
+                //     $href = $node->attr('href');
+                //     if ($href) {
+                //         $orderedText[] = '[Link: ' . $href . ']';
+                //     }
+                // }
 
-                if ($tag === 'img') {
-                    $src = $node->attr('src');
-                    if ($src) {
-                        $groupedByTag['img_src'][] = $src;
-                    }
-                }
+                // if ($tag === 'img') {
+                //     $src = $node->attr('src');
+                //     if ($src) {
+                //         $orderedText[] = '[Image: ' . $src . ']';
+                //     }
+                // }
             });
 
-            // Hilangkan duplikat
-            foreach ($groupedByTag as $tag => $texts) {
-                $groupedByTag[$tag] = array_values(array_unique($texts));
-            }
+            // Bersihkan data yang mengandung JSON
+            $orderedText = array_map(function ($text) {
+                return self::removeJsonFragments($text);
+            }, $orderedText);
+
+            // Hapus duplikat dan reset index
+            $orderedText = array_values(array_unique($orderedText));
 
             return [
-                'full_text' => $fullText,
-                'grouped_by_tag' => $groupedByTag,
+                'ordered_text' => $orderedText,
             ];
         } catch (\Exception $e) {
             return [
                 'error' => 'Gagal mengambil data: ' . $e->getMessage(),
             ];
         }
+    }
+
+    // Helper untuk menghapus fragmen JSON dan array JSON
+    private static function removeJsonFragments($string)
+    {
+        // Hapus array JSON
+        $string = preg_replace('/\[\s*\{.*?\}\s*\]/s', '', $string);
+
+        // Hapus objek JSON
+        $string = preg_replace('/\{\s*".*?"\s*:\s*.*?\}/s', '', $string);
+
+        // Hapus isi {} atau []
+        $string = preg_replace('/\{.*?\}/s', '', $string);
+        $string = preg_replace('/\[.*?\]/s', '', $string);
+
+        return trim($string);
     }
 }
