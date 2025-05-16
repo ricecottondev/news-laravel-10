@@ -92,16 +92,16 @@
                                     </div>
                                 @endif --}}
 
-                                @if (isset($data['error']))
+                                {{-- @if (isset($data['error']))
                                     <div class="alert alert-danger mt-4">
                                         {{ $data['error'] }}
                                     </div>
                                 @elseif(!empty($data))
-                                    <div class="mt-4">
-                                        {{-- <h4>Full Text (Gabungan semua teks halaman):</h4> --}}
-                                        {{-- <pre style="white-space: pre-wrap;">{{ $data['full_text'] }}</pre> --}}
+                                    <div class="mt-4"> --}}
+                                {{-- <h4>Full Text (Gabungan semua teks halaman):</h4> --}}
+                                {{-- <pre style="white-space: pre-wrap;">{{ $data['full_text'] }}</pre> --}}
 
-                                        <h4 class="mt-5">Teks Dikelompokkan Berdasarkan Tag HTML:</h4>
+                                {{-- <h4 class="mt-5">Teks Dikelompokkan Berdasarkan Tag HTML:</h4>
 
                                         @foreach ($data['grouped_by_tag'] as $tag => $texts)
                                             <div class="mt-3">
@@ -114,7 +114,29 @@
                                             </div>
                                         @endforeach
                                     </div>
-                                @endif
+                                @endif --}}
+
+                                <div class="container">
+                                    <h2 class="mb-4">Hasil Scraping</h2>
+
+                                    @if (isset($error))
+                                        <div class="alert alert-danger">
+                                            {{ $error }}
+                                        </div>
+                                    @elseif(isset($data) && count($data))
+                                        <div class="card">
+                                            <div class="card-body">
+                                                @foreach ($data['ordered_text']  as $line)
+                                                    <p>{{ $line }}</p>
+                                                @endforeach
+                                            </div>
+                                        </div>
+                                    @else
+                                        <div class="alert alert-warning">
+                                            Tidak ada teks yang ditemukan.
+                                        </div>
+                                    @endif
+                                </div>
 
                             </div>
                         </div>
