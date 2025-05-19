@@ -616,7 +616,7 @@
 
 
     {{-- =============================== More News =============================== --}}
-    <section class="mb-5">
+    <section class="d-none mb-5">
         <h2 class="border-bottom pb-2 mb-3 fw-bold text-uppercase" style="color: #FF4EB0;">More News</h2>
 
         {{-- @foreach ($not_today_news as $ntnews)
