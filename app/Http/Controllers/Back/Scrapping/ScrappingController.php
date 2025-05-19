@@ -23,7 +23,7 @@ class ScrappingController extends Controller
             // $data = $this->scrapper($request->url);
         }
 
-         //dd($data);
+        //dd($data);
 
         return view('back.Scrapper.scrapper-index', compact('data'));
     }
@@ -354,14 +354,15 @@ class ScrappingController extends Controller
         $crawler = new Crawler($html);
         $articles = [];
         $now = date('Y-m-d');
+        $oldurl = '';
 
-
-        $crawler->filter('[class*="CardHeading"]')->each(function ($node, $i) use (&$articles, $now) {
+        $crawler->filter('[class*="CardHeading"]')->each(function ($node, $i) use (&$articles, $now, &$oldurl) {
             // Sekarang $i berisi index: 0, 1, 2, ...
+            // dump("oldurl :".$oldurl);
             if ($i > 0) {
                 // Jika $i lebih dari 0, ambil elemen berikutnya
                 $node = $node->nextAll()->first();
-                //dump("Index ke-$i: " . $node->text());
+                // dump("Index ke-$i: " . $node->text());
                 //dump($node->ancestors()->filter('a')->first());
 
                 $linkNode = $node->ancestors()->filter('a')->first();
@@ -390,26 +391,52 @@ class ScrappingController extends Controller
                     // Stop iterasi jika sudah ketemu sebelumnya
                     if ($linkNode) return false;
 
+
                     if ($n->nodeName() === 'a') {
                         $href = $n->attr('href');
 
                         // Debug
-                        //dump('ada ' . $a);
-                        //dump($href);
+                        // dump('ada ' . $a);
+                        // dump($href);
 
                         if (
                             $href &&
                             preg_match('#^https://www\.abc\.net\.au/news/\d{4}-\d{2}-\d{2}/[a-z0-9\-]+/\d+$#i', $href)
                         ) {
                             $linkNode = $n;
+
                             return false; // ✅ hentikan iterasi setelah match
                         }
                     }
                 });
 
+
+
+                $node->nextAll()->each(function ($n) use (&$contextNode) {
+                    $text = $n->text();
+                    if (Str::contains($text, 'Source:') && Str::contains($text, '/Topic:')) {
+                        $contextNode = $n;
+                        return false; // stop looping
+                    }
+                });
+
                 $url = $linkNode ? $linkNode->attr('href') : null;
 
-                // dd($url);
+
+                // dump("oldurl :".$oldurl);
+                // dump("url :".$url);
+                if($url == $oldurl){
+                    // dump("sama");
+                    $url = null;
+                }
+                else
+                {
+                    // dump("beda");
+                    $oldurl = $url;
+                }
+
+
+
 
                 $source = '';
                 $topic = '';
@@ -422,7 +449,7 @@ class ScrappingController extends Controller
                     }
                 }
 
-                // if ($title && $summary && $source && $topic) {
+                if ($title && $summary && $source && $topic && $url) {
                     $articles[] = [
                         'title' => $title,
                         'summary' => $summary,
@@ -431,11 +458,11 @@ class ScrappingController extends Controller
                         'date' => $date,
                         'url' => $url
                     ];
-                // }
+                }
             }
         });
 
-        // dump($articles);
+        // dd($articles);
         return $articles;
 
         //dd("===================================end=============================================================================");
@@ -444,107 +471,107 @@ class ScrappingController extends Controller
 
 
         // Cari semua elemen dengan class mengandung "CardHeading"
-        // $crawler->filter('[class*="CardHeading"]')->each(function ($node) use (&$articles, $now) {
-        //     dump($node->text());
-        //     dump($node->ancestors()->filter('a')->first());
-        //     $linkNode = $node->ancestors()->filter('a')->first();
-        //     $title = trim($node->text());
-        //     // Cari <div> setelah judul sebagai ringkasan
-        //     $summaryNode = $node->nextAll()->first();
-        //     $summary = $summaryNode ? trim($summaryNode->text()) : '';
+        $crawler->filter('[class*="CardHeading"]')->each(function ($node) use (&$articles, $now) {
+            dump($node->text());
+            dump($node->ancestors()->filter('a')->first());
+            $linkNode = $node->ancestors()->filter('a')->first();
+            $title = trim($node->text());
+            // Cari <div> setelah judul sebagai ringkasan
+            $summaryNode = $node->nextAll()->first();
+            $summary = $summaryNode ? trim($summaryNode->text()) : '';
 
-        //     // Deteksi tanggal di summary
-        //     $date = $now;
-        //     if (preg_match('/\d{1,2}\s+[A-Za-z]+\s+\d{4}|\b[A-Za-z]+\s+\d{1,2},\s+\d{4}|\d{1,2}\/\d{1,2}\/\d{2,4}/', $summary, $match)) {
-        //         $date = $match[0];
-        //     }
+            // Deteksi tanggal di summary
+            $date = $now;
+            if (preg_match('/\d{1,2}\s+[A-Za-z]+\s+\d{4}|\b[A-Za-z]+\s+\d{1,2},\s+\d{4}|\d{1,2}\/\d{1,2}\/\d{2,4}/', $summary, $match)) {
+                $date = $match[0];
+            }
 
-        //     // Cari node yang mengandung "Source: ... /Topic: ..."
+            // Cari node yang mengandung "Source: ... /Topic: ..."
 
 
-        //     $contextNode = null;
+            $contextNode = null;
 
-        //     // Coba cari <a> terdekat yang membungkus atau mengelilingi judul
-        //     $url = null;
+            // Coba cari <a> terdekat yang membungkus atau mengelilingi judul
+            $url = null;
 
-        //     // Ambil <a> terdekat yang membungkus judul
-        //     $linkNode = null;
+            // Ambil <a> terdekat yang membungkus judul
+            $linkNode = null;
 
-        //     $node->nextAll()->each(function ($n) use (&$contextNode) {
-        //         $text = $n->text();
-        //         if (Str::contains($text, 'Source:') && Str::contains($text, '/Topic:')) {
-        //             $contextNode = $n;
-        //             return false; // stop looping
-        //         }
+            $node->nextAll()->each(function ($n) use (&$contextNode) {
+                $text = $n->text();
+                if (Str::contains($text, 'Source:') && Str::contains($text, '/Topic:')) {
+                    $contextNode = $n;
+                    return false; // stop looping
+                }
 
-        //         if ($n->nodeName() === 'a') {
-        //             dump('ada');
-        //             $href = $n->attr('href');
-        //             dump($href);
-        //             if ($href && preg_match('#^https://www\.abc\.net\.au/news/\d{4}-\d{2}-\d{2}/[a-z0-9\-]+/\d+$#i', $href)) {
-        //                 $linkNode = $n;
-        //                 return false; // stop if valid URL found
-        //             }
-        //         }
-        //     });
+                if ($n->nodeName() === 'a') {
+                    dump('ada');
+                    $href = $n->attr('href');
+                    dump($href);
+                    if ($href && preg_match('#^https://www\.abc\.net\.au/news/\d{4}-\d{2}-\d{2}/[a-z0-9\-]+/\d+$#i', $href)) {
+                        $linkNode = $n;
+                        return false; // stop if valid URL found
+                    }
+                }
+            });
 
-        //     // Coba cari <a> terdekat yang membungkus atau mengelilingi judul
-        //     // $url = null;
+            // Coba cari <a> terdekat yang membungkus atau mengelilingi judul
+            // $url = null;
 
-        //     // Ambil <a> terdekat yang membungkus judul
-        //     // $linkNode = null;
+            // Ambil <a> terdekat yang membungkus judul
+            // $linkNode = null;
 
-        //     // $node->nextAll()->each(function ($n) use (&$linkNode) {
-        //     //     dump($linkNode);
-        //     //     if ($n->nodeName() === 'a') {
-        //     //         dump('ada');
-        //     //         $href = $n->attr('href');
-        //     //         dump($href);
-        //     //         if ($href && preg_match('#^https://www\.abc\.net\.au/news/\d{4}-\d{2}-\d{2}/[a-z0-9\-]+/\d+$#i', $href)) {
-        //     //             $linkNode = $n;
-        //     //             return false; // stop if valid URL found
-        //     //         }
-        //     //     }
-        //     // });
-        //     // if ($linkNode) {
-        //     //     $href = $linkNode->attr('href');
+            // $node->nextAll()->each(function ($n) use (&$linkNode) {
+            //     dump($linkNode);
+            //     if ($n->nodeName() === 'a') {
+            //         dump('ada');
+            //         $href = $n->attr('href');
+            //         dump($href);
+            //         if ($href && preg_match('#^https://www\.abc\.net\.au/news/\d{4}-\d{2}-\d{2}/[a-z0-9\-]+/\d+$#i', $href)) {
+            //             $linkNode = $n;
+            //             return false; // stop if valid URL found
+            //         }
+            //     }
+            // });
+            // if ($linkNode) {
+            //     $href = $linkNode->attr('href');
 
-        //     //     // Validasi: hanya ambil URL dengan pola /news/YYYY-MM-DD/.../angka
-        //     //     if (
-        //     //         $href &&
-        //     //         preg_match('#^https://www\.abc\.net\.au/news/\d{4}-\d{2}-\d{2}/[a-z0-9\-]+/\d+$#i', $href)
-        //     //     ) {
-        //     //         $url = $href;
-        //     //     }
-        //     // }
+            //     // Validasi: hanya ambil URL dengan pola /news/YYYY-MM-DD/.../angka
+            //     if (
+            //         $href &&
+            //         preg_match('#^https://www\.abc\.net\.au/news/\d{4}-\d{2}-\d{2}/[a-z0-9\-]+/\d+$#i', $href)
+            //     ) {
+            //         $url = $href;
+            //     }
+            // }
 
-        //     $url = $linkNode ? $linkNode->attr('href') : null;
+            $url = $linkNode ? $linkNode->attr('href') : null;
 
-        //     //dd($url);
+            //dd($url);
 
-        //     $source = '';
-        //     $topic = '';
+            $source = '';
+            $topic = '';
 
-        //     if ($contextNode) {
-        //         $text = $contextNode->text();
-        //         if (preg_match('/Source:\s*(.*?)\s*\/Topic:\s*(.*)/', $text, $match)) {
-        //             $source = trim($match[1]);
-        //             $topic = trim($match[2]);
-        //         }
-        //     }
+            if ($contextNode) {
+                $text = $contextNode->text();
+                if (preg_match('/Source:\s*(.*?)\s*\/Topic:\s*(.*)/', $text, $match)) {
+                    $source = trim($match[1]);
+                    $topic = trim($match[2]);
+                }
+            }
 
-        //     if ($title && $summary && $source && $topic) {
-        //         $articles[] = [
-        //             'title' => $title,
-        //             'summary' => $summary,
-        //             'source' => $source,
-        //             'topic' => $topic,
-        //             'date' => $date,
-        //             'url' => $url
-        //         ];
-        //     }
-        // });
-        // dd($articles);
-        // return $articles;
+            if ($title && $summary && $source && $topic) {
+                $articles[] = [
+                    'title' => $title,
+                    'summary' => $summary,
+                    'source' => $source,
+                    'topic' => $topic,
+                    'date' => $date,
+                    'url' => $url
+                ];
+            }
+        });
+        dd($articles);
+        return $articles;
     }
 }
