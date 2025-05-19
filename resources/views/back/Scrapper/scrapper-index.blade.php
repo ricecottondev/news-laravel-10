@@ -54,7 +54,7 @@
                                     </div>
                                 </form>
 
-                                @dump($data)
+                                {{-- @dump($data) --}}
                                 {{-- Scraped Data --}}
                                 {{-- @isset($data)
                                     <hr>
@@ -126,9 +126,32 @@
                                     @elseif(isset($data) && count($data))
                                         <div class="card">
                                             <div class="card-body">
-                                                @foreach ($data['ordered_text']  as $line)
+
+                                                {{-- @foreach ($data['ordered_text'] as $line)
                                                     <p>{{ $line }}</p>
+                                                @endforeach --}}
+
+                                                @foreach ($data['ordered_text'] as $item)
+                                                    {{-- @if (
+                                                        !empty($item['title']) &&
+                                                            !empty($item['summary']) &&
+                                                            !empty($item['source']) &&
+                                                            !empty($item['topic']) &&
+                                                            !empty($item['date'])) --}}
+                                                            <a href="{{ $item['url'] }}" target="_blank">
+                                                        <div class="mb-4 p-3 border rounded shadow-sm bg-white">
+                                                            <h4 class="font-bold text-lg mb-1 text-blue-800">
+                                                                {{ $item['title'] }}</h4>
+                                                            <p class="text-gray-700 mb-2">{{ $item['summary'] }}</p>
+                                                            <p class="text-sm text-gray-500">
+                                                                <strong>Sumber:</strong> {{ $item['source'] }} |
+                                                                <strong>Topik:</strong> {{ $item['topic'] }} |
+                                                                <strong>Tanggal:</strong> {{ $item['date'] }}
+                                                            </p>
+                                                        </div></a>
+                                                    {{-- @endif --}}
                                                 @endforeach
+
                                             </div>
                                         </div>
                                     @else

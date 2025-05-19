@@ -5,6 +5,11 @@ namespace App\Http\Controllers\Back\Scrapping;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Goutte\Client;
+use DOMDocument;
+use DOMXPath;
+use Symfony\Component\DomCrawler\Crawler;
+use Illuminate\Support\Str;
+
 use Symfony\Component\HttpClient\HttpClient;
 
 class ScrappingController extends Controller
@@ -17,6 +22,8 @@ class ScrappingController extends Controller
             $data = $this->scrapperFulltext($request->url);
             // $data = $this->scrapper($request->url);
         }
+
+         //dd($data);
 
         return view('back.Scrapper.scrapper-index', compact('data'));
     }
@@ -234,7 +241,7 @@ class ScrappingController extends Controller
                 'summary',
 
                 // Navigasi dan tautan
-                'a',
+                // 'a',
 
                 // Struktur halaman
                 'html',
@@ -271,6 +278,19 @@ class ScrappingController extends Controller
                 $text = trim($node->text());
                 if ($text === '') return;
 
+                if ($tag === 'a') {
+                    $href = $node->attr('href');
+
+                    // Validasi URL berita sesuai pola /news/YYYY-MM-DD/slug/angka
+                    if ($href && preg_match('#^https://www\.abc\.net\.au/news/\d{4}-\d{2}-\d{2}/[^/]+/\d+#', $href)) {
+                        // Masukkan hanya URL berita valid
+                        // dump("<a href=\"{$href}\">{$href}</a>");
+                        $orderedText[] = "<a href=\"{$href}\">{$href}</a>";
+                    }
+
+                    return;
+                }
+
                 if (in_array($tag, ['div', 'span', 'li', 'article'])) {
                     // Kosongkan semua tag di dalam, hanya ambil teks, tapi tetap gunakan tag aslinya
                     $cleanText = htmlspecialchars($text, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
@@ -289,8 +309,19 @@ class ScrappingController extends Controller
             // Hapus duplikat dan reset index
             $orderedText = array_values(array_unique($orderedText));
 
+            $fullText = '';
+            // dump($orderedText);
+            foreach ($orderedText  as $line) {
+                $fullText = $fullText . $line;
+            }
+            // dd($fullText);
+            $result = $this->extractArticlesFromHtml($fullText);
+
+
+
+
             return [
-                'ordered_text' => $orderedText,
+                'ordered_text' => $result,
             ];
         } catch (\Exception $e) {
             return [
@@ -313,5 +344,207 @@ class ScrappingController extends Controller
         $string = preg_replace('/\[.*?\]/s', '', $string);
 
         return trim($string);
+    }
+
+
+
+    function extractArticlesFromHtml($html)
+    {
+
+        $crawler = new Crawler($html);
+        $articles = [];
+        $now = date('Y-m-d');
+
+
+        $crawler->filter('[class*="CardHeading"]')->each(function ($node, $i) use (&$articles, $now) {
+            // Sekarang $i berisi index: 0, 1, 2, ...
+            if ($i > 0) {
+                // Jika $i lebih dari 0, ambil elemen berikutnya
+                $node = $node->nextAll()->first();
+                //dump("Index ke-$i: " . $node->text());
+                //dump($node->ancestors()->filter('a')->first());
+
+                $linkNode = $node->ancestors()->filter('a')->first();
+
+
+                $title = trim($node->text());
+
+                // Cari <div> setelah judul sebagai ringkasan
+                $summaryNode = $node->nextAll()->first();
+                $summary = $summaryNode ? trim($summaryNode->text()) : '';
+
+                // Deteksi tanggal di summary
+                $date = $now;
+                if (preg_match('/\d{1,2}\s+[A-Za-z]+\s+\d{4}|\b[A-Za-z]+\s+\d{1,2},\s+\d{4}|\d{1,2}\/\d{1,2}\/\d{2,4}/', $summary, $match)) {
+                    $date = $match[0];
+                }
+
+                // Cari node yang mengandung "Source: ... /Topic: ..."
+                $contextNode = null;
+                // Coba cari <a> terdekat yang membungkus atau mengelilingi judul
+                $url = null;
+                // Ambil <a> terdekat yang membungkus judul
+                $linkNode = null;
+
+                $node->previousAll()->each(function ($n, $a) use (&$linkNode) {
+                    // Stop iterasi jika sudah ketemu sebelumnya
+                    if ($linkNode) return false;
+
+                    if ($n->nodeName() === 'a') {
+                        $href = $n->attr('href');
+
+                        // Debug
+                        //dump('ada ' . $a);
+                        //dump($href);
+
+                        if (
+                            $href &&
+                            preg_match('#^https://www\.abc\.net\.au/news/\d{4}-\d{2}-\d{2}/[a-z0-9\-]+/\d+$#i', $href)
+                        ) {
+                            $linkNode = $n;
+                            return false; // ✅ hentikan iterasi setelah match
+                        }
+                    }
+                });
+
+                $url = $linkNode ? $linkNode->attr('href') : null;
+
+                // dd($url);
+
+                $source = '';
+                $topic = '';
+
+                if ($contextNode) {
+                    $text = $contextNode->text();
+                    if (preg_match('/Source:\s*(.*?)\s*\/Topic:\s*(.*)/', $text, $match)) {
+                        $source = trim($match[1]);
+                        $topic = trim($match[2]);
+                    }
+                }
+
+                // if ($title && $summary && $source && $topic) {
+                    $articles[] = [
+                        'title' => $title,
+                        'summary' => $summary,
+                        'source' => $source,
+                        'topic' => $topic,
+                        'date' => $date,
+                        'url' => $url
+                    ];
+                // }
+            }
+        });
+
+        // dump($articles);
+        return $articles;
+
+        //dd("===================================end=============================================================================");
+
+
+
+
+        // Cari semua elemen dengan class mengandung "CardHeading"
+        // $crawler->filter('[class*="CardHeading"]')->each(function ($node) use (&$articles, $now) {
+        //     dump($node->text());
+        //     dump($node->ancestors()->filter('a')->first());
+        //     $linkNode = $node->ancestors()->filter('a')->first();
+        //     $title = trim($node->text());
+        //     // Cari <div> setelah judul sebagai ringkasan
+        //     $summaryNode = $node->nextAll()->first();
+        //     $summary = $summaryNode ? trim($summaryNode->text()) : '';
+
+        //     // Deteksi tanggal di summary
+        //     $date = $now;
+        //     if (preg_match('/\d{1,2}\s+[A-Za-z]+\s+\d{4}|\b[A-Za-z]+\s+\d{1,2},\s+\d{4}|\d{1,2}\/\d{1,2}\/\d{2,4}/', $summary, $match)) {
+        //         $date = $match[0];
+        //     }
+
+        //     // Cari node yang mengandung "Source: ... /Topic: ..."
+
+
+        //     $contextNode = null;
+
+        //     // Coba cari <a> terdekat yang membungkus atau mengelilingi judul
+        //     $url = null;
+
+        //     // Ambil <a> terdekat yang membungkus judul
+        //     $linkNode = null;
+
+        //     $node->nextAll()->each(function ($n) use (&$contextNode) {
+        //         $text = $n->text();
+        //         if (Str::contains($text, 'Source:') && Str::contains($text, '/Topic:')) {
+        //             $contextNode = $n;
+        //             return false; // stop looping
+        //         }
+
+        //         if ($n->nodeName() === 'a') {
+        //             dump('ada');
+        //             $href = $n->attr('href');
+        //             dump($href);
+        //             if ($href && preg_match('#^https://www\.abc\.net\.au/news/\d{4}-\d{2}-\d{2}/[a-z0-9\-]+/\d+$#i', $href)) {
+        //                 $linkNode = $n;
+        //                 return false; // stop if valid URL found
+        //             }
+        //         }
+        //     });
+
+        //     // Coba cari <a> terdekat yang membungkus atau mengelilingi judul
+        //     // $url = null;
+
+        //     // Ambil <a> terdekat yang membungkus judul
+        //     // $linkNode = null;
+
+        //     // $node->nextAll()->each(function ($n) use (&$linkNode) {
+        //     //     dump($linkNode);
+        //     //     if ($n->nodeName() === 'a') {
+        //     //         dump('ada');
+        //     //         $href = $n->attr('href');
+        //     //         dump($href);
+        //     //         if ($href && preg_match('#^https://www\.abc\.net\.au/news/\d{4}-\d{2}-\d{2}/[a-z0-9\-]+/\d+$#i', $href)) {
+        //     //             $linkNode = $n;
+        //     //             return false; // stop if valid URL found
+        //     //         }
+        //     //     }
+        //     // });
+        //     // if ($linkNode) {
+        //     //     $href = $linkNode->attr('href');
+
+        //     //     // Validasi: hanya ambil URL dengan pola /news/YYYY-MM-DD/.../angka
+        //     //     if (
+        //     //         $href &&
+        //     //         preg_match('#^https://www\.abc\.net\.au/news/\d{4}-\d{2}-\d{2}/[a-z0-9\-]+/\d+$#i', $href)
+        //     //     ) {
+        //     //         $url = $href;
+        //     //     }
+        //     // }
+
+        //     $url = $linkNode ? $linkNode->attr('href') : null;
+
+        //     //dd($url);
+
+        //     $source = '';
+        //     $topic = '';
+
+        //     if ($contextNode) {
+        //         $text = $contextNode->text();
+        //         if (preg_match('/Source:\s*(.*?)\s*\/Topic:\s*(.*)/', $text, $match)) {
+        //             $source = trim($match[1]);
+        //             $topic = trim($match[2]);
+        //         }
+        //     }
+
+        //     if ($title && $summary && $source && $topic) {
+        //         $articles[] = [
+        //             'title' => $title,
+        //             'summary' => $summary,
+        //             'source' => $source,
+        //             'topic' => $topic,
+        //             'date' => $date,
+        //             'url' => $url
+        //         ];
+        //     }
+        // });
+        // dd($articles);
+        // return $articles;
     }
 }

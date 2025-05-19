@@ -24,6 +24,8 @@
         "simplesoftwareio/simple-qrcode": "^4.2",
         "spatie/laravel-permission": "^6.12",
         "stripe/stripe-php": "^16.6",
+        "symfony/css-selector": "6.0",
+        "symfony/dom-crawler": "6.0",
         "torann/geoip": "^3.0",
         "tymon/jwt-auth": "^2.1",
         "weidner/goutte": "^2.3"
