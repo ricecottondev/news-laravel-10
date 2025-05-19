@@ -118,6 +118,13 @@
             }
         }
 
+        @media (max-width: 768px) {
+            .responsive-flex {
+            flex-direction: column !important;
+            margin: 0 20px !important; /* lebih ramping di mobile */
+            }
+        }
+
         /* Laptop/Desktop */
         @media (min-width: 992px) {
             .responsive-title {
@@ -168,6 +175,54 @@
     </style>
 @endpush
 @section('content')
+
+<div style="background-color: #f7ca46; color: black; padding: 10px; display: flex; align-items: center; justify-content: center; gap: 10px; flex-wrap: wrap;">
+    <div style="font-size: 13px; font-weight: bold;">
+      The News Is Full of Spin. Here’s the Sarcastic Truth, straight from
+    </div>
+
+    <img src="/assets/logo/abc_logo_v1.png" alt="ABC Logo" class="img-fluid" style="max-height: 20px;">
+    <img src="/assets/logo/theguardian_logo.png" alt="The Guardian Logo" class="img-fluid" style="max-height: 20px;">
+    <img src="/assets/logo/sbsnews_logo.png" alt="SBS News Logo" class="img-fluid" style="max-height: 20px;">
+    <img src="/assets/logo/7news.png" alt="7news" class="img-fluid" style="max-height: 20px;">
+    <img src="/assets/logo/9news.png" alt="9news" class="img-fluid" style="max-height: 20px;">
+    <img src="/assets/logo/10news.png" alt="10news" class="img-fluid" style="max-height: 20px;">
+    <img src="/assets/logo/smh.png" alt="smh" class="img-fluid" style="max-height: 20px;">
+    <div style="font-size: 13px;  font-weight: bold;">
+      and anyone who still does journalism
+    </div>
+  </div>
+
+  <div class="mb-2 responsive-flex" style="display: flex; margin: 0 70px;">
+    <!-- Clara Block -->
+    <div style="display: flex; align-items: center; justify-content: center; padding: 10px; flex: 1;">
+      <img src="/images/clara.jpg" width="200" height="220" alt="Clara" style="border: 2px solid #cd4aac; margin-right: 10px;">
+      <div>
+        <div style="font-size: 30px; font-weight: bold; color: #cd4aac;">Clara</div>
+        <div style="font-size: 16px;">Let's fix the news, with facts, fire and a wink</div>
+      </div>
+    </div>
+
+    <!-- Lola Block -->
+    <div style="display: flex; align-items: center; justify-content: center; padding: 10px; flex: 1;">
+      <img src="/images/lola.jpg" width="200" height="220" alt="Lola" style="border: 2px solid #f7ca46; margin-right: 10px;">
+      <div>
+        <div style="font-size: 30px; font-weight: bold; color: #f7ca46;">Lola</div>
+        <div style="font-size: 16px;">It is legal, unfortunately for them</div>
+      </div>
+    </div>
+
+    <!-- Phor Block -->
+    <div style="display: flex; align-items: center; justify-content: center; padding: 10px; flex: 1;">
+      <img src="/images/phor.jpg" width="200" height="220" alt="Phor" style="border: 2px solid white; margin-right: 10px;">
+      <div>
+        <div style="font-size: 30px; font-weight: bold; color: white;">Phor</div>
+        <div style="font-size: 16px;">When the truth hits, it hits like Phor</div>
+      </div>
+    </div>
+  </div>
+
+
 
     {{-- ========================== Section image slider (Hidden Section) ========================== --}}
 
@@ -616,7 +671,7 @@
 
 
     {{-- =============================== More News =============================== --}}
-    <section class="mb-5">
+    <section class="d-none mb-5">
         <h2 class="border-bottom pb-2 mb-3 fw-bold text-uppercase" style="color: #FF4EB0;">More News</h2>
 
         {{-- @foreach ($not_today_news as $ntnews)
