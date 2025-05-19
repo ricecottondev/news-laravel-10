@@ -118,6 +118,13 @@
             }
         }
 
+        @media (max-width: 768px) {
+            .responsive-flex {
+            flex-direction: column !important;
+            margin: 0 20px !important; /* lebih ramping di mobile */
+            }
+        }
+
         /* Laptop/Desktop */
         @media (min-width: 992px) {
             .responsive-title {
@@ -168,6 +175,37 @@
     </style>
 @endpush
 @section('content')
+
+  <div class="mb-2 responsive-flex" style="display: flex; margin: 0 70px;">
+    <!-- Clara Block -->
+    <div style="display: flex; align-items: center; justify-content: center; padding: 10px; flex: 1;">
+      <img src="/images/clara.jpg" width="200" height="220" alt="Clara" style="border: 2px solid #cd4aac; margin-right: 10px;">
+      <div>
+        <div style="font-size: 30px; font-weight: bold; color: #cd4aac;">Clara</div>
+        <div style="font-size: 16px;">Let's fix the news, with facts, fire and a wink</div>
+      </div>
+    </div>
+
+    <!-- Lola Block -->
+    <div style="display: flex; align-items: center; justify-content: center; padding: 10px; flex: 1;">
+      <img src="/images/lola.jpg" width="200" height="220" alt="Lola" style="border: 2px solid #f7ca46; margin-right: 10px;">
+      <div>
+        <div style="font-size: 30px; font-weight: bold; color: #f7ca46;">Lola</div>
+        <div style="font-size: 16px;">It is legal, unfortunately for them</div>
+      </div>
+    </div>
+
+    <!-- Phor Block -->
+    <div style="display: flex; align-items: center; justify-content: center; padding: 10px; flex: 1;">
+      <img src="/images/phor.jpg" width="200" height="220" alt="Phor" style="border: 2px solid white; margin-right: 10px;">
+      <div>
+        <div style="font-size: 30px; font-weight: bold; color: white;">Phor</div>
+        <div style="font-size: 16px;">When the truth hits, it hits like Phor</div>
+      </div>
+    </div>
+  </div>
+
+
 
     {{-- ========================== Section image slider (Hidden Section) ========================== --}}
 
