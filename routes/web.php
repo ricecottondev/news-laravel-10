@@ -280,6 +280,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/back/profil', [MemberProfilController::class, 'index'])->name('profil.index');
 
     Route::get('/back/scrapper', [ScrappingController::class, 'index'])->name('scrapper.index');
+    Route::get('/export-excel', [ScrappingController::class, 'exportExcel'])->name('export.excel');
+
     Route::resource('/back/banner',BannerController::class);
     // Route::post('/back/scrapper', [ScrappingController::class, 'index'])->name('scrapper.index.post');
 
