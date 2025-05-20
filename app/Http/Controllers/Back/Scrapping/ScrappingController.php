@@ -2,14 +2,16 @@
 
 namespace App\Http\Controllers\Back\Scrapping;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use Goutte\Client;
-use DOMDocument;
 use DOMXPath;
-use Symfony\Component\DomCrawler\Crawler;
+use DOMDocument;
+use Goutte\Client;
 use Illuminate\Support\Str;
-
+use Illuminate\Http\Request;
+use PhpParser\Node\Stmt\TryCatch;
+use App\Exports\OrderedTextExport;
+use App\Http\Controllers\Controller;
+use Maatwebsite\Excel\Facades\Excel;
+use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\HttpClient\HttpClient;
 
 class ScrappingController extends Controller
@@ -24,7 +26,8 @@ class ScrappingController extends Controller
         }
 
         //dd($data);
-
+        session()->forget('data');        // Reset session
+        session(['data' => $data]);
         return view('back.Scrapper.scrapper-index', compact('data'));
     }
 
@@ -317,9 +320,6 @@ class ScrappingController extends Controller
             // dd($fullText);
             $result = $this->extractArticlesFromHtml($fullText);
 
-
-
-
             return [
                 'ordered_text' => $result,
             ];
@@ -425,12 +425,10 @@ class ScrappingController extends Controller
 
                 // dump("oldurl :".$oldurl);
                 // dump("url :".$url);
-                if($url == $oldurl){
+                if ($url == $oldurl) {
                     // dump("sama");
                     $url = null;
-                }
-                else
-                {
+                } else {
                     // dump("beda");
                     $oldurl = $url;
                 }
@@ -450,13 +448,15 @@ class ScrappingController extends Controller
                 }
 
                 if ($title && $summary && $source && $topic && $url) {
+                    $sublink = Self::getSubLink($url);
                     $articles[] = [
                         'title' => $title,
                         'summary' => $summary,
                         'source' => $source,
                         'topic' => $topic,
                         'date' => $date,
-                        'url' => $url
+                        'url' => $url,
+                        'sublink' => $sublink,
                     ];
                 }
             }
@@ -573,5 +573,59 @@ class ScrappingController extends Controller
         });
         dd($articles);
         return $articles;
+    }
+
+    private function getSubLink($subLinks)
+    {
+        $client = new Client();
+        $client->setServerParameter('HTTP_USER_AGENT', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)');
+
+        try {
+            $crawler = $client->request('GET', $subLinks);
+
+            $orderedTextFromSubLink = [];
+
+            $crawler->filter('.paragraph_paragraph__iYReA')->each(function ($node) use (&$orderedTextFromSubLink) {
+                // Hapus semua <a> tag dari node sebelum mengambil teks
+                foreach ($node->filter('a') as $aTag) {
+                    $aTag->parentNode->removeChild($aTag);
+                }
+
+                $text = trim($node->text());
+
+                if ($text === '') return;
+
+                // Simpan hanya teks tanpa tag HTML
+                $orderedTextFromSubLink[] = $text;
+            });
+
+            // Bersihkan teks dari potongan JSON
+            $orderedTextFromSubLink = array_map(function ($text) {
+                return self::removeJsonFragments($text);
+            }, $orderedTextFromSubLink);
+
+            // Hapus duplikat dan reset index
+            $orderedTextFromSubLink = array_values(array_unique($orderedTextFromSubLink));
+
+            // Gabungkan semua ke satu string
+            $fullText = implode('', $orderedTextFromSubLink);
+
+            return $fullText;
+        } catch (\Throwable $th) {
+            return [
+                'error' => 'Gagal mengambil data: ' . $th->getMessage(),
+            ];
+        }
+    }
+
+    public function exportExcel()
+    {
+        $data = session('data')['ordered_text'] ?? [];
+
+        if (empty($data)) {
+            abort(400, 'Tidak ada data untuk diekspor.');
+        }
+
+        return Excel::download(new OrderedTextExport($data), 'export-news.xlsx');
     }
 }
