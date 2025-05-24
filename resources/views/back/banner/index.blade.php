@@ -68,7 +68,7 @@
 
                                 {{-- <a href="{{ route('subscribe.create') }}" class="btn btn-primary mb-3">Add Subscription</a> --}}
 
-                                <table class="table table-bordered">
+                                <table id="banner-table" class="table table-bordered">
                                     <thead>
                                         <tr>
                                             <th>No</th>
@@ -149,7 +149,7 @@
     </script>
     <script>
         $(document).ready(function() {
-            $('#    ').DataTable(); // Basic initialization
+            $('#banner-table').DataTable(); // Basic initialization
         });
     </script>
 @endsection
