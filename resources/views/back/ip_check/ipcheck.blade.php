@@ -1,7 +1,7 @@
 @extends('back.layouts.layout')
 @section('content')
     <div class="container">
-        <h1 class="mb-4">IP Checker</h1>
+        <h1 class="my-10">IP Checker</h1>
         <div class="card my-4">
             <div class="card-body">
                 <h2 class="mb-4">📊 Ringkasan Kunjungan</h2>
