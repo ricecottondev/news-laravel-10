@@ -91,7 +91,7 @@ use App\Http\Controllers\Back\News\BackNewsController;
 use App\Http\Controllers\Back\Country\CountryController;
 
 use App\Http\Controllers\Back\ChatGPTController;
-
+use App\Http\Controllers\Back\IpCheck\IpCheckController;
 use App\Http\Controllers\Back\News\ImageUploadController;
 
 use App\Http\Controllers\Back\News\NewsVisitController;
@@ -225,8 +225,8 @@ Route::get('file', [FileController::class, 'create']);
 Route::post('file', [FileController::class, 'store']);
 // Route::get('/index', [App\Http\Controllers\HomeController::class, 'index'])->name('home.index');
 // Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::get('/news', [App\Http\Controllers\NewsController::class, 'index']);
-Route::get('/news', [App\Http\Controllers\NewsController::class, 'index']);
+// Route::get('/news', [App\Http\Controllers\NewsController::class, 'index']);
+// Route::get('/news', [App\Http\Controllers\NewsController::class, 'index']);
 
 // Route::get('/get-categories/{country_id}', [CategoryController::class, 'getCategories']);
 
@@ -281,6 +281,8 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::get('/back/scrapper', [ScrappingController::class, 'index'])->name('scrapper.index');
     Route::get('/export-excel', [ScrappingController::class, 'exportExcel'])->name('export.excel');
+
+    Route::get('/ip-check', [IpCheckController::class, 'index'])->name('ipcheck.index');
 
     Route::resource('/back/banner',BannerController::class);
     // Route::post('/back/scrapper', [ScrappingController::class, 'index'])->name('scrapper.index.post');
