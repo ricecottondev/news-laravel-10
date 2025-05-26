@@ -2,8 +2,9 @@
 <html lang="en">
 
 <head>
-    <script src="layout/head.js"></script>
-    <link rel="stylesheet" href="css/landing.css">
+    {{-- <script src="layout/head.js"></script> --}}
+    @include('front.layouts.head')
+    <link rel="stylesheet" href="/assets/template2/css/landing.css">
     <title>FactaBot &bull; Home</title>
     <style>
         * {
@@ -17,9 +18,12 @@
     <div class="wrapper">
         <div class="page">
             <header class="page-header fixed-top bg-body">
-                <script src="layout/navbar.js"></script>
+                 @include('front.layouts.navbar')
+                  @include('front.layouts.running-text')
+                   @include('front.layouts.sidebar')
+                {{-- <script src="layout/navbar.js"></script>
                 <script src="layout/running-text.js"></script>
-                <script src="layout/sidebar.js"></script>
+                <script src="layout/sidebar.js"></script> --}}
             </header><!-- end page wrapper -->
             <main class="page-body pt-1 pb-5">
 
@@ -191,12 +195,12 @@
 
             </main><!-- end page body -->
             <footer class="page-footer">
-                <script src="layout/footbar.js"></script>
+                 @include('front.layouts.footbar')
             </footer><!-- end page footer -->
         </div><!-- end page -->
     </div><!-- end wrapper -->
-    <script src="js/theme.js"></script>
-    <script src="js/global.js"></script>
+    <script src="assets/template2/js/theme.js"></script>
+    <script src="assets/template2/js/global.js"></script>
 </body>
 
 </html>
