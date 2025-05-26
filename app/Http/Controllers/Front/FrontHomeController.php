@@ -43,6 +43,10 @@ class FrontHomeController extends Controller
     public function index(Request $request)
     {
 
+        if ($request->get('is_bot')) {
+            return response()->view('bot-detected'); // Bisa redirect atau tampilkan halaman khusus
+        }
+
         $pathimg = $this->pathImage;
         $ip = $this->getIpAddress();
         // dump($ip);

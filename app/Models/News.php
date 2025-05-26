@@ -35,6 +35,7 @@ class News extends Model
         'video_url',
         'views',
         'created_at',
+        'color'
     ];
 
     /**

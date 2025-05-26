@@ -80,6 +80,7 @@ class NewsImport implements ToModel, WithHeadingRow
             'status' => 'published',
             'views' => 0,
             'created_at' => $createdAt,
+            'color' => $row['color'],
         ]);
 
         // $news->timestamps = false; // <-- Ini penting

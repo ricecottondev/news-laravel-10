@@ -155,6 +155,20 @@
 
                 <div class="menu-item">
                     <!--begin:Menu link-->
+                    <a class="menu-link" href="{{ route('ipcheck.index') }}">
+                        <span class="menu-icon">
+                            <i class="ki-duotone ki-square-brackets fs-2">
+                                <span class="path1"></span>
+                                <span class="path2"></span>
+                            </i>
+                        </span>
+                        <span class="menu-title">Check Ip Bot</span>
+                    </a>
+                    <!--end:Menu link-->
+                </div>
+
+                <div class="menu-item">
+                    <!--begin:Menu link-->
                     <a class="menu-link" href="{{ url('/back/chat-gpt') }}">
                         <span class="menu-icon">
                             <i class="ki-duotone ki-square-brackets fs-2">
