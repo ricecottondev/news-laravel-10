@@ -2,322 +2,201 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="google-site-verification" content="77JWxQbqV-H-A9qKsDqm75U3ZdugkZOSvHAYtlj2gYA" />
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-
-    <title>@yield('title', 'News Website')</title>
-
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Font Awesome -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-
+    <script src="layout/head.js"></script>
+    <link rel="stylesheet" href="css/landing.css">
+    <title>FactaBot &bull; Home</title>
     <style>
-
-html, body {
-      height: 100%;
-      margin: 0;
-      scroll-behavior: smooth;
-      scroll-snap-type: y mandatory;
-      overflow-y: scroll;
-    }
-
-    section {
-      /* scroll-snap-align: start; */
-      /* height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center; */
-    }
-        body {
-            font-family: 'Roboto', sans-serif;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-            margin: 0;
-            background-color: #1e1e1e;
-            color: #d6cfbd;
-        }
-
-        /* style for home page */
-        .news-title {
-            font-size: 22px;
-            font-weight: 700;
-            color: #ff00b3;
-            text-decoration: none;
-            font-family: sans-serif;
-        }
-
-
-
-        .news-sugestion {
-            font-size: 16px;
-            font-weight: 700;
-            color: #ac5151;
-            text-decoration: none;
-        }
-
-        .news-title-after-first {
-            color: #d6cfbd;
-            text-decoration: none;
-            font-size: 14px;
-            font-weight: 700;
-            color: #ff00b3;
-        }
-
-
-
-
-        .news-title:hover {
-            text-decoration: underline;
-        }
-
-        .news-snippet {
-            text-align: justify;
-            text-justify: inter-word;
-            margin-bottom: 0.5rem;
-            color: #272727;
-            font-size: 16px;
-            font-family: sans-serif;
-        }
-
-        /* style for detail news pages */
-
-        .news-title-detail {
-            font-size: 28px;
-            font-weight: 700;
-            color: #1a1a1a;
-            text-decoration: none;
-            font-family: sans-serif;
-        }
-
-
-        .news-snippet-detail {
-            /* text-align: justify; */
-            text-justify: inter-word;
-            margin-bottom: 0.5rem;
-            color: #272727;
-            font-size: 22px;
-            font-family: sans-serif;
-        }
-
-        /* Gaya khusus untuk mobile */
-        @media (max-width: 768px) {
-            .news-title-detail {
-                font-size: 20px;
-                color: #535353;
-                text-align: center;
-                font-family: sans-serif;
-            }
-
-            .news-snippet-detail {
-                font-size: 16px;
-                /* lebih kecil agar enak dibaca */
-                padding-left: 10px;
-                padding-right: 10px;
-                line-height: 1.6;
-                font-family: sans-serif;
-            }
-        }
-
-        .custom-box {
-            display: flex;
-            border: 1px solid #ccc;
-            border-radius: var(--box-radius, 10px);
-            /* Default 10px */
-            overflow: hidden;
-            height: var(--box-height, auto);
-            /* Default auto */
-            width: var(--box-width, 100%);
-            /* Default full width */
-
-            background-color: white;
-            box-shadow: 0 0.5rem 1rem rgba(10, 0, 65, 0.3);
-            /* custom-shadow */
-        }
-
-        .custom-shadow {
-            border: 1px solid #ccc;
-            background-color: white;
-            box-shadow: 0 0.5rem 1rem rgba(10, 0, 65, 0.3);
-        }
-
-        .news-container {
-            border-bottom: 1px solid #444;
-            padding-bottom: 1.5rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .news-image {
-            width: 120px;
-            height: auto;
-            object-fit: cover;
-            border-radius: 5px;
-        }
-
-        .content-wrapper {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-        }
-
-        main {
-            flex: 1;
-        }
-
-        footer {
-            margin-top: auto;
-        }
-
-        .btn-custom {
-            background-color: #cba34e;
-            color: #0e1118;
-            border: none;
-        }
-
-        .btn-custom:hover {
-            background-color: #b89445;
-            color: #0e1118;
-        }
-
-        .news-card {
-            background-color: #ffffff;
-            color: #d6cfbd;
-            border-radius: 22px;
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.25);
-            border: 1px solid #333;
-        }
-
-        .news-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
-        }
-
-        .news-card a.news-title {
-            color: #272727;
-            text-decoration: none;
-        }
-
-        .news-card a.news-title:hover {
-            text-decoration: underline;
-            color: #000000;
-        }
-
-        .news-card .text-muted {
-            color: #999 !important;
-        }
-
-        .category-card {
-            background-color: #ececec;
-            color: #4b4b4b;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-            border: 1px solid #333;
-            transition: all 0.3s ease;
-        }
-
-        .category-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
-        }
-
-        .category-card .news-title-after-first {
-            font-size: 18px;
-            font-weight: bold;
-            color: #272727;
-            text-decoration: none;
-        }
-
-        .category-card .news-title-after-first:hover {
-            text-decoration: underline;
-            color: #000000;
-        }
-
-        .category-card .news-snippet {
-            font-size: 14px;
-            color: #272727;
-            text-align: justify;
-        }
-
-        .category-card .text-muted,
-        .category-card .text-secondary {
-            color: #999 !important;
-        }
-
-
-        .btn-download {
-            background-color: #f1c40f;
-            /* Warna kuning */
-            color: black;
-            /* font-weight: bold; */
-            font-size: 0.85rem;
-            padding: 0.5rem 1rem;
-            border-radius: 5px;
-            white-space: nowrap;
-            /* Agar teks tidak pindah baris */
-            display: inline-block;
-            text-align: center;
-            min-width: 110px;
-            /* Atur lebar minimum agar tidak mengecil saat responsive */
-            height: 40px;
-            /* Atur tinggi supaya tetap proporsional */
-            line-height: 1.2;
-            transition: all 0.2s ease-in-out;
-        }
-
-        .btn-download:hover {
-            background-color: #e0b800;
-            /* Warna hover */
-            color: #000;
+        * {
+            outline: solid 1px green;
+            outline: solid 1px transparent;
         }
     </style>
-    @stack('styles')
 </head>
 
 <body>
+    <div class="wrapper">
+        <div class="page">
+            <header class="page-header fixed-top bg-body">
+                <script src="layout/navbar.js"></script>
+                <script src="layout/running-text.js"></script>
+                <script src="layout/sidebar.js"></script>
+            </header><!-- end page wrapper -->
+            <main class="page-body pt-1 pb-5">
 
-    <!-- Header -->
-    @include('front.layouts.header')
+                <section>
+                    <div class="container-fluid p-0">
+                        <div class="text-bg-warning p-3 py-2 py-lg-0 text-center mb-3">
+                            <div class="row row-cols-auto justify-content-center align-items-center">
+                                <div class="col lh-1">
+                                    The News Is Full of Spin. Here's the Sarcastic Truth, straight from
+                                </div><!-- end col -->
+                                <div>
+                                    <div
+                                        class="row row-cols-auto align-items-center g-0 gx-2 gx-lg-3 justify-content-center">
+                                        <div class="col">
+                                            <img src="../../asset/img/abc-logo-v1.png" width="20" height="auto"
+                                                alt="" class="my-1 my-lg-0 d-lg-none">
+                                            <img src="../../asset/img/abc-logo-v1.png" width="35" height="auto"
+                                                alt="" class="my-1 my-lg-0 d-none d-lg-inline">
+                                        </div><!-- end col -->
+                                        <div class="col">
+                                            <img src="../../asset/img/theguardian-logo.png" width="55"
+                                                height="auto" alt="" class="my-1 my-lg-0 d-lg-none">
+                                            <img src="../../asset/img/theguardian-logo.png" width="80"
+                                                height="auto" alt="" class="my-1 my-lg-0 d-none d-lg-inline">
+                                        </div><!-- end col -->
+                                        <div class="col">
+                                            <img src="../../asset/img/sbsnews-logo.png" width="55" height="auto"
+                                                alt="" class="my-1 my-lg-0 d-lg-none">
+                                            <img src="../../asset/img/sbsnews-logo.png" width="95" height="auto"
+                                                alt="" class="my-1 my-lg-0 d-none d-lg-inline">
+                                        </div><!-- end col -->
+                                        <div class="col">
+                                            <img src="../../asset/img/7news.png" width="50" height="auto"
+                                                alt="" class="my-1 my-lg-0 d-lg-none">
+                                            <img src="../../asset/img/7news.png" width="85" height="auto"
+                                                alt="" class="my-1 my-lg-0 d-none d-lg-inline">
+                                        </div><!-- end col -->
+                                        <div class="col">
+                                            <img src="../../asset/img/9news.png" width="50" height="auto"
+                                                alt="" class="my-1 my-lg-0 d-lg-none">
+                                            <img src="../../asset/img/9news.png" width="95" height="auto"
+                                                alt="" class="my-1 my-lg-0 d-none d-lg-inline">
+                                        </div><!-- end col -->
+                                        <div class="col">
+                                            <img src="../../asset/img/10news.png" width="50" height="auto"
+                                                alt="" class="my-1 my-lg-0 d-lg-none">
+                                            <img src="../../asset/img/10news.png" width="75" height="auto"
+                                                alt="" class="my-1 my-lg-0 d-none d-lg-inline">
+                                        </div><!-- end col -->
+                                        <div class="col">
+                                            <!-- <img src="../../asset/img/smh.png" width="20" height="auto" alt="" class="my-1 my-lg-0 d-lg-none"> -->
+                                            <img src="../../asset/img/smh.png" width="40" height="auto"
+                                                alt="" class="my-1 my-lg-0 d-none d-lg-inline">
+                                        </div><!-- end col -->
+                                    </div><!-- end row -->
 
-    <!-- Main Content -->
-    <div class="content-wrapper">
-        <main class="container my-2">
-            @yield('content')
-        </main>
-    </div>
 
-    <!-- Footer -->
-    @include('front.layouts.footer')
 
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const sound = new Audio('/assets/sound/ding-sound-effect.mp3');
-            const links = document.querySelectorAll('.play-sound-link');
 
-            links.forEach(link => {
-                link.addEventListener('click', function (e) {
-                    e.preventDefault(); // stop link from navigating immediately
-                    const href = this.href;
 
-                    sound.currentTime = 0;
-                    sound.play();
 
-                    // Delay navigation to allow the sound to play (~300ms)
-                    setTimeout(() => {
-                        window.location.href = href;
-                    }, 300);
-                });
-            });
-        });
-    </script>
 
+                                </div><!-- end col -->
+                                <div class="col lh-1">
+                                    and anyone who still does journalism
+                                </div><!-- end col -->
+                            </div><!-- end row -->
+                        </div>
+                    </div><!-- end container -->
+                </section>
+
+                <section>
+                    <div class="container-lg">
+                        <h5 class="mb-3">
+                            <b class="fw-bold">
+                                <small>Our Journalists</small>
+                            </b>
+                        </h5>
+                        <div class="overflow-x-auto overflow-lg-visible">
+                            <div class="row g-0 flex-nowrap authors-list row-cols-auto column-gap-4 pb-2 row-cols-lg-3">
+                                <div class="col authors-item">
+                                    <div class="card rounded-0 border-0">
+                                        <div class="row g-0 gap-3">
+                                            <div class="col col-12 col-md-auto">
+                                                <div class="ratio ratio-1x1 border border-3 border-danger">
+                                                    <img src="../../asset/img/user/clara.jpg" class="object-fit-cover"
+                                                        alt="">
+                                                </div>
+                                            </div><!-- end col -->
+                                            <div class="col col-12 col-md">
+                                                <div class="card-body p-0">
+                                                    <h5 class="card-title fs-4 mb-1">
+                                                        <a href="#"
+                                                            class="link-hover-underline opacity-100 text-danger">
+                                                            <b>Clara</b>
+                                                        </a>
+                                                    </h5>
+                                                    <p class="card-text">
+                                                        Let's fix the news, with facts, frie and wink.
+                                                    </p>
+                                                </div>
+                                            </div><!-- end col -->
+                                        </div><!-- end row -->
+                                    </div>
+                                </div><!-- authors item -->
+                                <div class="col authors-item">
+                                    <div class="card rounded-0 border-0">
+                                        <div class="row g-0 gap-3">
+                                            <div class="col col-12 col-md-auto">
+                                                <div class="ratio ratio-1x1 border border-3 border-warning">
+                                                    <img src="../../asset/img/user/lola.jpg" class="object-fit-cover"
+                                                        alt="">
+                                                </div>
+                                            </div><!-- end col -->
+                                            <div class="col col-12 col-md">
+                                                <div class="card-body p-0">
+                                                    <h5 class="card-title fs-4 mb-1">
+                                                        <a href="#"
+                                                            class="link-hover-underline opacity-100 text-warning">
+                                                            <b>Lola</b>
+                                                        </a>
+                                                    </h5>
+                                                    <p class="card-text">
+                                                        It is legal, unfortunatly for them.
+                                                    </p>
+                                                </div>
+                                            </div><!-- end col -->
+                                        </div><!-- end row -->
+                                    </div>
+                                </div><!-- authors item -->
+                                <div class="col authors-item">
+                                    <div class="card rounded-0 border-0">
+                                        <div class="row g-0 gap-3">
+                                            <div class="col col-12 col-md-auto">
+                                                <div class="ratio ratio-1x1 border border-3 border-white">
+                                                    <img src="../../asset/img/user/phor.jpg" class="object-fit-cover"
+                                                        alt="">
+                                                </div>
+                                            </div><!-- end col -->
+                                            <div class="col col-12 col-md">
+                                                <div class="card-body p-0">
+                                                    <h5 class="card-title fs-4 mb-1">
+                                                        <a href="#"
+                                                            class="link-hover-underline opacity-100 text-white">
+                                                            <b>Phor</b>
+                                                        </a>
+                                                    </h5>
+                                                    <p class="card-text">
+                                                        When the truth hits, it hits like Phor.
+                                                    </p>
+                                                </div>
+                                            </div><!-- end col -->
+                                        </div><!-- end row -->
+                                    </div>
+                                </div><!-- authors item -->
+                            </div><!-- authors list -->
+                        </div>
+                    </div><!-- end container -->
+                </section>
+
+                <section>
+                    <hr class="mb-4">
+                </section>
+
+
+                @yield('content')
+
+
+
+            </main><!-- end page body -->
+            <footer class="page-footer">
+                <script src="layout/footbar.js"></script>
+            </footer><!-- end page footer -->
+        </div><!-- end page -->
+    </div><!-- end wrapper -->
+    <script src="js/theme.js"></script>
+    <script src="js/global.js"></script>
 </body>
 
 </html>
