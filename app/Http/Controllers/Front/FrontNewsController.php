@@ -155,7 +155,20 @@ class FrontNewsController extends Controller
         $news->increment('views');
         $processedContent = $this->splitParagraphsBySentences($news->content);
 
-        return view('front.news-detail', compact("news", 'suggestedNews', 'processedContent'));
+         $promotednews = News::with(['category', 'countriesCategoriesNews'])
+            ->where('status', 'published')
+
+            ->whereHas('countriesCategoriesNews.country', function ($query) {
+                $query->where('country_name', 'Australia');
+            })
+            ->orderBy('created_at', 'desc')
+            ->orderBy('id', 'asc')
+            ->limit(10)
+            ->get();
+
+        //  dd($promotednews);
+
+        return view('front.news-detail', compact("promotednews", "news", 'suggestedNews', 'processedContent'));
     }
 
     public function cek_subs()

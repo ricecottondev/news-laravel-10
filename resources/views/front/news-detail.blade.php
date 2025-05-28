@@ -81,158 +81,28 @@
                                 <b class="fw-bold">PROMOTED</b>
                             </h5>
                             <div class="row row-cols-2 row-gap-4 gx-4 row-cols-xl-3">
-                                <div class="col">
-                                    <figure class="figure">
-                                        <div class="figure-img">
-                                            <div class="ratio ratio-4x3">
-                                                <img src="" class="object-fit-cover" alt="">
+                                @foreach ($promotednews as $pn)
+                                    <div class="col">
+                                        <figure class="figure">
+                                            <div class="figure-img">
+                                                <div class="ratio ratio-4x3">
+                                                    <img src="{{ asset('storage/' . $pn->image) }}" class="object-fit-cover" alt="">
+                                                </div>
                                             </div>
-                                        </div>
-                                        <figcaption class="figure-caption">
-                                            <p class="mb-0"><small><small>News - <b
-                                                            class="fw-bold">Health</b></small></small></p>
-                                            <h5 class="fs-6"><b class="fw-bold">
-                                                    <a href="#" class="text-reset link-hover-underline">
-                                                        Sorry, Donald, but the celebrities you covet will never be your
-                                                        friends.
-                                                    </a>
-                                                </b></h5>
-                                        </figcaption>
-                                    </figure>
-                                </div><!-- end col -->
-                                <div class="col">
-                                    <figure class="figure">
-                                        <div class="figure-img">
-                                            <div class="ratio ratio-4x3">
-                                                <img src="" class="object-fit-cover" alt="">
-                                            </div>
-                                        </div>
-                                        <figcaption class="figure-caption">
-                                            <p class="mb-0"><small><small>News - <b
-                                                            class="fw-bold">Health</b></small></small></p>
-                                            <h5 class="fs-6"><b class="fw-bold">
-                                                    <a href="#" class="text-reset link-hover-underline">
-                                                        Sorry, Donald, but the celebrities you covet will never be your
-                                                        friends.
-                                                    </a>
-                                                </b></h5>
-                                        </figcaption>
-                                    </figure>
-                                </div><!-- end col -->
-                                <div class="col">
-                                    <figure class="figure">
-                                        <div class="figure-img">
-                                            <div class="ratio ratio-4x3">
-                                                <img src="" class="object-fit-cover" alt="">
-                                            </div>
-                                        </div>
-                                        <figcaption class="figure-caption">
-                                            <p class="mb-0"><small><small>News - <b
-                                                            class="fw-bold">Health</b></small></small></p>
-                                            <h5 class="fs-6"><b class="fw-bold">
-                                                    <a href="#" class="text-reset link-hover-underline">
-                                                        Sorry, Donald, but the celebrities you covet will never be your
-                                                        friends.
-                                                    </a>
-                                                </b></h5>
-                                        </figcaption>
-                                    </figure>
-                                </div><!-- end col -->
-                                <div class="col">
-                                    <figure class="figure">
-                                        <div class="figure-img">
-                                            <div class="ratio ratio-4x3">
-                                                <img src="" class="object-fit-cover" alt="">
-                                            </div>
-                                        </div>
-                                        <figcaption class="figure-caption">
-                                            <p class="mb-0"><small><small>News - <b
-                                                            class="fw-bold">Health</b></small></small></p>
-                                            <h5 class="fs-6"><b class="fw-bold">
-                                                    <a href="#" class="text-reset link-hover-underline">
-                                                        Sorry, Donald, but the celebrities you covet will never be your
-                                                        friends.
-                                                    </a>
-                                                </b></h5>
-                                        </figcaption>
-                                    </figure>
-                                </div><!-- end col -->
-                                <div class="col">
-                                    <figure class="figure">
-                                        <div class="figure-img">
-                                            <div class="ratio ratio-4x3">
-                                                <img src="" class="object-fit-cover" alt="">
-                                            </div>
-                                        </div>
-                                        <figcaption class="figure-caption">
-                                            <p class="mb-0"><small><small>News - <b
-                                                            class="fw-bold">Health</b></small></small></p>
-                                            <h5 class="fs-6"><b class="fw-bold">
-                                                    <a href="#" class="text-reset link-hover-underline">
-                                                        Sorry, Donald, but the celebrities you covet will never be your
-                                                        friends.
-                                                    </a>
-                                                </b></h5>
-                                        </figcaption>
-                                    </figure>
-                                </div><!-- end col -->
-                                <div class="col">
-                                    <figure class="figure">
-                                        <div class="figure-img">
-                                            <div class="ratio ratio-4x3">
-                                                <img src="" class="object-fit-cover" alt="">
-                                            </div>
-                                        </div>
-                                        <figcaption class="figure-caption">
-                                            <p class="mb-0"><small><small>News - <b
-                                                            class="fw-bold">Health</b></small></small></p>
-                                            <h5 class="fs-6"><b class="fw-bold">
-                                                    <a href="#" class="text-reset link-hover-underline">
-                                                        Sorry, Donald, but the celebrities you covet will never be your
-                                                        friends.
-                                                    </a>
-                                                </b></h5>
-                                        </figcaption>
-                                    </figure>
-                                </div><!-- end col -->
-                                <div class="col">
-                                    <figure class="figure">
-                                        <div class="figure-img">
-                                            <div class="ratio ratio-4x3">
-                                                <img src="" class="object-fit-cover" alt="">
-                                            </div>
-                                        </div>
-                                        <figcaption class="figure-caption">
-                                            <p class="mb-0"><small><small>News - <b
-                                                            class="fw-bold">Health</b></small></small></p>
-                                            <h5 class="fs-6"><b class="fw-bold">
-                                                    <a href="#" class="text-reset link-hover-underline">
-                                                        Sorry, Donald, but the celebrities you covet will never be your
-                                                        friends.
-                                                    </a>
-                                                </b></h5>
-                                        </figcaption>
-                                    </figure>
-                                </div><!-- end col -->
-                                <div class="col">
-                                    <figure class="figure">
-                                        <div class="figure-img">
-                                            <div class="ratio ratio-4x3">
-                                                <img src="" class="object-fit-cover" alt="">
-                                            </div>
-                                        </div>
-                                        <figcaption class="figure-caption">
-                                            <p class="mb-0"><small><small>News - <b
-                                                            class="fw-bold">Health</b></small></small></p>
-                                            <h5 class="fs-6"><b class="fw-bold">
-                                                    <a href="#" class="text-reset link-hover-underline">
-                                                        Sorry, Donald, but the celebrities you covet will never be your
-                                                        friends.
-                                                    </a>
-                                                </b></h5>
-                                        </figcaption>
-                                    </figure>
-                                </div><!-- end col -->
+                                            <figcaption class="figure-caption">
+                                                <p class="mb-0"><small><small>News - <b
+                                                                class="fw-bold">Health</b></small></small></p>
+                                                <h5 class="fs-6"><b class="fw-bold">
+                                                        <a href="#" class="text-reset link-hover-underline">
+                                                            {{ $pn->title }}
+                                                        </a>
+                                                    </b></h5>
+                                            </figcaption>
+                                        </figure>
+                                    </div>
+                                @endforeach
+                                <!-- end col -->
+
                             </div><!-- end row -->
                         </div>
                         {{-- promoted news end --}}
@@ -256,23 +126,23 @@
                                 </h5>
                             </header>
                             <main>
-                                {{-- @auth --}}
-                                    <form action="{{ route('news.comment', $news->id) }}" method="POST">
-                                        @csrf
-                                        <input type="hidden" name="parent_id" id="parent_id" value="">
-                                        <input type="text" name="name" class="form-control rounded-0 mb-2"
+                                <form action="{{ route('news.comment', $news->id) }}" method="POST">
+                                    @csrf
+                                    <input type="hidden" name="parent_id" id="parent_id" value="">
+
+                                    @guest
+                                        <input type="text" name="guest_name" class="form-control rounded-0 mb-2"
                                             placeholder="Your Name" value="" required>
-                                        <div class="form-group mb-2">
-                                            <textarea name="comment" rows="6" class="form-control rounded-0"
-                                                placeholder="Type your opinion about this news here.." required></textarea>
-                                        </div>
-                                        <div class="form-group">
-                                            <button class="btn btn-outline-light rounded-0 w-100">SUBMIT</button>
-                                        </div>
-                                    </form>
-                                {{-- @else
-                                    <p><a href="{{ route('login') }}">Login</a> to leave a comment.</p>
-                                @endauth --}}
+                                    @endguest
+
+                                    <div class="form-group mb-2">
+                                        <textarea name="comment" rows="6" class="form-control rounded-0"
+                                            placeholder="Type your opinion about this news here.." required></textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <button class="btn btn-outline-light rounded-0 w-100">SUBMIT</button>
+                                    </div>
+                                </form>
 
                                 <hr class="opacity-100 border-3 my-4">
                                 <ul class="list-group list-group-flush small">
@@ -280,7 +150,10 @@
                                         <li class="list-group-item px-0">
                                             <div class="comment-item">
                                                 <h5 class="comment-name mb-0 fs-6">
-                                                    <b class="fw-medium">{{ $comment->user->name }}</b>
+                                                    <b class="fw-medium">
+                                                        {{-- {{ $comment->user->name }} --}}
+                                                        {{ $comment->displayName() }}
+                                                    </b>
                                                 </h5>
                                                 <p class="comment-date">
                                                     <small><small>{{ $comment->created_at->format('l, Y M d') }}<span
@@ -290,7 +163,10 @@
 
                                                 @foreach ($comment->replies as $reply)
                                                     <div class="ms-3 mt-2 border-start ps-3">
-                                                        <h6 class="mb-0">{{ $reply->user->name }}</h6>
+                                                        <h6 class="mb-0">
+                                                            {{-- {{ $reply->user->name }} --}}
+                                                            {{ $comment->displayName() }}
+                                                        </h6>
                                                         <p class="small text-muted">
                                                             {{ $reply->created_at->diffForHumans() }}</p>
                                                         <p>{{ $reply->comment }}</p>
