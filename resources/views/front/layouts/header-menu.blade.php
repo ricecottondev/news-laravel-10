@@ -2,22 +2,22 @@
    <div class="menu-top bg-secondary">
       <div class="container-lg px-1 px-lg-3">
          <div class="overflow-x-auto position-relative">
-            <button class="btn btn-sm position-absolute top-50 translate-middle-y start-0 z-2 bg-dark text-white left-country"><i class="fas fa-chevron-left"></i></button>
+
             <div class="d-flex flex-nowrap text-capitalize column-gap-1 text-nowrap py-1 px-4 country-scroll" id="country-menu">
                <!-- Country menu items will be populated via JS -->
             </div>
-            <button class="btn btn-sm position-absolute top-50 translate-middle-y end-0 z-2 bg-dark text-white right-country"><i class="fas fa-chevron-right"></i></button>
+
          </div>
       </div>
    </div><!-- end menu top -->
    <div class="menu-bottom bg-black" id="category-section" style="display: none;">
       <div class="container-lg px-1 px-lg-3">
          <div class="overflow-x-auto position-relative">
-            <button class="btn btn-sm position-absolute top-50 translate-middle-y start-0 z-2 bg-dark text-white left-category"><i class="fas fa-chevron-left"></i></button>
+
             <div class="d-flex flex-nowrap text-capitalize column-gap-1 text-nowrap py-1 px-4 category-scroll" id="category-menu">
                <!-- Category menu items will be populated via JS -->
             </div>
-            <button class="btn btn-sm position-absolute top-50 translate-middle-y end-0 z-2 bg-dark text-white right-category"><i class="fas fa-chevron-right"></i></button>
+
          </div>
       </div>
    </div><!-- end menu bottom -->
@@ -59,11 +59,12 @@
 
                     countryLink.href = `/${countryName}/news`;
                     countryLink.textContent = country.country_name;
-                    countryLink.className = "btn btn-sm border-0 shadow-none text-white";
+                    countryLink.className = "btn btn-sm border-0 fw-medium shadow-none text-white";
                     countryLink.dataset.countryId = country.id;
 
                     if (selectedCountry && countryName === selectedCountry.toLowerCase()) {
-                        countryLink.classList.add("active");
+                        countryLink.classList.remove("text-white");
+                        countryLink.classList.add("active","text-dark");
                         loadCategories(countryName, country.id, selectedCategory);
                     }
 
@@ -72,8 +73,8 @@
                         const countryId = this.dataset.countryId;
                         selectedCountry = countryName;
 
-                        document.querySelectorAll(".country-scroll a").forEach(a => a.classList.remove("active"));
-                        this.classList.add("active");
+                        document.querySelectorAll(".country-scroll a").forEach(a => a.classList.remove("active","text-white"));
+                        this.classList.add("active","text-dark");
 
                         loadCategories(countryName, countryId, null)
                             .then(() => {
@@ -111,11 +112,12 @@
                         const categoryLink = document.createElement("a");
                         categoryLink.href = `/${countryName}/newscategory/${encodeURIComponent(category.name)}`;
                         categoryLink.textContent = category.name;
-                        categoryLink.className = "btn btn-sm border-0 shadow-none text-white";
+                        categoryLink.className = "btn btn-sm border-0 fw-medium shadow-none text-white";
 
                         if (preselectedCategory && decodeURIComponent(preselectedCategory).toLowerCase() === category.name.toLowerCase()) {
-                            document.querySelectorAll(".category-scroll a").forEach(a => a.classList.remove("active"));
-                            categoryLink.classList.add("active");
+                            document.querySelectorAll(".category-scroll a").forEach(a => a.classList.remove("active","text-white"));
+                             categoryLink.classList.remove("text-white");
+                            categoryLink.classList.add("active","text-dark");
                         }
 
                         categoryMenu.appendChild(categoryLink);
@@ -128,8 +130,8 @@
                         miscLink.className = "btn btn-sm border-0 shadow-none text-white";
 
                         if (preselectedCategory && preselectedCategory.toLowerCase() === 'misc') {
-                            document.querySelectorAll(".category-scroll a").forEach(a => a.classList.remove("active"));
-                            miscLink.classList.add("active");
+                            document.querySelectorAll(".category-scroll a").forEach(a => a.classList.remove("active","text-white"));
+                            miscLink.classList.add("active","text-dark");
                         }
 
                         categoryMenu.appendChild(miscLink);
