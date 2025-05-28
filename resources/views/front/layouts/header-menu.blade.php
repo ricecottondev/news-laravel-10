@@ -3,7 +3,7 @@
       <div class="container-lg px-1 px-lg-3">
          <div class="overflow-x-auto position-relative">
 
-            <div class="d-flex flex-nowrap text-capitalize column-gap-1 text-nowrap py-1 px-4 country-scroll" id="country-menu">
+            <div class="d-flex flex-nowrap text-capitalize column-gap-1 text-nowrap py-1 country-scroll" id="country-menu">
                <!-- Country menu items will be populated via JS -->
             </div>
 
@@ -14,7 +14,7 @@
       <div class="container-lg px-1 px-lg-3">
          <div class="overflow-x-auto position-relative">
 
-            <div class="d-flex flex-nowrap text-capitalize column-gap-1 text-nowrap py-1 px-4 category-scroll" id="category-menu">
+            <div class="d-flex flex-nowrap text-capitalize column-gap-1 text-nowrap py-1 category-scroll" id="category-menu">
                <!-- Category menu items will be populated via JS -->
             </div>
 
