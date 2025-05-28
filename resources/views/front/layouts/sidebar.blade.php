@@ -1,10 +1,11 @@
-<!-- ----------- sidebar -->
-<div id="sidebar" class="offcanvas offcanvas-end" z-indez="-1">
+<aside id="sidebar" class="offcanvas offcanvas-end" z-index="-1">
    <div class="offcanvas-header">
-      <button class="btn-close rounded-0 shadow-none border-0" data-bs-dismiss="offcanvas"></button>
+      <button class="btn-close rounded-0 border-0 shadow-none" data-bs-dismiss="offcanvas"></button>
    </div>
-   <div class="offcanvas-body fs-5">
-      <script src="layout/footbar-menu.js"></script>
+   <div class="offcanvas-body">
+      <div class="fs-5">
+        @include('front.layouts.nav-side')
+         {{-- <script src="layout/nav-side.js"></script> --}}
+      </div>
    </div>
-   <div class="offcanvas-end"></div>
-</div><!-- end sidebar -->
+</aside>
