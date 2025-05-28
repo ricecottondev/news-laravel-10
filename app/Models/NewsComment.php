@@ -11,7 +11,7 @@ class NewsComment extends Model
 
     protected $table = 'news_comments';
 
-    protected $fillable = ['user_id', 'guest_name', 'news_id', 'comment', 'parent_id'];
+    protected $fillable = ['user_id', 'guest_name', 'news_id', 'comment', 'parent_id', 'status'];
 
     public function displayName()
     {

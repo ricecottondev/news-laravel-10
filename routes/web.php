@@ -287,11 +287,14 @@ Route::group(['middleware' => ['auth']], function () {
 
 
     Route::resource('/back/blocked-ips', \App\Http\Controllers\Back\BlockedIps\BlockedIpController::class)->names('blocked-ips')
-    ->parameters(['blocked-ips' => 'blocked_ip']);;
+    ->parameters(['blocked-ips' => 'blocked_ip']);
 
     Route::resource('/back/testimonials', \App\Http\Controllers\Back\Testimonial\TestimonialController::class)->names('testimonials')
-    ->parameters(['testimonials' => 'testimonial']);;
+    ->parameters(['testimonials' => 'testimonial']);
 
+    Route::prefix('back')->name('back.')->group(function () {
+    Route::resource('news-comments', \App\Http\Controllers\Back\News\NewsCommentController::class)->except(['create', 'store', 'show']);
+});
 
     Route::resource('/back/banner',BannerController::class);
     // Route::post('/back/scrapper', [ScrappingController::class, 'index'])->name('scrapper.index.post');

@@ -134,7 +134,9 @@
                                 <span class="path2"></span>
                             </i>
                         </span>
-                        <span class="menu-title">Web Scrapping</span>
+                        <span class="menu-title">Web Scrapping
+                             <span class="badge bg-danger text-white ms-2">New</span>
+                        </span>
                     </a>
                     <!--end:Menu link-->
                 </div>
@@ -162,12 +164,14 @@
                                 <span class="path2"></span>
                             </i>
                         </span>
-                        <span class="menu-title">Check Ip Bot</span>
+                        <span class="menu-title">Check Ip Bot
+                             <span class="badge bg-danger text-white ms-2">New</span>
+                        </span>
                     </a>
                     <!--end:Menu link-->
                 </div>
 
-                <div class="menu-item">
+                <div class="menu-item"> dd("updated");
                     <!--begin:Menu link-->
                     <a class="menu-link" href="{{ url('back/blocked-ips') }}">
                         <span class="menu-icon">
@@ -176,7 +180,25 @@
                                 <span class="path2"></span>
                             </i>
                         </span>
-                        <span class="menu-title">Blocked IP</span>
+                        <span class="menu-title">Blocked IP
+                             <span class="badge bg-danger text-white ms-2">New</span>
+                        </span>
+                    </a>
+                    <!--end:Menu link-->
+                </div>
+
+                <div class="menu-item">
+                    <!--begin:Menu link-->
+                    <a class="menu-link" href="{{ url('back/news-comments') }}">
+                        <span class="menu-icon">
+                            <i class="ki-duotone ki-square-brackets fs-2">
+                                <span class="path1"></span>
+                                <span class="path2"></span>
+                            </i>
+                        </span>
+                        <span class="menu-title">News Comment
+                             <span class="badge bg-danger text-white ms-2">New</span>
+                        </span>
                     </a>
                     <!--end:Menu link-->
                 </div>
@@ -190,7 +212,9 @@
                                 <span class="path2"></span>
                             </i>
                         </span>
-                        <span class="menu-title">Testimonials</span>
+                        <span class="menu-title">Testimonials
+                             <span class="badge bg-danger text-white ms-2">New</span>
+                        </span>
                     </a>
                     <!--end:Menu link-->
                 </div>
