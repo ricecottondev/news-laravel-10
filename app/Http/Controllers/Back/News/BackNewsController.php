@@ -236,7 +236,7 @@ class BackNewsController extends Controller
     public function toggleEditorChoice(Request $request, $id)
     {
         $news = News::findOrFail($id);
-        $news->editor_choice = $request->editor_choice === "true";
+        $news->editor_choice = $request->editor_choice === true;
         $news->save();
 
         return response()->json(['success' => true]);
