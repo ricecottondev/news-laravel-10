@@ -4,7 +4,7 @@
          <h1 class="m-0 text-reset navbar-logo">
             <a href="index.html" class="text-decoration-none text-reset d-flex flex-nowrap column-gap-3 align-items-center">
                <div class="ratio ratio-1x1" style="width: 56px;">
-                  <img src="assets/template2/asset/img/logo-bot.png" class="object-fit-cover" alt="">
+                  <img src="assets/template3/asset/img/logo-bot.png" class="object-fit-cover" alt="">
                </div>
                <div class="lh-1">
                   <b class="fw-bold lh-1 m-0" style="font-size: 1.5rem;">FactaBot</b><br>

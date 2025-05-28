@@ -327,11 +327,11 @@
                                      @foreach ($justinnews as $jin)
                                          <li class="list-group-item px-0">
                                              <p class="mb-1">
-                                                 <small><small>2 minutes ago</small></small>
+                                                 <small><small>{{ $jin->created_at->diffForHumans() }}</small></small>
                                              </p>
                                              <h5 class="fs-reset">
                                                  <b class="fw-medium">
-                                                     <a href="#" class="text-reset link-hover-underline"
+                                                     <a href="{{ route('front.news.show', $jin->slug) }}" class="text-reset link-hover-underline"
                                                          decorate="none">
                                                          {{-- <a href="{{ route('front.news.show', $jin->slug) }}" --}}
                                                          {{ $jin->title }}
@@ -411,7 +411,7 @@
                                                          </p>
                                                          <h5 class="news-title fs-5">
                                                              <b class="fw-bold">
-                                                                 <a href="detail.html"
+                                                                 <a href="{{ route('front.news.show', $epn->slug) }}"
                                                                      class="text-reset link-hover-underline">
                                                                      {{ $epn->title }}
                                                                  </a>
@@ -425,10 +425,9 @@
                                                              </div>
                                                              <div class="media-body">
                                                                  <div class="mb-1"><small class="opacity-75">Author
-                                                                         by</small> <b class="fw-medium">Yoggi
-                                                                         Pradhokot</b>
+                                                                         by</small> <b class="fw-medium">{{ $epn->author }}</b>
                                                                  </div>
-                                                                 <div><small>5 minutes ago</small></div>
+                                                                 <div><small>{{ $epn->created_at->diffForHumans() }}</small></div>
                                                              </div>
                                                          </div>
                                                      </main>
