@@ -194,6 +194,30 @@ class FrontHomeController extends Controller
             ->limit(60)
             ->get();
 
+            $justinnews = News::with(['category', 'countriesCategoriesNews'])
+            ->where('status', 'published')
+
+            ->whereHas('countriesCategoriesNews.country', function ($query) {
+                $query->where('country_name', 'Australia');
+            })
+            ->orderBy('created_at', 'desc')
+            ->orderBy('id', 'asc')
+            ->limit(10)
+            ->get();
+
+            $editorpicknews = News::with(['category', 'countriesCategoriesNews'])
+            ->where('status', 'published')
+            ->where('editor_choice', true) // Filter untuk berita pilihan editor
+            ->whereHas('countriesCategoriesNews.country', function ($query) {
+                $query->where('country_name', 'Australia');
+            })
+            ->orderBy('created_at', 'desc')
+            ->orderBy('id', 'asc')
+            ->limit(15)
+            ->get();
+        // dump($justinnews->toArray());
+        // dd($editorpicknews->toArray());
+
         // dd($topnews->toArray());
 
         $news = News::where('status', 'published')->orderBy('id', 'desc')->limit(6)->get();
@@ -291,7 +315,7 @@ class FrontHomeController extends Controller
 
 
 
-        return view('front.home', compact("breaking_news", "topnews", "news", "today_news", "not_today_news", "groupedByCategory", "defaultCountry", "banner","pathimg","banner_status"));
+        return view('front.home', compact("breaking_news", "topnews","justinnews","editorpicknews", "news", "today_news", "not_today_news", "groupedByCategory", "defaultCountry", "banner","pathimg","banner_status"));
 
         dd("ini home");
         #Get Data Auth user
