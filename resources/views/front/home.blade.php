@@ -166,7 +166,8 @@
                                                          </div>
                                                          <div class="media-body">
                                                              <div class="mb-1"><small class="opacity-75">Author by</small>
-                                                                 <b class="fw-medium">{{ $news3->author }}</b></div>
+                                                                 <b class="fw-medium">{{ $news3->author }}</b>
+                                                             </div>
                                                              <div><small>{{ $news3->created_at->diffForHumans() }}</small>
                                                              </div>
                                                          </div>
@@ -323,7 +324,24 @@
                              </header>
                              <main>
                                  <ul class="list-group list-group-flush">
-                                     <li class="list-group-item px-0">
+                                     @foreach ($justinnews as $jin)
+                                         <li class="list-group-item px-0">
+                                             <p class="mb-1">
+                                                 <small><small>2 minutes ago</small></small>
+                                             </p>
+                                             <h5 class="fs-reset">
+                                                 <b class="fw-medium">
+                                                     <a href="#" class="text-reset link-hover-underline"
+                                                         decorate="none">
+                                                         {{-- <a href="{{ route('front.news.show', $jin->slug) }}" --}}
+                                                         {{ $jin->title }}
+                                                     </a>
+                                                 </b>
+                                             </h5>
+                                         </li>
+                                     @endforeach
+
+                                     {{-- <li class="list-group-item px-0">
                                          <p class="mb-1">
                                              <small><small>2 minutes ago</small></small>
                                          </p>
@@ -361,20 +379,7 @@
                                                  </a>
                                              </b>
                                          </h5>
-                                     </li>
-                                     <li class="list-group-item px-0">
-                                         <p class="mb-1">
-                                             <small><small>2 minutes ago</small></small>
-                                         </p>
-                                         <h5 class="fs-reset">
-                                             <b class="fw-medium">
-                                                 <a href="#" class="text-reset link-hover-underline">
-                                                     Exclusive liberals and Nationals closer on Coalition fix,
-                                                     spotlight moves to litleproud leadership.
-                                                 </a>
-                                             </b>
-                                         </h5>
-                                     </li>
+                                     </li> --}}
                                  </ul>
                              </main>
                          </div><!-- end just in -->
@@ -391,41 +396,75 @@
                              </header>
                              <main>
                                  <ul class="list-group list-group-flush">
-                                     <li class="list-group-item px-0">
-                                         <div class="news-item">
-                                             <header>
-                                                 <div class="ratio ratio-4x3 news-img">
-                                                     <img src="" class="object-fit-cover" alt="">
-                                                 </div>
-                                             </header>
-                                             <main>
-                                                 <p class="news-category">
-                                                     <small><b class="fw-bold">Politic</b> Donald Trump</small>
-                                                 </p>
-                                                 <h5 class="news-title fs-5">
-                                                     <b class="fw-bold">
-                                                         <a href="detail.html" class="text-reset link-hover-underline">
-                                                             Sorry, Donald, but the celebrities you covet will never
-                                                             be your friends
-                                                         </a>
-                                                     </b>
-                                                 </h5>
-                                                 <div class="news-time media small">
-                                                     <div class="media-header">
-                                                         <div class="ratio ratio-1x1 rounded-circle" style="width: 2rem;">
+                                     @foreach ($editorpicknews as $epn)
+                                         @if ($loop->first)
+                                             <li class="list-group-item px-0">
+                                                 <div class="news-item">
+                                                     <header>
+                                                         <div class="ratio ratio-4x3 news-img">
+                                                             <img src="" class="object-fit-cover" alt="">
                                                          </div>
-                                                     </div>
-                                                     <div class="media-body">
-                                                         <div class="mb-1"><small class="opacity-75">Author
-                                                                 by</small> <b class="fw-medium">Yoggi Pradhokot</b>
+                                                     </header>
+                                                     <main>
+                                                         <p class="news-category">
+                                                             <small><b class="fw-bold">Politic</b> Donald Trump</small>
+                                                         </p>
+                                                         <h5 class="news-title fs-5">
+                                                             <b class="fw-bold">
+                                                                 <a href="detail.html"
+                                                                     class="text-reset link-hover-underline">
+                                                                     {{ $epn->title }}
+                                                                 </a>
+                                                             </b>
+                                                         </h5>
+                                                         <div class="news-time media small">
+                                                             <div class="media-header">
+                                                                 <div class="ratio ratio-1x1 rounded-circle"
+                                                                     style="width: 2rem;">
+                                                                 </div>
+                                                             </div>
+                                                             <div class="media-body">
+                                                                 <div class="mb-1"><small class="opacity-75">Author
+                                                                         by</small> <b class="fw-medium">Yoggi
+                                                                         Pradhokot</b>
+                                                                 </div>
+                                                                 <div><small>5 minutes ago</small></div>
+                                                             </div>
                                                          </div>
-                                                         <div><small>5 minutes ago</small></div>
-                                                     </div>
+                                                     </main>
                                                  </div>
-                                             </main>
-                                         </div>
-                                     </li>
-                                     <li class="list-group-item px-0">
+                                             </li>
+                                         @else
+                                             <li class="list-group-item px-0">
+                                                 <div class="news-item">
+                                                     <div class="row">
+                                                         <div class="col col-7">
+                                                             <p class="news-category">
+                                                                 <small><small><b class="fw-bold">Politic</b> Donald
+                                                                         Trump</small></small>
+                                                             </p>
+                                                             <h5 class="news-title fs-6">
+                                                                 <b class="fw-bold">
+                                                                     <a href="detail.html"
+                                                                         class="text-reset link-hover-underline">
+                                                                         {{ $epn->title }}
+                                                                     </a>
+                                                                 </b>
+                                                             </h5>
+                                                         </div><!-- end col -->
+                                                         <div class="col col-5">
+                                                             <div class="ratio ratio-4x3 news-img">
+                                                                 <img src="" class="object-fit-cover"
+                                                                     alt="">
+                                                             </div>
+                                                         </div><!-- end col -->
+                                                     </div><!-- end row -->
+                                                 </div>
+                                             </li>
+                                         @endif
+                                     @endforeach
+
+                                     {{-- <li class="list-group-item px-0">
                                          <div class="news-item">
                                              <div class="row">
                                                  <div class="col col-7">
@@ -450,8 +489,8 @@
                                                  </div><!-- end col -->
                                              </div><!-- end row -->
                                          </div>
-                                     </li>
-                                     <li class="list-group-item px-0">
+                                     </li> --}}
+                                     {{-- <li class="list-group-item px-0">
                                          <div class="news-item">
                                              <div class="row">
                                                  <div class="col col-7">
@@ -476,33 +515,7 @@
                                                  </div><!-- end col -->
                                              </div><!-- end row -->
                                          </div>
-                                     </li>
-                                     <li class="list-group-item px-0">
-                                         <div class="news-item">
-                                             <div class="row">
-                                                 <div class="col col-7">
-                                                     <p class="news-category">
-                                                         <small><small><b class="fw-bold">Politic</b> Donald
-                                                                 Trump</small></small>
-                                                     </p>
-                                                     <h5 class="news-title fs-6">
-                                                         <b class="fw-bold">
-                                                             <a href="detail.html"
-                                                                 class="text-reset link-hover-underline">
-                                                                 Sorry, Donald, but the celebrities you covet will
-                                                                 never be your friends
-                                                             </a>
-                                                         </b>
-                                                     </h5>
-                                                 </div><!-- end col -->
-                                                 <div class="col col-5">
-                                                     <div class="ratio ratio-4x3 news-img">
-                                                         <img src="" class="object-fit-cover" alt="">
-                                                     </div>
-                                                 </div><!-- end col -->
-                                             </div><!-- end row -->
-                                         </div>
-                                     </li>
+                                     </li> --}}
                                  </ul>
                              </main>
                          </div><!-- end editors picks -->
