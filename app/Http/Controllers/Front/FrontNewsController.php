@@ -155,7 +155,7 @@ class FrontNewsController extends Controller
         $news->increment('views');
         $processedContent = $this->splitParagraphsBySentences($news->content);
 
-         $promotednews = News::with(['category', 'countriesCategoriesNews'])
+        $promotednews = News::with(['category', 'countriesCategoriesNews'])
             ->where('status', 'published')
 
             ->whereHas('countriesCategoriesNews.country', function ($query) {
@@ -242,13 +242,13 @@ class FrontNewsController extends Controller
         $news = $query->orderBy('created_at', 'desc')
             ->get();
         // dd($news);
-         $justinnews = News::with(['category', 'countriesCategoriesNews'])
+        $justinnews = News::with(['category', 'countriesCategoriesNews'])
             ->where('status', 'published')
 
             ->whereHas('countriesCategoriesNews.country', function ($query) {
                 $query->where('country_name', 'Australia');
             })
-             ->whereHas('countriesCategoriesNews.category', function ($q) use ($categoryName){
+            ->whereHas('countriesCategoriesNews.category', function ($q) use ($categoryName) {
                 $q->where('name',  $categoryName);
             })
             ->orderBy('created_at', 'desc')
@@ -298,10 +298,7 @@ class FrontNewsController extends Controller
             });
         } else
         if (strtolower($categoryName) === 'breaking news') {
-
-        }
-        else
-        {
+        } else {
             $query->whereHas('countriesCategoriesNews', function ($q) use ($categoryName) {
                 $q->whereHas('category', function ($q) use ($categoryName) {
                     $q->where('name', $categoryName);
@@ -314,13 +311,13 @@ class FrontNewsController extends Controller
             ->orderBy('id', 'asc')
             ->get();
 
-             $justinnews = News::with(['category', 'countriesCategoriesNews'])
+        $justinnews = News::with(['category', 'countriesCategoriesNews'])
             ->where('status', 'published')
 
             ->whereHas('countriesCategoriesNews.country', function ($query) {
                 $query->where('country_name', 'Australia');
             })
-             ->whereHas('countriesCategoriesNews.category', function ($q) use ($categoryName){
+            ->whereHas('countriesCategoriesNews.category', function ($q) use ($categoryName) {
                 $q->where('name',  $categoryName);
             })
             ->orderBy('created_at', 'desc')
@@ -328,7 +325,7 @@ class FrontNewsController extends Controller
             ->limit(10)
             ->get();
 
-             $editorpicknews = News::with(['category', 'countriesCategoriesNews'])
+        $editorpicknews = News::with(['category', 'countriesCategoriesNews'])
             ->where('status', 'published')
             ->where('editor_choice', true) // Filter untuk berita pilihan editor
             ->whereHas('countriesCategoriesNews.country', function ($query) {
@@ -360,14 +357,37 @@ class FrontNewsController extends Controller
 
             ->get();
 
-            // $news = News::with(['category', 'countriesCategoriesNews'])
-            // ->where('status', 'published')
-            // ->whereDate('created_at', Carbon::today())
-            // ->orderBy('created_at', 'desc') // urutkan berdasarkan tanggal terbaru
-            // ->orderBy('id', 'asc')          // dalam tanggal yang sama, urut berdasarkan ID kecil ke besar
-            // ->get();
+        // $news = News::with(['category', 'countriesCategoriesNews'])
+        // ->where('status', 'published')
+        // ->whereDate('created_at', Carbon::today())
+        // ->orderBy('created_at', 'desc') // urutkan berdasarkan tanggal terbaru
+        // ->orderBy('id', 'asc')          // dalam tanggal yang sama, urut berdasarkan ID kecil ke besar
+        // ->get();
 
-        return view('front.news-by-country', compact('news', 'defaultCountry'));
+        $justinnews = News::with(['category', 'countriesCategoriesNews'])
+            ->where('status', 'published')
+
+            ->whereHas('countriesCategoriesNews.country', function ($query) use ($countryname) {
+                $query->where('country_name', $countryname);
+            })
+
+            ->orderBy('created_at', 'desc')
+            ->orderBy('id', 'asc')
+            ->limit(10)
+            ->get();
+
+        $editorpicknews = News::with(['category', 'countriesCategoriesNews'])
+            ->where('status', 'published')
+            ->where('editor_choice', true) // Filter untuk berita pilihan editor
+            ->whereHas('countriesCategoriesNews.country', function ($query) use ($countryname) {
+                 $query->where('country_name', $countryname);
+            })
+            ->orderBy('created_at', 'desc')
+            ->orderBy('id', 'asc')
+            ->limit(15)
+            ->get();
+
+        return view('front.news-by-country', compact('news', 'defaultCountry', 'justinnews', 'editorpicknews'));
     }
 
     public function search(Request $request)
@@ -377,7 +397,7 @@ class FrontNewsController extends Controller
         // Cari berita berdasarkan judul atau konten
         $news = News::where(function ($q) use ($query) {
             $q->where('title', 'LIKE', "%$query%");
-                // ->orWhere('content', 'LIKE', "%$query%");
+            // ->orWhere('content', 'LIKE', "%$query%");
         })
             ->where('status', 'published')
             ->paginate(10);
