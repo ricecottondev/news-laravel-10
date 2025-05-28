@@ -38,44 +38,44 @@
                                     <div
                                         class="row row-cols-auto align-items-center g-0 gx-2 gx-lg-3 justify-content-center">
                                         <div class="col">
-                                            <img src="../../asset/img/abc-logo-v1.png" width="20" height="auto"
+                                            <img src="assets/template2/asset/img/abc-logo-v1.png" width="20" height="auto"
                                                 alt="" class="my-1 my-lg-0 d-lg-none">
-                                            <img src="../../asset/img/abc-logo-v1.png" width="35" height="auto"
+                                            <img src="assets/template2/asset/img/abc-logo-v1.png" width="35" height="auto"
                                                 alt="" class="my-1 my-lg-0 d-none d-lg-inline">
                                         </div><!-- end col -->
                                         <div class="col">
-                                            <img src="../../asset/img/theguardian-logo.png" width="55"
+                                            <img src="assets/template2/asset/img/theguardian-logo.png" width="55"
                                                 height="auto" alt="" class="my-1 my-lg-0 d-lg-none">
-                                            <img src="../../asset/img/theguardian-logo.png" width="80"
+                                            <img src="assets/template2/asset/img/theguardian-logo.png" width="80"
                                                 height="auto" alt="" class="my-1 my-lg-0 d-none d-lg-inline">
                                         </div><!-- end col -->
                                         <div class="col">
-                                            <img src="../../asset/img/sbsnews-logo.png" width="55" height="auto"
+                                            <img src="assets/template2/asset/img/sbsnews-logo.png" width="55" height="auto"
                                                 alt="" class="my-1 my-lg-0 d-lg-none">
-                                            <img src="../../asset/img/sbsnews-logo.png" width="95" height="auto"
+                                            <img src="assets/template2/asset/img/sbsnews-logo.png" width="95" height="auto"
                                                 alt="" class="my-1 my-lg-0 d-none d-lg-inline">
                                         </div><!-- end col -->
                                         <div class="col">
-                                            <img src="../../asset/img/7news.png" width="50" height="auto"
+                                            <img src="assets/template2/asset/img/7news.png" width="50" height="auto"
                                                 alt="" class="my-1 my-lg-0 d-lg-none">
-                                            <img src="../../asset/img/7news.png" width="85" height="auto"
+                                            <img src="assets/template2/asset/img/7news.png" width="85" height="auto"
                                                 alt="" class="my-1 my-lg-0 d-none d-lg-inline">
                                         </div><!-- end col -->
                                         <div class="col">
-                                            <img src="../../asset/img/9news.png" width="50" height="auto"
+                                            <img src="assets/template2/asset/img/9news.png" width="50" height="auto"
                                                 alt="" class="my-1 my-lg-0 d-lg-none">
-                                            <img src="../../asset/img/9news.png" width="95" height="auto"
+                                            <img src="assets/template2/asset/img/9news.png" width="95" height="auto"
                                                 alt="" class="my-1 my-lg-0 d-none d-lg-inline">
                                         </div><!-- end col -->
                                         <div class="col">
-                                            <img src="../../asset/img/10news.png" width="50" height="auto"
+                                            <img src="assets/template2/asset/img/10news.png" width="50" height="auto"
                                                 alt="" class="my-1 my-lg-0 d-lg-none">
-                                            <img src="../../asset/img/10news.png" width="75" height="auto"
+                                            <img src="assets/template2/asset/img/10news.png" width="75" height="auto"
                                                 alt="" class="my-1 my-lg-0 d-none d-lg-inline">
                                         </div><!-- end col -->
                                         <div class="col">
-                                            <!-- <img src="../../asset/img/smh.png" width="20" height="auto" alt="" class="my-1 my-lg-0 d-lg-none"> -->
-                                            <img src="../../asset/img/smh.png" width="40" height="auto"
+                                            <!-- <img src="assets/template2/asset/img/smh.png" width="20" height="auto" alt="" class="my-1 my-lg-0 d-lg-none"> -->
+                                            <img src="assets/template2/asset/img/smh.png" width="40" height="auto"
                                                 alt="" class="my-1 my-lg-0 d-none d-lg-inline">
                                         </div><!-- end col -->
                                     </div><!-- end row -->
@@ -109,7 +109,7 @@
                                         <div class="row g-0 gap-3">
                                             <div class="col col-12 col-md-auto">
                                                 <div class="ratio ratio-1x1 border border-3 border-danger">
-                                                    <img src="../../asset/img/user/clara.jpg" class="object-fit-cover"
+                                                    <img src="assets/template2/asset/img/user/clara.jpg" class="object-fit-cover"
                                                         alt="">
                                                 </div>
                                             </div><!-- end col -->
@@ -134,7 +134,7 @@
                                         <div class="row g-0 gap-3">
                                             <div class="col col-12 col-md-auto">
                                                 <div class="ratio ratio-1x1 border border-3 border-warning">
-                                                    <img src="../../asset/img/user/lola.jpg" class="object-fit-cover"
+                                                    <img src="assets/template2/asset/img/user/lola.jpg" class="object-fit-cover"
                                                         alt="">
                                                 </div>
                                             </div><!-- end col -->
@@ -159,7 +159,7 @@
                                         <div class="row g-0 gap-3">
                                             <div class="col col-12 col-md-auto">
                                                 <div class="ratio ratio-1x1 border border-3 border-white">
-                                                    <img src="../../asset/img/user/phor.jpg" class="object-fit-cover"
+                                                    <img src="assets/template2/asset/img/user/phor.jpg" class="object-fit-cover"
                                                         alt="">
                                                 </div>
                                             </div><!-- end col -->
