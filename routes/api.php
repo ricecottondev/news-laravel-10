@@ -39,6 +39,7 @@ use Illuminate\Support\Facades\Route;
 
 #Beranda
 use App\Http\Controllers\Api\Beranda\GetBerandaController;
+use App\Http\Controllers\Api\Beranda\TestimonialController;
 
 #Token
 use App\Http\Controllers\Api\Member\UpdateTokenFirebaseController;
@@ -169,3 +170,6 @@ Route::post('/reset-limit', [App\Http\Controllers\Api\User\UserController::class
 
 
 Route::post('/api-checkout/session', [App\Http\Controllers\Api\Subscribes\SubscribesController::class, 'CheckoutSession']);
+
+
+Route::middleware('throttle:5,1')->post('/testimonials', [\App\Http\Controllers\Api\Beranda\TestimonialController::class, 'store']);
