@@ -316,29 +316,9 @@
         </div>
     </div>
 
-    <script>
-        document.querySelectorAll('.editor-choice-toggle').forEach(function(checkbox) {
-            checkbox.addEventListener('change', function() {
-                const id = this.dataset.id;
-                const value = this.checked;
+    {{-- <script>
 
-                fetch(`/back/news/${id}/toggle-editor-choice`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                    },
-                    body: JSON.stringify({
-                        editor_choice: value
-                    })
-                }).then(response => {
-                    if (!response.ok) {
-                        alert("Gagal memperbarui status Editor's Choice");
-                    }
-                });
-            });
-        });
-    </script>
+    </script> --}}
 
     <script>
         const updateStatusModal = document.getElementById('updateStatusModal');
@@ -370,6 +350,27 @@
                 }
             });
 
+            document.querySelectorAll('.editor-choice-toggle').forEach(function(checkbox) {
+                checkbox.addEventListener('change', function() {
+                    const id = this.dataset.id;
+                    const value = this.checked;
+
+                    fetch(`/back/news/${id}/toggle-editor-choice`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                        },
+                        body: JSON.stringify({
+                            editor_choice: value
+                        })
+                    }).then(response => {
+                        if (!response.ok) {
+                            alert("Gagal memperbarui status Editor's Choice");
+                        }
+                    });
+                });
+            });
         });
     </script>
     <script>
