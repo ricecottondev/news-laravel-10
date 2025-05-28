@@ -82,6 +82,7 @@
     {{-- <script src="layout/footbar.js"></script> --}}
     <script src="/assets/template3/js/theme.js"></script>
     <script src="/assets/template3/js/global.js"></script>
+    @stack('scripts')
 </body>
 
 </html>
