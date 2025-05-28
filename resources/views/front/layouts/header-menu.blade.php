@@ -1,66 +1,149 @@
 <div class="header-menu">
    <div class="menu-top bg-secondary">
       <div class="container-lg px-1 px-lg-3">
-         <div class="overflow-x-auto">
-            <div class="d-flex flex-nowrap text-capitalize column-gap-1 text-nowrap py-1">
-               <a href="#" class="btn btn-sm border-0 shadow-none">
-                  <span><b class="fw-medium">asia</b></span>
-               </a>
-               <a href="#" class="btn btn-sm border-0 shadow-none active">
-                  <span><b class="fw-medium">australia</b></span>
-               </a>
-               <a href="#" class="btn btn-sm border-0 shadow-none">
-                  <span><b class="fw-medium">china</b></span>
-               </a>
-               <a href="#" class="btn btn-sm border-0 shadow-none">
-                  <span><b class="fw-medium">europe</b></span>
-               </a>
-               <a href="#" class="btn btn-sm border-0 shadow-none">
-                  <span><b class="fw-medium">USA</b></span>
-               </a>
+         <div class="overflow-x-auto position-relative">
+            <button class="btn btn-sm position-absolute top-50 translate-middle-y start-0 z-2 bg-dark text-white left-country"><i class="fas fa-chevron-left"></i></button>
+            <div class="d-flex flex-nowrap text-capitalize column-gap-1 text-nowrap py-1 px-4 country-scroll" id="country-menu">
+               <!-- Country menu items will be populated via JS -->
             </div>
+            <button class="btn btn-sm position-absolute top-50 translate-middle-y end-0 z-2 bg-dark text-white right-country"><i class="fas fa-chevron-right"></i></button>
          </div>
       </div>
    </div><!-- end menu top -->
-   <div class="menu-bottom bg-black">
+   <div class="menu-bottom bg-black" id="category-section" style="display: none;">
       <div class="container-lg px-1 px-lg-3">
-         <div class="overflow-x-auto">
-            <div class="d-flex flex-nowrap text-capitalize column-gap-1 text-nowrap py-1">
-               <a href="#" class="btn btn-sm border-0 shadow-none">
-                  <span><b class="fw-medium">breaking news</b></span>
-               </a>
-               <a href="#" class="btn btn-sm border-0 shadow-none active">
-                  <span><b class="fw-medium">policies</b></span>
-               </a>
-               <a href="#" class="btn btn-sm border-0 shadow-none">
-                  <span><b class="fw-medium">world</b></span>
-               </a>
-               <a href="#" class="btn btn-sm border-0 shadow-none">
-                  <span><b class="fw-medium">business</b></span>
-               </a>
-               <a href="#" class="btn btn-sm border-0 shadow-none">
-                  <span><b class="fw-medium">finance</b></span>
-               </a>
-               <a href="#" class="btn btn-sm border-0 shadow-none">
-                  <span><b class="fw-medium">sports</b></span>
-               </a>
-               <a href="#" class="btn btn-sm border-0 shadow-none">
-                  <span><b class="fw-medium">health</b></span>
-               </a>
-               <a href="#" class="btn btn-sm border-0 shadow-none">
-                  <span><b class="fw-medium">technology</b></span>
-               </a>
-               <a href="#" class="btn btn-sm border-0 shadow-none">
-                  <span><b class="fw-medium">travel & livestyle</b></span>
-               </a>
-               <a href="#" class="btn btn-sm border-0 shadow-none">
-                  <span><b class="fw-medium">entertainment</b></span>
-               </a>
-               <a href="#" class="btn btn-sm border-0 shadow-none">
-                  <span><b class="fw-medium">MISC</b></span>
-               </a>
+         <div class="overflow-x-auto position-relative">
+            <button class="btn btn-sm position-absolute top-50 translate-middle-y start-0 z-2 bg-dark text-white left-category"><i class="fas fa-chevron-left"></i></button>
+            <div class="d-flex flex-nowrap text-capitalize column-gap-1 text-nowrap py-1 px-4 category-scroll" id="category-menu">
+               <!-- Category menu items will be populated via JS -->
             </div>
+            <button class="btn btn-sm position-absolute top-50 translate-middle-y end-0 z-2 bg-dark text-white right-category"><i class="fas fa-chevron-right"></i></button>
          </div>
       </div>
    </div><!-- end menu bottom -->
 </div><!-- end header menu -->
+
+@push('scripts')
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const countryApiUrl = "/api/getAllCountry";
+        const categoryApiUrl = "/api/get-categories/";
+
+        const countryMenu = document.getElementById("country-menu");
+        const categoryMenu = document.getElementById("category-menu");
+        const categorySection = document.getElementById("category-section");
+
+        let selectedCountry = null;
+        let selectedCategory = null;
+
+        const urlParts = window.location.pathname.split("/");
+
+        if (urlParts.length >= 3 && urlParts[2] === "newscategory") {
+            selectedCountry = urlParts[1];
+            selectedCategory = urlParts[3];
+        } else if (urlParts.length >= 2 && urlParts[2] !== "newscategory") {
+            selectedCountry = urlParts[1];
+        }
+
+        if (!selectedCountry) selectedCountry = "australia";
+        if (!selectedCategory) selectedCategory = "breaking news";
+
+        fetch(countryApiUrl)
+            .then(res => res.json())
+            .then(data => {
+                countryMenu.innerHTML = "";
+
+                data.forEach(country => {
+                    const countryName = country.country_name.toLowerCase();
+                    const countryLink = document.createElement("a");
+
+                    countryLink.href = `/${countryName}/news`;
+                    countryLink.textContent = country.country_name;
+                    countryLink.className = "btn btn-sm border-0 shadow-none text-white";
+                    countryLink.dataset.countryId = country.id;
+
+                    if (selectedCountry && countryName === selectedCountry.toLowerCase()) {
+                        countryLink.classList.add("active");
+                        loadCategories(countryName, country.id, selectedCategory);
+                    }
+
+                    countryLink.addEventListener("click", function(event) {
+                        event.preventDefault();
+                        const countryId = this.dataset.countryId;
+                        selectedCountry = countryName;
+
+                        document.querySelectorAll(".country-scroll a").forEach(a => a.classList.remove("active"));
+                        this.classList.add("active");
+
+                        loadCategories(countryName, countryId, null)
+                            .then(() => {
+                                setTimeout(() => {
+                                    window.location.href = `/${countryName}/news`;
+                                }, 500);
+                            });
+                    });
+
+                    countryMenu.appendChild(countryLink);
+                });
+            })
+            .catch(err => console.error("Error fetching countries:", err));
+
+        function loadCategories(countryName, countryId, preselectedCategory) {
+            return fetch(categoryApiUrl + countryId)
+                .then(response => response.json())
+                .then(categories => {
+                    categoryMenu.innerHTML = "";
+                    const preferredOrder = ['Breaking News', 'Politics', 'World', 'Business', 'Finance', 'Sports', 'Health', 'Opinions', 'Technology', 'Travel & Lifestyle', 'Entertainment'];
+                    const miscCategories = [];
+
+                    const sortedCategories = preferredOrder.map(name => {
+                        return categories.find(cat => cat?.name?.toLowerCase() === name.toLowerCase());
+                    }).filter(cat => cat && cat.name);
+
+                    categories.forEach(category => {
+                        if (!category?.name) return;
+                        if (!preferredOrder.some(name => name.toLowerCase() === category.name.toLowerCase())) {
+                            miscCategories.push(category);
+                        }
+                    });
+
+                    sortedCategories.forEach(category => {
+                        const categoryLink = document.createElement("a");
+                        categoryLink.href = `/${countryName}/newscategory/${encodeURIComponent(category.name)}`;
+                        categoryLink.textContent = category.name;
+                        categoryLink.className = "btn btn-sm border-0 shadow-none text-white";
+
+                        if (preselectedCategory && decodeURIComponent(preselectedCategory).toLowerCase() === category.name.toLowerCase()) {
+                            document.querySelectorAll(".category-scroll a").forEach(a => a.classList.remove("active"));
+                            categoryLink.classList.add("active");
+                        }
+
+                        categoryMenu.appendChild(categoryLink);
+                    });
+
+                    if (miscCategories.length > 0) {
+                        const miscLink = document.createElement("a");
+                        miscLink.href = `/${countryName}/newscategory/MISC`;
+                        miscLink.textContent = "MISC";
+                        miscLink.className = "btn btn-sm border-0 shadow-none text-white";
+
+                        if (preselectedCategory && preselectedCategory.toLowerCase() === 'misc') {
+                            document.querySelectorAll(".category-scroll a").forEach(a => a.classList.remove("active"));
+                            miscLink.classList.add("active");
+                        }
+
+                        categoryMenu.appendChild(miscLink);
+                    }
+
+                    categorySection.style.display = "block";
+                })
+                .catch(err => console.error("Error loading categories:", err));
+        }
+
+        document.querySelector(".left-country")?.addEventListener("click", () => countryMenu.scrollBy({ left: -200, behavior: "smooth" }));
+        document.querySelector(".right-country")?.addEventListener("click", () => countryMenu.scrollBy({ left: 200, behavior: "smooth" }));
+        document.querySelector(".left-category")?.addEventListener("click", () => categoryMenu.scrollBy({ left: -200, behavior: "smooth" }));
+        document.querySelector(".right-category")?.addEventListener("click", () => categoryMenu.scrollBy({ left: 200, behavior: "smooth" }));
+    });
+</script>
+@endpush
