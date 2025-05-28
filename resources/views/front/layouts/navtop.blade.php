@@ -2,7 +2,7 @@
    <div class="container-lg px-0 px-lg-3 py-lg-2 position-relative d-flex align-items-center flex-nowrap column-gap-3">
       <div class="flex-grow-0">
          <h1 class="text-reset fs-reset lh-base m-0">
-            <a href="index.html" class="text-reset text-decoration-none d-flex align-items-center column-gap-2">
+            <a href="/" class="text-reset text-decoration-none d-flex align-items-center column-gap-2">
                <div class="ratio ratio-1x1" style="width: 3.6rem;">
                   <img src="/assets/template3/asset/img/logo-bot.png" class="object-fit-contain" alt="">
                </div>
@@ -27,7 +27,7 @@
                   </button>
                </div>
             </div>
-            <a href="#" class="btn btn-outline-light d-none d-md-block">
+            <a href="/login" class="btn btn-outline-light d-none d-md-block">
                Login
             </a>
             <button class="btn rounded-0 border-0 shadow-none p-3 p-lg-0" data-bs-toggle="offcanvas" data-bs-target="#sidebar">
