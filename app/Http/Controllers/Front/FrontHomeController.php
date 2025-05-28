@@ -42,7 +42,7 @@ class FrontHomeController extends Controller
 
     public function index(Request $request)
     {
-
+dump("home");
         if ($request->get('is_bot')) {
             return response()->view('bot-detected'); // Bisa redirect atau tampilkan halaman khusus
         }
@@ -185,13 +185,16 @@ class FrontHomeController extends Controller
 
         $topnews = News::with(['category', 'countriesCategoriesNews'])
             ->where('status', 'published')
-            ->whereDate('created_at', Carbon::today())
+
             ->whereHas('countriesCategoriesNews.country', function ($query) {
                 $query->where('country_name', 'Australia');
             })
             ->orderBy('created_at', 'desc')
             ->orderBy('id', 'asc')
+            ->limit(60)
             ->get();
+
+        // dd($topnews->toArray());
 
         $news = News::where('status', 'published')->orderBy('id', 'desc')->limit(6)->get();
 
