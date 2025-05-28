@@ -42,7 +42,7 @@ class FrontHomeController extends Controller
 
     public function index(Request $request)
     {
-dump("home");
+// dump("home");
         if ($request->get('is_bot')) {
             return response()->view('bot-detected'); // Bisa redirect atau tampilkan halaman khusus
         }
