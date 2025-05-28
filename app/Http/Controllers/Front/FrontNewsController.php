@@ -242,7 +242,20 @@ class FrontNewsController extends Controller
         $news = $query->orderBy('created_at', 'desc')
             ->get();
         // dd($news);
-        return view('front.news-by-category', compact("news", "categoryName"));
+         $justinnews = News::with(['category', 'countriesCategoriesNews'])
+            ->where('status', 'published')
+
+            ->whereHas('countriesCategoriesNews.country', function ($query) {
+                $query->where('country_name', 'Australia');
+            })
+             ->whereHas('countriesCategoriesNews.category', function ($q) use ($categoryName){
+                $q->where('name',  $categoryName);
+            })
+            ->orderBy('created_at', 'desc')
+            ->orderBy('id', 'asc')
+            ->limit(10)
+            ->get();
+        return view('front.news-by-category', compact("news", "categoryName", "justinnews"));
     }
 
     public function shownewsbycategoryandCountry($country, $category)
@@ -301,7 +314,32 @@ class FrontNewsController extends Controller
             ->orderBy('id', 'asc')
             ->get();
 
-        return view('front.news-by-category', compact("news", "categoryName"));
+             $justinnews = News::with(['category', 'countriesCategoriesNews'])
+            ->where('status', 'published')
+
+            ->whereHas('countriesCategoriesNews.country', function ($query) {
+                $query->where('country_name', 'Australia');
+            })
+             ->whereHas('countriesCategoriesNews.category', function ($q) use ($categoryName){
+                $q->where('name',  $categoryName);
+            })
+            ->orderBy('created_at', 'desc')
+            ->orderBy('id', 'asc')
+            ->limit(10)
+            ->get();
+
+             $editorpicknews = News::with(['category', 'countriesCategoriesNews'])
+            ->where('status', 'published')
+            ->where('editor_choice', true) // Filter untuk berita pilihan editor
+            ->whereHas('countriesCategoriesNews.country', function ($query) {
+                $query->where('country_name', 'Australia');
+            })
+            ->orderBy('created_at', 'desc')
+            ->orderBy('id', 'asc')
+            ->limit(15)
+            ->get();
+
+        return view('front.news-by-category', compact("news", "categoryName", "justinnews", "editorpicknews"));
     }
 
 
