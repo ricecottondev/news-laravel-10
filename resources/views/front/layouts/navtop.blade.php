@@ -4,7 +4,7 @@
          <h1 class="text-reset fs-reset lh-base m-0">
             <a href="index.html" class="text-reset text-decoration-none d-flex align-items-center column-gap-2">
                <div class="ratio ratio-1x1" style="width: 3.6rem;">
-                  <img src="assets/template3/asset/img/logo-bot.png" class="object-fit-contain" alt="">
+                  <img src="/assets/template3/asset/img/logo-bot.png" class="object-fit-contain" alt="">
                </div>
                <div>
                   <h5 class="mb-0 fs-4 lh-1">
