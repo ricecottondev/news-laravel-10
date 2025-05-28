@@ -171,5 +171,6 @@ Route::post('/reset-limit', [App\Http\Controllers\Api\User\UserController::class
 
 Route::post('/api-checkout/session', [App\Http\Controllers\Api\Subscribes\SubscribesController::class, 'CheckoutSession']);
 
+Route::get('/testimonials', [\App\Http\Controllers\Api\Beranda\TestimonialController::class, 'index']);
 
 Route::middleware('throttle:5,1')->post('/testimonials', [\App\Http\Controllers\Api\Beranda\TestimonialController::class, 'store']);

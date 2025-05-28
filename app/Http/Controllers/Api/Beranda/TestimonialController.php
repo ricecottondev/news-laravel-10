@@ -11,6 +11,15 @@ use App\Models\BlockedIp;
 
 class TestimonialController extends Controller
 {
+    public function index()
+    {
+        $data = Testimonial::where('status', 'published')
+            ->latest()
+            ->limit(10)
+            ->pluck('message');
+
+        return response()->json($data);
+    }
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -47,7 +56,9 @@ class TestimonialController extends Controller
             'ip_address' => $request->ip(),
             'user_agent' => $userAgent,
             'is_bot' => $isBot,
+            'status' => 'draft',
         ]);
+
 
         if ($isBot) {
             return response()->json([

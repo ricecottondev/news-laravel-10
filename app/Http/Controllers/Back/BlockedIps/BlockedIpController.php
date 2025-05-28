@@ -1,8 +1,8 @@
 <?php
 
 
-namespace App\Http\Controllers\Back\IpCheck;;
-
+namespace App\Http\Controllers\Back\BlockedIps;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\BlockedIp;
 
@@ -11,12 +11,12 @@ class BlockedIpController extends Controller
     public function index()
     {
         $ips = BlockedIp::latest()->paginate(10);
-        return view('admin.blocked_ips.index', compact('ips'));
+        return view('back.blocked_ips.index', compact('ips'));
     }
 
     public function create()
     {
-        return view('admin.blocked_ips.create');
+        return view('back.blocked_ips.create');
     }
 
     public function store(Request $request)
@@ -32,7 +32,7 @@ class BlockedIpController extends Controller
 
     public function edit(BlockedIp $blockedIp)
     {
-        return view('admin.blocked_ips.edit', compact('blockedIp'));
+        return view('back.blocked_ips.edit', compact('blockedIp'));
     }
 
     public function update(Request $request, BlockedIp $blockedIp)
@@ -41,6 +41,8 @@ class BlockedIpController extends Controller
             'ip' => 'required|ip|unique:blocked_ips,ip,' . $blockedIp->id,
             'reason' => 'nullable|string'
         ]);
+
+
 
         $blockedIp->update($request->all());
         return redirect()->route('blocked-ips.index')->with('success', 'IP updated.');
