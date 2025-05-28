@@ -241,6 +241,7 @@ Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 Route::get('back/news-master/import', [BackNewsController::class, 'importForm'])->name('news-master.import.form');
 Route::get('back/news-master/bulkcreate', [BackNewsController::class, 'bulkForm'])->name('news-master.bulk-form');
 Route::post('/back/news/update-status', [BackNewsController::class, 'updateStatus'])->name('news.updateStatus');
+Route::post('/back/news/{id}/toggle-editor-choice', [BackNewsController::class, 'toggleEditorChoice']);
 
 Route::get('back/news-visits', [NewsVisitController::class, 'index'])->name('admin.news.visits');
 

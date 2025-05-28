@@ -38,7 +38,7 @@
                                 <i class="ki-duotone ki-plus"></i> Add News
                             </button>
                             <a href="{{ route('news-master.uncategorized') }}" class="btn btn-sm btn-primary"><i
-                                class="ki-duotone ki-plus "></i>Uncategorized News</a>
+                                    class="ki-duotone ki-plus "></i>Uncategorized News</a>
                         </div>
 
                     </div>
@@ -71,8 +71,8 @@
 
                             <div class="card-body pt-0">
                                 <form method="GET" action="{{ route('news-master.index') }}" class="mb-4 d-flex">
-                                    <input type="text" name="search" class="form-control me-2" placeholder="Search news..."
-                                        value="{{ request('search') }}">
+                                    <input type="text" name="search" class="form-control me-2"
+                                        placeholder="Search news..." value="{{ request('search') }}">
                                     <button type="submit" class="btn btn-dark me-2">Search</button>
                                     <a href="{{ route('news-master.index') }}" class="btn btn-danger">Reset</a>
                                 </form>
@@ -90,6 +90,7 @@
                                             <th>Title</th>
                                             <th>Short Description</th>
                                             <th>Author</th>
+                                            <th>Editor Choice</th>
                                             <th>Status</th>
                                             <th>Action</th>
                                         </tr>
@@ -113,15 +114,19 @@
                                                 <td>{{ $item->short_desc }}</td>
                                                 <td>{{ $item->author }}</td>
                                                 <td>
-                                                    <span class="badge status-badge
+                                                    <input type="checkbox" class="form-check-input editor-choice-toggle"
+                                                        data-id="{{ $item->id }}"
+                                                        {{ $item->editor_choice ? 'checked' : '' }}>
+                                                </td>
+                                                <td>
+                                                    <span
+                                                        class="badge status-badge
                                                         @if ($item->status == 'draft') bg-danger
                                                         @elseif($item->status == 'progress') bg-warning text-dark
                                                         @elseif($item->status == 'published') bg-success
                                                         @elseif($item->status == 'revision') bg-warning text-dark @endif"
-                                                        style="cursor: pointer;"
-                                                        data-bs-toggle="modal"
-                                                        data-bs-target="#updateStatusModal"
-                                                        data-id="{{ $item->id }}"
+                                                        style="cursor: pointer;" data-bs-toggle="modal"
+                                                        data-bs-target="#updateStatusModal" data-id="{{ $item->id }}"
                                                         data-status="{{ $item->status }}">
                                                         {{ ucfirst($item->status) }}
                                                     </span>
@@ -130,8 +135,8 @@
                                                     <a href="{{ route('news-master.edit', $item->id) }}"
                                                         class="btn btn-sm btn-outline btn-outline-dashed btn-outline-default px-4 me-2"><i
                                                             class="fas fa-edit"></i></a>
-                                                    <form action="{{ route('news-master.destroy', $item->id) }}" method="POST"
-                                                        style="display:inline;">
+                                                    <form action="{{ route('news-master.destroy', $item->id) }}"
+                                                        method="POST" style="display:inline;">
                                                         @csrf
                                                         @method('DELETE')
                                                         <button type="submit"
@@ -175,7 +180,8 @@
                                     @csrf
                                     <div class="mb-3">
                                         <label for="title" class="form-label">title</label>
-                                        <input type="text" class="form-control" id="title" name="title" required>
+                                        <input type="text" class="form-control" id="title" name="title"
+                                            required>
                                     </div>
                                     <div class="mb-3">
                                         <label for="short_desc" class="form-label">short_desc</label>
@@ -183,7 +189,8 @@
                                     </div>
                                     <div class="mb-3">
                                         <label for="author" class="form-label">author</label>
-                                        <input type="text" class="form-control" id="author" name="author" required>
+                                        <input type="text" class="form-control" id="author" name="author"
+                                            required>
                                     </div>
                                     <div class="mb-3">
                                         <label for="content" class="form-label">content</label>
@@ -279,7 +286,8 @@
         </div>
     </div>
 
-    <div class="modal fade" id="updateStatusModal" tabindex="-1" aria-labelledby="updateStatusModalLabel" aria-hidden="true">
+    <div class="modal fade" id="updateStatusModal" tabindex="-1" aria-labelledby="updateStatusModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog">
             <form method="POST" action="{{ route('news.updateStatus') }}">
                 @csrf
@@ -309,8 +317,32 @@
     </div>
 
     <script>
+        document.querySelectorAll('.editor-choice-toggle').forEach(function(checkbox) {
+            checkbox.addEventListener('change', function() {
+                const id = this.dataset.id;
+                const value = this.checked;
+
+                fetch(`/back/news/${id}/toggle-editor-choice`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    body: JSON.stringify({
+                        editor_choice: value
+                    })
+                }).then(response => {
+                    if (!response.ok) {
+                        alert("Gagal memperbarui status Editor's Choice");
+                    }
+                });
+            });
+        });
+    </script>
+
+    <script>
         const updateStatusModal = document.getElementById('updateStatusModal');
-        updateStatusModal.addEventListener('show.bs.modal', function (event) {
+        updateStatusModal.addEventListener('show.bs.modal', function(event) {
             const button = event.relatedTarget;
             const planId = button.getAttribute('data-id');
             const currentStatus = button.getAttribute('data-status');

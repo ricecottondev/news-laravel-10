@@ -233,6 +233,15 @@ class BackNewsController extends Controller
         return view('back.news.import', compact('countries'));
     }
 
+    public function toggleEditorChoice(Request $request, $id)
+    {
+        $news = News::findOrFail($id);
+        $news->editor_choice = $request->editor_choice === "true";
+        $news->save();
+
+        return response()->json(['success' => true]);
+    }
+
     public function import(Request $request)
     {
         $request->validate([
