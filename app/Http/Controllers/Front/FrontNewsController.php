@@ -255,6 +255,7 @@ class FrontNewsController extends Controller
             ->orderBy('id', 'asc')
             ->limit(10)
             ->get();
+
         return view('front.news-by-category', compact("news", "categoryName", "justinnews"));
     }
 
@@ -335,13 +336,14 @@ class FrontNewsController extends Controller
             ->orderBy('id', 'asc')
             ->limit(15)
             ->get();
-
-        return view('front.news-by-category', compact("news", "categoryName", "justinnews", "editorpicknews"));
+$countryname = $countryName;
+        return view('front.news-by-category', compact("news", "categoryName","countryname", "justinnews", "editorpicknews"));
     }
 
 
     public function shownewsbyCountry($countryname)
     {
+
         $homeController = new FrontHomeController();
         $country = $homeController->getDefaultcountry();
         $defaultCountry = $country;
@@ -387,7 +389,7 @@ class FrontNewsController extends Controller
             ->limit(15)
             ->get();
 
-        return view('front.news-by-country', compact('news', 'defaultCountry', 'justinnews', 'editorpicknews'));
+        return view('front.news-by-country', compact('news', 'defaultCountry','countryname', 'justinnews', 'editorpicknews'));
     }
 
     public function search(Request $request)

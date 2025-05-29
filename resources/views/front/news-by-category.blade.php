@@ -7,51 +7,90 @@
          <div
              class="source-news text-bg-warning text-center py-1 small mb-3 d-md-flex flex-wrap align-items-md-center px-md-3 justify-content-md-center column-gap-md-4 py-xl-0">
              <div class="text-nowrap">The News Is Full of Spin. Here's the Sarcastic Truth, straight from</div>
-             <div class="d-flex flex-nowrap justify-content-center gap-2 align-items-center">
-                 <div>
-                     <img src="/assets/template3/asset/img/abc-logo-v1.png" width="20" height="auto" alt=""
-                         class="my-1 my-lg-0 d-lg-none">
-                     <img src="/assets/template3/asset/img/abc-logo-v1.png" width="35" height="auto" alt=""
-                         class="my-1 my-lg-0 d-none d-lg-inline">
-                 </div><!-- end col -->
-                 <div>
-                     <img src="/assets/template3/asset/img/theguardian-logo.png" width="55" height="auto" alt=""
-                         class="my-1 my-lg-0 d-lg-none">
-                     <img src="/assets/template3/asset/img/theguardian-logo.png" width="80" height="auto" alt=""
-                         class="my-1 my-lg-0 d-none d-lg-inline">
-                 </div><!-- end col -->
-                 <div>
-                     <img src="/assets/template3/asset/img/sbsnews-logo.png" width="55" height="auto" alt=""
-                         class="my-1 my-lg-0 d-lg-none">
-                     <img src="/assets/template3/asset/img/sbsnews-logo.png" width="95" height="auto" alt=""
-                         class="my-1 my-lg-0 d-none d-lg-inline">
-                 </div><!-- end col -->
-                 <div>
-                     <img src="/assets/template3/asset/img/7news.png" width="50" height="auto" alt=""
-                         class="my-1 my-lg-0 d-lg-none">
-                     <img src="/assets/template3/asset/img/7news.png" width="85" height="auto" alt=""
-                         class="my-1 my-lg-0 d-none d-lg-inline">
-                 </div><!-- end col -->
-                 <div>
-                     <img src="/assets/template3/asset/img/9news.png" width="50" height="auto" alt=""
-                         class="my-1 my-lg-0 d-lg-none">
-                     <img src="/assets/template3/asset/img/9news.png" width="95" height="auto" alt=""
-                         class="my-1 my-lg-0 d-none d-lg-inline">
-                 </div><!-- end col -->
-                 <div>
-                     <img src="/assets/template3/asset/img/10news.png" width="50" height="auto" alt=""
-                         class="my-1 my-lg-0 d-lg-none">
-                     <img src="/assets/template3/asset/img/10news.png" width="75" height="auto" alt=""
-                         class="my-1 my-lg-0 d-none d-lg-inline">
-                 </div><!-- end col -->
-                 <div>
-                     <img src="/assets/template3/asset/img/smh.png" width="20" height="auto" alt=""
-                         class="my-1 my-lg-0 d-lg-none">
-                     <img src="/assets/template3/asset/img/smh.png" width="40" height="auto" alt=""
-                         class="my-1 my-lg-0 d-none d-lg-inline">
-                 </div><!-- end col -->
-             </div>
-             <div class="text-nowrap">and anyone who still does journalism</div>
+              @isset($countryname)
+                @if ($countryname == 'usa')
+                    <div class="d-flex flex-nowrap justify-content-center gap-2 align-items-center">
+                        <div>
+                            <img src="/assets/template3/asset/img/bloomberg_news.png" width="20" height="auto" alt=""
+                                class="my-1 my-lg-0 d-lg-none">
+                            <img src="/assets/template3/asset/img/bloomberg_news.png" width="35" height="auto" alt=""
+                                class="my-1 my-lg-0 d-none d-lg-inline">
+                        </div><!-- end col -->
+                        <div>
+                            <img src="/assets/template3/asset/img/cnn_news.png" width="55" height="auto"
+                                alt="" class="my-1 my-lg-0 d-lg-none">
+                            <img src="/assets/template3/asset/img/cnn_news.png" width="80" height="auto"
+                                alt="" class="my-1 my-lg-0 d-none d-lg-inline">
+                        </div><!-- end col -->
+                        <div>
+                            <img src="/assets/template3/asset/img/fox_news.png" width="55" height="auto" alt=""
+                                class="my-1 my-lg-0 d-lg-none">
+                            <img src="/assets/template3/asset/img/fox_news.png" width="95" height="auto" alt=""
+                                class="my-1 my-lg-0 d-none d-lg-inline">
+                        </div><!-- end col -->
+                        <div>
+                            <img src="/assets/template3/asset/img/nyt_news.png" width="50" height="auto" alt=""
+                                class="my-1 my-lg-0 d-lg-none">
+                            <img src="/assets/template3/asset/img/nyt_news.png" width="85" height="auto" alt=""
+                                class="my-1 my-lg-0 d-none d-lg-inline">
+                        </div><!-- end col -->
+                        <div>
+                            <img src="/assets/template3/asset/img/reuters_news.png" width="50" height="auto" alt=""
+                                class="my-1 my-lg-0 d-lg-none">
+                            <img src="/assets/template3/asset/img/reuters_news.png" width="95" height="auto" alt=""
+                                class="my-1 my-lg-0 d-none d-lg-inline">
+                        </div><!-- end col -->
+                       <!-- end col -->
+                    </div>
+                    <div class="text-nowrap">and anyone who still does journalism</div>
+                @else
+                    <div class="d-flex flex-nowrap justify-content-center gap-2 align-items-center">
+                        <div>
+                            <img src="/assets/template3/asset/img/abc-logo-v1.png" width="20" height="auto" alt=""
+                                class="my-1 my-lg-0 d-lg-none">
+                            <img src="/assets/template3/asset/img/abc-logo-v1.png" width="35" height="auto" alt=""
+                                class="my-1 my-lg-0 d-none d-lg-inline">
+                        </div><!-- end col -->
+                        <div>
+                            <img src="/assets/template3/asset/img/theguardian-logo.png" width="55" height="auto"
+                                alt="" class="my-1 my-lg-0 d-lg-none">
+                            <img src="/assets/template3/asset/img/theguardian-logo.png" width="80" height="auto"
+                                alt="" class="my-1 my-lg-0 d-none d-lg-inline">
+                        </div><!-- end col -->
+                        <div>
+                            <img src="/assets/template3/asset/img/sbsnews-logo.png" width="55" height="auto" alt=""
+                                class="my-1 my-lg-0 d-lg-none">
+                            <img src="/assets/template3/asset/img/sbsnews-logo.png" width="95" height="auto"
+                                alt="" class="my-1 my-lg-0 d-none d-lg-inline">
+                        </div><!-- end col -->
+                        <div>
+                            <img src="/assets/template3/asset/img/7news.png" width="50" height="auto" alt=""
+                                class="my-1 my-lg-0 d-lg-none">
+                            <img src="/assets/template3/asset/img/7news.png" width="85" height="auto" alt=""
+                                class="my-1 my-lg-0 d-none d-lg-inline">
+                        </div><!-- end col -->
+                        <div>
+                            <img src="/assets/template3/asset/img/9news.png" width="50" height="auto" alt=""
+                                class="my-1 my-lg-0 d-lg-none">
+                            <img src="/assets/template3/asset/img/9news.png" width="95" height="auto" alt=""
+                                class="my-1 my-lg-0 d-none d-lg-inline">
+                        </div><!-- end col -->
+                        <div>
+                            <img src="/assets/template3/asset/img/10news.png" width="50" height="auto" alt=""
+                                class="my-1 my-lg-0 d-lg-none">
+                            <img src="/assets/template3/asset/img/10news.png" width="75" height="auto" alt=""
+                                class="my-1 my-lg-0 d-none d-lg-inline">
+                        </div><!-- end col -->
+                        <div>
+                            <img src="/assets/template3/asset/img/smh.png" width="20" height="auto" alt=""
+                                class="my-1 my-lg-0 d-lg-none">
+                            <img src="/assets/template3/asset/img/smh.png" width="40" height="auto" alt=""
+                                class="my-1 my-lg-0 d-none d-lg-inline">
+                        </div><!-- end col -->
+                    </div>
+                    <div class="text-nowrap">and anyone who still does journalism</div>
+                @endif
+            @endisset
          </div><!-- end source news -->
 
          <div class="journalist">
