@@ -404,7 +404,26 @@ $countryname = $countryName;
             ->where('status', 'published')
             ->paginate(10);
 
+            $justinnews = News::with(['category', 'countriesCategoriesNews'])
+            ->where('status', 'published')
 
-        return view('front.news-search', compact('news', 'query'));
+
+
+            ->orderBy('created_at', 'desc')
+            ->orderBy('id', 'asc')
+            ->limit(10)
+            ->get();
+
+        $editorpicknews = News::with(['category', 'countriesCategoriesNews'])
+            ->where('status', 'published')
+            ->where('editor_choice', true) // Filter untuk berita pilihan editor
+
+            ->orderBy('created_at', 'desc')
+            ->orderBy('id', 'asc')
+            ->limit(15)
+            ->get();
+
+
+        return view('front.news-search', compact('news', 'query', 'justinnews', 'editorpicknews'));
     }
 }

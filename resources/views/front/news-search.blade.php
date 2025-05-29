@@ -1,274 +1,574 @@
 @extends('front/layouts.layout')
+@section('title', 'News by Category')
+
 @section('content')
-    <style>
-        .news-title {
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: #1a1a1a;
-            text-decoration: none;
-        }
 
-        .news-title:hover {
-            text-decoration: underline;
-        }
-
-        .news-snippet {
-            color: #4a4a4a;
-            font-size: 0.95rem;
-            line-height: 1.5;
-            font-family: sans-serif;
-        }
-
-        .news-container {
-            border-bottom: 1px solid #ddd;
-            padding-bottom: 1.5rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .news-image {
-            width: 120px;
-            height: auto;
-            object-fit: cover;
-            border-radius: 5px;
-        }
-    </style>
-    <h2 class="mb-4">Search Results for: "{{ $query }}"</h2>
-
-    @if ($news->count() > 0)
-        @php
-            $withImage = $news->filter(fn($item) => $item->image)->values();
-            $noImage = $news->filter(fn($item) => !$item->image)->values();
-
-            $withImageIndex = 0;
-            $noImageIndex = 0;
-            $layoutStep = 1;
-        @endphp
+    <section class="pt-1">
 
 
 
-        @while ($withImageIndex < $withImage->count() || $noImageIndex < $noImage->count())
-            @if (in_array($layoutStep, [1, 3, 5, 6, 8, 9]))
-                {{-- 1 berita bergambar (col-6 + col-6) --}}
-                <div class="row mb-4">
-                    @for ($i = 0; $i < 3; $i++)
-                        @if (isset($withImage[$withImageIndex]))
-                            <div class="col-md-4 mb-3">
-                                @php $news = $withImage[$withImageIndex++] @endphp
-                                <a href="{{ route('front.news.show', $news->slug) }}" class="text-decoration-none text-dark">
-                                    <div class="border rounded-5 overflow-hidden h-100 custom-shadow d-flex flex-column"
-                                        style="min-height: 200px;">
-                                        <div class="position-relative" style="height: 300px;">
-                                            <img src="{{ asset('storage/' . $news->image) }}" alt="{{ $news->title }}"
-                                                class="img-fluid w-100 h-100" style="object-fit: cover;">
-                                        </div>
-                                        <div class="p-3 d-flex flex-column justify-content-between h-100">
+        <hr class="mt-0">
+    </section>
+    <section>
+        <div class="container-lg px-0">
+            <div class="row g-0">
+                <div class="col col-12 col-md-8">
+                    @php
+                        $withImage = $news->filter(fn($item) => $item->image)->values();
+                        $noImage = $news->filter(fn($item) => !$item->image)->values();
+                        $withImageIndex = 0;
+                        $noImageIndex = 0;
+                        $layoutStep = 1;
+                    @endphp
+                    <!-- news -->
+                    <div class="news">
+                        @while ($withImageIndex < $withImage->count() || $noImageIndex < $noImage->count())
+                            @php
+                                $odd = $layoutStep % 2 == 1;
+                            @endphp
 
-                                            <div>
-                                                {{-- Kategori --}}
-                                                @php
-                                                    $categoryName =
-                                                        $news->countriesCategoriesNews->first()?->category?->name ??
-                                                        'No Category';
-                                                @endphp
-                                                <span class="badge bg-danger text-white rounded-pill px-2 py-1 mb-2"
-                                                    style="font-size: 0.75rem;">
-                                                    {{ strtoupper($categoryName) }}
-                                                </span>
+                            {{-- ---------------- Layout News 1 (ganjil) ---------------- --}}
+                            @if ($odd && isset($withImage[$withImageIndex]))
+                                @php
+                                    $news1 = $withImage[$withImageIndex++];
+                                    $news2 = $withImage[$withImageIndex++] ?? null;
+                                    $news3 = $noImage[$noImageIndex++] ?? null;
 
-                                                {{-- Judul --}}
-                                                <h6 class="news-title fw-bold mb-1">{{ Str::limit($news->title, 70) }}</h6>
+                                    $countnews = 0;
+                                    if (!empty($news1)) {
+                                        $countnews++;
+                                        # code...
+                                    }
+                                    if (!empty($news2)) {
+                                        $countnews++;
+                                        # code...
+                                    }
+                                    if (!empty($news3)) {
+                                        $countnews++;
+                                        # code...
+                                    }
+                                    // dump($countnews);
+                                @endphp
 
-                                                {{-- Deskripsi singkat --}}
-                                                <p class="text-muted mb-0" style="font-size: 1.25rem;">
-                                                    {{ Str::words(strip_tags($news->content), 25, '...') }}
+                                <div class="row g-0">
+                                    {{-- News 1 (utama) --}}
+                                    <div class="col px-3 col-12">
+                                        <div class="news-item">
+                                            <header>
+                                                <p class="news-category">
+                                                    <small><b class="fw-bold">{{ $news1->category->name ?? '-' }}</b>
+                                                        {{ $news1->author }}</small>
                                                 </p>
-                                            </div>
-                                            <small class="text-muted mt-3">
-                                                <i class="fas fa-calendar-alt me-1"></i>
-                                                {{ $news->created_at->format('F d, Y') }}
-                                            </small>
-                                        </div>
-                                    </div>
-                                </a>
-                            </div>
-                        @endif
-                    @endfor
-                </div>
-            @elseif (in_array($layoutStep, [2, 4, 7]))
-                {{-- 3 berita tanpa gambar --}}
-                <div class="row mb-4">
-                    @for ($i = 0; $i < 3; $i++)
-                        @if (isset($noImage[$noImageIndex]))
-                            @php $news = $noImage[$noImageIndex++] @endphp
-                            <div class="col-md-4 mb-3">
-                                <a href="{{ route('front.news.show', $news->slug) }}"
-                                    class="text-decoration-none text-dark d-block h-100">
-                                    <div class="border rounded-4 p-3 h-100 custom-shadow">
-                                        <div>
-                                            {{-- Kategori --}}
-                                            @php
-                                                $categoryName =
-                                                    $news->countriesCategoriesNews->first()?->category?->name ??
-                                                    'No Category';
-                                            @endphp
-                                            <span class="badge bg-danger text-white rounded-pill px-2 py-1 mb-2"
-                                                style="font-size: 0.75rem;">
-                                                {{ strtoupper($categoryName) }}
-                                            </span>
-
-                                            {{-- Judul --}}
-                                            <h6 class="news-title fw-bold mb-1">{{ Str::limit($news->title, 70) }}</h6>
-
-                                            {{-- Deskripsi singkat --}}
-                                            <p class="text-muted mb-0" style="font-size: 1.25rem;">
-                                                {{ Str::words(strip_tags($news->content), 25, '...') }}
-                                            </p>
-                                        </div>
-                                        <small class="text-muted">
-                                            <i class="fas fa-calendar-alt me-1"></i>
-                                            {{ $news->created_at->format('F d, Y') }}
-                                        </small>
-                                    </div>
-                                </a>
-                            </div>
-                        @endif
-                    @endfor
-                </div>
-            @elseif (in_array($layoutStep, [10, 11, 12, 13]))
-                @php
-                    // Jika berita tanpa gambar sudah habis
-                    $isNoImageAvailable = isset($noImage[$noImageIndex]);
-                @endphp
-
-                @if (!$isNoImageAvailable && isset($withImage[$withImageIndex]) && isset($withImage[$withImageIndex + 1]))
-                    {{-- Fallback: tampilkan 2 berita bergambar sejajar --}}
-                    <div class="row mb-4">
-                        @for ($i = 0; $i < 2; $i++)
-                            @if (isset($withImage[$withImageIndex]))
-                                @php $news = $withImage[$withImageIndex++] @endphp
-                                <div class="col-md-6 mb-3">
-                                    <a href="{{ route('front.news.show', $news->slug) }}"
-                                        class="text-decoration-none text-dark">
-                                        <div class="border rounded-5 overflow-hidden h-100 custom-shadow d-flex flex-column"
-                                            style="min-height: 200px;">
-                                            <div class="position-relative" style="height: 300px;">
-                                                <img src="{{ asset('storage/' . $news->image) }}"
-                                                    alt="{{ $news->title }}" class="img-fluid w-100 h-100"
-                                                    style="object-fit: cover;">
-                                            </div>
-                                            <div class="p-3 d-flex flex-column justify-content-between h-100">
-                                                <div>
-                                                    @php
-                                                        $categoryName =
-                                                            $news->countriesCategoriesNews->first()?->category?->name ??
-                                                            'No Category';
-                                                    @endphp
-                                                    <span class="badge bg-danger text-white rounded-pill px-2 py-1 mb-2"
-                                                        style="font-size: 0.75rem;">
-                                                        {{ strtoupper($categoryName) }}
-                                                    </span>
-
-                                                    <h6 class="news-title fw-bold mb-1">{{ Str::limit($news->title, 70) }}
-                                                    </h6>
-                                                    <p class="text-muted mb-0" style="font-size: 1.25rem;">
-                                                        {{ Str::words(strip_tags($news->content), 25, '...') }}
-                                                    </p>
+                                                <h5 class="news-title hot-news text-warning">
+                                                    <b class="fw-bold">
+                                                        <a href="{{ route('front.news.show', $news1->slug) }}"
+                                                            class="text-reset link-hover-underline">
+                                                            {{ $news1->title }}
+                                                        </a>
+                                                    </b>
+                                                </h5>
+                                            </header>
+                                            <main>
+                                                <div class="row row-cols-1 row-cols-md-2">
+                                                    <div class="col order-md-2">
+                                                        <div class="ratio ratio-4x3 news-img">
+                                                            <img src="{{ asset('storage/' . $news1->image) }}"
+                                                                class="object-fit-cover" alt="{{ $news1->title }}">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col order-md-1">
+                                                        <p class="news-text">
+                                                            {{ Str::words(strip_tags($news1->content), 30, '...') }}</p>
+                                                        <div class="news-time media small">
+                                                            <div class="media-header">
+                                                                <div class="ratio ratio-1x1 rounded-circle"
+                                                                    style="width: 2rem;"></div>
+                                                            </div>
+                                                            <div class="media-body">
+                                                                <div class="mb-1"><small class="opacity-75">Author
+                                                                        by</small> <b
+                                                                        class="fw-medium">{{ $news1->author }}</b></div>
+                                                                <div>
+                                                                    <small>{{ $news1->created_at->diffForHumans() }}</small>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                                <small class="text-muted mt-3">
-                                                    <i class="fas fa-calendar-alt me-1"></i>
-                                                    {{ $news->created_at->format('F d, Y') }}
-                                                </small>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </div>
-                            @endif
-                        @endfor
-                    </div>
-                @else
-                    {{-- Normal layout: 1 berita bergambar + 3 tanpa gambar --}}
-                    <div class="row mb-4">
-                        <div class="col-md-6 mb-3">
-                            @if (isset($withImage[$withImageIndex]))
-                                @php $news = $withImage[$withImageIndex++] @endphp
-                                <a href="{{ route('front.news.show', $news->slug) }}"
-                                    class="text-decoration-none text-dark">
-                                    <div class="border rounded-5 overflow-hidden h-100 custom-shadow d-flex flex-column"
-                                        style="min-height: 200px;">
-                                        <div class="position-relative" style="height: 300px;">
-                                            <img src="{{ asset('storage/' . $news->image) }}" alt="{{ $news->title }}"
-                                                class="img-fluid w-100 h-100" style="object-fit: cover;">
-                                        </div>
-                                        <div class="p-3 d-flex flex-column justify-content-between h-100">
-                                            <div>
-                                                @php
-                                                    $categoryName =
-                                                        $news->countriesCategoriesNews->first()?->category?->name ??
-                                                        'No Category';
-                                                @endphp
-                                                <span class="badge bg-danger text-white rounded-pill px-2 py-1 mb-2"
-                                                    style="font-size: 0.75rem;">
-                                                    {{ strtoupper($categoryName) }}
-                                                </span>
-                                                <h6 class="news-title fw-bold mb-1">{{ Str::limit($news->title, 70) }}</h6>
-                                                <p class="text-muted mb-0" style="font-size: 1.25rem;">
-                                                    {{ Str::words(strip_tags($news->content), 25, '...') }}
-                                                </p>
-                                            </div>
-                                            <small class="text-muted mt-3">
-                                                <i class="fas fa-calendar-alt me-1"></i>
-                                                {{ $news->created_at->format('F d, Y') }}
-                                            </small>
+                                            </main>
                                         </div>
                                     </div>
-                                </a>
-                            @endif
-                        </div>
-                        <div class="col-md-6">
-                            @for ($i = 0; $i < 3; $i++)
-                                @if (isset($noImage[$noImageIndex]))
-                                    @php $news = $noImage[$noImageIndex++] @endphp
-                                    <div class="mb-3 border rounded-4 p-3 custom-shadow">
-                                        <div>
-                                            @php
-                                                $categoryName =
-                                                    $news->countriesCategoriesNews->first()?->category?->name ??
-                                                    'No Category';
-                                            @endphp
-                                            <span class="badge bg-danger text-white rounded-pill px-2 py-1 mb-2"
-                                                style="font-size: 0.75rem;">
-                                                {{ strtoupper($categoryName) }}
-                                            </span>
-                                            <h6 class="news-title fw-bold mb-1">{{ Str::limit($news->title, 70) }}</h6>
-                                            <p class="text-muted mb-0" style="font-size: 1.25rem;">
-                                                {{ Str::words(strip_tags($news->content), 25, '...') }}
-                                            </p>
+
+                                    {{-- Separator --}}
+                                    <div class="col col-12 px-md-3">
+                                        <hr>
+                                    </div>
+
+                                    {{-- News 2 (dengan gambar) --}}
+                                    @if ($news2)
+                                        <div class="col px-3 col-12 {{ $countnews > 2 ? 'col-md-7' : ''}}">
+                                            <div class="news-item">
+                                                <header>
+                                                    <p class="news-category">
+                                                        <small><b class="fw-bold">{{ $news2->category->name ?? '-' }}</b>
+                                                            {{ $news2->author }}</small>
+                                                    </p>
+                                                    <h5 class="news-title">
+                                                        <b class="fw-bold">
+                                                            <a href="{{ route('front.news.show', $news2->slug) }}"
+                                                                class="text-reset link-hover-underline">
+                                                                {{ $news2->title }}
+                                                            </a>
+                                                        </b>
+                                                    </h5>
+                                                </header>
+                                                <main>
+                                                    <div class="row row-cols-1 row-cols-md-2">
+                                                        <div class="col order-md-2">
+                                                            <div class="ratio ratio-4x3 news-img">
+                                                                <img src="{{ asset('storage/' . $news2->image) }}"
+                                                                    class="object-fit-cover" alt="{{ $news2->title }}">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col order-md-1">
+                                                            <p class="news-text elipsis-4">
+                                                                {{ Str::words(strip_tags($news2->content), 20, '...') }}
+                                                            </p>
+                                                            <div class="news-time media small">
+                                                                <div class="media-header">
+                                                                    <div class="ratio ratio-1x1 rounded-circle"
+                                                                        style="width: 2rem;"></div>
+                                                                </div>
+                                                                <div class="media-body">
+                                                                    <div class="mb-1"><small class="opacity-75">Author
+                                                                            by</small> <b
+                                                                            class="fw-medium">{{ $news2->author }}</b>
+                                                                    </div>
+                                                                    <div>
+                                                                        <small>{{ $news2->created_at->diffForHumans() }}</small>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </main>
+                                            </div>
                                         </div>
-                                        <small class="text-muted">
-                                            <i class="fas fa-calendar-alt me-1"></i>
-                                            {{ $news->created_at->format('F d, Y') }}
-                                        </small>
+                                    @endif
+
+                                    {{-- Garis Vertikal --}}
+                                    <div class="col col-12 col-md-auto">
+                                        <hr class="d-md-none">
+                                        <div class="vr h-100 d-none d-md-block"></div>
+                                    </div>
+
+                                    {{-- News 3 (tanpa gambar) --}}
+                                    @if ($news3)
+                                        <div class="col px-3 col-12 col-md">
+                                            <div class="news-item">
+                                                <header>
+                                                    <p class="news-category">
+                                                        <small><b class="fw-bold">{{ $news3->category->name ?? '-' }}</b>
+                                                            {{ $news3->author }}</small>
+                                                    </p>
+                                                    <h5 class="news-title">
+                                                        <b class="fw-bold">
+                                                            <a href="{{ route('front.news.show', $news3->slug) }}"
+                                                                class="text-reset link-hover-underline">
+                                                                {{ $news3->title }}
+                                                            </a>
+                                                        </b>
+                                                    </h5>
+                                                </header>
+                                                <main>
+                                                    <p class="news-text elipsis-4">
+                                                        {{ Str::words(strip_tags($news3->content), 25, '...') }}</p>
+                                                    <div class="news-time media small">
+                                                        <div class="media-header">
+                                                            <div class="ratio ratio-1x1 rounded-circle"
+                                                                style="width: 2rem;"></div>
+                                                        </div>
+                                                        <div class="media-body">
+                                                            <div class="mb-1"><small class="opacity-75">Author
+                                                                    by</small>
+                                                                <b class="fw-medium">{{ $news3->author }}</b>
+                                                            </div>
+                                                            <div><small>{{ $news3->created_at->diffForHumans() }}</small>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </main>
+                                            </div>
+                                        </div>
+                                    @endif
+                                </div>
+                                <div class="px-md-3">
+                                    <hr>
+                                </div>
+
+                                {{-- ---------------- Layout News 2 (genap) ---------------- --}}
+                            @else
+                                @php
+                                    $main = $withImage[$withImageIndex++] ?? null;
+                                    $side1 = $noImage[$noImageIndex++] ?? null;
+                                    $side2 = $noImage[$noImageIndex++] ?? null;
+
+                                    $countnews = 0;
+                                    if (!empty($main)) {
+                                        $countnews++;
+                                        # code...
+                                    }
+                                    if (!empty($side1)) {
+                                        $countnews++;
+                                        # code...
+                                    }
+                                    if (!empty($side2)) {
+                                        $countnews++;
+                                        # code...
+                                    }
+                                    // dump($countnews);
+
+                                @endphp
+
+
+
+                                @if ($main)
+                                    <div class="row g-0">
+                                        <div class="col px-3 col-12 {{ $countnews > 1 ? 'col-md-7' : '' }}">
+                                            <div class="news-item">
+                                                <header>
+                                                    <p class="news-category">
+                                                        <small><b class="fw-bold">{{ $main->category->name ?? '-' }}</b>
+                                                            {{ $main->author }}</small>
+                                                    </p>
+                                                    <h5 class="news-title text-warning">
+                                                        <b class="fw-bold">
+                                                            <a href="{{ route('front.news.show', $main->slug) }}"
+                                                                class="text-reset link-hover-underline">
+                                                                {{ $main->title }}
+                                                            </a>
+                                                        </b>
+                                                    </h5>
+                                                </header>
+                                                <main>
+                                                    <div class="row row-cols-1">
+                                                        <div class="col">
+                                                            <div class="ratio ratio-4x3 news-img">
+                                                                <img src="{{ asset('storage/' . $main->image) }}"
+                                                                    class="object-fit-cover" alt="{{ $main->title }}">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col">
+                                                            <p class="news-text">
+                                                                {{ Str::words(strip_tags($main->content), 30, '...') }}
+                                                            </p>
+                                                            <div class="news-time media small">
+                                                                <div class="media-header">
+                                                                    <div class="ratio ratio-1x1 rounded-circle"
+                                                                        style="width: 2rem;"></div>
+                                                                </div>
+                                                                <div class="media-body">
+                                                                    <div class="mb-1"><small class="opacity-75">Author
+                                                                            by</small> <b
+                                                                            class="fw-medium">{{ $main->author }}</b>
+                                                                    </div>
+                                                                    <div>
+                                                                        <small>{{ $main->created_at->diffForHumans() }}</small>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </main>
+                                            </div>
+                                        </div>
+                                        <div class="col col-12 col-md-auto">
+                                            <hr class="d-md-none">
+                                            <div class="vr h-100 d-none d-md-block"></div>
+                                        </div>
+                                        <div class="col col-12 col-md">
+                                            <div class="row g-0">
+                                                @foreach ([$side1, $side2] as $news)
+                                                    @if ($news)
+                                                        <div class="col px-3 col-12">
+                                                            <div class="news-item">
+                                                                <header>
+                                                                    <p class="news-category">
+                                                                        <small><b
+                                                                                class="fw-bold">{{ $news->category->name ?? '-' }}</b>
+                                                                            {{ $news->author }}</small>
+                                                                    </p>
+                                                                    <h5 class="news-title">
+                                                                        <b class="fw-bold">
+                                                                            <a href="{{ route('front.news.show', $news->slug) }}"
+                                                                                class="text-reset link-hover-underline">
+                                                                                {{ $news->title }}
+                                                                            </a>
+                                                                        </b>
+                                                                    </h5>
+                                                                </header>
+                                                                <main>
+                                                                    <p class="news-text elipsis-4">
+                                                                        {{ Str::words(strip_tags($news->content), 25, '...') }}
+                                                                    </p>
+                                                                    <div class="news-time media small">
+                                                                        <div class="media-header">
+                                                                            <div class="ratio ratio-1x1 rounded-circle"
+                                                                                style="width: 2rem;"></div>
+                                                                        </div>
+                                                                        <div class="media-body">
+                                                                            <div class="mb-1"><small
+                                                                                    class="opacity-75">Author by</small>
+                                                                                <b
+                                                                                    class="fw-medium">{{ $news->author }}</b>
+                                                                            </div>
+                                                                            <div>
+                                                                                <small>{{ $news->created_at->diffForHumans() }}</small>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </main>
+                                                            </div>
+                                                        </div>
+                                                        @if (!$loop->last)
+                                                            <div class="col col-12 px-md-3">
+                                                                <hr>
+                                                            </div>
+                                                        @endif
+                                                    @endif
+                                                @endforeach
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="px-md-3">
+                                        <hr>
                                     </div>
                                 @endif
-                            @endfor
-                        </div>
+                            @endif
+
+                            @php $layoutStep++; @endphp
+                        @endwhile
                     </div>
-                @endif
-            @endif
+                    <!-- end news -->
 
+                </div><!-- end col -->
+                <div class="col col-12 col-md-auto">
+                    <hr class="opacity-100 my-5 d-md-none">
+                    <div class="vr h-100 d-none d-md-block mx-lg-3"></div>
+                </div><!-- end col -->
+                <div class="col px-3 col-12 col-md">
+                    <aside class="sidenav">
 
-            @php
-                $layoutStep++;
-                if ($layoutStep > 13) {
-                    $layoutStep = 1;
-                }
-            @endphp
-        @endwhile
-    @else
-        <p>No news found for "{{ $query }}".</p>
-    @endif
+                        <div class="just-in">
+                            <header>
+                                <h5 class="fs-reset mb-3 text-danger">
+                                    <b class="fw-bold">JUST IN</b>
+                                </h5>
+                            </header>
+                            <main>
+                                <ul class="list-group list-group-flush">
+                                    @foreach ($justinnews as $jin)
+                                        <li class="list-group-item px-0">
+                                            <p class="mb-1">
+                                                <small><small>{{ $jin->created_at->diffForHumans() }}</small></small>
+                                            </p>
+                                            <h5 class="fs-reset">
+                                                <b class="fw-medium">
+                                                    <a href="{{ route('front.news.show', $jin->slug) }}"
+                                                        class="text-reset link-hover-underline" decorate="none">
+                                                        {{-- <a href="{{ route('front.news.show', $jin->slug) }}" --}}
+                                                        {{ $jin->title }}
+                                                    </a>
+                                                </b>
+                                            </h5>
+                                        </li>
+                                    @endforeach
 
+                                    {{-- <li class="list-group-item px-0">
+                                         <p class="mb-1">
+                                             <small><small>2 minutes ago</small></small>
+                                         </p>
+                                         <h5 class="fs-reset">
+                                             <b class="fw-medium">
+                                                 <a href="#" class="text-reset link-hover-underline">
+                                                     Exclusive liberals and Nationals closer on Coalition fix,
+                                                     spotlight moves to litleproud leadership.
+                                                 </a>
+                                             </b>
+                                         </h5>
+                                     </li>
+                                     <li class="list-group-item px-0">
+                                         <p class="mb-1">
+                                             <small><small>2 minutes ago</small></small>
+                                         </p>
+                                         <h5 class="fs-reset">
+                                             <b class="fw-medium">
+                                                 <a href="#" class="text-reset link-hover-underline">
+                                                     Exclusive liberals and Nationals closer on Coalition fix,
+                                                     spotlight moves to litleproud leadership.
+                                                 </a>
+                                             </b>
+                                         </h5>
+                                     </li>
+                                     <li class="list-group-item px-0">
+                                         <p class="mb-1">
+                                             <small><small>2 minutes ago</small></small>
+                                         </p>
+                                         <h5 class="fs-reset">
+                                             <b class="fw-medium">
+                                                 <a href="#" class="text-reset link-hover-underline">
+                                                     Exclusive liberals and Nationals closer on Coalition fix,
+                                                     spotlight moves to litleproud leadership.
+                                                 </a>
+                                             </b>
+                                         </h5>
+                                     </li> --}}
+                                </ul>
+                            </main>
+                        </div><!-- end just in -->
 
+                        <div>
+                            <hr class="opacity-100">
+                        </div>
 
+                        <div class="editors-picks">
+                            <header>
+                                <h5 class="fs-reset mb-3 text-danger">
+                                    <b class="fw-bold">EDITOR'S PICK'S</b>
+                                </h5>
+                            </header>
+                            <main>
+                                <ul class="list-group list-group-flush">
+                                    @foreach ($editorpicknews as $epn)
+                                        @if ($loop->first)
+                                            <li class="list-group-item px-0">
+                                                <div class="news-item">
+                                                    <header>
+                                                        <div class="ratio ratio-4x3 news-img">
+                                                            <img src="" class="object-fit-cover" alt="">
+                                                        </div>
+                                                    </header>
+                                                    <main>
+                                                        <p class="news-category">
+                                                            <small><b class="fw-bold">Politic</b> Donald Trump</small>
+                                                        </p>
+                                                        <h5 class="news-title fs-5">
+                                                            <b class="fw-bold">
+                                                                <a href="{{ route('front.news.show', $epn->slug) }}"
+                                                                    class="text-reset link-hover-underline">
+                                                                    {{ $epn->title }}
+                                                                </a>
+                                                            </b>
+                                                        </h5>
+                                                        <div class="news-time media small">
+                                                            <div class="media-header">
+                                                                <div class="ratio ratio-1x1 rounded-circle"
+                                                                    style="width: 2rem;">
+                                                                </div>
+                                                            </div>
+                                                            <div class="media-body">
+                                                                <div class="mb-1"><small class="opacity-75">Author
+                                                                        by</small> <b
+                                                                        class="fw-medium">{{ $epn->author }}</b>
+                                                                </div>
+                                                                <div>
+                                                                    <small>{{ $epn->created_at->diffForHumans() }}</small>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </main>
+                                                </div>
+                                            </li>
+                                        @else
+                                            <li class="list-group-item px-0">
+                                                <div class="news-item">
+                                                    <div class="row">
+                                                        <div class="col col-7">
+                                                            <p class="news-category">
+                                                                <small><small><b class="fw-bold">Politic</b> Donald
+                                                                        Trump</small></small>
+                                                            </p>
+                                                            <h5 class="news-title fs-6">
+                                                                <b class="fw-bold">
+                                                                    <a href="detail.html"
+                                                                        class="text-reset link-hover-underline">
+                                                                        {{ $epn->title }}
+                                                                    </a>
+                                                                </b>
+                                                            </h5>
+                                                        </div><!-- end col -->
+                                                        <div class="col col-5">
+                                                            <div class="ratio ratio-4x3 news-img">
+                                                                <img src="" class="object-fit-cover"
+                                                                    alt="">
+                                                            </div>
+                                                        </div><!-- end col -->
+                                                    </div><!-- end row -->
+                                                </div>
+                                            </li>
+                                        @endif
+                                    @endforeach
+
+                                    {{-- <li class="list-group-item px-0">
+                                         <div class="news-item">
+                                             <div class="row">
+                                                 <div class="col col-7">
+                                                     <p class="news-category">
+                                                         <small><small><b class="fw-bold">Politic</b> Donald
+                                                                 Trump</small></small>
+                                                     </p>
+                                                     <h5 class="news-title fs-6">
+                                                         <b class="fw-bold">
+                                                             <a href="detail.html"
+                                                                 class="text-reset link-hover-underline">
+                                                                 Sorry, Donald, but the celebrities you covet will
+                                                                 never be your friends
+                                                             </a>
+                                                         </b>
+                                                     </h5>
+                                                 </div><!-- end col -->
+                                                 <div class="col col-5">
+                                                     <div class="ratio ratio-4x3 news-img">
+                                                         <img src="" class="object-fit-cover" alt="">
+                                                     </div>
+                                                 </div><!-- end col -->
+                                             </div><!-- end row -->
+                                         </div>
+                                     </li> --}}
+                                    {{-- <li class="list-group-item px-0">
+                                         <div class="news-item">
+                                             <div class="row">
+                                                 <div class="col col-7">
+                                                     <p class="news-category">
+                                                         <small><small><b class="fw-bold">Politic</b> Donald
+                                                                 Trump</small></small>
+                                                     </p>
+                                                     <h5 class="news-title fs-6">
+                                                         <b class="fw-bold">
+                                                             <a href="detail.html"
+                                                                 class="text-reset link-hover-underline">
+                                                                 Sorry, Donald, but the celebrities you covet will
+                                                                 never be your friends
+                                                             </a>
+                                                         </b>
+                                                     </h5>
+                                                 </div><!-- end col -->
+                                                 <div class="col col-5">
+                                                     <div class="ratio ratio-4x3 news-img">
+                                                         <img src="" class="object-fit-cover" alt="">
+                                                     </div>
+                                                 </div><!-- end col -->
+                                             </div><!-- end row -->
+                                         </div>
+                                     </li> --}}
+                                </ul>
+                            </main>
+                        </div><!-- end editors picks -->
+
+                    </aside><!-- end sidenav -->
+                </div><!-- end col -->
+            </div><!-- end row -->
+        </div><!-- end container -->
+    </section>
 
 @endsection
