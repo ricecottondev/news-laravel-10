@@ -40,6 +40,47 @@
                                 @if ($news->image)
                                     <section>
                                         <div class="news-img position-relative">
+                                            <div class="news-action d-none">
+                                                <ul
+                                                    class="list-unstyled d-flex flex-nowrap justify-content-end flex-md-column mb-md-0">
+                                                    <li>
+                                                        <a href="#"
+                                                            class="text-reset text-decoration-none link-hover">
+                                                            <i class="fas fa-bookmark"></i>
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <div class="vr h-100 mx-2 d-md-none"></div>
+                                                        <hr class="m-0 d-none d-md-block">
+                                                    </li>
+                                                    <li>
+                                                        <a href="#"
+                                                            class="text-reset text-decoration-none link-hover">
+                                                            <i class="fas fa-reply"></i>
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <div class="vr h-100 mx-2 d-md-none"></div>
+                                                        <hr class="m-0 d-none d-md-block">
+                                                    </li>
+                                                    <li>
+                                                        <a href="#"
+                                                            class="text-reset text-decoration-none link-hover">
+                                                            <i class="fas fa-share"></i>
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <div class="vr h-100 mx-2 d-md-none"></div>
+                                                        <hr class="m-0 d-none d-md-block">
+                                                    </li>
+                                                    <li>
+                                                        <a href="#"
+                                                            class="text-reset text-decoration-none link-hover">
+                                                            <i class="fas fa-rss"></i>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
                                             <div class="ratio ratio-4x3">
                                                 <img src="{{ asset('storage/' . $news->image) }}" class="object-fit-cover"
                                                     alt="{{ $news->title }}">
@@ -71,6 +112,63 @@
                                 </section>
                             </main>
                         </div>
+
+
+                        <div class="col px-3">
+                            <hr class="my-5">
+                            <h6 class="fw-bold mb-2">Share this News:</h6>
+                            <div class="d-flex flex-wrap gap-2">
+
+                                <!-- WhatsApp -->
+                                <a href="https://api.whatsapp.com/send?text={{ urlencode($news->title . ' - ' . route('front.news.show', $news->slug)) }}"
+                                    class="btn btn-outline-success d-flex align-items-center gap-2 btn-sm" target="_blank"
+                                    onclick="logShare({{ $news->id }}, 'whatsapp')">
+                                    <i class="bi bi-whatsapp fs-5"></i> WhatsApp
+                                </a>
+
+                                <!-- Facebook -->
+                                <a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(route('front.news.show', $news->slug)) }}"
+                                    class="btn btn-outline-primary d-flex align-items-center gap-2 btn-sm" target="_blank"
+                                    onclick="logShare({{ $news->id }}, 'facebook')">
+                                    <i class="bi bi-facebook fs-5"></i> Facebook
+                                </a>
+
+                                <!-- Twitter -->
+                                <a href="https://twitter.com/intent/tweet?url={{ urlencode(route('front.news.show', $news->slug)) }}&text={{ urlencode($news->title) }}"
+                                    class="btn btn-outline-info d-flex align-items-center gap-2 btn-sm text-info"
+                                    target="_blank"
+                                    onclick="logShare({{ $news->id }}, 'twitter')>
+                                <i class="bi
+                                    bi-twitter-x fs-5"></i> Twitter
+                                </a>
+
+                                <!-- Telegram -->
+                                <a href="https://t.me/share/url?url={{ urlencode(route('front.news.show', $news->slug)) }}&text={{ urlencode($news->title) }}"
+                                    class="btn btn-outline-secondary d-flex align-items-center gap-2 btn-sm" target="_blank"
+                                    onclick="logShare({{ $news->id }}, 'telegram')>
+                                <i class="bi
+                                    bi-telegram fs-5"></i> Telegram
+                                </a>
+
+                                <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ urlencode(route('front.news.show', $news->slug)) }}"
+                                    class="btn btn-outline-primary d-flex align-items-center gap-2 btn-sm" target="_blank"
+                                    onclick="logShare({{ $news->id }}, 'linkedin')>
+                                <i class="bi
+                                    bi-linkedin fs-5"></i> LinkedIn
+                                </a>
+
+                                <!-- Copy Link -->
+                                <button onclick="copyLink()"
+                                    class="btn btn-outline-dark d-flex align-items-center gap-2 btn-sm">
+                                    <i class="bi bi-clipboard fs-5"></i> Copy Link
+                                </button>
+                            </div>
+                        </div>
+
+
+
+
+
                         {{-- detail news end --}}
                         <div class="col px-3 d-none d-md-block">
                             <hr class="my-5">
@@ -86,7 +184,8 @@
                                         <figure class="figure">
                                             <div class="figure-img">
                                                 <div class="ratio ratio-4x3">
-                                                    <img src="{{ asset('storage/' . $pn->image) }}" class="object-fit-cover" alt="">
+                                                    <img src="{{ asset('storage/' . $pn->image) }}"
+                                                        class="object-fit-cover" alt="">
                                                 </div>
                                             </div>
                                             <figcaption class="figure-caption">
