@@ -194,7 +194,7 @@
                                                          <p class="news-text">
                                                              {{ Str::words(strip_tags($news1->content), 30, '...') }}</p>
                                                          <div class="news-time media small">
-                                                             <div class="media-header">
+                                                             <div class="d-none media-header">
                                                                  <div class="ratio ratio-1x1 rounded-circle"
                                                                      style="width: 2rem;"></div>
                                                              </div>
@@ -249,7 +249,7 @@
                                                                  {{ Str::words(strip_tags($news2->content), 20, '...') }}
                                                              </p>
                                                              <div class="news-time media small">
-                                                                 <div class="media-header">
+                                                                 <div class="d-none media-header">
                                                                      <div class="ratio ratio-1x1 rounded-circle"
                                                                          style="width: 2rem;"></div>
                                                                  </div>
@@ -298,7 +298,7 @@
                                                      <p class="news-text elipsis-4">
                                                          {{ Str::words(strip_tags($news3->content), 25, '...') }}</p>
                                                      <div class="news-time media small">
-                                                         <div class="media-header">
+                                                         <div class="d-none media-header">
                                                              <div class="ratio ratio-1x1 rounded-circle"
                                                                  style="width: 2rem;"></div>
                                                          </div>
@@ -359,7 +359,7 @@
                                                                  {{ Str::words(strip_tags($main->content), 30, '...') }}
                                                              </p>
                                                              <div class="news-time media small">
-                                                                 <div class="media-header">
+                                                                 <div class="d-none media-header">
                                                                      <div class="ratio ratio-1x1 rounded-circle"
                                                                          style="width: 2rem;"></div>
                                                                  </div>
@@ -408,7 +408,7 @@
                                                                          {{ Str::words(strip_tags($news->content), 25, '...') }}
                                                                      </p>
                                                                      <div class="news-time media small">
-                                                                         <div class="media-header">
+                                                                         <div class=" d-none media-header">
                                                                              <div class="ratio ratio-1x1 rounded-circle"
                                                                                  style="width: 2rem;"></div>
                                                                          </div>
@@ -528,25 +528,38 @@
                          </div>
 
                          <div class="editors-picks">
-                             <header>
-                                 <h5 class="fs-reset mb-3 text-danger">
-                                     <b class="fw-bold">EDITOR'S PICK'S</b>
-                                 </h5>
-                             </header>
+                             @if ($editorpicknews->isEmpty())
+                                 <div class="alert alert-warning" role="alert">
+                                     No editor's picks available at the moment.
+                                 </div>
+                             @else
+                                 <header>
+                                     <h5 class="fs-reset mb-3 text-danger">
+                                         <b class="fw-bold">EDITOR'S PICK'S</b>
+                                     </h5>
+                                 </header>
+                             @endif
+
                              <main>
                                  <ul class="list-group list-group-flush">
                                      @foreach ($editorpicknews as $epn)
+                                         @php
+                                             $categoryName =
+                                                 $epn->countriesCategoriesNews->first()?->category?->name ??
+                                                 'No Category';
+                                         @endphp
                                          @if ($loop->first)
                                              <li class="list-group-item px-0">
                                                  <div class="news-item">
                                                      <header>
                                                          <div class="ratio ratio-4x3 news-img">
-                                                             <img src="" class="object-fit-cover" alt="">
+                                                             <img src="{{ asset('storage/' . $epn->image) }}"
+                                                                 class="object-fit-cover" alt="">
                                                          </div>
                                                      </header>
                                                      <main>
                                                          <p class="news-category">
-                                                             <small><b class="fw-bold">Politic</b> Donald Trump</small>
+                                                             <small><b class="fw-bold">{{ strtoupper($categoryName) }}</b></small>
                                                          </p>
                                                          <h5 class="news-title fs-5">
                                                              <b class="fw-bold">
@@ -557,8 +570,8 @@
                                                              </b>
                                                          </h5>
                                                          <div class="news-time media small">
-                                                             <div class="media-header">
-                                                                 <div class="ratio ratio-1x1 rounded-circle"
+                                                             <div class="d-none media-header d-none">
+                                                                 <div class=" d-none ratio ratio-1x1 rounded-circle"
                                                                      style="width: 2rem;">
                                                                  </div>
                                                              </div>
@@ -581,8 +594,7 @@
                                                      <div class="row">
                                                          <div class="col col-7">
                                                              <p class="news-category">
-                                                                 <small><small><b class="fw-bold">Politic</b> Donald
-                                                                         Trump</small></small>
+                                                                 <small><small><b class="fw-bold">{{ strtoupper($categoryName) }}</b></small></small>
                                                              </p>
                                                              <h5 class="news-title fs-6">
                                                                  <b class="fw-bold">
@@ -595,8 +607,8 @@
                                                          </div><!-- end col -->
                                                          <div class="col col-5">
                                                              <div class="ratio ratio-4x3 news-img">
-                                                                 <img src="" class="object-fit-cover"
-                                                                     alt="">
+                                                                 <img src="{{ asset('storage/' . $epn->image) }}"
+                                                                     class="object-fit-cover" alt="">
                                                              </div>
                                                          </div><!-- end col -->
                                                      </div><!-- end row -->
