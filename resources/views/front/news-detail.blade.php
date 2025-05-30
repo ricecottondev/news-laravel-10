@@ -116,7 +116,7 @@
 
                         <div class="col px-3">
                             <hr class="my-5">
-                            <h6 class="fw-bold mb-2">Share this News:</h6>
+                            <h6 class="fw-bold mb-2">Share this truth+sass</h6>
                             <div class="d-flex flex-wrap gap-2">
 
                                 <!-- WhatsApp -->
