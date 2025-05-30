@@ -487,7 +487,7 @@
                      <div class="vr h-100 d-none d-md-block mx-lg-3"></div>
                  </div><!-- end col -->
                  <div class="col px-3 col-12 col-md">
-                     <aside class="sidenav">
+                     <aside class="">
 
                          <div class="just-in">
                              <header>
