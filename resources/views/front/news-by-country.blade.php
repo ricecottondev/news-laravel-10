@@ -13,14 +13,14 @@
                         <div>
                             <img src="/assets/template3/asset/img/bloomberg_news.png" width="20" height="auto" alt=""
                                 class="my-1 my-lg-0 d-lg-none">
-                            <img src="/assets/template3/asset/img/bloomberg_news.png" width="35" height="auto" alt=""
-                                class="my-1 my-lg-0 d-none d-lg-inline">
+                            <img src="/assets/template3/asset/img/bloomberg_news.png" width="35" height="auto"
+                                alt="" class="my-1 my-lg-0 d-none d-lg-inline">
                         </div><!-- end col -->
                         <div>
-                            <img src="/assets/template3/asset/img/cnn_news.png" width="55" height="auto"
-                                alt="" class="my-1 my-lg-0 d-lg-none">
-                            <img src="/assets/template3/asset/img/cnn_news.png" width="80" height="auto"
-                                alt="" class="my-1 my-lg-0 d-none d-lg-inline">
+                            <img src="/assets/template3/asset/img/cnn_news.png" width="55" height="auto" alt=""
+                                class="my-1 my-lg-0 d-lg-none">
+                            <img src="/assets/template3/asset/img/cnn_news.png" width="80" height="auto" alt=""
+                                class="my-1 my-lg-0 d-none d-lg-inline">
                         </div><!-- end col -->
                         <div>
                             <img src="/assets/template3/asset/img/fox_news.png" width="55" height="auto" alt=""
@@ -40,7 +40,7 @@
                             <img src="/assets/template3/asset/img/reuters_news.png" width="95" height="auto" alt=""
                                 class="my-1 my-lg-0 d-none d-lg-inline">
                         </div><!-- end col -->
-                       <!-- end col -->
+                        <!-- end col -->
                     </div>
                     <div class="text-nowrap">and anyone who still does journalism</div>
                 @else
@@ -60,8 +60,8 @@
                         <div>
                             <img src="/assets/template3/asset/img/sbsnews-logo.png" width="55" height="auto" alt=""
                                 class="my-1 my-lg-0 d-lg-none">
-                            <img src="/assets/template3/asset/img/sbsnews-logo.png" width="95" height="auto"
-                                alt="" class="my-1 my-lg-0 d-none d-lg-inline">
+                            <img src="/assets/template3/asset/img/sbsnews-logo.png" width="95" height="auto" alt=""
+                                class="my-1 my-lg-0 d-none d-lg-inline">
                         </div><!-- end col -->
                         <div>
                             <img src="/assets/template3/asset/img/7news.png" width="50" height="auto" alt=""
@@ -215,13 +215,20 @@
                                                     <small><b class="fw-bold">{{ $news1->category->name ?? '-' }}</b>
                                                         {{ $news1->author }}</small>
                                                 </p>
-                                                <h5 class="news-title hot-news text-warning">
-                                                    <b class="fw-bold">
-                                                        <a href="{{ route('front.news.show', $news1->slug) }}"
-                                                            class="text-reset link-hover-underline">
-                                                            {{ $news1->title }}
-                                                        </a>
-                                                    </b>
+                                                @if ($news1->color == 'P')
+                                                    <h5 class="news-title hot-news text-danger">
+                                                    @elseif ($news1->color == 'Y')
+                                                        <h5 class="news-title hot-news text-warning">
+                                                        @else
+                                                            <h5 class="news-title hot-news">
+                                                @endif
+                                                {{-- <h5 class="news-title hot-news text-warning"> --}}
+                                                <b class="fw-bold">
+                                                    <a href="{{ route('front.news.show', $news1->slug) }}"
+                                                        class="text-reset link-hover-underline">
+                                                        {{ $news1->title }}
+                                                    </a>
+                                                </b>
                                                 </h5>
                                             </header>
                                             <main>
@@ -269,13 +276,20 @@
                                                         <small><b class="fw-bold">{{ $news2->category->name ?? '-' }}</b>
                                                             {{ $news2->author }}</small>
                                                     </p>
-                                                    <h5 class="news-title">
-                                                        <b class="fw-bold">
-                                                            <a href="{{ route('front.news.show', $news2->slug) }}"
-                                                                class="text-reset link-hover-underline">
-                                                                {{ $news2->title }}
-                                                            </a>
-                                                        </b>
+                                                    @if ($news2->color == 'P')
+                                                        <h5 class="news-title  text-danger">
+                                                        @elseif ($news2->color == 'Y')
+                                                            <h5 class="news-title text-warning">
+                                                            @else
+                                                                <h5 class="news-title">
+                                                    @endif
+                                                    {{-- <h5 class="news-title"> --}}
+                                                    <b class="fw-bold">
+                                                        <a href="{{ route('front.news.show', $news2->slug) }}"
+                                                            class="text-reset link-hover-underline">
+                                                            {{ $news2->title }}
+                                                        </a>
+                                                    </b>
                                                     </h5>
                                                 </header>
                                                 <main>
@@ -327,13 +341,20 @@
                                                         <small><b class="fw-bold">{{ $news3->category->name ?? '-' }}</b>
                                                             {{ $news3->author }}</small>
                                                     </p>
-                                                    <h5 class="news-title">
-                                                        <b class="fw-bold">
-                                                            <a href="{{ route('front.news.show', $news3->slug) }}"
-                                                                class="text-reset link-hover-underline">
-                                                                {{ $news3->title }}
-                                                            </a>
-                                                        </b>
+                                                    @if ($news3->color == 'P')
+                                                        <h5 class="news-title  text-danger">
+                                                        @elseif ($news3->color == 'Y')
+                                                            <h5 class="news-title text-warning">
+                                                            @else
+                                                                <h5 class="news-title">
+                                                    @endif
+                                                    {{-- <h5 class="news-title"> --}}
+                                                    <b class="fw-bold">
+                                                        <a href="{{ route('front.news.show', $news3->slug) }}"
+                                                            class="text-reset link-hover-underline">
+                                                            {{ $news3->title }}
+                                                        </a>
+                                                    </b>
                                                     </h5>
                                                 </header>
                                                 <main>
@@ -379,13 +400,20 @@
                                                         <small><b class="fw-bold">{{ $main->category->name ?? '-' }}</b>
                                                             {{ $main->author }}</small>
                                                     </p>
-                                                    <h5 class="news-title text-warning">
-                                                        <b class="fw-bold">
-                                                            <a href="{{ route('front.news.show', $main->slug) }}"
-                                                                class="text-reset link-hover-underline">
-                                                                {{ $main->title }}
-                                                            </a>
-                                                        </b>
+                                                    @if ($main->color == 'P')
+                                                        <h5 class="news-title  text-danger">
+                                                        @elseif ($main->color == 'Y')
+                                                            <h5 class="news-title text-warning">
+                                                            @else
+                                                                <h5 class="news-title">
+                                                    @endif
+                                                    {{-- <h5 class="news-title text-warning"> --}}
+                                                    <b class="fw-bold">
+                                                        <a href="{{ route('front.news.show', $main->slug) }}"
+                                                            class="text-reset link-hover-underline">
+                                                            {{ $main->title }}
+                                                        </a>
+                                                    </b>
                                                     </h5>
                                                 </header>
                                                 <main>
@@ -436,13 +464,20 @@
                                                                                 class="fw-bold">{{ $news->category->name ?? '-' }}</b>
                                                                             {{ $news->author }}</small>
                                                                     </p>
-                                                                    <h5 class="news-title">
-                                                                        <b class="fw-bold">
-                                                                            <a href="{{ route('front.news.show', $news->slug) }}"
-                                                                                class="text-reset link-hover-underline">
-                                                                                {{ $news->title }}
-                                                                            </a>
-                                                                        </b>
+                                                                    @if ($news->color == 'P')
+                                                                        <h5 class="news-title  text-danger">
+                                                                        @elseif ($news->color == 'Y')
+                                                                            <h5 class="news-title text-warning">
+                                                                            @else
+                                                                                <h5 class="news-title">
+                                                                    @endif
+                                                                    {{-- <h5 class="news-title"> --}}
+                                                                    <b class="fw-bold">
+                                                                        <a href="{{ route('front.news.show', $news->slug) }}"
+                                                                            class="text-reset link-hover-underline">
+                                                                            {{ $news->title }}
+                                                                        </a>
+                                                                    </b>
                                                                     </h5>
                                                                 </header>
                                                                 <main>
@@ -590,13 +625,20 @@
                                                         <p class="news-category">
                                                             <small><b class="fw-bold">Politic</b> Donald Trump</small>
                                                         </p>
-                                                        <h5 class="news-title fs-5">
-                                                            <b class="fw-bold">
-                                                                <a href="{{ route('front.news.show', $epn->slug) }}"
-                                                                    class="text-reset link-hover-underline">
-                                                                    {{ $epn->title }}
-                                                                </a>
-                                                            </b>
+                                                        @if ($epn->color == 'P')
+                                                            <h5 class="news-title fs-5 text-danger">
+                                                            @elseif ($epn->color == 'Y')
+                                                                <h5 class="news-title fs-5 text-warning">
+                                                                @else
+                                                                    <h5 class="news-title fs-5">
+                                                        @endif
+                                                        {{-- <h5 class="news-title fs-5"> --}}
+                                                        <b class="fw-bold">
+                                                            <a href="{{ route('front.news.show', $epn->slug) }}"
+                                                                class="text-reset link-hover-underline">
+                                                                {{ $epn->title }}
+                                                            </a>
+                                                        </b>
                                                         </h5>
                                                         <div class="news-time media small">
                                                             <div class="media-header">
@@ -626,13 +668,20 @@
                                                                 <small><small><b class="fw-bold">Politic</b> Donald
                                                                         Trump</small></small>
                                                             </p>
-                                                            <h5 class="news-title fs-6">
-                                                                <b class="fw-bold">
-                                                                    <a href="detail.html"
-                                                                        class="text-reset link-hover-underline">
-                                                                        {{ $epn->title }}
-                                                                    </a>
-                                                                </b>
+                                                            @if ($epn->color == 'P')
+                                                                <h5 class="news-title fs-6 text-danger">
+                                                                @elseif ($epn->color == 'Y')
+                                                                    <h5 class="news-title fs-6 text-warning">
+                                                                    @else
+                                                                        <h5 class="news-title fs-6">
+                                                            @endif
+                                                            {{-- <h5 class="news-title fs-6"> --}}
+                                                            <b class="fw-bold">
+                                                                <a href="detail.html"
+                                                                    class="text-reset link-hover-underline">
+                                                                    {{ $epn->title }}
+                                                                </a>
+                                                            </b>
                                                             </h5>
                                                         </div><!-- end col -->
                                                         <div class="col col-5">
