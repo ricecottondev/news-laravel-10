@@ -102,7 +102,7 @@ class FrontNewsController extends Controller
 
             $suggestedNews = News::where('id', '!=', $news->id)
                 ->where('status', 'published')
-                ->where('color', $news->color)
+
                 ->where(function ($query) use ($keywords) {
                     foreach ($keywords as $word) {
                         $query->orWhere('title', 'LIKE', "%{$word}%");
@@ -158,7 +158,7 @@ class FrontNewsController extends Controller
 
         $promotednews = News::with(['category', 'countriesCategoriesNews'])
             ->where('status', 'published')
-
+->where('color', $news->color)
             ->whereHas('countriesCategoriesNews.country', function ($query) {
                 $query->where('country_name', 'Australia');
             })

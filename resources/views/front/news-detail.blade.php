@@ -24,15 +24,15 @@
                         {{-- detail news start --}}
                         <div class="col px-3">
                             <header>
-                                  @if ($news->color == 'P')
-                                                    <h2 class="news-title fs-1  text-danger">
-                                                    @elseif ($news->color == 'Y')
-                                                        <h2 class="news-title fs-1 text-warning">
-                                                        @else
-                                                            <h2 class="news-title fs-1">
-                                                @endif
+                                @if ($news->color == 'P')
+                                    <h2 class="news-title fs-1  text-danger">
+                                    @elseif ($news->color == 'Y')
+                                        <h2 class="news-title fs-1 text-warning">
+                                        @else
+                                            <h2 class="news-title fs-1">
+                                @endif
                                 {{-- <h2 class="news-title fs-1 text-warning"> --}}
-                                    <b class="fw-bold">{{ $news->title }}</b>
+                                <b class="fw-bold">{{ $news->title }}</b>
                                 </h2>
                                 <p class="mb-md-4">
                                     <small>
@@ -182,9 +182,23 @@
                         </div>
                         {{-- promoted news start --}}
                         <div class="col px-3 d-none d-md-block">
-                            <h5 class="mb-4 text-danger">
-                                <b class="fw-bold">PROMOTED</b>
-                            </h5>
+
+                            @if ($news->color == 'P')
+                                <h5 class="mb-4 text-danger">
+                                    <b class="fw-bold">other stories Clara's raging at:</b>
+                                </h5>
+                            @elseif ($news->color == 'Y')
+                                <h5 class="mb-4 text-warning">
+                                    <b class="fw-bold">other stories Lola's raging at:</b>
+                                </h5>
+                            @else
+                                <h5 class="mb-4">
+                                    <b class="fw-bold">other stories Phor's raging at:</b>
+                                </h5>
+                            @endif
+
+
+
                             <div class="row row-cols-2 row-gap-4 gx-4 row-cols-xl-3">
                                 @foreach ($promotednews as $pn)
                                     <div class="col">
@@ -198,11 +212,20 @@
                                             <figcaption class="figure-caption">
                                                 <p class="mb-0"><small><small>News - <b
                                                                 class="fw-bold">Health</b></small></small></p>
-                                                <h5 class="fs-6"><b class="fw-bold">
-                                                        <a href="#" class="text-reset link-hover-underline">
-                                                            {{ $pn->title }}
-                                                        </a>
-                                                    </b></h5>
+
+                                                @if ($pn->color == 'P')
+                                                    <h5 class="news-title fs-6  text-danger">
+                                                    @elseif ($pn->color == 'Y')
+                                                        <h5 class="news-title fs-6 text-warning">
+                                                        @else
+                                                            <h5 class="news-title fs-6">
+                                                @endif
+                                                {{-- <h5 class="fs-6"> --}}
+                                                <b class="fw-bold">
+                                                    <a href="{{ route('front.news.show', $pn->slug) }}" class="text-reset link-hover-underline">
+                                                        {{ $pn->title }}
+                                                    </a>
+                                                </b></h5>
                                             </figcaption>
                                         </figure>
                                     </div>
