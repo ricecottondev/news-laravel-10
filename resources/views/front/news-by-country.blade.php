@@ -1,6 +1,8 @@
 @extends('front/layouts.layout')
 @section('title', 'News by Category')
-
+@push('styles')
+     <link rel="stylesheet" href="/assets/template3/css/landing.css">
+ @endpush
 @section('content')
 
     <section class="pt-1">
