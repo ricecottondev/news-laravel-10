@@ -120,7 +120,7 @@
                     <div class="d-none d-md-block col mb-4"></div>
                     <div class="d-none d-md-block col mb-4"></div>
                     <div class="col mb-4">
-                        <select class="form-select" id="pageUrlFilter">
+                        <select class="form-select text-capitalize" id="pageUrlFilter">
                             <option value="">Pilih URL</option>
                         </select>
                     </div>
@@ -302,16 +302,75 @@
             // Fungsi untuk mengisi dropdown filter URL (untuk Page Visits)
             function populateUrlFilter(data, urlSelect) {
                 const urls = new Set();
-                data.forEach(visit => {
-                    urls.add(visit.url);
+                data.forEach(visit => urls.add(visit.url));
+
+                // Objek untuk melacak label yang sudah digunakan
+                const labelCounts = {};
+                const processedUrls = [];
+
+                // Proses URL untuk membuat label
+                Array.from(urls).sort().forEach(url => {
+                    // Hilangkan domain
+                    let cleanUrl = url.replace(/^(https?:\/\/)?[^\/]+/, '') || '/';
+
+                    // Decode URL-encoded characters (e.g., %20, %E2%80%99)
+                    let label = decodeURIComponent(cleanUrl);
+
+                    // Tentukan domain untuk penanganan duplikat
+                    const domainMatch = url.match(/^(https?:\/\/)([^\/]+)/);
+                    const domain = domainMatch ? domainMatch[2] : '';
+
+                    // Buat label awal
+                    if (label === '/') {
+                        label = 'home';
+                    } else {
+                        label = label.replace(/^\/|\/$/g, ''); // Hapus '/' di awal/akhir
+                        if (label.includes('/')) {
+                            const segments = label.split('/');
+                            if (segments.length > 1 && segments.slice(1).some(seg => seg.includes('-'))) {
+                                // Format text/text-text-text menjadi text: text text
+                                const firstSegment = segments[0];
+                                const rest = segments.slice(1).join(' ').replace(/-/g, ' ');
+                                label = `${firstSegment}: ${rest}`;
+                            } else {
+                                // Ganti '/' dengan spasi
+                                label = segments.join(' ');
+                            }
+                        }
+                        // Tambahkan spasi sebelum huruf besar (camelCase)
+                        label = label.replace(/([a-z])([A-Z])/g, '$1 $2').toLowerCase();
+                        // Ganti tanda '-' atau '_' dengan spasi
+                        label = label.replace(/[-_]/g, ' ');
+                        // Hilangkan karakter yang tidak perlu dan bersihkan spasi berlebih
+                        label = label.replace(/[^\w\s]/g, '').replace(/\s+/g, ' ').trim();
+                        if (!label) label = 'root';
+                    }
+
+                    // Tangani duplikat label
+                    let finalLabel = label;
+                    if (labelCounts[label]) {
+                        finalLabel = `${label} (${domain})`;
+                        labelCounts[label]++;
+                    } else {
+                        labelCounts[label] = 1;
+                    }
+
+                    processedUrls.push({
+                        url,
+                        label: finalLabel
+                    });
                 });
 
+                // Isi dropdown
                 urlSelect.innerHTML = '<option value="">Pilih URL</option>';
-                Array.from(urls).sort().forEach(url => {
+                processedUrls.forEach(({
+                    url,
+                    label
+                }, index) => {
                     const option = document.createElement('option');
                     option.value = url;
-                    option.textContent = url.length > 50 ? url.substr(0, 50) + '...' :
-                        url; // Batasi tampilan
+                    option.textContent = `${label}`;
+                    // option.textContent = `${index + 1}. ${label} -> ${url}`;
                     urlSelect.appendChild(option);
                 });
 
