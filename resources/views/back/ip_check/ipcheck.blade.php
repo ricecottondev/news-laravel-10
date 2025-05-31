@@ -42,23 +42,29 @@
         <div class="card my-4">
             <div class="card-body">
                 <h2 class="mb-4">📰 News Visits</h2>
-                <div class="row">
-                    {{-- <div class="col-12 col-md-4">
-                    </div> --}}
-                    <div class="col-12 col-md-4 mb-4">
+                <div class="row row-cols-1 row-cols-sm-5">
+                    <div class="col mb-4">
                         <select class="form-select" id="newsYearFilter">
                             <option value="">Pilih Tahun</option>
                         </select>
                     </div>
-                    <div class="col-12 col-md-4 mb-4">
+                    <div class="col mb-4">
                         <select class="form-select" id="newsMonthFilter">
                             <option value="">Pilih Bulan</option>
                         </select>
                     </div>
-                    <div class="col-12 col-md-4 mb-4">
+                    <div class="col mb-4">
                         <select class="form-select" id="newsDayFilter">
                             <option value="">Pilih Tanggal</option>
                         </select>
+                    </div>
+                    <div class="col mb-4">
+                        <select class="form-select" id="newsBotOrHumanFilter">
+                            <option value="">Pilih Bot Or Human</option>
+                        </select>
+                    </div>
+                    <div class="col mb-4">
+                        <button class="btn btn-success w-100">Export Excel</button>
                     </div>
                 </div>
                 <div class="table-responsive">
@@ -102,6 +108,23 @@
         <div class="card my-4">
             <div class="card-body">
                 <h2 class="mt-5 mb-4">📄 Page Visits</h2>
+                <div class="row">
+                    <div class="col-12 col-md-4 mb-4">
+                        <select class="form-select" id="pageUrlFilter">
+                            <option value="">Pilih URL</option>
+                        </select>
+                    </div>
+                    {{-- <div class="col-12 col-md-4 mb-4">
+                        <select class="form-select" id="newsMonthFilter">
+                            <option value="">Pilih Bulan</option>
+                        </select>
+                    </div>
+                    <div class="col-12 col-md-4 mb-4">
+                        <select class="form-select" id="newsDayFilter">
+                            <option value="">Pilih Tanggal</option>
+                        </select>
+                    </div> --}}
+                </div>
                 <div class="table-responsive">
                     <table id="table-page-visit" class="table table-bordered table-striped">
                         <thead>
@@ -176,7 +199,7 @@
                 return true;
             });
 
-            function populateFilters(data, yearSelect, monthSelect, daySelect, type) {
+            function populateFilters(data, yearSelect, monthSelect, daySelect, botOrHuman, type) {
                 const years = new Set();
                 const monthsByYear = {};
                 const daysByMonthYear = {};
@@ -210,6 +233,11 @@
                     monthSelect.innerHTML = '<option value="">Pilih Bulan</option>';
                     daySelect.innerHTML = '<option value="">Pilih Tanggal</option>';
 
+                    if (selectedYear === "") {
+                        refreshTable(type); // Reset table if year is cleared
+                        return;
+                    }
+
                     if (monthsByYear[selectedYear]) {
                         Array.from(monthsByYear[selectedYear]).sort().forEach(month => {
                             const monthName = new Date(2025, parseInt(month) - 1).toLocaleString(
@@ -232,6 +260,11 @@
                     filterState[type].day = '';
                     daySelect.innerHTML = '<option value="">Pilih Tanggal</option>';
 
+                    if (month === "") {
+                        refreshTable(type); // Reset if month cleared
+                        return;
+                    }
+
                     if (daysByMonthYear[yearMonth]) {
                         Array.from(daysByMonthYear[yearMonth]).sort().forEach(day => {
                             daySelect.innerHTML += `<option value="${day}">${day}</option>`;
@@ -245,6 +278,47 @@
                     filterState[type].day = daySelect.value;
                     refreshTable(type);
                 });
+
+            }
+
+            // Fungsi untuk mengisi dropdown filter URL (untuk Page Visits)
+            function populateUrlFilter(data, urlSelect) {
+                const urls = new Set();
+                data.forEach(visit => {
+                    urls.add(visit.url);
+                });
+
+                urlSelect.innerHTML = '<option value="">Pilih URL</option>';
+                Array.from(urls).sort().forEach(url => {
+                    const option = document.createElement('option');
+                    option.value = url;
+                    option.textContent = url.length > 50 ? url.substr(0, 50) + '...' :
+                        url; // Batasi tampilan
+                    urlSelect.appendChild(option);
+                });
+
+                urlSelect.addEventListener('change', filterPageTable);
+            }
+
+            // Fungsi filter untuk Page Table
+            function filterPageTable() {
+                const urlFilter = document.getElementById('pageUrlFilter').value;
+                const table = $('#table-page-visit').DataTable();
+
+                $.fn.dataTable.ext.search.push(
+                    function(settings, data, dataIndex) {
+                        if (settings.nTable.id !== 'table-page-visit') return true;
+                        const rowData = table.row(dataIndex).data();
+                        const rowUrl = rowData.url;
+
+                        if (urlFilter && urlFilter !== rowUrl) return false;
+
+                        return true;
+                    }
+                );
+
+                table.draw();
+                $.fn.dataTable.ext.search.pop();
             }
 
             function refreshTable(type) {
@@ -332,15 +406,11 @@
                 document.getElementById('newsYearFilter'),
                 document.getElementById('newsMonthFilter'),
                 document.getElementById('newsDayFilter'),
+                document.getElementById('newsBotOrHumanFilter'),
                 'news');
 
-            // Enable this if using page filters too
-            // populateFilters(pageVisits,
-            //     document.getElementById('pageYearFilter'),
-            //     document.getElementById('pageMonthFilter'),
-            //     document.getElementById('pageDayFilter'),
-            //     'page');
-
+            populateUrlFilter(pageVisits, document.getElementById('pageUrlFilter'));
+            
             // Summary Table
             $('#tabel-ringkasan').DataTable({
                 searching: false,
