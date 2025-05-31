@@ -4,7 +4,7 @@
 <head>
     @include('front.layouts.head')
     {{-- <script src="layout/head.js"></script> --}}
-    <title>FactaBot &bull; Home</title>
+    <title>FactaBot &bull;</title>
 
     @stack('styles')
     <style>
