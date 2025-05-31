@@ -102,6 +102,7 @@ class FrontNewsController extends Controller
 
             $suggestedNews = News::where('id', '!=', $news->id)
                 ->where('status', 'published')
+                ->where('color', $news->color)
                 ->where(function ($query) use ($keywords) {
                     foreach ($keywords as $word) {
                         $query->orWhere('title', 'LIKE', "%{$word}%");

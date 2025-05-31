@@ -24,7 +24,14 @@
                         {{-- detail news start --}}
                         <div class="col px-3">
                             <header>
-                                <h2 class="news-title fs-1 text-warning">
+                                  @if ($news->color == 'P')
+                                                    <h2 class="news-title fs-1  text-danger">
+                                                    @elseif ($news->color == 'Y')
+                                                        <h2 class="news-title fs-1 text-warning">
+                                                        @else
+                                                            <h2 class="news-title fs-1">
+                                                @endif
+                                {{-- <h2 class="news-title fs-1 text-warning"> --}}
                                     <b class="fw-bold">{{ $news->title }}</b>
                                 </h2>
                                 <p class="mb-md-4">
