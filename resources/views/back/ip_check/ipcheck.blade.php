@@ -390,85 +390,42 @@
                 return tmp.textContent || tmp.innerText || "";
             }
 
-            document.getElementById('exportNewsVisit').addEventListener('click', async function() {
-                console.log('Export button clicked');
+            function setupExportButton(buttonId, tableId, fileName) {
+                document.getElementById(buttonId).addEventListener('click', async function() {
+                    const btn = this;
+                    const spinner = btn.querySelector('#spinner-btn');
+                    const label = btn.querySelector('.btn-label') || btn.lastChild;
+                    const originalText = label.textContent.trim() || 'Export Excel';
 
-                const btn = this;
-                const spinner = btn.querySelector('#spinner-btn');
-                const label = btn.querySelector('.btn-label') || btn.childNodes[btn.childNodes.length -
-                    1];
+                    if (!spinner) {
+                        console.error(`Spinner element not found in button #${buttonId}`);
+                        return;
+                    }
 
-                const originalText = label.textContent.trim() || 'Export Excel';
+                    try {
+                        btn.classList.add('disabled');
+                        spinner.classList.remove('d-none');
+                        label.textContent = 'Exporting...';
 
-                if (!spinner) {
-                    console.error('Spinner element not found in button');
-                    return;
-                }
-                console.log('Spinner found:', spinner);
-                try {
-                    console.log('Starting export process...');
-                    btn.classList.add('disabled');
-                    spinner.classList.remove('d-none');
-                    label.textContent = ' Exporting...';
-                    console.log('Calling exportFilteredTableToExcel...');
-                    // Delay render agar spinner muncul di UI sebelum lanjut
-                    await new Promise(resolve => setTimeout(resolve, 50));
-                    await exportFilteredTableToExcel('table-news-visit', 'news-visit-export');
-                    console.log('Export completed successfully');
-                    btn.classList.remove('disabled');
-                    spinner.classList.add('d-none');
-                    label.textContent = ' ' + originalText;
-                    console.log('Button text restored to original');
-                } catch (error) {
-                    console.error('Error during export:', error);
-                    btn.classList.remove('disabled');
-                    spinner.classList.add('d-none');
-                    label.textContent = ' ' + originalText;
-                }
-            });
+                        // Delay kecil untuk memastikan spinner ter-render
+                        await new Promise(resolve => setTimeout(resolve, 50));
+                        await exportFilteredTableToExcel(tableId, fileName);
 
-            document.getElementById('exportPageVisit').addEventListener('click', async function() {
-                console.log('Export button clicked');
+                        btn.classList.remove('disabled');
+                        spinner.classList.add('d-none');
+                        label.textContent = originalText;
+                    } catch (error) {
+                        console.error(`Error during export for ${tableId}:`, error);
+                        btn.classList.remove('disabled');
+                        spinner.classList.add('d-none');
+                        label.textContent = originalText;
+                    }
+                });
+            }
 
-                const btn = this;
-                const spinner = btn.querySelector('#spinner-btn');
-                const label = btn.querySelector('.btn-label') || btn.childNodes[btn.childNodes.length -
-                    1];
-
-                const originalText = label.textContent.trim() || 'Export Excel';
-
-                if (!spinner) {
-                    console.error('Spinner element not found in button');
-                    return;
-                }
-                console.log('Spinner found:', spinner);
-                try {
-                    console.log('Starting export process...');
-                    btn.classList.add('disabled');
-                    spinner.classList.remove('d-none');
-                    label.textContent = ' Exporting...';
-                    console.log('Calling exportFilteredTableToExcel...');
-                    // Delay render agar spinner muncul di UI sebelum lanjut
-                    await new Promise(resolve => setTimeout(resolve, 50));
-                    await exportFilteredTableToExcel('table-page-visit', 'page-visit-export');
-                    console.log('Export completed successfully');
-                    btn.classList.remove('disabled');
-                    spinner.classList.add('d-none');
-                    label.textContent = ' ' + originalText;
-                    console.log('Button text restored to original');
-                } catch (error) {
-                    console.error('Error during export:', error);
-                    btn.classList.remove('disabled');
-                    spinner.classList.add('d-none');
-                    label.textContent = ' ' + originalText;
-                }
-            });
-
-
-            // Tombol untuk export table-page-visit
-            // document.getElementById('exportPageExcel').addEventListener('click', function() {
-            //     exportFilteredTableToExcel('table-page-visit', 'page-visits');
-            // });
+            // Inisialisasi tombol ekspor
+            setupExportButton('exportNewsVisit', 'table-news-visit', 'news-visit-export');
+            setupExportButton('exportPageVisit', 'table-page-visit', 'page-visit-export');
 
 
             // Init DataTables
