@@ -61,10 +61,17 @@
                     <div class="col mb-4">
                         <select class="form-select" id="newsBotOrHumanFilter">
                             <option value="">Pilih Bot Or Human</option>
+                            <option value="Yes">Bot</option>
+                            <option value="No">Human</option>
                         </select>
                     </div>
                     <div class="col mb-4">
-                        <button class="btn btn-success w-100">Export Excel</button>
+                        <button id="exportNewsVisit" class="btn btn-primary w-100">
+                            <span id="spinner-btn" class="spinner-border spinner-border-sm me-1 d-none" role="status"
+                                aria-hidden="true"></span>
+                            <span class="btn-label">Export Excel</span>
+                        </button>
+
                     </div>
                 </div>
                 <div class="table-responsive">
@@ -78,7 +85,7 @@
                                 <th>Platform</th>
                                 <th>Visited At</th>
                                 <th>Duration</th>
-                                <th>Bot?..</th>
+                                <th>Bot?</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -108,28 +115,28 @@
         <div class="card my-4">
             <div class="card-body">
                 <h2 class="mt-5 mb-4">📄 Page Visits</h2>
-                <div class="row">
-                    <div class="col-12 col-md-4 mb-4">
+                <div class="row row-cols-1 row-cols-md-5">
+                    <div class="d-none d-md-block col mb-4"></div>
+                    <div class="d-none d-md-block col mb-4"></div>
+                    <div class="d-none d-md-block col mb-4"></div>
+                    <div class="col mb-4">
                         <select class="form-select" id="pageUrlFilter">
                             <option value="">Pilih URL</option>
                         </select>
                     </div>
-                    {{-- <div class="col-12 col-md-4 mb-4">
-                        <select class="form-select" id="newsMonthFilter">
-                            <option value="">Pilih Bulan</option>
-                        </select>
+                    <div class="col mb-4">
+                        <button id="exportPageVisit" class="btn btn-primary w-100">
+                            <span id="spinner-btn" class="spinner-border spinner-border-sm me-1 d-none" role="status"
+                                aria-hidden="true"></span>
+                            <span class="btn-label">Export Excel</span>
+                        </button>
                     </div>
-                    <div class="col-12 col-md-4 mb-4">
-                        <select class="form-select" id="newsDayFilter">
-                            <option value="">Pilih Tanggal</option>
-                        </select>
-                    </div> --}}
                 </div>
                 <div class="table-responsive">
                     <table id="table-page-visit" class="table table-bordered table-striped">
                         <thead>
                             <tr>
-                                <th>URL</th>
+                                <th style="width: 10%">URL</th>
                                 <th>IP</th>
                                 <th>User Agent</th>
                                 <th>Browser</th>
@@ -165,6 +172,8 @@
         </div>
     </div>
     <!-- Konversi data PHP ke JSON -->
+    <script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
+
     <script>
         const newsVisits = @json($newsVisits);
         const pageVisits = @json($pageVisits);
@@ -174,7 +183,8 @@
                 news: {
                     year: '',
                     month: '',
-                    day: ''
+                    day: '',
+                    bot: ''
                 },
                 page: {
                     year: '',
@@ -191,10 +201,12 @@
                 const rowYear = date.getFullYear().toString();
                 const rowMonth = String(date.getMonth() + 1).padStart(2, '0');
                 const rowDay = String(date.getDate()).padStart(2, '0');
+                const isBot = rowData.is_bot; // 'Yes' atau 'No'
 
                 if (filter.year && rowYear !== filter.year) return false;
                 if (filter.month && rowMonth !== filter.month) return false;
                 if (filter.day && rowDay !== filter.day) return false;
+                if (filter.bot && isBot !== filter.bot) return false;
 
                 return true;
             });
@@ -279,6 +291,12 @@
                     refreshTable(type);
                 });
 
+                // Bot or Human filter
+                botOrHuman.addEventListener('change', function() {
+                    filterState.news.bot = this.value;
+                    refreshTable('news');
+                });
+
             }
 
             // Fungsi untuk mengisi dropdown filter URL (untuk Page Visits)
@@ -326,6 +344,133 @@
                 $(tableId).DataTable().draw();
             }
 
+            function exportFilteredTableToExcel(tableId, filename = 'Export') {
+                return new Promise((resolve) => {
+                    const table = $(`#${tableId}`).DataTable();
+                    const filteredIndexes = table.rows({
+                        search: 'applied'
+                    }).indexes();
+
+                    const headers = $(`#${tableId} thead th`).map(function() {
+                        return $(this).text().trim();
+                    }).get();
+
+                    const exportData = [headers];
+
+                    filteredIndexes.each(function(rowIdx) {
+                        const rowData = [];
+                        headers.forEach((colName, colIdx) => {
+                            let data = table.cell(rowIdx, colIdx).data();
+
+                            // Jaga agar kolom "Bot?" tetap bot/human saja
+                            if (colName.toLowerCase().includes('bot')) {
+                                rowData.push(data?.toLowerCase() === 'yes' ? 'bot' :
+                                    'human');
+                            } else {
+                                const cleanData = typeof data === 'string' ? stripHtml(
+                                    data) : data;
+                                rowData.push(cleanData);
+                            }
+                        });
+                        exportData.push(rowData);
+                    });
+
+                    const worksheet = XLSX.utils.aoa_to_sheet(exportData);
+                    const workbook = XLSX.utils.book_new();
+                    XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
+                    XLSX.writeFile(workbook, `${filename}.xlsx`);
+
+                    resolve(); // Trigger selesai
+                });
+            }
+
+            function stripHtml(html) {
+                const tmp = document.createElement("div");
+                tmp.innerHTML = html;
+                return tmp.textContent || tmp.innerText || "";
+            }
+
+            document.getElementById('exportNewsVisit').addEventListener('click', async function() {
+                console.log('Export button clicked');
+
+                const btn = this;
+                const spinner = btn.querySelector('#spinner-btn');
+                const label = btn.querySelector('.btn-label') || btn.childNodes[btn.childNodes.length -
+                    1];
+
+                const originalText = label.textContent.trim() || 'Export Excel';
+
+                if (!spinner) {
+                    console.error('Spinner element not found in button');
+                    return;
+                }
+                console.log('Spinner found:', spinner);
+                try {
+                    console.log('Starting export process...');
+                    btn.classList.add('disabled');
+                    spinner.classList.remove('d-none');
+                    label.textContent = ' Exporting...';
+                    console.log('Calling exportFilteredTableToExcel...');
+                    // Delay render agar spinner muncul di UI sebelum lanjut
+                    await new Promise(resolve => setTimeout(resolve, 50));
+                    await exportFilteredTableToExcel('table-news-visit', 'news-visit-export');
+                    console.log('Export completed successfully');
+                    btn.classList.remove('disabled');
+                    spinner.classList.add('d-none');
+                    label.textContent = ' ' + originalText;
+                    console.log('Button text restored to original');
+                } catch (error) {
+                    console.error('Error during export:', error);
+                    btn.classList.remove('disabled');
+                    spinner.classList.add('d-none');
+                    label.textContent = ' ' + originalText;
+                }
+            });
+
+            document.getElementById('exportPageVisit').addEventListener('click', async function() {
+                console.log('Export button clicked');
+
+                const btn = this;
+                const spinner = btn.querySelector('#spinner-btn');
+                const label = btn.querySelector('.btn-label') || btn.childNodes[btn.childNodes.length -
+                    1];
+
+                const originalText = label.textContent.trim() || 'Export Excel';
+
+                if (!spinner) {
+                    console.error('Spinner element not found in button');
+                    return;
+                }
+                console.log('Spinner found:', spinner);
+                try {
+                    console.log('Starting export process...');
+                    btn.classList.add('disabled');
+                    spinner.classList.remove('d-none');
+                    label.textContent = ' Exporting...';
+                    console.log('Calling exportFilteredTableToExcel...');
+                    // Delay render agar spinner muncul di UI sebelum lanjut
+                    await new Promise(resolve => setTimeout(resolve, 50));
+                    await exportFilteredTableToExcel('table-page-visit', 'page-visit-export');
+                    console.log('Export completed successfully');
+                    btn.classList.remove('disabled');
+                    spinner.classList.add('d-none');
+                    label.textContent = ' ' + originalText;
+                    console.log('Button text restored to original');
+                } catch (error) {
+                    console.error('Error during export:', error);
+                    btn.classList.remove('disabled');
+                    spinner.classList.add('d-none');
+                    label.textContent = ' ' + originalText;
+                }
+            });
+
+
+            // Tombol untuk export table-page-visit
+            // document.getElementById('exportPageExcel').addEventListener('click', function() {
+            //     exportFilteredTableToExcel('table-page-visit', 'page-visits');
+            // });
+
+
             // Init DataTables
             const newsTable = $('#table-news-visit').DataTable({
                 data: newsVisits,
@@ -337,7 +482,7 @@
                     },
                     {
                         data: 'user_agent',
-                        render: data => data.length > 60 ? data.substr(0, 60) + '...' : data
+                        // render: data => data.length > 60 ? data.substr(0, 60) + '...' : data
                     },
                     {
                         data: 'browser'
@@ -350,7 +495,7 @@
                     },
                     {
                         data: 'duration_seconds',
-                        render: data => data + 's'
+                        render: data => (data ?? 0) + 's'
                     },
                     {
                         data: 'is_bot',
@@ -374,7 +519,7 @@
                     },
                     {
                         data: 'user_agent',
-                        render: data => data.length > 60 ? data.substr(0, 60) + '...' : data
+                        // render: data => data.length > 60 ? data.substr(0, 60) + '...' : data
                     },
                     {
                         data: 'browser'
@@ -410,7 +555,7 @@
                 'news');
 
             populateUrlFilter(pageVisits, document.getElementById('pageUrlFilter'));
-            
+
             // Summary Table
             $('#tabel-ringkasan').DataTable({
                 searching: false,
