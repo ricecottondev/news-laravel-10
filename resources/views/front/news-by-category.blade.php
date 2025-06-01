@@ -7,11 +7,11 @@
 
     <section class="pt-1">
         <div
-            class="source-news text-bg-warning text-center py-1 small mb-3 d-md-flex flex-wrap align-items-md-center px-md-3 justify-content-md-center column-gap-md-4 py-xl-0">
-            <div class="text-nowrap">The News Is Full of Spin. Here's the Sarcastic Truth, straight from</div>
+            class="source-news text-bg-warning text-center py-1 mb-3 d-md-flex flex-wrap align-items-md-center px-md-3 justify-content-md-center column-gap-md-4">
+             <div> “We read everything — SMH, ABC, Nine, Seven,SBS, 10News, The Guardian, anyone who does journalism, even the ones behind paywalls — and spin it into sarcasm faster than you can say ‘breaking’.”</div>
             @isset($countryname)
                 @if ($countryname == 'usa')
-                    <div class="d-flex flex-nowrap justify-content-center gap-2 align-items-center">
+                    <div class="d-flex flex-nowrap justify-content-center gap-2 align-items-center d-none">
                         <div>
                             <img src="/assets/template3/asset/img/bloomberg_news.png" width="20" height="auto" alt=""
                                 class="my-1 my-lg-0 d-lg-none">
@@ -44,9 +44,9 @@
                         </div><!-- end col -->
                         <!-- end col -->
                     </div>
-                    <div class="text-nowrap">and anyone who still does journalism</div>
+                    <div class="text-nowrap d-none">and anyone who still does journalism</div>
                 @else
-                    <div class="d-flex flex-nowrap justify-content-center gap-2 align-items-center">
+                    <div class="d-flex flex-nowrap justify-content-center gap-2 align-items-center d-none">
                         <div>
                             <img src="/assets/template3/asset/img/abc-logo-v1.png" width="20" height="auto" alt=""
                                 class="my-1 my-lg-0 d-lg-none">
@@ -90,7 +90,7 @@
                                 class="my-1 my-lg-0 d-none d-lg-inline">
                         </div><!-- end col -->
                     </div>
-                    <div class="text-nowrap">and anyone who still does journalism</div>
+                    <div class="text-nowrap d-none">and anyone who still does journalism</div>
                 @endif
             @endisset
         </div><!-- end source news -->
