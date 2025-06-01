@@ -141,13 +141,13 @@
                             // categoryLink.textContent = category.name;
                             // categoryLink.className = "btn btn-sm border-0 fw-medium shadow-none text-white";
                             categoryLink.className = "btn btn-sm border-0 shadow-none rounded-circle p-1 bg-transparent";
-                            categoryLink.style.width = "40px";
-                            categoryLink.style.height = "40px";
+                            categoryLink.style.width = "50px";
+                            // categoryLink.style.height = "40px";
 
                             categoryImg.src = `/assets/template3/asset/category/${catName}.png`;
                             categoryImg.alt = category.name;
                             categoryImg.className =
-                                "img-fluid rounded-circle object-fit-cover w-100 h-100";
+                                "img-fluid rounded-circle object-fit-cover w-100";
 
                             if (preselectedCategory && decodeURIComponent(preselectedCategory)
                                 .toLowerCase() === category.name.toLowerCase()) {
@@ -167,13 +167,13 @@
                             // miscLink.textContent = "MISC";
                             // miscLink.className = "btn btn-sm border-0 shadow-none text-white";
                             miscLink.className = "btn btn-sm border-0 shadow-none rounded-circle p-1 bg-transparent";
-                            miscLink.style.width = "40px";
-                            miscLink.style.height = "40px";
+                            miscLink.style.width = "50px";
+                            // miscLink.style.height = "80px";
 
                             miscImg.src = `/assets/template3/asset/category/misc.png`;
                             miscImg.alt = 'misc';
                             miscImg.className =
-                                "img-fluid rounded-circle object-fit-cover w-100 h-100";
+                                "img-fluid rounded-circle object-fit-cover w-100";
 
 
                             if (preselectedCategory && preselectedCategory.toLowerCase() === 'misc') {
