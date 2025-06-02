@@ -259,11 +259,11 @@
                                                          </small>
                                                      </p>
                                                      @if ($news2->color == 'P')
-                                                         <h5 class="news-title hot-news text-danger">
+                                                         <h5 class="news-title text-danger">
                                                          @elseif ($news2->color == 'Y')
-                                                             <h5 class="news-title hot-news text-warning">
+                                                             <h5 class="news-title text-warning">
                                                              @else
-                                                                 <h5 class="news-title hot-news">
+                                                                 <h5 class="news-title">
                                                      @endif
                                                      <b class="fw-bold">
                                                          <a href="{{ route('front.news.show', $news2->slug) }}"
