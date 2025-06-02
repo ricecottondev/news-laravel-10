@@ -103,7 +103,7 @@
                                 @endif
 
                                 <section class="ps-xl-4 px-xxl-5 fs-5 lh-lg">
-                                    {!! $news->content !!}
+                                    {!! $processedContent !!}
 
                                     <div class="mt-4" style="font-size: 11px; font-style: italic">
                                         <strong>Disclaimer:</strong>
