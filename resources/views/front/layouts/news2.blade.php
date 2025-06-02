@@ -52,8 +52,16 @@
                                     </div>
                                 </div>
                                 <div class="media-body">
-                                    <div class="mb-1"><small class="opacity-75">Author by</small> <b
-                                            class="fw-medium">{{ $items[0]->author->name ?? 'Admin' }}</b></div>
+                                    <div class="mb-1"><small class="opacity-75">Author by</small>
+                                        @if ($items[0]->color == 'P')
+                                            <b class="fw-medium text-danger">Clara</b>
+                                        @elseif ($items[0]->color == 'Y')
+                                            <b class="fw-medium text-warning">Lola</b>
+                                        @else
+                                            <b class="fw-medium">Phor</b>
+                                        @endif
+
+                                    </div>
                                     <div><small>{{ $items[0]->created_at->diffForHumans() }}</small></div>
                                 </div>
                             </div>
@@ -89,8 +97,7 @@
                                         <h5 class="news-title ">
                             @endif
                             <b class="fw-bold">
-                                <a href="{{ url('/news/' . $items[1]->slug) }}"
-                                    class="text-reset link-hover-underline">
+                                <a href="{{ url('/news/' . $items[1]->slug) }}" class="text-reset link-hover-underline">
                                     {{ $items[1]->title }}
                                 </a>
                             </b>
@@ -124,8 +131,13 @@
                                             </div>
                                         </div>
                                         <div class="media-body">
-                                            <div class="mb-1"><small class="opacity-75">Author by</small> <b
-                                                    class="fw-medium">{{ $items[1]->author->name ?? 'Admin' }}</b>
+                                            <div class="mb-1"><small class="opacity-75">Author by</small> @if ($items[1]->color == 'P')
+                                            <b class="fw-medium text-danger">Clara</b>
+                                        @elseif ($items[1]->color == 'Y')
+                                            <b class="fw-medium text-warning">Lola</b>
+                                        @else
+                                            <b class="fw-medium">Phor</b>
+                                        @endif
                                             </div>
                                             <div><small>{{ $items[1]->created_at->diffForHumans() }}</small></div>
                                         </div>
@@ -139,7 +151,7 @@
                     <hr>
                 </div>
             @endif
-{{-- =============================================================================================================================================== --}}
+            {{-- =============================================================================================================================================== --}}
             {{-- Berita 3 --}}
             @if (isset($items[2]))
                 <div class="col px-3 col-12">
@@ -188,8 +200,13 @@
                                             </div>
                                         </div>
                                         <div class="media-body">
-                                            <div class="mb-1"><small class="opacity-75">Author by</small> <b
-                                                    class="fw-medium">{{ $items[2]->author->name ?? 'Admin' }}</b>
+                                            <div class="mb-1"><small class="opacity-75">Author by</small> @if ($items[2]->color == 'P')
+                                            <b class="fw-medium text-danger">Clara</b>
+                                        @elseif ($items[2]->color == 'Y')
+                                            <b class="fw-medium text-warning">Lola</b>
+                                        @else
+                                            <b class="fw-medium">Phor</b>
+                                        @endif
                                             </div>
                                             <div><small>{{ $items[2]->created_at->diffForHumans() }}</small></div>
                                         </div>
