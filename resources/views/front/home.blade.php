@@ -170,9 +170,11 @@
                                          <div class="news-item">
                                              <header>
                                                  <p class="news-category">
-                                                     <small><b class="fw-bold">Top Roast of The Day!</b>
-                                                         {{-- {{ $news1->author }} --}}
-                                                     </small>
+                                                     <small><b class="fw-bold">
+                                                                 {{ $news2->category->name ?? '-' }}
+                                                             </b>
+                                                             {{ $news2->author }}
+                                                         </small>
                                                  </p>
                                                  @if ($news1->color == 'P')
                                                      <h5 class="news-title hot-news text-danger">
@@ -252,10 +254,9 @@
                                                  <header>
                                                      <p class="news-category">
                                                          <small><b class="fw-bold">
-                                                                 {{-- {{ $news2->category->name ?? '-' }} --}}
-                                                                 WTF?!
+                                                                 {{ $news2->category->name ?? '-' }}
                                                              </b>
-                                                             {{-- {{ $news2->author }} --}}
+                                                             {{ $news2->author }}
                                                          </small>
                                                      </p>
                                                      @if ($news2->color == 'P')
@@ -338,10 +339,9 @@
                                                  <header>
                                                      <p class="news-category">
                                                          <small><b class="fw-bold">
-                                                                 {{-- {{ $news3->category->name ?? '-' }} --}}
-                                                                 Who voted for this?!
+                                                                 {{ $news2->category->name ?? '-' }}
                                                              </b>
-                                                             {{-- {{ $news3->author }} --}}
+                                                             {{ $news2->author }}
                                                          </small>
                                                      </p>
                                                      @if ($news3->color == 'P')
@@ -429,7 +429,6 @@
                                                              @else
                                                                  <h5 class="news-title ">
                                                      @endif
-                                                     <h5 class="news-title text-warning">
                                                          <b class="fw-bold">
                                                              <a href="{{ route('front.news.show', $main->slug) }}"
                                                                  class="text-reset link-hover-underline">
