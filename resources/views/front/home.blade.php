@@ -361,7 +361,7 @@
                                                      </h5>
                                                  </header>
                                                  <main>
-                                                     <p class="news-text elipsis-4">
+                                                     <p class="news-text elipsis-4 d-none d-md-block">
                                                          {{ Str::words(strip_tags($news3->content), 25, '...') }}</p>
                                                      <div class="news-time media small">
                                                          <div class="media-header">
@@ -520,7 +520,7 @@
                                                                      </h5>
                                                                  </header>
                                                                  <main>
-                                                                     <p class="news-text elipsis-4">
+                                                                     <p class="news-text elipsis-4 d-none d-md-block">
                                                                          {{ Str::words(strip_tags($news->content), 25, '...') }}
                                                                      </p>
                                                                      <div class="news-time media small">
