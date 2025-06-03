@@ -47,7 +47,7 @@
                                                 class="object-fit-cover" alt="">
                                         </div>
                                     @elseif ($items[0]->color == 'Y')
-                                        <div class="ratio ratio-1x1 rounded-circle border border-2 text-warning"
+                                        <div class="ratio ratio-1x1 rounded-circle border border-2 border-warning"
                                             style="width: 2rem;">
                                             <img src="assets/template3/asset/img/user/lola.jpg" class="object-fit-cover"
                                                 alt="">
@@ -133,7 +133,7 @@
                                                         class="object-fit-cover" alt="">
                                                 </div>
                                             @elseif ($items[1]->color == 'Y')
-                                                <div class="ratio ratio-1x1 rounded-circle border border-2 text-warning"
+                                                <div class="ratio ratio-1x1 rounded-circle border border-2 border-warning"
                                                     style="width: 2rem;">
                                                     <img src="assets/template3/asset/img/user/lola.jpg"
                                                         class="object-fit-cover" alt="">
@@ -216,7 +216,7 @@
                                                         class="object-fit-cover" alt="">
                                                 </div>
                                             @elseif ($items[2]->color == 'Y')
-                                                <div class="ratio ratio-1x1 rounded-circle border border-2 text-warning"
+                                                <div class="ratio ratio-1x1 rounded-circle border border-2 border-warning"
                                                     style="width: 2rem;">
                                                     <img src="assets/template3/asset/img/user/lola.jpg"
                                                         class="object-fit-cover" alt="">
