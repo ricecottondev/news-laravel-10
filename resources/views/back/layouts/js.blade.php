@@ -1,5 +1,5 @@
-      
-        
+
+
         <script>var hostUrl = "{{url('template')}}/assets/";</script>
 		<!--begin::Global Javascript Bundle(mandatory for all pages)-->
 		<script src="{{url('template')}}/assets/plugins/global/plugins.bundle.js"></script>
@@ -17,7 +17,7 @@
         <script src="{{url('template')}}/assets/js/custom/apps/chat/chat.js"></script>
         <script src="{{url('template')}}/assets/js/custom/utilities/modals/upgrade-plan.js"></script>
         <script src="{{url('template')}}/assets/js/custom/utilities/modals/create-app.js"></script>
-        <script src="{{url('template')}}/assets/js/custom/utilities/modals/users-search.js"></script> 
+        <script src="{{url('template')}}/assets/js/custom/utilities/modals/users-search.js"></script>
 		<!--begin::Vendors Javascript(used for this page only)-->
 		<script src="{{url('template')}}/assets/plugins/custom/fullcalendar/fullcalendar.bundle.js"></script>
 		<script src="https://cdn.amcharts.com/lib/5/index.js"></script>
@@ -43,17 +43,18 @@
 		<script src="{{url('template')}}/assets/js/custom/utilities/modals/users-search.js"></script> --}}
 
 		<!--end::Custom Javascript-->
-   
-		
+
+
     	<script src="{{ URL::asset('/assets/libs/jszip/jszip.min.js') }}"></script>
     	<script src="{{ URL::asset('/assets/libs/pdfmake/pdfmake.min.js') }}"></script>
     	<script src="{{ URL::asset('/assets/js/pages/datatables.init.js') }}"></script>
 
-   
-		
+
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <script src="{{ url('') }}/parentchild/jquery.nestable.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 @stack('scripts')
 <script>
 
@@ -93,7 +94,7 @@ $(document).ready(function()
     updateOutput($('#nestable').data('output', $('#nestable-output')));
     //updateOutput($('#nestable2').data('output', $('#nestable2-output')));
 
-   
+
 
     $('#nestable-menu').on('click', function(e)
     {
@@ -109,16 +110,16 @@ $(document).ready(function()
 
     $('#nestable3').nestable();
 
-    
-  
 
-}); 
+
+
+});
 
 function sendmenu(valmenu)
     {
         console.log((valmenu));
         updatemenu(valmenu);
-        
+
     }
 
     function updatemenu(menu)

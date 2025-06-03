@@ -42,7 +42,7 @@
         <div class="card my-4">
             <div class="card-body">
                 <h2 class="mb-4">📰 News Visits</h2>
-                <div class="row row-cols-1 row-cols-sm-5">
+                {{-- <div class="row row-cols-1 row-cols-sm-5">
                     <div class="col mb-4">
                         <select class="form-select" id="newsYearFilter">
                             <option value="">Pilih Tahun</option>
@@ -57,6 +57,31 @@
                         <select class="form-select" id="newsDayFilter">
                             <option value="">Pilih Tanggal</option>
                         </select>
+                    </div>
+                    <div class="col mb-4">
+                        <select class="form-select" id="newsBotOrHumanFilter">
+                            <option value="">Pilih Bot Or Human</option>
+                            <option value="Yes">Bot</option>
+                            <option value="No">Human</option>
+                        </select>
+                    </div>
+                    <div class="col mb-4">
+                        <button id="exportNewsVisit" class="btn btn-primary w-100">
+                            <span id="spinner-btn" class="spinner-border spinner-border-sm me-1 d-none" role="status"
+                                aria-hidden="true"></span>
+                            <span class="btn-label">Export Excel</span>
+                        </button>
+
+                    </div>
+                </div> --}}
+                <div class="row row-cols-1 row-cols-sm-4">
+                    <div class="col mb-4">
+                        <input type="text" class="selector form-control" id="newsStartDate"
+                            placeholder="Pilih Tanggal Mulai">
+                    </div>
+                    <div class="col mb-4">
+                        <input type="text" class="selector form-control" id="newsEndDate"
+                            placeholder="Pilih Tanggal Selesai">
                     </div>
                     <div class="col mb-4">
                         <select class="form-select" id="newsBotOrHumanFilter">
@@ -181,9 +206,8 @@
         document.addEventListener("DOMContentLoaded", function() {
             let filterState = {
                 news: {
-                    year: '',
-                    month: '',
-                    day: '',
+                    startDate: '',
+                    endDate: '',
                     bot: ''
                 },
                 page: {
@@ -203,92 +227,56 @@
                 const rowDay = String(date.getDate()).padStart(2, '0');
                 const isBot = rowData.is_bot; // 'Yes' atau 'No'
 
-                if (filter.year && rowYear !== filter.year) return false;
-                if (filter.month && rowMonth !== filter.month) return false;
-                if (filter.day && rowDay !== filter.day) return false;
+                // Filter berdasarkan start date dan end date
+                const start = filter.startDate ? new Date(filter.startDate) : null;
+                const end = filter.endDate ? new Date(filter.endDate) : null;
+
+                // Filter berdasarkan start date dan end date
+                if (start && end) {
+                    if (date < start || date > end) return false;
+                } else if (start) {
+                    if (date < start) return false;
+                } else if (end) {
+                    if (date > end) return false;
+                }
+
                 if (filter.bot && isBot !== filter.bot) return false;
 
                 return true;
             });
 
-            function populateFilters(data, yearSelect, monthSelect, daySelect, botOrHuman, type) {
-                const years = new Set();
-                const monthsByYear = {};
-                const daysByMonthYear = {};
+            function populateFilters(data, startDate, endDate, botOrHuman, type) {
 
-                data.forEach(visit => {
-                    const date = new Date(visit.visited_at);
-                    const year = date.getFullYear().toString();
-                    const month = String(date.getMonth() + 1).padStart(2, '0');
-                    const day = String(date.getDate()).padStart(2, '0');
-                    const yearMonth = `${year}-${month}`;
-
-                    years.add(year);
-                    if (!monthsByYear[year]) monthsByYear[year] = new Set();
-                    monthsByYear[year].add(month);
-                    if (!daysByMonthYear[yearMonth]) daysByMonthYear[yearMonth] = new Set();
-                    daysByMonthYear[yearMonth].add(day);
+                // Inisialisasi Flatpickr untuk Start Date
+                flatpickr(startDate, {
+                    dateFormat: "Y-m-d",
+                    maxDate: new Date(), // Batasi hingga hari ini (3 Juni 2025)
+                    onChange: function(selectedDates, dateStr) {
+                        filterState[type].startDate = dateStr || '';
+                        if (filterState[type].startDate && filterState[type].endDate &&
+                            new Date(filterState[type].startDate) > new Date(filterState[type].endDate)
+                        ) {
+                            filterState[type].endDate = '';
+                            flatpickr(endDateInput).setDate(null);
+                        }
+                        refreshTable('news');
+                    }
                 });
 
-                // Populate year dropdown
-                yearSelect.innerHTML = '<option value="">Pilih Tahun</option>';
-                Array.from(years).sort().forEach(year => {
-                    yearSelect.innerHTML += `<option value="${year}">${year}</option>`;
-                });
-
-                // Update months
-                yearSelect.addEventListener('change', () => {
-                    const selectedYear = yearSelect.value;
-                    filterState[type].year = selectedYear;
-                    filterState[type].month = '';
-                    filterState[type].day = '';
-                    monthSelect.innerHTML = '<option value="">Pilih Bulan</option>';
-                    daySelect.innerHTML = '<option value="">Pilih Tanggal</option>';
-
-                    if (selectedYear === "") {
-                        refreshTable(type); // Reset table if year is cleared
-                        return;
+                // Inisialisasi Flatpickr untuk End Date
+                flatpickr(endDate, {
+                    dateFormat: "Y-m-d",
+                    maxDate: new Date(), // Batasi hingga hari ini
+                    onChange: function(selectedDates, dateStr) {
+                        filterState[type].endDate = dateStr || '';
+                        if (filterState[type].endDate && filterState[type].startDate &&
+                            new Date(filterState[type].endDate) < new Date(filterState[type].startDate)
+                        ) {
+                            filterState[type].startDate = '';
+                            flatpickr(startDateInput).setDate(null);
+                        }
+                        refreshTable('news');
                     }
-
-                    if (monthsByYear[selectedYear]) {
-                        Array.from(monthsByYear[selectedYear]).sort().forEach(month => {
-                            const monthName = new Date(2025, parseInt(month) - 1).toLocaleString(
-                                'id-ID', {
-                                    month: 'long'
-                                });
-                            monthSelect.innerHTML +=
-                                `<option value="${month}">${monthName}</option>`;
-                        });
-                    }
-                    refreshTable(type);
-                });
-
-                // Update days
-                monthSelect.addEventListener('change', () => {
-                    const year = yearSelect.value;
-                    const month = monthSelect.value;
-                    const yearMonth = `${year}-${month}`;
-                    filterState[type].month = month;
-                    filterState[type].day = '';
-                    daySelect.innerHTML = '<option value="">Pilih Tanggal</option>';
-
-                    if (month === "") {
-                        refreshTable(type); // Reset if month cleared
-                        return;
-                    }
-
-                    if (daysByMonthYear[yearMonth]) {
-                        Array.from(daysByMonthYear[yearMonth]).sort().forEach(day => {
-                            daySelect.innerHTML += `<option value="${day}">${day}</option>`;
-                        });
-                    }
-                    refreshTable(type);
-                });
-
-                // Day filter
-                daySelect.addEventListener('change', () => {
-                    filterState[type].day = daySelect.value;
-                    refreshTable(type);
                 });
 
                 // Bot or Human filter
@@ -298,6 +286,94 @@
                 });
 
             }
+
+            // function populateFilters(data, yearSelect, monthSelect, daySelect, botOrHuman, type) {
+            //     const years = new Set();
+            //     const monthsByYear = {};
+            //     const daysByMonthYear = {};
+
+            //     data.forEach(visit => {
+            //         const date = new Date(visit.visited_at);
+            //         const year = date.getFullYear().toString();
+            //         const month = String(date.getMonth() + 1).padStart(2, '0');
+            //         const day = String(date.getDate()).padStart(2, '0');
+            //         const yearMonth = `${year}-${month}`;
+
+            //         years.add(year);
+            //         if (!monthsByYear[year]) monthsByYear[year] = new Set();
+            //         monthsByYear[year].add(month);
+            //         if (!daysByMonthYear[yearMonth]) daysByMonthYear[yearMonth] = new Set();
+            //         daysByMonthYear[yearMonth].add(day);
+            //     });
+
+            //     // Populate year dropdown
+            //     yearSelect.innerHTML = '<option value="">Pilih Tahun</option>';
+            //     Array.from(years).sort().forEach(year => {
+            //         yearSelect.innerHTML += `<option value="${year}">${year}</option>`;
+            //     });
+
+            //     // Update months
+            //     yearSelect.addEventListener('change', () => {
+            //         const selectedYear = yearSelect.value;
+            //         filterState[type].year = selectedYear;
+            //         filterState[type].month = '';
+            //         filterState[type].day = '';
+            //         monthSelect.innerHTML = '<option value="">Pilih Bulan</option>';
+            //         daySelect.innerHTML = '<option value="">Pilih Tanggal</option>';
+
+            //         if (selectedYear === "") {
+            //             refreshTable(type); // Reset table if year is cleared
+            //             return;
+            //         }
+
+            //         if (monthsByYear[selectedYear]) {
+            //             Array.from(monthsByYear[selectedYear]).sort().forEach(month => {
+            //                 const monthName = new Date(2025, parseInt(month) - 1).toLocaleString(
+            //                     'id-ID', {
+            //                         month: 'long'
+            //                     });
+            //                 monthSelect.innerHTML +=
+            //                     `<option value="${month}">${monthName}</option>`;
+            //             });
+            //         }
+            //         refreshTable(type);
+            //     });
+
+            //     // Update days
+            //     monthSelect.addEventListener('change', () => {
+            //         const year = yearSelect.value;
+            //         const month = monthSelect.value;
+            //         const yearMonth = `${year}-${month}`;
+            //         filterState[type].month = month;
+            //         filterState[type].day = '';
+            //         daySelect.innerHTML = '<option value="">Pilih Tanggal</option>';
+
+            //         if (month === "") {
+            //             refreshTable(type); // Reset if month cleared
+            //             return;
+            //         }
+
+            //         if (daysByMonthYear[yearMonth]) {
+            //             Array.from(daysByMonthYear[yearMonth]).sort().forEach(day => {
+            //                 daySelect.innerHTML += `<option value="${day}">${day}</option>`;
+            //             });
+            //         }
+            //         refreshTable(type);
+            //     });
+
+            //     // Day filter
+            //     daySelect.addEventListener('change', () => {
+            //         filterState[type].day = daySelect.value;
+            //         refreshTable(type);
+            //     });
+
+            //     // Bot or Human filter
+            //     botOrHuman.addEventListener('change', function() {
+            //         filterState.news.bot = this.value;
+            //         refreshTable('news');
+            //     });
+
+            // }
 
             // Fungsi untuk mengisi dropdown filter URL (untuk Page Visits)
             function populateUrlFilter(data, urlSelect) {
@@ -403,90 +479,6 @@
                 $(tableId).DataTable().draw();
             }
 
-            function exportFilteredTableToExcel(tableId, filename = 'Export') {
-                return new Promise((resolve) => {
-                    const table = $(`#${tableId}`).DataTable();
-                    const filteredIndexes = table.rows({
-                        search: 'applied'
-                    }).indexes();
-
-                    const headers = $(`#${tableId} thead th`).map(function() {
-                        return $(this).text().trim();
-                    }).get();
-
-                    const exportData = [headers];
-
-                    filteredIndexes.each(function(rowIdx) {
-                        const rowData = [];
-                        headers.forEach((colName, colIdx) => {
-                            let data = table.cell(rowIdx, colIdx).data();
-
-                            // Jaga agar kolom "Bot?" tetap bot/human saja
-                            if (colName.toLowerCase().includes('bot')) {
-                                rowData.push(data?.toLowerCase() === 'yes' ? 'bot' :
-                                    'human');
-                            } else {
-                                const cleanData = typeof data === 'string' ? stripHtml(
-                                    data) : data;
-                                rowData.push(cleanData);
-                            }
-                        });
-                        exportData.push(rowData);
-                    });
-
-                    const worksheet = XLSX.utils.aoa_to_sheet(exportData);
-                    const workbook = XLSX.utils.book_new();
-                    XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
-                    XLSX.writeFile(workbook, `${filename}.xlsx`);
-
-                    resolve(); // Trigger selesai
-                });
-            }
-
-            function stripHtml(html) {
-                const tmp = document.createElement("div");
-                tmp.innerHTML = html;
-                return tmp.textContent || tmp.innerText || "";
-            }
-
-            function setupExportButton(buttonId, tableId, fileName) {
-                document.getElementById(buttonId).addEventListener('click', async function() {
-                    const btn = this;
-                    const spinner = btn.querySelector('#spinner-btn');
-                    const label = btn.querySelector('.btn-label') || btn.lastChild;
-                    const originalText = label.textContent.trim() || 'Export Excel';
-
-                    if (!spinner) {
-                        console.error(`Spinner element not found in button #${buttonId}`);
-                        return;
-                    }
-
-                    try {
-                        btn.classList.add('disabled');
-                        spinner.classList.remove('d-none');
-                        label.textContent = 'Exporting...';
-
-                        // Delay kecil untuk memastikan spinner ter-render
-                        await new Promise(resolve => setTimeout(resolve, 50));
-                        await exportFilteredTableToExcel(tableId, fileName);
-
-                        btn.classList.remove('disabled');
-                        spinner.classList.add('d-none');
-                        label.textContent = originalText;
-                    } catch (error) {
-                        console.error(`Error during export for ${tableId}:`, error);
-                        btn.classList.remove('disabled');
-                        spinner.classList.add('d-none');
-                        label.textContent = originalText;
-                    }
-                });
-            }
-
-            // Inisialisasi tombol ekspor
-            setupExportButton('exportNewsVisit', 'table-news-visit', 'news-visit-export');
-            setupExportButton('exportPageVisit', 'table-page-visit', 'page-visit-export');
-
-
             // Init DataTables
             const newsTable = $('#table-news-visit').DataTable({
                 data: newsVisits,
@@ -564,11 +556,16 @@
 
             // Init filters
             populateFilters(newsVisits,
-                document.getElementById('newsYearFilter'),
-                document.getElementById('newsMonthFilter'),
-                document.getElementById('newsDayFilter'),
+                "#newsStartDate",
+                "#newsEndDate",
                 document.getElementById('newsBotOrHumanFilter'),
                 'news');
+            // populateFilters(newsVisits,
+            //     document.getElementById('newsYearFilter'),
+            //     document.getElementById('newsMonthFilter'),
+            //     document.getElementById('newsDayFilter'),
+            //     document.getElementById('newsBotOrHumanFilter'),
+            //     'news');
 
             populateUrlFilter(pageVisits, document.getElementById('pageUrlFilter'));
 
@@ -579,6 +576,94 @@
                 lengthChange: false,
                 info: false
             });
+
+
+            function exportFilteredTableToExcel(tableId, filename = 'Export') {
+                return new Promise((resolve) => {
+                    const table = $(`#${tableId}`).DataTable();
+                    const filteredIndexes = table.rows({
+                        search: 'applied'
+                    }).indexes();
+
+                    const headers = $(`#${tableId} thead th`).map(function() {
+                        return $(this).text().trim();
+                    }).get();
+
+                    const exportData = [headers];
+
+                    filteredIndexes.each(function(rowIdx) {
+                        const rowData = [];
+                        headers.forEach((colName, colIdx) => {
+                            let data = table.cell(rowIdx, colIdx).data();
+
+                            // Jaga agar kolom "Bot?" tetap bot/human saja
+                            if (colName.toLowerCase().includes('bot')) {
+                                rowData.push(data?.toLowerCase() === 'yes' ? 'bot' :
+                                    'human');
+                            } else if(colName.toLowerCase().includes('duration')) {
+                                rowData.push(data ? `${data}s` : '0s');
+                            } else {
+                                const cleanData = typeof data === 'string' ? stripHtml(
+                                    data) : data;
+                                rowData.push(cleanData);
+                            }
+
+                        });
+                        exportData.push(rowData);
+                    });
+
+                    const worksheet = XLSX.utils.aoa_to_sheet(exportData);
+                    const workbook = XLSX.utils.book_new();
+                    XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
+                    XLSX.writeFile(workbook, `${filename}.xlsx`);
+
+                    resolve(); // Trigger selesai
+                });
+            }
+
+            function stripHtml(html) {
+                const tmp = document.createElement("div");
+                tmp.innerHTML = html;
+                return tmp.textContent || tmp.innerText || "";
+            }
+
+            function setupExportButton(buttonId, tableId, fileName) {
+                document.getElementById(buttonId).addEventListener('click', async function() {
+                    const btn = this;
+                    const spinner = btn.querySelector('#spinner-btn');
+                    const label = btn.querySelector('.btn-label') || btn.lastChild;
+                    const originalText = label.textContent.trim() || 'Export Excel';
+
+                    if (!spinner) {
+                        console.error(`Spinner element not found in button #${buttonId}`);
+                        return;
+                    }
+
+                    try {
+                        btn.classList.add('disabled');
+                        spinner.classList.remove('d-none');
+                        label.textContent = 'Exporting...';
+
+                        // Delay kecil untuk memastikan spinner ter-render
+                        await new Promise(resolve => setTimeout(resolve, 50));
+                        await exportFilteredTableToExcel(tableId, fileName);
+
+                        btn.classList.remove('disabled');
+                        spinner.classList.add('d-none');
+                        label.textContent = originalText;
+                    } catch (error) {
+                        console.error(`Error during export for ${tableId}:`, error);
+                        btn.classList.remove('disabled');
+                        spinner.classList.add('d-none');
+                        label.textContent = originalText;
+                    }
+                });
+            }
+
+            // Inisialisasi tombol ekspor
+            setupExportButton('exportNewsVisit', 'table-news-visit', 'news-visit-export');
+            setupExportButton('exportPageVisit', 'table-page-visit', 'page-visit-export');
+
         });
     </script>
 @endsection
