@@ -1,6 +1,5 @@
 <!-- ------------------------------ layout news headlines  -->
 <div>
-   <div class="px-md-3"><hr></div>
    <div>
       <div class="headlines small">
          <div class="row g-0">
