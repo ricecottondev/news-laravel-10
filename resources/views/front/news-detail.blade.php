@@ -27,9 +27,11 @@
                         {{-- detail news start --}}
                         <div class="col px-3">
                             <header>
-                                @if ($news->color == 'P')
+
+                                @if (strtoupper($news->color) == 'P')
+
                                     <h2 class="news-title fs-1  text-danger">
-                                    @elseif ($news->color == 'Y')
+                                    @elseif (strtoupper($news->color) == 'Y')
                                         <h2 class="news-title fs-1 text-warning">
                                         @else
                                             <h2 class="news-title fs-1">
@@ -40,9 +42,9 @@
                                 <p class="mb-md-4">
                                     <small>
                                         <small>Author by
-                                            @if ($news->color == 'P')
+                                            @if (strtoupper($news->color) == 'P')
                                                 <b class="fw-medium text-danger">Clara</b>
-                                            @elseif ($news->color == 'Y')
+                                            @elseif (strtoupper($news->color) == 'Y')
                                                 <b class="fw-medium text-warning">Lola</b>
                                             @else
                                                 <b class="fw-medium">Phor</b>
@@ -114,6 +116,8 @@
                                 @endif
 
                                 <section class="ps-xl-4 px-xxl-5 fs-5 lh-lg">
+                                    {!! $news->short_desc !!}
+                                    <hr class="py-3">
                                     {!! $processedContent !!}
 
                                     <div class="mt-4" style="font-size: 11px; font-style: italic">
@@ -192,13 +196,13 @@
                             <hr class="my-5">
                         </div>
                         {{-- promoted news start --}}
-                        <div class="col px-3 d-none d-md-block">
+                        <div class="col px-3">
 
-                            @if ($news->color == 'P')
+                            @if (strtoupper($news->color) == 'P')
                                 <h5 class="mb-4 text-danger">
                                     <b class="fw-bold">other stories Clara's raging at:</b>
                                 </h5>
-                            @elseif ($news->color == 'Y')
+                            @elseif (strtoupper($news->color) == 'Y')
                                 <h5 class="mb-4 text-warning">
                                     <b class="fw-bold">other stories Lola's raging at:</b>
                                 </h5>
@@ -224,9 +228,9 @@
                                                 <p class="mb-0"><small><small>News - <b
                                                                 class="fw-bold">Health</b></small></small></p>
 
-                                                @if ($pn->color == 'P')
+                                                @if (strtoupper($pn->color) == 'P')
                                                     <h5 class="news-title fs-6  text-danger">
-                                                    @elseif ($pn->color == 'Y')
+                                                    @elseif (strtoupper($pn->color) == 'Y')
                                                         <h5 class="news-title fs-6 text-warning">
                                                         @else
                                                             <h5 class="news-title fs-6">
