@@ -6,8 +6,12 @@
             <div class="news-item">
                 <header>
                     <p class="news-category">
+                        @php
+                            $categoryName =
+                                $items[2]->countriesCategoriesNews->first()?->category?->name ?? 'No Category';
+                        @endphp
                         <small>
-                            <b class="fw-bold">{{ $items[0]->category->name ?? '-' }}</b> {{ $items[0]->author }}
+                            <b class="fw-bold">{{ $categoryName ?? '-' }}</b>
                         </small>
                     </p>
                     @if ($items[0]->color == 'P')
@@ -93,9 +97,12 @@
                     <div class="news-item">
                         <header>
                             <p class="news-category">
+                                @php
+                                    $categoryName =
+                                        $items[1]->countriesCategoriesNews->first()?->category?->name ?? 'No Category';
+                                @endphp
                                 <small>
-                                    <b class="fw-bold">{{ $items[1]->category->name ?? '-' }}</b>
-                                    {{ $items[1]->author }}
+                                    <b class="fw-bold">{{ $categoryName ?? '-' }}</b>
                                 </small>
                             </p>
                             @if ($items[1]->color == 'P')
@@ -175,9 +182,11 @@
                     <div class="news-item">
                         <header>
                             <p class="news-category">
+                                @php
+                                    $categoryName = $items[2]->countriesCategoriesNews->first()?->category?->name ?? 'No Category';
+                                @endphp
                                 <small>
-                                    <b class="fw-bold">{{ $items[1]->category->name ?? '-' }}</b>
-                                    {{ $items[2]->author }}
+                                    <b class="fw-bold">{{ $categoryName ?? '-' }}</b>
                                 </small>
                             </p>
                             @if ($items[2]->color == 'P')
