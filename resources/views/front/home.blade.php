@@ -156,14 +156,18 @@
                              //  $chunks = $topnews->chunk(3);
                          @endphp
 
-                         @foreach ($topnews->values()->chunk(3) as $index => $chunk)
-                             @php $chunk = $chunk->values(); @endphp {{-- Reindex ulang tiap chunk --}}
-                             @if ($index % 2 === 0)
-                                 @include('front.layouts.news1', ['items' => $chunk])
-                             @else
-                                 @include('front.layouts.news2', ['items' => $chunk])
-                             @endif
-                         @endforeach
+                         @php
+                             $chunk = $chunk->values(); // Reindex agar bisa pakai [0], [1], [2]
+                             $layoutIndex = ($index % 3) + 1; // Hasil: 1, 2, 3, 1, 2, 3, ...
+                         @endphp
+
+                         @if ($layoutIndex === 1)
+                             @include('front.layouts.news1', ['items' => $chunk])
+                         @elseif ($layoutIndex === 2)
+                             @include('front.layouts.news3', ['items' => $chunk])
+                         @elseif ($layoutIndex === 3)
+                             @include('front.layouts.news2', ['items' => $chunk])
+                         @endif
                      </div>
                      <!-- end news -->
 
