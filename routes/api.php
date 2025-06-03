@@ -124,6 +124,8 @@ Route::get('getBreakingNews', [NewsController::class, 'getBreakingNews']);
 Route::get('getNewsVoice', [NewsController::class, 'getNewsVoice']);
 Route::post('back/news/bulk-save', [NewsController::class, 'bulkStore'])->name('news.bulk-save');
 
+Route::put('/news/{news}/update-order', [\App\Http\Controllers\Api\News\NewsOrderController::class, 'update']);
+
 
 
 

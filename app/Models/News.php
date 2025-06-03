@@ -37,6 +37,7 @@ class News extends Model
         'created_at',
         'color',
         'editor_choice',
+        'order'
     ];
 
     /**

@@ -82,74 +82,86 @@
                                     <button type="submit">Cari</button>
                                     <a href="{{ route('news-master.index') }}" class="btn-reset">Reset</a>
                                 </form> --}}
-
-                                <table class="table align-middle table-row-dashed fs-6 gy-5" id="">
-                                    <thead>
-                                        <tr>
-                                            <th>Gambar</th>
-                                            <th>Title</th>
-                                            <th>Short Description</th>
-                                            <th>Author</th>
-                                            <th>Editor Choice</th>
-                                            <th>Status</th>
-                                            <th>Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach ($news as $item)
+                                <div class="table-responsive">
+                                    <table class="table align-middle table-row-dashed fs-6 gy-5" id="">
+                                        <thead>
                                             <tr>
-                                                <td>
-                                                    @if ($item->image)
-                                                        <img src="{{ '/storage/' . $item->image }}" alt="News Image"
-                                                            width="80" height="50" style="object-fit: cover;">
-                                                    @else
-                                                        <span class="text-muted">No Image</span>
-                                                    @endif
-                                                </td>
-                                                <td>{{ $item->title }}
-                                                    @if ($item->is_breaking_news)
-                                                        <span class="badge bg-danger">Breaking News</span>
-                                                    @endif
-                                                </td>
-                                                <td>{{ $item->short_desc }}</td>
-                                                <td>{{ $item->author }}</td>
-                                                <td>
-                                                    <input type="checkbox" class="form-check-input editor-choice-toggle"
-                                                        data-id="{{ $item->id }}"
-                                                        {{ $item->editor_choice ? 'checked' : '' }}>
-                                                </td>
-                                                <td>
-                                                    <span
-                                                        class="badge status-badge
+                                                <th>Gambar</th>
+                                                <th>Title</th>
+                                                <th>Short Description</th>
+                                                {{-- <th>Author</th> --}}
+                                                <th>Editor Choice</th>
+                                                <th>Status</th>
+                                                <th style="width: 100px">Order</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($news as $item)
+                                                <tr>
+                                                    <td>
+                                                        @if ($item->image)
+                                                            <img src="{{ '/storage/' . $item->image }}" alt="News Image"
+                                                                width="80" height="50" style="object-fit: cover;">
+                                                        @else
+                                                            <span class="text-muted">No Image</span>
+                                                        @endif
+                                                    </td>
+                                                    <td>{{ $item->title }}
+                                                        @if ($item->is_breaking_news)
+                                                            <span class="badge bg-danger">Breaking News</span>
+                                                        @endif
+                                                    </td>
+                                                    <td>{{ $item->short_desc }}</td>
+                                                    {{-- <td>{{ $item->author }}</td> --}}
+                                                    <td>
+                                                        <input type="checkbox" class="form-check-input editor-choice-toggle"
+                                                            data-id="{{ $item->id }}"
+                                                            {{ $item->editor_choice ? 'checked' : '' }}>
+                                                    </td>
+                                                    <td>
+                                                        <span
+                                                            class="badge status-badge
                                                         @if ($item->status == 'draft') bg-danger
                                                         @elseif($item->status == 'progress') bg-warning text-dark
                                                         @elseif($item->status == 'published') bg-success
                                                         @elseif($item->status == 'revision') bg-warning text-dark @endif"
-                                                        style="cursor: pointer;" data-bs-toggle="modal"
-                                                        data-bs-target="#updateStatusModal" data-id="{{ $item->id }}"
-                                                        data-status="{{ $item->status }}">
-                                                        {{ ucfirst($item->status) }}
-                                                    </span>
-                                                </td>
-                                                <td>
-                                                    <a href="{{ route('news-master.edit', $item->id) }}"
-                                                        class="btn btn-sm btn-outline btn-outline-dashed btn-outline-default px-4 me-2"><i
-                                                            class="fas fa-edit"></i></a>
-                                                    <form action="{{ route('news-master.destroy', $item->id) }}"
-                                                        method="POST" style="display:inline;">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit"
-                                                            class="btn btn-sm btn-outline btn-outline-dashed btn-outline-default px-4 me-2"
-                                                            onclick="return confirm('Yakin ingin menghapus?');"><i
-                                                                class="fas fa-trash-alt"></i< /button>
-                                                    </form>
-                                                </td>
-                                            </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
-
+                                                            style="cursor: pointer;" data-bs-toggle="modal"
+                                                            data-bs-target="#updateStatusModal"
+                                                            data-id="{{ $item->id }}"
+                                                            data-status="{{ $item->status }}">
+                                                            {{ ucfirst($item->status) }}
+                                                        </span>
+                                                    </td>
+                                                    <td>
+                                                        <select class="form-select form-select-sm"
+                                                            onchange="updateOrder({{ $item->id }}, this.value)">
+                                                            @for ($i = 0; $i <= 5; $i++)
+                                                                <option value="{{ $i }}"
+                                                                    {{ $item->order == $i ? 'selected' : '' }}>
+                                                                    {{ $i }}</option>
+                                                            @endfor
+                                                        </select>
+                                                    </td>
+                                                    <td>
+                                                        <a href="{{ route('news-master.edit', $item->id) }}"
+                                                            class="btn btn-sm btn-outline btn-outline-dashed btn-outline-default px-4 me-2"><i
+                                                                class="fas fa-edit"></i></a>
+                                                        <form action="{{ route('news-master.destroy', $item->id) }}"
+                                                            method="POST" style="display:inline;">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="submit"
+                                                                class="btn btn-sm btn-outline btn-outline-dashed btn-outline-default px-4 me-2"
+                                                                onclick="return confirm('Yakin ingin menghapus?');"><i
+                                                                    class="fas fa-trash-alt"></i< /button>
+                                                        </form>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
 
                                 {{ $news->withQueryString()->links() }}
 
@@ -319,6 +331,33 @@
     {{-- <script>
 
     </script> --}}
+
+    <script>
+        function updateOrder(newsId, newOrder) {
+            fetch(`/api/news/${newsId}/update-order`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                    },
+                    body: JSON.stringify({
+                        order: newOrder
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        console.log('Order updated successfully');
+                    } else {
+                        alert('Failed to update order');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error updating order:', error);
+                });
+        }
+    </script>
+
 
     <script>
         const updateStatusModal = document.getElementById('updateStatusModal');

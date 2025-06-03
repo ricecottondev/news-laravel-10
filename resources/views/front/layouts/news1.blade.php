@@ -10,7 +10,20 @@
                             $categoryName = $items[0]->countriesCategoriesNews->first()?->category?->name ?? 'No Category';
                         @endphp
                         <small>
-                            <b class="fw-bold">{{ $categoryName ?? '-' }}</b>
+                            @if ($items[0]->order == '1')
+                                <b class="fw-bold">Top Roast of The Day!</b>
+                            @elseif ($items[0]->order == '2')
+                                <b class="fw-bold">DANCUOOKK</b>
+                            @elseif ($items[0]->order == '3')
+                                <b class="fw-bold">Who voted for this?!</b>
+                            @elseif ($items[0]->order == '7')
+                                <b class="fw-bold">Burn it all down!</b>
+                            @elseif ($items[0]->order == '8')
+                                <b class="fw-bold">Who's getting dragged today?</b>
+                            @else
+                                <b class="fw-bold">{{ $categoryName ?? '-' }}</b>
+                            @endif
+
                         </small>
                     </p>
                     @if ($items[0]->color == 'P')
@@ -97,7 +110,22 @@
                             $categoryName = $items[1]->countriesCategoriesNews->first()?->category?->name ?? 'No Category';
                         @endphp
                         <small>
-                            <b class="fw-bold">{{ $categoryName ?? '-' }}</b>
+                             <small>
+                            @if ($items[1]->order == '1')
+                                <b class="fw-bold">Top Roast of The Day!</b>
+                            @elseif ($items[1]->order == '2')
+                                <b class="fw-bold">DANCUOOKK</b>
+                            @elseif ($items[1]->order == '3')
+                                <b class="fw-bold">Who voted for this?!</b>
+                            @elseif ($items[1]->order == '7')
+                                <b class="fw-bold">Burn it all down!</b>
+                            @elseif ($items[1]->order == '8')
+                                <b class="fw-bold">Who's getting dragged today?</b>
+                            @else
+                                <b class="fw-bold">{{ $categoryName ?? '-' }}</b>
+                            @endif
+
+                        </small>
                         </small>
                     </p>
                     @if ($items[1]->color == 'P')
@@ -184,7 +212,22 @@
                             $categoryName = $items[2]->countriesCategoriesNews->first()?->category?->name ?? 'No Category';
                         @endphp
                         <small>
-                            <b class="fw-bold">{{ $categoryName ?? '-' }}</b>
+                            <small>
+                            @if ($items[2]->order == '1')
+                                <b class="fw-bold">Top Roast of The Day!</b>
+                            @elseif ($items[2]->order == '2')
+                                <b class="fw-bold">DANCUOOKK</b>
+                            @elseif ($items[2]->order == '3')
+                                <b class="fw-bold">Who voted for this?!</b>
+                            @elseif ($items[2]->order == '7')
+                                <b class="fw-bold">Burn it all down!</b>
+                            @elseif ($items[2]->order == '8')
+                                <b class="fw-bold">Who's getting dragged today?</b>
+                            @else
+                                <b class="fw-bold">{{ $categoryName ?? '-' }}</b>
+                            @endif
+
+                        </small>
                         </small>
                     </p>
                     @if ($items[2]->color == 'P')

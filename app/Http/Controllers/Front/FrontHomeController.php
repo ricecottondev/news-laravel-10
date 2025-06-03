@@ -42,7 +42,7 @@ class FrontHomeController extends Controller
 
     public function index(Request $request)
     {
-// dump("home");
+        // dump("home");
         if ($request->get('is_bot')) {
             return response()->view('bot-detected'); // Bisa redirect atau tampilkan halaman khusus
         }
@@ -189,12 +189,14 @@ class FrontHomeController extends Controller
             ->whereHas('countriesCategoriesNews.country', function ($query) {
                 $query->where('country_name', 'Australia');
             })
+            ->orderByRaw('CASE WHEN `order` > 0 THEN 0 ELSE 1 END') // Prioritaskan order > 0
+            ->orderBy('order', 'asc') // Prioritaskan dari 1 - 5
             ->orderBy('created_at', 'desc')
             ->orderBy('id', 'asc')
             ->limit(60)
             ->get();
 
-            $justinnews = News::with(['category', 'countriesCategoriesNews'])
+        $justinnews = News::with(['category', 'countriesCategoriesNews'])
             ->where('status', 'published')
 
             ->whereHas('countriesCategoriesNews.country', function ($query) {
@@ -205,7 +207,7 @@ class FrontHomeController extends Controller
             ->limit(10)
             ->get();
 
-            $editorpicknews = News::with(['category', 'countriesCategoriesNews'])
+        $editorpicknews = News::with(['category', 'countriesCategoriesNews'])
             ->where('status', 'published')
             ->where('editor_choice', true) // Filter untuk berita pilihan editor
             ->whereHas('countriesCategoriesNews.country', function ($query) {
@@ -302,7 +304,7 @@ class FrontHomeController extends Controller
 
         Session::put('default_country', $defaultCountry);
 
-        $banner_status = env('BANNER_STATUS',true);
+        $banner_status = env('BANNER_STATUS', true);
         $now = date('Y-m-d');
         $banner = Banner::where('start', '<=', $now)
             ->where('end', '>=', $now)
@@ -315,7 +317,7 @@ class FrontHomeController extends Controller
 
 
 
-        return view('front.home', compact("breaking_news", "topnews","justinnews","editorpicknews", "news", "today_news", "not_today_news", "groupedByCategory", "defaultCountry", "banner","pathimg","banner_status"));
+        return view('front.home', compact("breaking_news", "topnews", "justinnews", "editorpicknews", "news", "today_news", "not_today_news", "groupedByCategory", "defaultCountry", "banner", "pathimg", "banner_status"));
 
         dd("ini home");
         #Get Data Auth user
