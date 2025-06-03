@@ -7,7 +7,7 @@
                 <header>
                     <p class="news-category">
                         <small>
-                            <b class="fw-bold">{{ $items[0]->category->name ?? 'General' }}</b> {{ $items[0]->title }}
+                            <b class="fw-bold">{{ $items[0]->category->name ?? '-' }}</b> {{ $items[0]->author }}
                         </small>
                     </p>
                     @if ($items[0]->color == 'P')
@@ -26,30 +26,39 @@
                 </header>
                 <main>
                     <div class="row row-cols-1">
-                        <div class="col">
-                            <div class="ratio ratio-4x3 news-img">
-                                <img src="{{ asset($items[0]->image ?? 'assets/template3/asset/news/default.jpg') }}"
-                                    class="object-fit-cover" alt="">
+                        @if ($items[0]->image)
+                            <div class="col">
+                                <div class="ratio ratio-4x3 news-img">
+                                    <img src="{{ asset('storage/' . $items[0]->image) }}" class="object-fit-cover"
+                                        alt="">
+                                </div>
                             </div>
-                        </div>
+                        @endif
                         <div class="col">
                             <p class="news-text">
-                                {{ Str::words(strip_tags($items[0]->content), 30, '...') }}
+                                {{ Str::words(strip_tags($items[0]->short_desc), $items[0]->image ? 50 : 70, '...') }}
                             </p>
                             <div class="news-time media small">
                                 <div class="media-header">
-                                    <div class="ratio ratio-1x1 rounded-circle" style="width: 2rem;">
-                                        @if ($items[0]->color == 'P')
+                                    @if ($items[0]->color == 'P')
+                                        <div class="ratio ratio-1x1 rounded-circle border border-2 border-danger"
+                                            style="width: 2rem;">
                                             <img src="assets/template3/asset/img/user/clara.jpg"
                                                 class="object-fit-cover" alt="">
-                                        @elseif ($items[0]->color == 'Y')
+                                        </div>
+                                    @elseif ($items[0]->color == 'Y')
+                                        <div class="ratio ratio-1x1 rounded-circle border border-2 text-warning"
+                                            style="width: 2rem;">
                                             <img src="assets/template3/asset/img/user/lola.jpg" class="object-fit-cover"
                                                 alt="">
-                                        @else
+                                        </div>
+                                    @else
+                                        <div class="ratio ratio-1x1 rounded-circle border border-2 border-white"
+                                            style="width: 2rem;">
                                             <img src="assets/template3/asset/img/user/phor.jpg" class="object-fit-cover"
                                                 alt="">
-                                        @endif
-                                    </div>
+                                        </div>
+                                    @endif
                                 </div>
                                 <div class="media-body">
                                     <div class="mb-1"><small class="opacity-75">Author by</small>
@@ -85,8 +94,8 @@
                         <header>
                             <p class="news-category">
                                 <small>
-                                    <b class="fw-bold">{{ $items[1]->category->name ?? 'General' }}</b>
-                                    {{ $items[1]->title }}
+                                    <b class="fw-bold">{{ $items[1]->category->name ?? '-' }}</b>
+                                    {{ $items[1]->author }}
                                 </small>
                             </p>
                             @if ($items[1]->color == 'P')
@@ -113,31 +122,39 @@
                                 </div>
                                 <div class="col">
                                     <p class="news-text elipsis-4">
-                                        {{ Str::words(strip_tags($items[1]->content), 30, '...') }}
+                                        {{ Str::words(strip_tags($items[1]->short_desc), 30, '...') }}
                                     </p>
                                     <div class="news-time media small">
                                         <div class="media-header">
-                                            <div class="ratio ratio-1x1 rounded-circle" style="width: 2rem;">
-                                                @if ($items[1]->color == 'P')
+                                            @if ($items[1]->color == 'P')
+                                                <div class="ratio ratio-1x1 rounded-circle border border-2 border-danger"
+                                                    style="width: 2rem;">
                                                     <img src="assets/template3/asset/img/user/clara.jpg"
                                                         class="object-fit-cover" alt="">
-                                                @elseif ($items[1]->color == 'Y')
+                                                </div>
+                                            @elseif ($items[1]->color == 'Y')
+                                                <div class="ratio ratio-1x1 rounded-circle border border-2 text-warning"
+                                                    style="width: 2rem;">
                                                     <img src="assets/template3/asset/img/user/lola.jpg"
                                                         class="object-fit-cover" alt="">
-                                                @else
+                                                </div>
+                                            @else
+                                                <div class="ratio ratio-1x1 rounded-circle border border-2 border-white"
+                                                    style="width: 2rem;">
                                                     <img src="assets/template3/asset/img/user/phor.jpg"
                                                         class="object-fit-cover" alt="">
-                                                @endif
-                                            </div>
+                                                </div>
+                                            @endif
                                         </div>
                                         <div class="media-body">
-                                            <div class="mb-1"><small class="opacity-75">Author by</small> @if ($items[1]->color == 'P')
-                                            <b class="fw-medium text-danger">Clara</b>
-                                        @elseif ($items[1]->color == 'Y')
-                                            <b class="fw-medium text-warning">Lola</b>
-                                        @else
-                                            <b class="fw-medium">Phor</b>
-                                        @endif
+                                            <div class="mb-1"><small class="opacity-75">Author by</small>
+                                                @if ($items[1]->color == 'P')
+                                                    <b class="fw-medium text-danger">Clara</b>
+                                                @elseif ($items[1]->color == 'Y')
+                                                    <b class="fw-medium text-warning">Lola</b>
+                                                @else
+                                                    <b class="fw-medium">Phor</b>
+                                                @endif
                                             </div>
                                             <div><small>{{ $items[1]->created_at->diffForHumans() }}</small></div>
                                         </div>
@@ -159,17 +176,23 @@
                         <header>
                             <p class="news-category">
                                 <small>
-                                    <b class="fw-bold">{{ $items[2]->category->name ?? 'General' }}</b>
-                                    {{ $items[2]->title }}
+                                    <b class="fw-bold">{{ $items[1]->category->name ?? '-' }}</b>
+                                    {{ $items[2]->author }}
                                 </small>
                             </p>
-                            <h5 class="news-title">
-                                <b class="fw-bold">
-                                    <a href="{{ url('/news/' . $items[2]->slug) }}"
-                                        class="text-reset link-hover-underline">
-                                        {{ $items[2]->title }}
-                                    </a>
-                                </b>
+                            @if ($items[2]->color == 'P')
+                                <h5 class="news-title text-danger">
+                                @elseif ($items[1]->color == 'Y')
+                                    <h5 class="news-title text-warning">
+                                    @else
+                                        <h5 class="news-title ">
+                            @endif
+                            <b class="fw-bold">
+                                <a href="{{ url('/news/' . $items[2]->slug) }}"
+                                    class="text-reset link-hover-underline">
+                                    {{ $items[2]->title }}
+                                </a>
+                            </b>
                             </h5>
                         </header>
                         <main>
@@ -182,31 +205,39 @@
                                 </div>
                                 <div class="col">
                                     <p class="news-text elipsis-4">
-                                        {{ Str::words(strip_tags($items[2]->content), 30, '...') }}
+                                        {{ Str::words(strip_tags($items[2]->short_desc), 30, '...') }}
                                     </p>
                                     <div class="news-time media small">
                                         <div class="media-header">
-                                            <div class="ratio ratio-1x1 rounded-circle" style="width: 2rem;">
-                                                @if ($items[2]->color == 'P')
+                                            @if ($items[2]->color == 'P')
+                                                <div class="ratio ratio-1x1 rounded-circle border border-2 border-danger"
+                                                    style="width: 2rem;">
                                                     <img src="assets/template3/asset/img/user/clara.jpg"
                                                         class="object-fit-cover" alt="">
-                                                @elseif ($items[2]->color == 'Y')
+                                                </div>
+                                            @elseif ($items[2]->color == 'Y')
+                                                <div class="ratio ratio-1x1 rounded-circle border border-2 text-warning"
+                                                    style="width: 2rem;">
                                                     <img src="assets/template3/asset/img/user/lola.jpg"
                                                         class="object-fit-cover" alt="">
-                                                @else
+                                                </div>
+                                            @else
+                                                <div class="ratio ratio-1x1 rounded-circle border border-2 border-white"
+                                                    style="width: 2rem;">
                                                     <img src="assets/template3/asset/img/user/phor.jpg"
                                                         class="object-fit-cover" alt="">
-                                                @endif
-                                            </div>
+                                                </div>
+                                            @endif
                                         </div>
                                         <div class="media-body">
-                                            <div class="mb-1"><small class="opacity-75">Author by</small> @if ($items[2]->color == 'P')
-                                            <b class="fw-medium text-danger">Clara</b>
-                                        @elseif ($items[2]->color == 'Y')
-                                            <b class="fw-medium text-warning">Lola</b>
-                                        @else
-                                            <b class="fw-medium">Phor</b>
-                                        @endif
+                                            <div class="mb-1"><small class="opacity-75">Author by</small>
+                                                @if ($items[2]->color == 'P')
+                                                    <b class="fw-medium text-danger">Clara</b>
+                                                @elseif ($items[2]->color == 'Y')
+                                                    <b class="fw-medium text-warning">Lola</b>
+                                                @else
+                                                    <b class="fw-medium">Phor</b>
+                                                @endif
                                             </div>
                                             <div><small>{{ $items[2]->created_at->diffForHumans() }}</small></div>
                                         </div>
