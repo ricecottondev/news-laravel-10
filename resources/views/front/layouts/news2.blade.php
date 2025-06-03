@@ -8,7 +8,7 @@
                     <p class="news-category">
                         @php
                             $categoryName =
-                                $items[2]->countriesCategoriesNews->first()?->category?->name ?? 'No Category';
+                                $items[0]->countriesCategoriesNews->first()?->category?->name ?? 'No Category';
                         @endphp
                         <small>
                             <b class="fw-bold">{{ $categoryName ?? '-' }}</b>

@@ -158,7 +158,7 @@ class FrontNewsController extends Controller
 
         $promotednews = News::with(['category', 'countriesCategoriesNews'])
             ->where('status', 'published')
-->where('color', $news->color)
+            ->where('color', $news->color)
             ->whereHas('countriesCategoriesNews.country', function ($query) {
                 $query->where('country_name', 'Australia');
             })
@@ -337,8 +337,8 @@ class FrontNewsController extends Controller
             ->orderBy('id', 'asc')
             ->limit(15)
             ->get();
-$countryname = $countryName;
-        return view('front.news-by-category', compact("news", "categoryName","countryname", "justinnews", "editorpicknews"));
+        $countryname = $countryName;
+        return view('front.news-by-category', compact("news", "categoryName", "countryname", "justinnews", "editorpicknews"));
     }
 
 
@@ -383,14 +383,14 @@ $countryname = $countryName;
             ->where('status', 'published')
             ->where('editor_choice', true) // Filter untuk berita pilihan editor
             ->whereHas('countriesCategoriesNews.country', function ($query) use ($countryname) {
-                 $query->where('country_name', $countryname);
+                $query->where('country_name', $countryname);
             })
             ->orderBy('created_at', 'desc')
             ->orderBy('id', 'asc')
             ->limit(15)
             ->get();
 
-        return view('front.news-by-country', compact('news', 'defaultCountry','countryname', 'justinnews', 'editorpicknews'));
+        return view('front.news-by-country', compact('news', 'defaultCountry', 'countryname', 'justinnews', 'editorpicknews'));
     }
 
     public function search(Request $request)
@@ -405,7 +405,7 @@ $countryname = $countryName;
             ->where('status', 'published')
             ->paginate(10);
 
-            $justinnews = News::with(['category', 'countriesCategoriesNews'])
+        $justinnews = News::with(['category', 'countriesCategoriesNews'])
             ->where('status', 'published')
 
 
