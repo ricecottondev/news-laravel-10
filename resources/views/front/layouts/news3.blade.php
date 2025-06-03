@@ -3,88 +3,44 @@
     <div>
         <div class="headlines small">
             <div class="row g-0">
-
-                <div class="col px-3 col-12 col-md">
-                    <div class="headlines-item d-flex flex-nowrap column-gap-3">
-                        @if ($items[0]->image)
-                            <div class="headlines-img w-25">
-                                <div class="ratio ratio-1x1">
-                                    <img src="{{ asset('storage/' . $items[0]->image) }}" class="object-fit-cover"
-                                        alt="">
-                                </div>
-                            </div>
-                        @endif
-                        <div class="headlines-content w-100">
-                            <h5 class="fs-reset">
-                                <b class="fw-medium">
-                                    <a href="{{ url('/news/' . $items[0]->slug) }}"
-                                        class="text-reset link-hover-underline">
-                                        {{ $items[0]->title }}
-                                    </a>
-                                </b>
-                            </h5>
-                            <p><small><small>{{ $items[0]->created_at->diffForHumans() }}</small></small></p>
+                @for ($index = 0; $index < count($items); $index++)
+                    @if ($index > 0 && $index % 3 == 0)
                         </div>
-                    </div><!-- headlines item -->
-                </div><!-- end col -->
-
-                <div class="col col-12 col-md-auto">
-                    <hr class="d-md-none">
-                    <div class="vr h-100 d-none d-md-block"></div>
-                </div><!-- end col -->
-
-                <div class="col px-3 col-12 col-md">
-                    <div class="headlines-item d-flex flex-nowrap column-gap-3">
-                        @if ($items[1]->image)
-                            <div class="headlines-img w-25">
-                                <div class="ratio ratio-1x1">
-                                    <img src="{{ asset('storage/' . $items[1]->image) }}" class="object-fit-cover"
-                                        alt="">
+                        <div class="row g-0">
+                    @endif
+                    <div class="col px-3 col-12 col-md">
+                        <div class="headlines-item d-flex flex-nowrap column-gap-3">
+                            @if ($items[$index]->image)
+                                <div class="headlines-img w-25">
+                                    <div class="ratio ratio-1x1">
+                                        <img src="{{ asset('storage/' . $items[$index]->image) }}"
+                                            class="object-fit-cover" alt="">
+                                    </div>
                                 </div>
+                            @endif
+                            <div class="headlines-content w-100">
+                                <h5 class="fs-reset">
+                                    <b class="fw-medium">
+                                        <a href="{{ url('/news/' . $items[$index]->slug) }}"
+                                            class="text-reset link-hover-underline">
+                                            {{ $items[$index]->title }}
+                                        </a>
+                                    </b>
+                                </h5>
+                                <p><small><small>{{ $items[$index]->created_at->diffForHumans() }}</small></small></p>
                             </div>
-                        @endif
-                        <div class="w-100">
-                            <h5 class="fs-reset">
-                                <b class="fw-medium">
-                                    <a href="{{ url('/news/' . $items[1]->slug) }}"
-                                        class="text-reset link-hover-underline">
-                                        {{ $items[1]->title }}
-                                    </a>
-                                </b>
-                            </h5>
-                            <p><small><small>{{ $items[1]->created_at->diffForHumans() }}</small></small></p>
-                        </div>
-                    </div><!-- headlines item -->
-                </div><!-- end col -->
+                        </div><!-- headlines item -->
+                    </div><!-- end col -->
 
-                <div class="col col-12 col-md-auto">
-                    <hr class="d-md-none">
-                    <div class="vr h-100 d-none d-md-block"></div>
-                </div><!-- end col -->
+                    @if ($index < count($items) - 1 && ($index + 1) % 3 != 0)
+                        <div class="col col-12 col-md-auto">
+                            <hr class="d-md-none">
+                            <div class="vr h-100 d-none d-md-block"></div>
+                        </div><!-- end col -->
 
-                <div class="col px-3 col-12 col-md">
-                    <div class="headlines-item d-flex flex-nowrap column-gap-3">
-                        @if ($items[2]->image)
-                            <div class="headlines-img w-25">
-                                <div class="ratio ratio-1x1">
-                                    <img src="{{ asset('storage/' . $items[2]->image) }}" class="object-fit-cover"
-                                        alt="">
-                                </div>
-                            </div>
-                        @endif
-                        <div class="w-100">
-                            <h5 class="fs-reset">
-                                <b class="fw-medium">
-                                    <a href="{{ url('/news/' . $items[2]->slug) }}"
-                                        class="text-reset link-hover-underline">
-                                        {{ $items[2]->title }}
-                                    </a>
-                                </b>
-                            </h5>
-                            <p><small><small>{{ $items[2]->created_at->diffForHumans() }}</small></small></p>
-                        </div>
-                    </div><!-- headlines item -->
-                </div><!-- end col -->
+                    @endif
+
+                @endfor
 
             </div><!-- end row -->
         </div>
