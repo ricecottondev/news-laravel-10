@@ -121,7 +121,7 @@
                                     </div>
                                 </div>
                                 <div class="col">
-                                    <p class="news-text elipsis-4">
+                                    <p class="news-text elipsis-4 d-none d-md-block">
                                         {{ Str::words(strip_tags($items[1]->short_desc), 30, '...') }}
                                     </p>
                                     <div class="news-time media small">
@@ -204,7 +204,7 @@
                                     </div>
                                 </div>
                                 <div class="col">
-                                    <p class="news-text elipsis-4">
+                                    <p class="news-text elipsis-4 d-none d-md-block">
                                         {{ Str::words(strip_tags($items[2]->short_desc), 30, '...') }}
                                     </p>
                                     <div class="news-time media small">

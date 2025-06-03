@@ -197,7 +197,7 @@
                 <main>
                     <div class="row row-cols-1">
                         <div class="col order-md-1">
-                            <p class="news-text elipsis-4">
+                            <p class="news-text elipsis-4 d-none d-md-block">
                                 {{ Str::words(strip_tags($items[2]->short_desc), 30, '...') }}
                             </p>
                             <div class="news-time media small">
