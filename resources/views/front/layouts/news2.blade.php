@@ -27,9 +27,9 @@
 
                         </small>
                     </p>
-                    @if ($items[0]->color == 'P')
+                    @if (strtoupper($items[0]->color) == 'P')
                         <h5 class="news-title text-danger">
-                        @elseif ($items[0]->color == 'Y')
+                        @elseif (strtoupper($items[0]->color) == 'Y')
                             <h5 class="news-title text-warning">
                             @else
                                 <h5 class="news-title ">
@@ -57,13 +57,13 @@
                             </p>
                             <div class="news-time media small">
                                 <div class="media-header">
-                                    @if ($items[0]->color == 'P')
+                                    @if (strtoupper($items[0]->color) == 'P')
                                         <div class="ratio ratio-1x1 rounded-circle border border-2 border-danger"
                                             style="width: 2rem;">
                                             <img src="/assets/template3/asset/img/user/clara.jpg"
                                                 class="object-fit-cover" alt="">
                                         </div>
-                                    @elseif ($items[0]->color == 'Y')
+                                    @elseif (strtoupper($items[0]->color) == 'Y')
                                         <div class="ratio ratio-1x1 rounded-circle border border-2 border-warning"
                                             style="width: 2rem;">
                                             <img src="/assets/template3/asset/img/user/lola.jpg" class="object-fit-cover"
@@ -79,9 +79,9 @@
                                 </div>
                                 <div class="media-body">
                                     <div class="mb-1"><small class="opacity-75">Author by</small>
-                                        @if ($items[0]->color == 'P')
+                                        @if (strtoupper($items[0]->color) == 'P')
                                             <b class="fw-medium text-danger">Clara</b>
-                                        @elseif ($items[0]->color == 'Y')
+                                        @elseif (strtoupper($items[0]->color) == 'Y')
                                             <b class="fw-medium text-warning">Lola</b>
                                         @else
                                             <b class="fw-medium">Phor</b>
@@ -131,9 +131,9 @@
 
                         </small>
                             </p>
-                            @if ($items[1]->color == 'P')
+                            @if (strtoupper($items[1]->color) == 'P')
                                 <h5 class="news-title text-danger">
-                                @elseif ($items[1]->color == 'Y')
+                                @elseif (strtoupper($items[1]->color) == 'Y')
                                     <h5 class="news-title text-warning">
                                     @else
                                         <h5 class="news-title ">
@@ -159,13 +159,13 @@
                                     </p>
                                     <div class="news-time media small">
                                         <div class="media-header">
-                                            @if ($items[1]->color == 'P')
+                                            @if (strtoupper($items[1]->color) == 'P')
                                                 <div class="ratio ratio-1x1 rounded-circle border border-2 border-danger"
                                                     style="width: 2rem;">
                                                     <img src="/assets/template3/asset/img/user/clara.jpg"
                                                         class="object-fit-cover" alt="">
                                                 </div>
-                                            @elseif ($items[1]->color == 'Y')
+                                            @elseif (strtoupper($items[1]->color) == 'Y')
                                                 <div class="ratio ratio-1x1 rounded-circle border border-2 border-warning"
                                                     style="width: 2rem;">
                                                     <img src="/assets/template3/asset/img/user/lola.jpg"
@@ -181,9 +181,9 @@
                                         </div>
                                         <div class="media-body">
                                             <div class="mb-1"><small class="opacity-75">Author by</small>
-                                                @if ($items[1]->color == 'P')
+                                                @if (strtoupper($items[1]->color) == 'P')
                                                     <b class="fw-medium text-danger">Clara</b>
-                                                @elseif ($items[1]->color == 'Y')
+                                                @elseif (strtoupper($items[1]->color) == 'Y')
                                                     <b class="fw-medium text-warning">Lola</b>
                                                 @else
                                                     <b class="fw-medium">Phor</b>
@@ -228,9 +228,9 @@
 
                         </small>
                             </p>
-                            @if ($items[2]->color == 'P')
+                            @if (strtoupper($items[2]->color) == 'P')
                                 <h5 class="news-title text-danger">
-                                @elseif ($items[1]->color == 'Y')
+                                @elseif (strtoupper($items[1]->color) == 'Y')
                                     <h5 class="news-title text-warning">
                                     @else
                                         <h5 class="news-title ">
@@ -257,13 +257,13 @@
                                     </p>
                                     <div class="news-time media small">
                                         <div class="media-header">
-                                            @if ($items[2]->color == 'P')
+                                            @if (strtoupper($items[2]->color) == 'P')
                                                 <div class="ratio ratio-1x1 rounded-circle border border-2 border-danger"
                                                     style="width: 2rem;">
                                                     <img src="/assets/template3/asset/img/user/clara.jpg"
                                                         class="object-fit-cover" alt="">
                                                 </div>
-                                            @elseif ($items[2]->color == 'Y')
+                                            @elseif (strtoupper($items[2]->color) == 'Y')
                                                 <div class="ratio ratio-1x1 rounded-circle border border-2 border-warning"
                                                     style="width: 2rem;">
                                                     <img src="/assets/template3/asset/img/user/lola.jpg"
@@ -279,9 +279,9 @@
                                         </div>
                                         <div class="media-body">
                                             <div class="mb-1"><small class="opacity-75">Author by</small>
-                                                @if ($items[2]->color == 'P')
+                                                @if (strtoupper($items[2]->color) == 'P')
                                                     <b class="fw-medium text-danger">Clara</b>
-                                                @elseif ($items[2]->color == 'Y')
+                                                @elseif (strtoupper($items[2]->color) == 'Y')
                                                     <b class="fw-medium text-warning">Lola</b>
                                                 @else
                                                     <b class="fw-medium">Phor</b>
