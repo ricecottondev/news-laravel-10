@@ -59,19 +59,19 @@
                                     @if ($items[0]->color == 'P')
                                         <div class="ratio ratio-1x1 rounded-circle border border-2 border-danger"
                                             style="width: 2rem;">
-                                            <img src="assets/template3/asset/img/user/clara.jpg"
+                                            <img src="/assets/template3/asset/img/user/clara.jpg"
                                                 class="object-fit-cover" alt="">
                                         </div>
                                     @elseif ($items[0]->color == 'Y')
                                         <div class="ratio ratio-1x1 rounded-circle border border-2 border-warning"
                                             style="width: 2rem;">
-                                            <img src="assets/template3/asset/img/user/lola.jpg" class="object-fit-cover"
+                                            <img src="/assets/template3/asset/img/user/lola.jpg" class="object-fit-cover"
                                                 alt="">
                                         </div>
                                     @else
                                         <div class="ratio ratio-1x1 rounded-circle border border-2 border-white"
                                             style="width: 2rem;">
-                                            <img src="assets/template3/asset/img/user/phor.jpg" class="object-fit-cover"
+                                            <img src="/assets/template3/asset/img/user/phor.jpg" class="object-fit-cover"
                                                 alt="">
                                         </div>
                                     @endif
@@ -161,19 +161,19 @@
                                     @if ($items[1]->color == 'P')
                                         <div class="ratio ratio-1x1 rounded-circle border border-2 border-danger"
                                             style="width: 2rem;">
-                                            <img src="assets/template3/asset/img/user/clara.jpg"
+                                            <img src="/assets/template3/asset/img/user/clara.jpg"
                                                 class="object-fit-cover" alt="">
                                         </div>
                                     @elseif ($items[1]->color == 'Y')
                                         <div class="ratio ratio-1x1 rounded-circle border border-2 border-warning"
                                             style="width: 2rem;">
-                                            <img src="assets/template3/asset/img/user/lola.jpg" class="object-fit-cover"
+                                            <img src="/assets/template3/asset/img/user/lola.jpg" class="object-fit-cover"
                                                 alt="">
                                         </div>
                                     @else
                                         <div class="ratio ratio-1x1 rounded-circle border border-2 border-white"
                                             style="width: 2rem;">
-                                            <img src="assets/template3/asset/img/user/phor.jpg" class="object-fit-cover"
+                                            <img src="/assets/template3/asset/img/user/phor.jpg" class="object-fit-cover"
                                                 alt="">
                                         </div>
                                     @endif
@@ -255,19 +255,19 @@
                                     @if ($items[2]->color == 'P')
                                         <div class="ratio ratio-1x1 rounded-circle border border-2 border-danger"
                                             style="width: 2rem;">
-                                            <img src="assets/template3/asset/img/user/clara.jpg"
+                                            <img src="/assets/template3/asset/img/user/clara.jpg"
                                                 class="object-fit-cover" alt="">
                                         </div>
                                     @elseif ($items[2]->color == 'Y')
                                         <div class="ratio ratio-1x1 rounded-circle border border-2 border-warning"
                                             style="width: 2rem;">
-                                            <img src="assets/template3/asset/img/user/lola.jpg"
+                                            <img src="/assets/template3/asset/img/user/lola.jpg"
                                                 class="object-fit-cover" alt="">
                                         </div>
                                     @else
                                         <div class="ratio ratio-1x1 rounded-circle border border-2 border-white"
                                             style="width: 2rem;">
-                                            <img src="assets/template3/asset/img/user/phor.jpg"
+                                            <img src="/assets/template3/asset/img/user/phor.jpg"
                                                 class="object-fit-cover" alt="">
                                         </div>
                                     @endif
