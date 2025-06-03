@@ -32,7 +32,7 @@
                         </div><!-- headlines item -->
                     </div><!-- end col -->
 
-                    @if ($index < count($items) - 1 && ($index + 1) % 3 != 0)
+                    @if ($index < count($items) && ($index + 1) % 3 != 0)
                         <div class="col col-12 col-md-auto">
                             <hr class="d-md-none">
                             <div class="vr h-100 d-none d-md-block"></div>
