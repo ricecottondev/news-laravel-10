@@ -13,7 +13,7 @@
                             @if ($items[0]->order == '1')
                                 <b class="fw-bold">Top Roast of The Day!</b>
                             @elseif ($items[0]->order == '2')
-                                <b class="fw-bold">DANCUOOKK</b>
+                                <b class="fw-bold">WTF!</b>
                             @elseif ($items[0]->order == '3')
                                 <b class="fw-bold">Who voted for this?!</b>
                             @elseif ($items[0]->order == '7')
@@ -114,7 +114,7 @@
                             @if ($items[1]->order == '1')
                                 <b class="fw-bold">Top Roast of The Day!</b>
                             @elseif ($items[1]->order == '2')
-                                <b class="fw-bold">DANCUOOKK</b>
+                                <b class="fw-bold">WTF!</b>
                             @elseif ($items[1]->order == '3')
                                 <b class="fw-bold">Who voted for this?!</b>
                             @elseif ($items[1]->order == '7')
@@ -216,7 +216,7 @@
                             @if ($items[2]->order == '1')
                                 <b class="fw-bold">Top Roast of The Day!</b>
                             @elseif ($items[2]->order == '2')
-                                <b class="fw-bold">DANCUOOKK</b>
+                                <b class="fw-bold">WTF!</b>
                             @elseif ($items[2]->order == '3')
                                 <b class="fw-bold">Who voted for this?!</b>
                             @elseif ($items[2]->order == '7')
