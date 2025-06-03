@@ -6,13 +6,16 @@
 
 @section('content')
     <section>
+        @php
+            $categoryName = $news->countriesCategoriesNews->first()?->category?->name ?? 'No Category';
+        @endphp
         <div class="container-lg px-0 pt-4">
             <div class="row g-0">
                 <div class="col col-12 px-3">
                     <nav style="--bs-breadcrumb-divider: '/'; font-size: .75em;" aria-label="breadcrumb">
                         <ol class="breadcrumb mb-4">
                             <li class="breadcrumb-item"><a href="/">Home</a></li>
-                            <li class="breadcrumb-item"><a href="#">{{ $news->category->name ?? 'Uncategorized' }}</a>
+                            <li class="breadcrumb-item"><a href="#">{{ $categoryName ?? 'Uncategorized' }}</a>
                             </li>
                             <li class="breadcrumb-item active">{{ $news->title }}</li>
                         </ol>
@@ -36,8 +39,16 @@
                                 </h2>
                                 <p class="mb-md-4">
                                     <small>
-                                        <small>Author <b class="fw-bold">{{ $news->author }}</b></small><br>
-                                        {{ strtoupper($news->created_at->format('l, Y M d')) }}<span
+                                        <small>Author by
+                                            @if ($news->color == 'P')
+                                                <b class="fw-medium text-danger">Clara</b>
+                                            @elseif ($news->color == 'Y')
+                                                <b class="fw-medium text-warning">Lola</b>
+                                            @else
+                                                <b class="fw-medium">Phor</b>
+                                            @endif
+                                        </small><br>
+                                        {{ $news->created_at->format('l, Y M d') }}<span
                                             class="opacity-25 fs-4 mx-2">|</span><i class="fas fa-clock"></i>
                                         {{ $news->created_at->format('h:i A') }}
                                     </small>
@@ -222,7 +233,8 @@
                                                 @endif
                                                 {{-- <h5 class="fs-6"> --}}
                                                 <b class="fw-bold">
-                                                    <a href="{{ route('front.news.show', $pn->slug) }}" class="text-reset link-hover-underline">
+                                                    <a href="{{ route('front.news.show', $pn->slug) }}"
+                                                        class="text-reset link-hover-underline">
                                                         {{ $pn->title }}
                                                     </a>
                                                 </b></h5>
