@@ -503,7 +503,7 @@
                     },
                     {
                         data: 'duration_seconds',
-                        render: data => (data ?? 0) + 's'
+                        render: data => (data ?? 1) + 's'
                     },
                     {
                         data: 'is_bot',
@@ -540,7 +540,7 @@
                     },
                     {
                         data: 'duration',
-                        render: data => data + 's'
+                        render: data => (data === 0 || data == null ? '1' : data ) + 's'
                     },
                     {
                         data: 'is_bot',
@@ -601,7 +601,7 @@
                                 rowData.push(data?.toLowerCase() === 'yes' ? 'bot' :
                                     'human');
                             } else if(colName.toLowerCase().includes('duration')) {
-                                rowData.push(data ? `${data}s` : '0s');
+                                rowData.push(data ? `${data}s` : '1s');
                             } else {
                                 const cleanData = typeof data === 'string' ? stripHtml(
                                     data) : data;
