@@ -329,4 +329,75 @@
             </div>
         </div>
     </section>
+
+    <script>
+        function logShare(newsId, platform) {
+            fetch('/log-share', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                },
+                body: JSON.stringify({
+                    news_id: newsId,
+                    platform: platform
+                })
+            }).then(res => res.json())
+              .then(data => console.log('Logged share:', data))
+              .catch(err => console.error('Share log error:', err));
+        }
+    </script>
+
+
+    <script>
+        let startTime = Date.now();
+
+        window.addEventListener("beforeunload", function() {
+            const endTime = Date.now();
+            const durationSeconds = Math.floor((endTime - startTime) / 1000);
+
+            navigator.sendBeacon("/track-duration", JSON.stringify({
+                news_id: {{ $news->id }},
+                duration: durationSeconds
+            }));
+        });
+    </script>
+
+
+    <script>
+        function copyLink() {
+            const link = "{{ route('front.news.show', $news->slug) }}";
+            navigator.clipboard.writeText(link).then(() => {
+                alert('Link berhasil disalin!');
+            }).catch(err => {
+                alert('Gagal menyalin link: ' + err);
+            });
+        }
+        document.querySelectorAll('.reply-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const parentId = this.dataset.id;
+                document.getElementById('reply_parent_id').value = parentId;
+                const replyModal = new bootstrap.Modal(document.getElementById('replyModal'));
+                replyModal.show();
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const modal = document.getElementById('videoModal');
+            const iframe = document.getElementById('youtubePlayer');
+            const originalSrc = iframe?.src;
+
+            if (modal && iframe) {
+                modal.addEventListener('hidden.bs.modal', function() {
+                    iframe.src = ''; // stop video
+                    iframe.src = originalSrc; // reset to original URL
+                });
+            }
+
+            const sound = new Audio('/assets/sound/kids-saying-yay-sound-effect.mp3');
+            sound.play().catch((e) => {
+                console.log("Playback failed:", e); // misal autoplay diblokir
+            });
+        });
+    </script>
 @endsection
