@@ -349,16 +349,32 @@ class FrontNewsController extends Controller
         $country = $homeController->getDefaultcountry();
         $defaultCountry = $country;
 
-        $news = News::select('news.*')
-            ->join('countries_categories_news as ccn', 'ccn.news_id', '=', 'news.id')
-            ->join('categories as cat', 'ccn.category_id', '=', 'cat.id')
-            ->join('countries as c', 'ccn.country_id', '=', 'c.id')
-            ->where('c.country_name', $countryname)
-            ->where('news.status', 'published')
-            ->orderBy('news.created_at', 'desc')
-            ->orderBy('news.id', 'asc')
+         $news = News::with(['category', 'countriesCategoriesNews'])
+            ->where('status', 'published')
+
+            ->whereHas('countriesCategoriesNews.country', function ($query) use ($countryname) {
+                $query->where('country_name', $countryname);
+            })
+            ->orderByRaw('CASE WHEN `order` > 0 THEN 0 ELSE 1 END') // Prioritaskan order > 0
+            ->orderBy('order', 'asc') // Prioritaskan dari 1 - 5
+            ->orderBy('created_at', 'desc')
+            ->orderBy('id', 'asc')
 
             ->get();
+
+
+        // $news = News::select('news.*')
+        //     ->join('countries_categories_news as ccn', 'ccn.news_id', '=', 'news.id')
+        //     ->join('categories as cat', 'ccn.category_id', '=', 'cat.id')
+        //     ->join('countries as c', 'ccn.country_id', '=', 'c.id')
+        //     ->where('c.country_name', $countryname)
+        //     ->where('news.status', 'published')
+        //     ->orderByRaw('CASE WHEN `order` > 0 THEN 0 ELSE 1 END') // Prioritaskan order > 0
+        //     ->orderBy('order', 'asc') // Prioritaskan dari 1 - 5
+        //     ->orderBy('news.created_at', 'desc')
+        //     ->orderBy('news.id', 'asc')
+
+        //     ->get();
 
         // $news = News::with(['category', 'countriesCategoriesNews'])
         // ->where('status', 'published')
