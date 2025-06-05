@@ -45,7 +45,7 @@
                     <div class="row row-cols-1">
                         @if ($items[0]->image)
                             <div class="col">
-                                <div class="ratio ratio-4x3 news-img">
+                                <div class="ratio ratio-1x1 news-img">
                                     <img src="{{ asset('storage/' . $items[0]->image) }}" class="object-fit-cover"
                                         alt="">
                                 </div>
@@ -53,7 +53,7 @@
                         @endif
                         <div class="col">
                             <p class="news-text">
-                                {{ Str::words(strip_tags($items[0]->short_desc), $items[0]->image ? 50 : 70, '...') }}
+                                {{ Str::words(strip_tags($items[0]->short_desc), $items[0]->image ? 25 : 70, '...') }}
                             </p>
                             <div class="news-time media small">
                                 <div class="media-header">
@@ -147,12 +147,6 @@
                         </header>
                         <main>
                             <div class="row row-cols-1">
-                                <div class="col d-none">
-                                    <div class="ratio ratio-4x3 news-img">
-                                        <img src="{{ asset($items[1]->image ?? 'assets/template3/asset/news/default.jpg') }}"
-                                            class="object-fit-cover" alt="">
-                                    </div>
-                                </div>
                                 <div class="col">
                                     <p class="news-text elipsis-4 d-none d-md-block">
                                         {{ Str::words(strip_tags($items[1]->short_desc), 30, '...') }}
@@ -245,12 +239,6 @@
                         </header>
                         <main>
                             <div class="row row-cols-1">
-                                <div class="col d-none">
-                                    <div class="ratio ratio-4x3 news-img">
-                                        <img src="{{ asset($items[2]->image ?? 'assets/template3/asset/news/default.jpg') }}"
-                                            class="object-fit-cover" alt="">
-                                    </div>
-                                </div>
                                 <div class="col">
                                     <p class="news-text elipsis-4 d-none d-md-block">
                                         {{ Str::words(strip_tags($items[2]->short_desc), 30, '...') }}

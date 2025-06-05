@@ -44,7 +44,7 @@
                     <div class="row row-cols-1 {{ $items[0]->image ? 'row-cols-md-2' : 'row-cols-md-1' }}">
                         @if ($items[0]->image)
                             <div class="col order-md-2">
-                                <div class="ratio ratio-4x3 news-img">
+                                <div class="ratio ratio-1x1 news-img">
                                     <img src="{{ asset('storage/' . $items[0]->image) }}" class="object-fit-cover"
                                         alt="{{ $items[0]->title }}">
                                 </div>
@@ -52,7 +52,7 @@
                         @endif
                         <div class="col order-md-1">
                             <p class="news-text">
-                                {{ Str::words(strip_tags($items[0]->short_desc), 40, '...') }}
+                                {{ Str::words(strip_tags($items[0]->short_desc), 50, '...') }}
                             </p>
                             <div class="news-time media small">
                                 <div class="media-header">
@@ -146,7 +146,7 @@
                     <div class="row row-cols-1 {{ $items[1]->image ? 'row-cols-md-2' : 'row-cols-md-1' }}">
                         @if ($items[1]->image)
                             <div class="col order-md-2">
-                                <div class="ratio ratio-4x3 news-img">
+                                <div class="ratio ratio-1x1 news-img">
                                     <img src="{{ asset('storage/' . $items[1]->image) }}" class="object-fit-cover"
                                         alt="{{ $items[1]->title }}">
                                 </div>
