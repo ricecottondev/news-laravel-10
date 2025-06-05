@@ -104,9 +104,11 @@ class NewsImport implements ToModel, WithHeadingRow
                 $name = trim($name); // hilangkan spasi atau newline
 
                 if (!empty($name)) {
+                    dump("not empty name: " . $name);
                     $category = Category::where('name', $name)->first();
 
                     if ($category) {
+                        dump("category found: " . $category->name);
                         CountriesCategoriesNews::create([
                             'country_id' => $country_id,
                             'category_id' => $category->id,
@@ -114,8 +116,30 @@ class NewsImport implements ToModel, WithHeadingRow
                             'status' => 'active',
                         ]);
                     }
+                    else {
+                        dump("category not found: " . $name);
+                        // Jika kategori tidak ditemukan, buat baru
+                        // $newCategory = Category::create([
+                        //     'name' => $name,
+                        //     'slug' => Str::slug($name),
+                        //     'status' => 'active',
+                        // ]);
+
+                        CountriesCategoriesNews::create([
+                            'country_id' => $country_id,
+                            'category_id' => 24,
+                            'news_id' => $news->id,
+                            'status' => 'active',
+                        ]);
+                    }
+                }
+                else {
+                    dump("empty name, skip");
                 }
             }
+        }
+        else {
+            dump("category is empty, skip");
         }
 
         return $news;
