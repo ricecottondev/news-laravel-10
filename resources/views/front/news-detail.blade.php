@@ -101,7 +101,7 @@
                                                     </li>
                                                 </ul>
                                             </div>
-                                            <div class="ratio ratio-4x3">
+                                            <div class="ratio ratio-1x1">
                                                 <img src="{{ asset('storage/' . $news->image) }}" class="object-fit-cover"
                                                     alt="{{ $news->title }}">
                                             </div>
@@ -216,17 +216,18 @@
 
                             <div class="row row-cols-2 row-gap-4 gx-4 row-cols-xl-3">
                                 @foreach ($promotednews as $pn)
+                                @if ($pn->image)
                                     <div class="col">
                                         <figure class="figure">
                                             <div class="figure-img">
-                                                <div class="ratio ratio-4x3">
+                                                <div class="ratio ratio-1x1">
                                                     <img src="{{ asset('storage/' . $pn->image) }}"
                                                         class="object-fit-cover" alt="">
                                                 </div>
                                             </div>
                                             <figcaption class="figure-caption">
                                                 <p class="mb-0"><small><small>News - <b
-                                                                class="fw-bold">Health</b></small></small></p>
+                                                                class="fw-bold">{{$pn->countriesCategoriesNews->first()?->category?->name ?? 'No Category'}}</b></small></small></p>
 
                                                 @if (strtoupper($pn->color) == 'P')
                                                     <h5 class="news-title fs-6  text-danger">
@@ -245,6 +246,7 @@
                                             </figcaption>
                                         </figure>
                                     </div>
+                                @endif
                                 @endforeach
                                 <!-- end col -->
 
