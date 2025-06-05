@@ -141,9 +141,21 @@
             <div class="card-body">
                 <h2 class="mt-5 mb-4">📄 Page Visits</h2>
                 <div class="row row-cols-1 row-cols-md-5">
-                    <div class="d-none d-md-block col mb-4"></div>
-                    <div class="d-none d-md-block col mb-4"></div>
-                    <div class="d-none d-md-block col mb-4"></div>
+                    <div class="col mb-4">
+                        <input type="text" class="selector form-control" id="pagesStartDate"
+                            placeholder="Pilih Tanggal Mulai">
+                    </div>
+                    <div class="col mb-4">
+                        <input type="text" class="selector form-control" id="pagesEndDate"
+                            placeholder="Pilih Tanggal Selesai">
+                    </div>
+                    <div class="col mb-4">
+                        <select class="form-select" id="pagesBotOrHumanFilter">
+                            <option value="">Pilih Bot Or Human</option>
+                            <option value="Yes">Bot</option>
+                            <option value="No">Human</option>
+                        </select>
+                    </div>
                     <div class="col mb-4">
                         <select class="form-select text-capitalize" id="pageUrlFilter">
                             <option value="">Pilih URL</option>
@@ -211,9 +223,10 @@
                     bot: ''
                 },
                 page: {
-                    year: '',
-                    month: '',
-                    day: ''
+                    startDate: '',
+                    endDate: '',
+                    bot: '',
+                    url: ''
                 }
             };
 
@@ -284,99 +297,10 @@
                     filterState.news.bot = this.value;
                     refreshTable('news');
                 });
-
             }
 
-            // function populateFilters(data, yearSelect, monthSelect, daySelect, botOrHuman, type) {
-            //     const years = new Set();
-            //     const monthsByYear = {};
-            //     const daysByMonthYear = {};
-
-            //     data.forEach(visit => {
-            //         const date = new Date(visit.visited_at);
-            //         const year = date.getFullYear().toString();
-            //         const month = String(date.getMonth() + 1).padStart(2, '0');
-            //         const day = String(date.getDate()).padStart(2, '0');
-            //         const yearMonth = `${year}-${month}`;
-
-            //         years.add(year);
-            //         if (!monthsByYear[year]) monthsByYear[year] = new Set();
-            //         monthsByYear[year].add(month);
-            //         if (!daysByMonthYear[yearMonth]) daysByMonthYear[yearMonth] = new Set();
-            //         daysByMonthYear[yearMonth].add(day);
-            //     });
-
-            //     // Populate year dropdown
-            //     yearSelect.innerHTML = '<option value="">Pilih Tahun</option>';
-            //     Array.from(years).sort().forEach(year => {
-            //         yearSelect.innerHTML += `<option value="${year}">${year}</option>`;
-            //     });
-
-            //     // Update months
-            //     yearSelect.addEventListener('change', () => {
-            //         const selectedYear = yearSelect.value;
-            //         filterState[type].year = selectedYear;
-            //         filterState[type].month = '';
-            //         filterState[type].day = '';
-            //         monthSelect.innerHTML = '<option value="">Pilih Bulan</option>';
-            //         daySelect.innerHTML = '<option value="">Pilih Tanggal</option>';
-
-            //         if (selectedYear === "") {
-            //             refreshTable(type); // Reset table if year is cleared
-            //             return;
-            //         }
-
-            //         if (monthsByYear[selectedYear]) {
-            //             Array.from(monthsByYear[selectedYear]).sort().forEach(month => {
-            //                 const monthName = new Date(2025, parseInt(month) - 1).toLocaleString(
-            //                     'id-ID', {
-            //                         month: 'long'
-            //                     });
-            //                 monthSelect.innerHTML +=
-            //                     `<option value="${month}">${monthName}</option>`;
-            //             });
-            //         }
-            //         refreshTable(type);
-            //     });
-
-            //     // Update days
-            //     monthSelect.addEventListener('change', () => {
-            //         const year = yearSelect.value;
-            //         const month = monthSelect.value;
-            //         const yearMonth = `${year}-${month}`;
-            //         filterState[type].month = month;
-            //         filterState[type].day = '';
-            //         daySelect.innerHTML = '<option value="">Pilih Tanggal</option>';
-
-            //         if (month === "") {
-            //             refreshTable(type); // Reset if month cleared
-            //             return;
-            //         }
-
-            //         if (daysByMonthYear[yearMonth]) {
-            //             Array.from(daysByMonthYear[yearMonth]).sort().forEach(day => {
-            //                 daySelect.innerHTML += `<option value="${day}">${day}</option>`;
-            //             });
-            //         }
-            //         refreshTable(type);
-            //     });
-
-            //     // Day filter
-            //     daySelect.addEventListener('change', () => {
-            //         filterState[type].day = daySelect.value;
-            //         refreshTable(type);
-            //     });
-
-            //     // Bot or Human filter
-            //     botOrHuman.addEventListener('change', function() {
-            //         filterState.news.bot = this.value;
-            //         refreshTable('news');
-            //     });
-
-            // }
-
             // Fungsi untuk mengisi dropdown filter URL (untuk Page Visits)
-            function populateUrlFilter(data, urlSelect) {
+            function populateUrlFilter(data, startDate, endDate, botOrHuman, urlSelect, type = 'page') {
                 const urls = new Set();
                 data.forEach(visit => urls.add(visit.url));
 
@@ -437,6 +361,44 @@
                     });
                 });
 
+                // Inisialisasi Flatpickr untuk Start Date
+                flatpickr(startDate, {
+                    dateFormat: "Y-m-d",
+                    maxDate: new Date(), // Batasi hingga hari ini (3 Juni 2025)
+                    onChange: function(selectedDates, dateStr) {
+                        filterState[type].startDate = dateStr || '';
+                        if (filterState[type].startDate && filterState[type].endDate &&
+                            new Date(filterState[type].startDate) > new Date(filterState[type].endDate)
+                        ) {
+                            filterState[type].endDate = '';
+                            flatpickr(endDateInput).setDate(null);
+                        }
+                        filterPageTable();
+                    }
+                });
+
+                // Inisialisasi Flatpickr untuk End Date
+                flatpickr(endDate, {
+                    dateFormat: "Y-m-d",
+                    maxDate: new Date(), // Batasi hingga hari ini
+                    onChange: function(selectedDates, dateStr) {
+                        filterState[type].endDate = dateStr || '';
+                        if (filterState[type].endDate && filterState[type].startDate &&
+                            new Date(filterState[type].endDate) < new Date(filterState[type].startDate)
+                        ) {
+                            filterState[type].startDate = '';
+                            flatpickr(startDateInput).setDate(null);
+                        }
+                        filterPageTable();
+                    }
+                });
+
+                // Bot or Human filter
+                botOrHuman.addEventListener('change', function() {
+                    filterState.page.bot = this.value;
+                    filterPageTable();
+                });
+
                 // Isi dropdown
                 urlSelect.innerHTML = '<option value="">Pilih URL</option>';
                 processedUrls.forEach(({
@@ -462,9 +424,30 @@
                     function(settings, data, dataIndex) {
                         if (settings.nTable.id !== 'table-page-visit') return true;
                         const rowData = table.row(dataIndex).data();
-                        const rowUrl = rowData.url;
+                        const date = new Date(rowData.visited_at);
+                        const filter = filterState.page;
 
-                        if (urlFilter && urlFilter !== rowUrl) return false;
+                        // Buat salinan start & end dan atur jamnya
+                        const start = filter.startDate ? new Date(filter.startDate) : null;
+                        const end = filter.endDate ? new Date(filter.endDate) : null;
+
+                        if (start) start.setHours(0, 0, 0, 0); // jam 00:00:00
+                        if (end) end.setHours(23, 59, 59, 999); // jam 23:59:59
+
+                        // Filter berdasarkan tanggal yang inklusif
+                        if (start && end) {
+                            if (!(date >= start && date <= end)) return false;
+                        } else if (start) {
+                            if (date < start) return false;
+                        } else if (end) {
+                            if (date > end) return false;
+                        }
+
+                        // Filter bot/human
+                        if (filter.bot && rowData.is_bot !== filter.bot) return false;
+
+                        // Filter berdasarkan URL
+                        if (urlFilter && urlFilter !== rowData.url) return false;
 
                         return true;
                     }
@@ -473,6 +456,7 @@
                 table.draw();
                 $.fn.dataTable.ext.search.pop();
             }
+
 
             function refreshTable(type) {
                 const tableId = type === 'news' ? '#table-news-visit' : '#table-page-visit';
@@ -540,7 +524,7 @@
                     },
                     {
                         data: 'duration',
-                        render: data => (data === 0 || data == null ? '1' : data ) + 's'
+                        render: data => (data === 0 || data == null ? '1' : data) + 's'
                     },
                     {
                         data: 'is_bot',
@@ -560,14 +544,12 @@
                 "#newsEndDate",
                 document.getElementById('newsBotOrHumanFilter'),
                 'news');
-            // populateFilters(newsVisits,
-            //     document.getElementById('newsYearFilter'),
-            //     document.getElementById('newsMonthFilter'),
-            //     document.getElementById('newsDayFilter'),
-            //     document.getElementById('newsBotOrHumanFilter'),
-            //     'news');
 
-            populateUrlFilter(pageVisits, document.getElementById('pageUrlFilter'));
+            populateUrlFilter(pageVisits,
+                "#pagesStartDate",
+                "#pagesEndDate",
+                document.getElementById('pagesBotOrHumanFilter'),
+                document.getElementById('pageUrlFilter'));
 
             // Summary Table
             $('#tabel-ringkasan').DataTable({
@@ -600,7 +582,7 @@
                             if (colName.toLowerCase().includes('bot')) {
                                 rowData.push(data?.toLowerCase() === 'yes' ? 'bot' :
                                     'human');
-                            } else if(colName.toLowerCase().includes('duration')) {
+                            } else if (colName.toLowerCase().includes('duration')) {
                                 rowData.push(data ? `${data}s` : '1s');
                             } else {
                                 const cleanData = typeof data === 'string' ? stripHtml(
