@@ -60,6 +60,7 @@ class FrontHomeController extends Controller
                 'country' => 'Australia' // Default fallback jika gagal mendapatkan data
             ];
         }
+
         $country = $geoLocationData['country'];
         // dump($country);
         // switch ($country) {
@@ -355,6 +356,12 @@ class FrontHomeController extends Controller
         // if (!$geoLocationData || !isset($geoLocationData['country'])) {
         //     abort(500, 'Failed to retrieve geolocation data');
         // }
+        if (!$geoLocationData || !isset($geoLocationData['country'])) {
+            // abort(500, 'Failed to retrieve geolocation data');
+            $geoLocationData = [
+                'country' => 'Australia' // Default fallback jika gagal mendapatkan data
+            ];
+        }
         $country = $geoLocationData['country'];
         // dump($country);
         // switch ($country) {
