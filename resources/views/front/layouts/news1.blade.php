@@ -7,7 +7,8 @@
                 <header>
                     <p class="news-category">
                         @php
-                            $categoryName = $items[0]->countriesCategoriesNews->first()?->category?->name ?? 'No Category';
+                            $categoryName =
+                                $items[0]->countriesCategoriesNews->first()?->category?->name ?? 'No Category';
                         @endphp
                         <small>
                             @if ($items[0]->order == '1')
@@ -21,9 +22,13 @@
                             @elseif ($items[0]->order == '8')
                                 <b class="fw-bold">Who's getting dragged today?</b>
                             @else
-                                <b class="fw-bold">{{ $categoryName ?? '-' }}</b>
-                            @endif
+                                @if ($items[0]->order == '0' && $index == 0)
+                                    <b class="fw-bold">Top Roast of The Day!</b>
 
+                                @else
+                                    <b class="fw-bold">{{ $categoryName ?? '-' }}</b>
+                                @endif
+                            @endif
                         </small>
                     </p>
                     @if (strtoupper($items[0]->color) == 'P')
@@ -65,14 +70,14 @@
                                     @elseif (strtoupper($items[0]->color) == 'Y')
                                         <div class="ratio ratio-1x1 rounded-circle border border-2 border-warning"
                                             style="width: 2rem;">
-                                            <img src="/assets/template3/asset/img/user/lola.jpg" class="object-fit-cover"
-                                                alt="">
+                                            <img src="/assets/template3/asset/img/user/lola.jpg"
+                                                class="object-fit-cover" alt="">
                                         </div>
                                     @else
                                         <div class="ratio ratio-1x1 rounded-circle border border-2 border-white"
                                             style="width: 2rem;">
-                                            <img src="/assets/template3/asset/img/user/phor.jpg" class="object-fit-cover"
-                                                alt="">
+                                            <img src="/assets/template3/asset/img/user/phor.jpg"
+                                                class="object-fit-cover" alt="">
                                         </div>
                                     @endif
                                 </div>
@@ -107,25 +112,32 @@
                 <header>
                     <p class="news-category">
                         @php
-                            $categoryName = $items[1]->countriesCategoriesNews->first()?->category?->name ?? 'No Category';
+                            $categoryName =
+                                $items[1]->countriesCategoriesNews->first()?->category?->name ?? 'No Category';
                         @endphp
                         <small>
-                             <small>
-                            @if ($items[1]->order == '1')
-                                <b class="fw-bold">Top Roast of The Day!</b>
-                            @elseif ($items[1]->order == '2')
-                                <b class="fw-bold">WTF!</b>
-                            @elseif ($items[1]->order == '3')
-                                <b class="fw-bold">Who voted for this?!</b>
-                            @elseif ($items[1]->order == '7')
-                                <b class="fw-bold">Burn it all down!</b>
-                            @elseif ($items[1]->order == '8')
-                                <b class="fw-bold">Who's getting dragged today?</b>
-                            @else
-                                <b class="fw-bold">{{ $categoryName ?? '-' }}</b>
-                            @endif
+                            <small>
+                                @if ($items[1]->order == '1')
+                                    <b class="fw-bold">Top Roast of The Day!</b>
+                                @elseif ($items[1]->order == '2')
+                                    <b class="fw-bold">WTF!</b>
+                                @elseif ($items[1]->order == '3')
+                                    <b class="fw-bold">Who voted for this?!</b>
+                                @elseif ($items[1]->order == '7')
+                                    <b class="fw-bold">Burn it all down!</b>
+                                @elseif ($items[1]->order == '8')
+                                    <b class="fw-bold">Who's getting dragged today?</b>
+                                @else
+                                    @if ($items[1]->order == '0' && $index == 0)
 
-                        </small>
+                                        <b class="fw-bold">WTF!</b>
+
+                                    @else
+                                        <b class="fw-bold">{{ $categoryName ?? '-' }}</b>
+                                    @endif
+                                @endif
+
+                            </small>
                         </small>
                     </p>
                     @if (strtoupper($items[1]->color) == 'P')
@@ -167,14 +179,14 @@
                                     @elseif (strtoupper($items[1]->color) == 'Y')
                                         <div class="ratio ratio-1x1 rounded-circle border border-2 border-warning"
                                             style="width: 2rem;">
-                                            <img src="/assets/template3/asset/img/user/lola.jpg" class="object-fit-cover"
-                                                alt="">
+                                            <img src="/assets/template3/asset/img/user/lola.jpg"
+                                                class="object-fit-cover" alt="">
                                         </div>
                                     @else
                                         <div class="ratio ratio-1x1 rounded-circle border border-2 border-white"
                                             style="width: 2rem;">
-                                            <img src="/assets/template3/asset/img/user/phor.jpg" class="object-fit-cover"
-                                                alt="">
+                                            <img src="/assets/template3/asset/img/user/phor.jpg"
+                                                class="object-fit-cover" alt="">
                                         </div>
                                     @endif
                                 </div>
@@ -209,25 +221,32 @@
                 <header>
                     <p class="news-category">
                         @php
-                            $categoryName = $items[2]->countriesCategoriesNews->first()?->category?->name ?? 'No Category';
+                            $categoryName =
+                                $items[2]->countriesCategoriesNews->first()?->category?->name ?? 'No Category';
                         @endphp
                         <small>
                             <small>
-                            @if ($items[2]->order == '1')
-                                <b class="fw-bold">Top Roast of The Day!</b>
-                            @elseif ($items[2]->order == '2')
-                                <b class="fw-bold">WTF!</b>
-                            @elseif ($items[2]->order == '3')
-                                <b class="fw-bold">Who voted for this?!</b>
-                            @elseif ($items[2]->order == '7')
-                                <b class="fw-bold">Burn it all down!</b>
-                            @elseif ($items[2]->order == '8')
-                                <b class="fw-bold">Who's getting dragged today?</b>
-                            @else
-                                <b class="fw-bold">{{ $categoryName ?? '-' }}</b>
-                            @endif
+                                @if ($items[2]->order == '1')
+                                    <b class="fw-bold">Top Roast of The Day!</b>
+                                @elseif ($items[2]->order == '2')
+                                    <b class="fw-bold">WTF!</b>
+                                @elseif ($items[2]->order == '3')
+                                    <b class="fw-bold">Who voted for this?!</b>
+                                @elseif ($items[2]->order == '7')
+                                    <b class="fw-bold">Burn it all down!</b>
+                                @elseif ($items[2]->order == '8')
+                                    <b class="fw-bold">Who's getting dragged today?</b>
+                                @else
+                                    @if ($items[2]->order == '0' && $index == 0)
 
-                        </small>
+                                        <b class="fw-bold">Who voted for this?!</b>
+
+                                    @else
+                                        <b class="fw-bold">{{ $categoryName ?? '-' }}</b>
+                                    @endif
+                                @endif
+
+                            </small>
                         </small>
                     </p>
                     @if (strtoupper($items[2]->color) == 'P')

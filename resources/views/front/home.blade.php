@@ -176,11 +176,11 @@
                          @foreach ($topnews->values()->chunk(3) as $index => $chunk)
                              @php $chunk = $chunk->values(); @endphp {{-- Reindex ulang tiap chunk --}}
                              @if ((($index % 3) + 1) === 1)
-                                 @include('front.layouts.news1', ['items' => $chunk])
+                                 @include('front.layouts.news1', ['items' => $chunk, 'index' => $index])
                              @elseif ((($index % 3) + 1) === 2)
-                                 @include('front.layouts.news3', ['items' => $chunk])
+                                 @include('front.layouts.news3', ['items' => $chunk, 'index' => $index])
                              @elseif ((($index % 3) + 1) === 3)
-                                 @include('front.layouts.news2', ['items' => $chunk])
+                                 @include('front.layouts.news2', ['items' => $chunk, 'index' => $index])
                              @endif
                          @endforeach
                      </div>

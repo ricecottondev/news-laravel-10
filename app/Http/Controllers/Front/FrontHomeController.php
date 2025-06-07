@@ -187,18 +187,26 @@ class FrontHomeController extends Controller
         //     ->orderBy('id', 'asc')          // dalam tanggal yang sama, urut berdasarkan ID kecil ke besar
         //     ->get();
 
+        $today = Carbon::today()->toDateString();
+
         $topnews = News::with(['category', 'countriesCategoriesNews'])
             ->where('status', 'published')
-
             ->whereHas('countriesCategoriesNews.country', function ($query) {
                 $query->where('country_name', 'Australia');
             })
-            ->orderByRaw('CASE WHEN `order` > 0 THEN 0 ELSE 1 END') // Prioritaskan order > 0
-            ->orderBy('order', 'asc') // Prioritaskan dari 1 - 5
+            ->orderByRaw("
+        CASE
+            WHEN `order` > 0 AND DATE(created_at) = ? THEN 0
+            ELSE 1
+        END
+    ", [$today]) // hanya prioritaskan `order > 0` jika `created_at` = hari ini
+            ->orderBy('order', 'asc') // urutkan dari 1 ke 5
             ->orderBy('created_at', 'desc')
             ->orderBy('id', 'asc')
             ->limit(60)
             ->get();
+
+            // dd($topnews->toArray());
 
         $justinnews = News::with(['category', 'countriesCategoriesNews'])
             ->where('status', 'published')
