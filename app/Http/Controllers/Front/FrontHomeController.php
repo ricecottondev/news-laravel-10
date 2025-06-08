@@ -203,7 +203,7 @@ class FrontHomeController extends Controller
             ->orderBy('order', 'asc') // urutkan dari 1 ke 5
             ->orderBy('created_at', 'desc')
             ->orderBy('id', 'asc')
-            ->limit(60)
+            ->limit(33)
             ->get();
 
             // dd($topnews->toArray());
