@@ -440,4 +440,17 @@
              </div><!-- end row -->
          </div><!-- end container -->
      </section>
+
+     {{-- news by category --}}
+      <section>
+         <div class="container-lg px-0">
+
+            <!-- news category -->
+            @include('front.layouts.news4-category')
+            @include('front.layouts.news4-category')
+            <!-- end news category -->
+
+         </div><!-- end container -->
+      </section>
+
  @endsection
