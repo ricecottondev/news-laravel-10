@@ -61,7 +61,7 @@
                  <div class="journalist">
                      <h5 class="fs-reset mb-3">
                          <b class="fw-bold">
-                             Our Journalists
+                             Your news-roasting trio:
                          </b>
                      </h5>
                      <div class="journalist-list pb-3 text-center text-md-start">
