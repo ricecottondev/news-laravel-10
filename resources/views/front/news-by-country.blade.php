@@ -8,7 +8,9 @@
     <section class="pt-1">
         <div
             class="source-news text-bg-warning text-center py-1 mb-3 d-md-flex flex-wrap align-items-md-center px-md-3 justify-content-md-center column-gap-md-4">
-             <div> “We read everything — SMH, ABC, Nine, Seven,SBS, 10News, The Guardian, anyone who does journalism, even the ones behind paywalls — and spin it into sarcasm faster than you can say ‘breaking’.”</div>
+             <div>“We read everything — SMH, ABC, Nine, Seven, SBS, 10News, The Guardian, anyone who does journalism,
+                <u>even the ones behind paywalls</u> — and spin it into sarcasm faster than you can say ‘breaking’.”
+                </div>
             @isset($countryname)
                 @if ($countryname == 'usa')
                     <div class="d-flex flex-nowrap justify-content-center gap-2 align-items-center d-none">
@@ -123,7 +125,7 @@
                                             </a>
                                         </h5>
                                         <p class="m-0">
-                                            Let's fix the news, with facts, fire and wink.
+                                            Let's fix the news, with facts, fire and a wink.
                                         </p>
                                     </div><!-- end col -->
                                 </div><!-- end row -->
