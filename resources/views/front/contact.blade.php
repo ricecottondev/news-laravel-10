@@ -67,7 +67,7 @@
 
     <section>
         <div class="container py-4 about-container">
-            <h2 class="fw-bold mb-4 text-uppercase">Contact Us</h2>
+            <h2 class="fw-bold mb-4 text-uppercase">Send Your Love/Hate Mail</h2>
 
             {{-- Section 1 --}}
             <div class="row about-row align-items-center">

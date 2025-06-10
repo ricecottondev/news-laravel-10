@@ -24,7 +24,7 @@
                     <form action="/search" method="GET" class="d-flex">
                         <div class="input-group">
                             <input type="search" name="q"
-                                class="form-control border-light border-end-0 shadow-none" placeholder="Search"
+                                class="form-control border-light border-end-0 shadow-none" placeholder="Snoop Around"
                                 required>
                             <button class="btn btn-outline-light border-start-0 shadow-none">
                                 <i class="fas fa-search"></i>
@@ -42,7 +42,7 @@
                     </div>
                 </div>
                 <a href="/login" class="btn btn-outline-light d-none d-md-block">
-                    Login
+                    Join the Roast
                 </a>
                 <button class="btn rounded-0 border-0 shadow-none p-3 p-lg-0" data-bs-toggle="offcanvas"
                     data-bs-target="#sidebar">

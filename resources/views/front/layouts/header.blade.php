@@ -75,7 +75,7 @@
                     <a class="nav-link text-white" href="/editorial-policy">Editorial Policy</a>
                     <a class="nav-link text-white" href="/privacy-policy">Privacy Policy</a>
                     <a class="nav-link text-white" href="/terms">Terms And Conditions</a>
-                    <a class="nav-link text-white" href="/contact">Contact Us</a>
+                    <a class="nav-link text-white" href="/contact">Send Your Love/Hate Mail</a>
                 </div>
             </div>
         </div>

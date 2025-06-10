@@ -31,7 +31,7 @@
    </li>
    <li class="nav-item">
       <a href="/contact" class="nav-link text-reset p-0 link-hover link-hover-underline">
-         <b class="fw-medium">Contact us</b>
+         <b class="fw-medium">Send Your Love/Hate Mail</b>
       </a>
    </li>
    <li class="nav-item">
