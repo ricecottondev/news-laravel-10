@@ -37,7 +37,7 @@
             <!-- Contact Info -->
             <div class="col-md-4">
                 <h3 class="h5 footer-link">Contact Us</h3>
-                <p class="footer-link">Email: factabot@gmail.com</p>
+                <p class="footer-link">Email: ricecottondev@gmail.com</p>
             </div>
 
         </div>

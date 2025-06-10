@@ -75,7 +75,7 @@
                     {{-- <img src="{{ url('') }}/images/about_us_1.png" class="img-fluid about-image" alt="Factabot Image"> --}}
                 </div>
                 <div class="col-md-12">
-                    <p style="font-size: 18px ;font-weight: bold;text-decoration: none ;color: rgb(214, 207, 189);">Email: factabot@gmail.com</p></div>
+                    <p style="font-size: 18px ;font-weight: bold;text-decoration: none ;color: rgb(214, 207, 189);">Email: ricecottondev@gmail.com</p></div>
             </div>
 
 
