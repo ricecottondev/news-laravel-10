@@ -443,7 +443,7 @@
      </section>
 
      {{-- news by category --}}
-      <section>
+      {{-- <section>
          <div class="container-lg px-0">
 
             <!-- news category -->
@@ -452,6 +452,6 @@
             <!-- end news category -->
 
          </div><!-- end container -->
-      </section>
+      </section> --}}
 
  @endsection
