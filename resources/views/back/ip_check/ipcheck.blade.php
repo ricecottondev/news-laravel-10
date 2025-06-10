@@ -99,6 +99,61 @@
 
                     </div>
                 </div>
+
+                <div class="row">
+                    <div class="col-12 mb-2">
+                        <div class="alert alert-info">
+                            <h4>📈 Statistik Tambahan - News Visits</h4>
+                            <ul class="list-group">
+                                <li class="list-group-item d-flex justify-content-between">
+                                    <span>Jumlah Pengunjung Unik (IP):</span>
+                                    <strong id="uniqueNewsVisitors">0</strong>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between">
+                                    <span>Total Kunjungan:</span>
+                                    <strong id="totalNewsVisits">0</strong>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between">
+                                    <span>Platform Dominan:</span>
+                                    <strong id="dominantNewsPlatform">-</strong>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between">
+                                    <span>Total Durasi Kunjungan:</span>
+                                    <strong id="totalDurationNews">0s</strong>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between">
+                                    <span>Durasi Rata-rata:</span>
+                                    <strong id="averageDurationNews">0s</strong>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between">
+                                    <span>IP yang Paling Sering Muncul:</span>
+                                    <strong id="topNewsIP">-</strong>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between">
+                                    <span>Return Visitor Rate:</span>
+                                    <strong id="returnRateNews">0%</strong>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between">
+                                    <span>Bounce-like Behavior:</span>
+                                    <strong id="bounceNews">0%</strong>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-9 mb-4">
+                        <h4 class="mb-3">📊 Diagram Pengunjung Unik per Hari</h4>
+                        <canvas id="uniqueVisitorsChart" height="100"></canvas>
+                    </div>
+                    <div class="col-3 mb-4">
+                        <h4 class="mb-3">📊 Diagram Platform Pengguna</h4>
+                        <canvas id="platformPieChart" height="100"></canvas>
+                    </div>
+
+                </div>
+
+
+
+
                 <div class="table-responsive">
                     <table id="table-news-visit" class="table table-bordered table-striped">
                         <thead>
@@ -210,12 +265,16 @@
     </div>
     <!-- Konversi data PHP ke JSON -->
     <script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <script>
         const newsVisits = @json($newsVisits);
         const pageVisits = @json($pageVisits);
 
+
         document.addEventListener("DOMContentLoaded", function() {
+            let chartInstance = null;
+            let pieChartInstance = null;
             let filterState = {
                 news: {
                     startDate: '',
@@ -461,7 +520,161 @@
             function refreshTable(type) {
                 const tableId = type === 'news' ? '#table-news-visit' : '#table-page-visit';
                 $(tableId).DataTable().draw();
+                if (type === 'news') {
+                    updateNewsStats();
+                    updateUniqueVisitorsChart();
+                    updatePlatformPieChart();
+                }
+
             }
+
+            function updateNewsStats() {
+                const data = newsVisits.filter(item => {
+                    const date = new Date(item.visited_at);
+                    const start = filterState.news.startDate ? new Date(filterState.news.startDate) : null;
+                    const end = filterState.news.endDate ? new Date(filterState.news.endDate) : null;
+                    if (start && date < start) return false;
+                    if (end && date > end) return false;
+                    if (filterState.news.bot && item.is_bot !== filterState.news.bot) return false;
+                    return true;
+                });
+
+                const total = data.length;
+                const uniqueIPs = [...new Set(data.map(i => i.ip))];
+                const ipCount = {};
+                const platformCount = {};
+                let totalDuration = 0;
+                let bounceCount = 0;
+                let returnCount = 0;
+
+                data.forEach(d => {
+                    totalDuration += d.duration_seconds || 1;
+                    if ((d.duration_seconds || 1) <= 2) bounceCount++;
+                    ipCount[d.ip] = (ipCount[d.ip] || 0) + 1;
+                    platformCount[d.platform] = (platformCount[d.platform] || 0) + 1;
+                });
+
+                Object.values(ipCount).forEach(count => {
+                    if (count > 1) returnCount++;
+                });
+
+                const topIP = Object.entries(ipCount).sort((a, b) => b[1] - a[1])[0]?.[0] || '-';
+                const topPlatform = Object.entries(platformCount).sort((a, b) => b[1] - a[1])[0]?.[0] || '-';
+
+                document.getElementById('uniqueNewsVisitors').textContent = uniqueIPs.length;
+                document.getElementById('totalNewsVisits').textContent = total;
+                document.getElementById('dominantNewsPlatform').textContent = topPlatform;
+                document.getElementById('totalDurationNews').textContent = totalDuration + 's';
+                document.getElementById('averageDurationNews').textContent = Math.round(totalDuration / (total ||
+                    1)) + 's';
+                document.getElementById('topNewsIP').textContent = topIP;
+                document.getElementById('returnRateNews').textContent = total > 0 ? Math.round((returnCount /
+                    uniqueIPs.length) * 100) + '%' : '0%';
+                document.getElementById('bounceNews').textContent = total > 0 ? Math.round((bounceCount / total) *
+                    100) + '%' : '0%';
+            }
+
+            function updateUniqueVisitorsChart() {
+                const filtered = newsVisits.filter(item => {
+                    const date = new Date(item.visited_at);
+                    const start = filterState.news.startDate ? new Date(filterState.news.startDate) : null;
+                    const end = filterState.news.endDate ? new Date(filterState.news.endDate) : null;
+                    if (start && date < start) return false;
+                    if (end && date > end) return false;
+                    if (filterState.news.bot && item.is_bot !== filterState.news.bot) return false;
+                    return true;
+                });
+
+                const grouped = {};
+
+                filtered.forEach(item => {
+                    const day = item.visited_at.substring(0, 10); // 'YYYY-MM-DD'
+                    grouped[day] = grouped[day] || new Set();
+                    grouped[day].add(item.ip);
+                });
+
+                const labels = Object.keys(grouped).sort();
+                const data = labels.map(day => grouped[day].size);
+
+                // Hancurkan chart sebelumnya jika ada
+                if (chartInstance) chartInstance.destroy();
+
+                const ctx = document.getElementById('uniqueVisitorsChart').getContext('2d');
+                chartInstance = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels,
+                        datasets: [{
+                            label: 'Pengunjung Unik',
+                            data,
+                            backgroundColor: '#3b82f6'
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                ticks: {
+                                    stepSize: 1
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+
+            function updatePlatformPieChart() {
+                const filtered = newsVisits.filter(item => {
+                    const date = new Date(item.visited_at);
+                    const start = filterState.news.startDate ? new Date(filterState.news.startDate) : null;
+                    const end = filterState.news.endDate ? new Date(filterState.news.endDate) : null;
+                    if (start && date < start) return false;
+                    if (end && date > end) return false;
+                    if (filterState.news.bot && item.is_bot !== filterState.news.bot) return false;
+                    return true;
+                });
+
+                const platformCounts = {};
+                filtered.forEach(item => {
+                    const platform = item.platform || 'Unknown';
+                    platformCounts[platform] = (platformCounts[platform] || 0) + 1;
+                });
+
+                const labels = Object.keys(platformCounts);
+                const data = Object.values(platformCounts);
+
+                if (pieChartInstance) pieChartInstance.destroy();
+
+                const ctx = document.getElementById('platformPieChart').getContext('2d');
+                pieChartInstance = new Chart(ctx, {
+                    type: 'pie',
+                    data: {
+                        labels,
+                        datasets: [{
+                            label: 'Jumlah Pengguna',
+                            data,
+                            backgroundColor: labels.map(() => getRandomColor()),
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                position: 'bottom'
+                            }
+                        }
+                    }
+                });
+            }
+
+            function getRandomColor() {
+                const r = Math.floor(Math.random() * 200);
+                const g = Math.floor(Math.random() * 200);
+                const b = Math.floor(Math.random() * 200);
+                return `rgba(${r}, ${g}, ${b}, 0.7)`;
+            }
+
 
             // Init DataTables
             const newsTable = $('#table-news-visit').DataTable({
