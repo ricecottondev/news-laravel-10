@@ -122,14 +122,12 @@
 
                                     <div class="mt-4" style="font-size: 11px; font-style: italic">
                                         <strong>Disclaimer:</strong>
-                                        Factabot provides satirical commentary based on real-world events.
-                                        While rooted in factual news reporting, our content uses humor, exaggeration, and
-                                        parody for
-                                        entertainment and opinion purposes.
-                                        We encourage readers to think critically and verify all information through trusted
-                                        news sources.
-                                        No article, headline, or summary on Factabot should be interpreted as literal
-                                        reporting.
+                                        Factabot provides satirical commentary based on real-world events covered by major Australian news outlets.
+                                        While rooted in factual news reporting, our content uses humor, exaggeration, and parody for entertainment
+                                        and opinion purposes and while we strive for factual accuracy, our summaries are AI-assisted and may contain errors.
+                                        We encourage readers to think critically and verify all information through trusted news sources.
+                                        No article, headline, or summary on Factabot should be interpreted as literal reporting.
+                                        Always check trusted news sources (like ABC, Nine, SMH, etc.) for original reporting.
                                     </div>
                                 </section>
                             </main>
@@ -138,7 +136,7 @@
 
                         <div class="col px-3">
                             <hr class="my-5">
-                            <h6 class="fw-bold mb-2">Share this truth+sass</h6>
+                            <h6 class="fw-bold mb-2">🧨 YOU MADE IT TO THE END. NOW WHAT?</h6>
                             <div class="d-flex flex-wrap gap-2">
 
                                 <!-- WhatsApp -->
