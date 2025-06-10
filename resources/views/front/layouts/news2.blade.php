@@ -22,7 +22,11 @@
                             @elseif ($items[0]->order == '8')
                                 <b class="fw-bold">Who's getting dragged today?</b>
                             @else
-                                <b class="fw-bold">{{ $categoryName ?? '-' }}</b>
+                                @if ($items[0]->order == '0' && $index == 2)
+                                    <b class="fw-bold">Burn it all down!</b>
+                                @else
+                                    <b class="fw-bold">{{ $categoryName ?? '-' }}</b>
+                                @endif
                             @endif
 
                         </small>
@@ -126,7 +130,11 @@
                             @elseif ($items[1]->order == '8')
                                 <b class="fw-bold">Who's getting dragged today?</b>
                             @else
-                                <b class="fw-bold">{{ $categoryName ?? '-' }}</b>
+                                @if ($items[1]->order == '0' && $index == 2)
+                                    <b class="fw-bold">Who's getting dragged today?</b>
+                                @else
+                                    <b class="fw-bold">{{ $categoryName ?? '-' }}</b>
+                                @endif
                             @endif
 
                         </small>
