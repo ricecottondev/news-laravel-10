@@ -120,7 +120,7 @@
                                             </a>
                                         </h5>
                                         <p class="m-0">
-                                            Let's fix the news, with facts, fire and wink.
+                                            Let's fix the news, with facts, fire and a wink.
                                         </p>
                                     </div><!-- end col -->
                                 </div><!-- end row -->
