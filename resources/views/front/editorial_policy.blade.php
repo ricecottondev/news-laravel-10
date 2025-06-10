@@ -77,88 +77,95 @@
                 </div>
             @endif
 
-            <h1>Editorial Policy</h1>
-            <p><strong>Introduction</strong><br>
-                Factabot is a satirical news aggregation and commentary platform. We collect, summarize, and reframe
-                real-world news events from reputable sources — but with humor, sarcasm, and critical commentary.</p>
+            <h1>Factabot Editorial Policy</h1>
 
-            <p>Our mission is to make news readable, laughable, and occasionally uncomfortable, while staying grounded in
-                facts. News can be truthful and funny — without losing meaning.</p>
+            <p><strong>Introduction</strong><br>
+                Factabot is a satire-based media platform that combines factual awareness with commentary, parody, and
+                personality-driven content. While our stories are inspired by real news events, we do not claim to be a
+                journalistic outlet. Our tone is sharp, humorous, and emotionally charged — often fictionalised for dramatic
+                effect. All characters (including Clara, Lola, and Phor) are AI-generated personas, and not actual
+                reporters. Our mission is to challenge spin, spotlight power, and deliver emotional truth — not formal
+                accuracy.</p>
+
+            <p>We aim to make news readable, laughable, and occasionally uncomfortable, while staying grounded in facts.
+                News can be truthful and funny — without losing meaning.</p>
 
             <p>This Editorial Policy outlines how Factabot operates, what users can expect, and where responsibility lies
                 (hint: not with your uncle who gets his news from memes).</p>
 
             <h4>1. Content Aggregation and Satirical Presentation</h4>
             <p>We aggregate real news stories and reframe them with humor, sarcasm, and parody. We do not fabricate events,
-                crimes, scandals, or quotes. We mock, roast, and joke — but don’t invent news.</p>
+                crimes, scandals, or quotes. We mock, roast, and joke — but don’t invent news. Our stories are not literal
+                reporting and often fictionalised for dramatic or comedic effect.</p>
 
             <h4>2. Editorial Independence</h4>
-            <p>Factabot has full editorial independence.
-                We don’t answer to politicians, corporations, or billionaires (and they’re usually not funny enough anyway).
-                The opinions, jokes, and commentary published are our own and do not reflect the views of the original news
-                sources.</p>
+            <p>Factabot has full editorial independence. We don’t answer to politicians, corporations, or billionaires (and
+                they’re usually not funny enough anyway). The opinions, jokes, and commentary published are our own and do
+                not reflect the views of the original news sources.</p>
 
             <h4>3. No Endorsement of Original Content</h4>
-            <p>Aggregating a story does not mean we endorse it.
-                Factabot may cover topics from across the political, social, and economic spectrum — and make fun of all
-                sides equally badly.
-                We are not affiliated with, nor responsible for, the editorial policies of any original publisher.</p>
+            <p>Aggregating a story does not mean we endorse it. Factabot may cover topics from across the political, social,
+                and economic spectrum — and make fun of all sides equally badly. We are not affiliated with, nor responsible
+                for, the editorial policies of any original publisher.</p>
 
             <h4>4. Accuracy and User Responsibility</h4>
-            <p>We aim to base every article on real, verifiable reporting.
-                However, we are not a replacement for primary news sources.
-                We encourage users to verify stories themselves if they need the full context (or just want a less hilarious
-                version).
-
+            <p>We aim to base every article on real, verifiable reporting. However, we are not a replacement for primary
+                news sources. Readers should verify the full context of stories via original publications or our Source Log.
                 Readers should remember: we interpret, we don’t report.</p>
 
             <h4>5. Satire and Legal Disclaimer</h4>
             <p>Factabot content is satirical commentary protected under Australian, U.S., and international free speech
-                laws.
-                By using Factabot, you acknowledge:</p>
+                laws. By using Factabot, you acknowledge:</p>
             <ul>
                 <li>We use humor, parody, and exaggeration.</li>
                 <li>Articles are based on real news events but framed in a satirical and critical manner.</li>
                 <li>You are responsible for your interpretation and use of the information.</li>
+                <li>No article should be taken as literal news reporting. If you think it is, we recommend a quick Google
+                    search — or a coffee.</li>
             </ul>
-            <p>No article should be taken as literal news reporting.
-                If you think it is, we recommend a quick Google search — or a coffee.</p>
 
             <h4>6. Copyright and Fair Use</h4>
-            <p>Factabot respects intellectual property rights.
-                We do not claim ownership of original reporting.
-                Our use of factual summaries falls within fair use guidelines for commentary, criticism, and satire.
-                If you believe content infringes your rights, contact us — we take valid concerns seriously (and fake ones
-                hilariously).</p>
+            <p>Factabot respects intellectual property rights. We do not claim ownership of original reporting. Our use of
+                factual summaries falls within fair use guidelines for commentary, criticism, and satire. If you believe
+                content infringes your rights, contact us — we take valid concerns seriously (and fake ones hilariously).
+            </p>
 
             <h4>7. Visual Content and Fictional Representation</h4>
             <p>All images, characters, and visuals on Factabot — including any depictions of staff, contributors, or mascots
-                — are fictional, stylized, or AI-generated.
-                Any resemblance to real persons, living or dead, is purely coincidental (or, frankly, unlucky for them).</p>
+                — are fictional, stylized, or AI-generated. Any resemblance to real persons, living or dead, is purely
+                coincidental (or, frankly, unlucky for them).</p>
             <p>We do not use real photos of team members, and any visual representation should be viewed as illustrative
                 only.</p>
 
             <h4>8. Third-Party Links</h4>
-            <p>Factabot may link to external articles, memes, videos, or bizarre political campaign ads.
-                We are not responsible for the content, security, or sanity of third-party websites.</p>
+            <p>Factabot may link to external articles, memes, videos, or bizarre political campaign ads. We are not
+                responsible for the content, security, or sanity of third-party websites.</p>
             <p>Proceed at your own risk (and sense of humor).</p>
 
             <h4>9. Corrections Policy</h4>
-            <p>If we accidentally misstate or bungle a key fact, we’ll fix it.
-                Corrections will be posted promptly because we believe readers deserve transparency — and because admitting mistakes is funnier than pretending otherwise
-            </p>
+            <p>If we accidentally misstate or bungle a key fact, we’ll fix it. Corrections will be posted promptly because
+                we believe readers deserve transparency — and because admitting mistakes is funnier than pretending
+                otherwise.</p>
 
             <h4>10. Updates and Changes</h4>
-            <p>We reserve the right to update this Editorial Policy if laws, facts, or the general absurdity of the world changes.
-                Updates will be posted here.
-                By continuing to use Factabot, you accept the latest version of this Policy (and hopefully still have a sense of humor).</p>
+            <p>We reserve the right to update this Editorial Policy if laws, facts, or the general absurdity of the world
+                changes. Updates will be posted here. By continuing to use Factabot, you accept the latest version of this
+                Policy (and hopefully still have a sense of humor).</p>
 
-            <h4>11. Contact Us</h4>
+            <h4>11. Source Log</h4>
+            <p>Factabot is not affiliated with any media company, political party, or organisation. We read everything —
+                SMH, ABC, Nine, Seven, SBS, 10News, The Guardian, <u>even the ones behind paywalls</u>. Our Source Log is a
+                public index of where our stories were inspired from, to encourage transparency without claiming accuracy.
+            </p>
+
+            <h4>12. Contact Us</h4>
             <p>For questions, concerns, copyright issues, or to send us your best conspiracy theory memes:<br>
                 📧 <a href="mailto:ricecottondev@gmail.com" class="text-warning">ricecottondev@gmail.com</a></p>
 
             <p>We review every serious concern. (And some unserious ones too.)</p>
+
             <hr>
+
 
 
 
