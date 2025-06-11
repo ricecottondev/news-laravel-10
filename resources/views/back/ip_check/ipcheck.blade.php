@@ -103,7 +103,7 @@
                 <div class="row">
                     <div class="col-12 mb-2">
                         <div class="alert alert-info">
-                            <h4>📈 Statistik Tambahan - News Visits</h4>
+                            <h4>📈 Stats - News Visits</h4>
                             <ul class="list-group">
                                 <li class="list-group-item d-flex justify-content-between">
                                     <span>Jumlah Pengunjung Unik (IP):</span>
@@ -136,6 +136,22 @@
                                 <li class="list-group-item d-flex justify-content-between">
                                     <span>Bounce-like Behavior:</span>
                                     <strong id="bounceNews">0%</strong>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between">
+                                    <strong>Bounce (≤3s):</strong> <span id="bounceVisits">0</span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between">
+                                    <strong>Sticky Time (avg):</strong> <span id="stickyTime">0 detik</span>
+                                </li>
+
+                                <li class="list-group-item d-flex justify-content-between">
+                                    <strong>Max Visit Time:</strong> <span id="maxVisitTime">0 detik</span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between">
+                                    <strong>Min Visit Time:</strong> <span id="minVisitTime">0 detik</span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between">
+                                    <strong>From Facebook:</strong> <span id="fbVisitors">0</span>
                                 </li>
                             </ul>
                         </div>
@@ -194,8 +210,8 @@
         </div>
         <div class="card my-4">
             <div class="card-body">
-                <h2 class="mt-5 mb-4">📄 Page Visits</h2>
-                <div class="row row-cols-1 row-cols-md-5">
+                <h2 class="mb-4">📄 Page Visits</h2>
+                <div class="row row-cols-1 row-cols-sm-4">
                     <div class="col mb-4">
                         <input type="text" class="selector form-control" id="pagesStartDate"
                             placeholder="Pilih Tanggal Mulai">
@@ -224,6 +240,80 @@
                         </button>
                     </div>
                 </div>
+
+                <div class="row">
+                    <div class="col-12 mb-2">
+                        <div class="alert alert-info">
+                            <h4 class="mb-3">📈 Statistik Page Visits</h4>
+                            <ul class="list-group">
+                                <li class="list-group-item d-flex justify-content-between">
+                                    <span>Jumlah Pengunjung Unik (IP):</span>
+                                    <strong id="page-unique-visitors"></strong>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between">
+                                    <span>Total Kunjungan:</span>
+                                    <strong id="page-total-visits"></strong>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between">
+                                    <span>Platform Dominan:</span>
+                                    <strong id="page-platform-dominant"></strong>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between">
+                                    <span>Total Durasi Kunjungan:</span>
+                                    <strong id="page-total-duration">detik</strong>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between">
+                                    <span>Durasi Rata-rata:</span>
+                                    <strong id="page-avg-duration">detik</strong>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between">
+                                    <span>IP Terbanyak:</span>
+                                    <strong id="page-most-ip"></strong>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between">
+                                    <span>Return Visitor Rate:</span>
+                                    <strong id="page-return-visitor">%</strong>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between">
+                                    <span>Bounce (≤3s):</span>
+                                    <strong id="page-bounce-count"></strong>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between">
+                                    <span>Bounce Rate:</span>
+                                    <strong id="page-bounce-rate">%</strong>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between">
+                                    <span>Sticky Time (avg):</span>
+                                    <strong id="page-sticky-time"> detik</strong>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between">
+                                    <span>Max Visit Time:</span>
+                                    <strong id="page-max-time">detik</strong>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between">
+                                    <span>Min Visit Time:</span>
+                                    <strong id="page-min-time">detik</strong>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between">
+                                    <span>Dari Facebook:</span>
+                                    <strong id="page-facebook-count"></strong>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="col-9 mb-4">
+                        <h4 class="text-center">📈 Diagram Pengunjung Unik per Hari</h4>
+                        <canvas id="pageVisitChart" height="100"></canvas>
+                    </div>
+
+                    <div class="col-3 mb-4">
+                        <h4 class="mb-3">📊 Diagram Platform Pengguna</h4>
+                        <canvas id="pagePlatformPie" height="100"></canvas>
+                    </div>
+                </div>
+
+
                 <div class="table-responsive">
                     <table id="table-page-visit" class="table table-bordered table-striped">
                         <thead>
@@ -275,6 +365,7 @@
         document.addEventListener("DOMContentLoaded", function() {
             let chartInstance = null;
             let pieChartInstance = null;
+            let pageVisitChartInstance = null;
             let filterState = {
                 news: {
                     startDate: '',
@@ -477,35 +568,28 @@
             // Fungsi filter untuk Page Table
             function filterPageTable() {
                 const urlFilter = document.getElementById('pageUrlFilter').value;
-                const table = $('#table-page-visit').DataTable();
+
+                const table = pageTable; // ✅ Gunakan instance global DataTable
 
                 $.fn.dataTable.ext.search.push(
                     function(settings, data, dataIndex) {
                         if (settings.nTable.id !== 'table-page-visit') return true;
+
                         const rowData = table.row(dataIndex).data();
                         const date = new Date(rowData.visited_at);
                         const filter = filterState.page;
 
-                        // Buat salinan start & end dan atur jamnya
                         const start = filter.startDate ? new Date(filter.startDate) : null;
                         const end = filter.endDate ? new Date(filter.endDate) : null;
 
-                        if (start) start.setHours(0, 0, 0, 0); // jam 00:00:00
-                        if (end) end.setHours(23, 59, 59, 999); // jam 23:59:59
+                        if (start) start.setHours(0, 0, 0, 0);
+                        if (end) end.setHours(23, 59, 59, 999);
 
-                        // Filter berdasarkan tanggal yang inklusif
-                        if (start && end) {
-                            if (!(date >= start && date <= end)) return false;
-                        } else if (start) {
-                            if (date < start) return false;
-                        } else if (end) {
-                            if (date > end) return false;
-                        }
+                        if (start && end && !(date >= start && date <= end)) return false;
+                        if (start && date < start) return false;
+                        if (end && date > end) return false;
 
-                        // Filter bot/human
                         if (filter.bot && rowData.is_bot !== filter.bot) return false;
-
-                        // Filter berdasarkan URL
                         if (urlFilter && urlFilter !== rowData.url) return false;
 
                         return true;
@@ -514,7 +598,17 @@
 
                 table.draw();
                 $.fn.dataTable.ext.search.pop();
+
+                // ⏳ Ambil ulang setelah draw selesai (safe)
+                setTimeout(() => {
+                    const filteredData = table.rows({
+                        search: 'applied'
+                    }).data().toArray();
+                    updatePageVisitStats(filteredData);
+                    updatePageVisitChart(filteredData);
+                }, 0);
             }
+
 
 
             function refreshTable(type) {
@@ -526,6 +620,125 @@
                     updatePlatformPieChart();
                 }
 
+
+            }
+
+            function updatePageVisitStats(data) {
+                const humanData = data.filter(row => row.is_bot === 'No');
+                const uniqueIps = [...new Set(humanData.map(v => v.ip))];
+                const platformCounts = {};
+                const ipCounts = {};
+                let totalDuration = 0;
+                let minTime = Infinity;
+                let maxTime = 0;
+                let bounceCount = 0;
+                let facebookVisits = 0;
+
+                humanData.forEach(row => {
+                    const d = row.duration ?? 1;
+                    totalDuration += d;
+                    if (d <= 3) bounceCount++;
+                    if (d > maxTime) maxTime = d;
+                    if (d < minTime) minTime = d;
+
+                    if (row.referrer && row.referrer.toLowerCase().includes('facebook')) {
+                        facebookVisits++;
+                    }
+
+                    platformCounts[row.platform] = (platformCounts[row.platform] || 0) + 1;
+                    ipCounts[row.ip] = (ipCounts[row.ip] || 0) + 1;
+                });
+
+                const totalVisits = humanData.length;
+                const avgDuration = totalVisits ? totalDuration / totalVisits : 0;
+                const mostCommonIp = Object.entries(ipCounts).sort((a, b) => b[1] - a[1])[0]?.[0] || '-';
+                const dominantPlatform = Object.entries(platformCounts).sort((a, b) => b[1] - a[1])[0]?.[0] || '-';
+
+                document.getElementById('page-unique-visitors').textContent = uniqueIps.length;
+                document.getElementById('page-total-visits').textContent = totalVisits;
+                document.getElementById('page-platform-dominant').textContent = dominantPlatform;
+                document.getElementById('page-total-duration').textContent = totalDuration;
+                document.getElementById('page-avg-duration').textContent = avgDuration.toFixed(2);
+                document.getElementById('page-most-ip').textContent = mostCommonIp;
+                document.getElementById('page-return-visitor').textContent = ((totalVisits - uniqueIps.length) /
+                    uniqueIps.length * 100).toFixed(2);
+                document.getElementById('page-bounce-count').textContent = bounceCount;
+                document.getElementById('page-bounce-rate').textContent = (bounceCount / totalVisits * 100).toFixed(
+                    2);
+                document.getElementById('page-sticky-time').textContent = avgDuration.toFixed(2);
+                document.getElementById('page-max-time').textContent = maxTime;
+                document.getElementById('page-min-time').textContent = minTime;
+                document.getElementById('page-facebook-count').textContent = facebookVisits;
+
+                // Chart Pie Platform
+                const ctx = document.getElementById('pagePlatformPie').getContext('2d');
+
+                // ✅ Tambahkan pengecekan yang lebih aman
+                if (window.pagePlatformPie && typeof window.pagePlatformPie.destroy === 'function') {
+                    window.pagePlatformPie.destroy();
+                }
+
+                window.pagePlatformPie = new Chart(ctx, {
+                    type: 'pie',
+                    data: {
+                        labels: Object.keys(platformCounts),
+                        datasets: [{
+                            data: Object.values(platformCounts),
+                            backgroundColor: ['#007bff', '#28a745', '#ffc107', '#dc3545', '#6f42c1']
+                        }]
+                    }
+                });
+            }
+
+            function updatePageVisitChart(filteredData) {
+                const ipPerDay = {};
+
+                filteredData.forEach(row => {
+                    const date = new Date(row.visited_at).toISOString().slice(0, 10); // YYYY-MM-DD
+                    ipPerDay[date] = ipPerDay[date] || new Set();
+                    ipPerDay[date].add(row.ip);
+                });
+
+                const labels = Object.keys(ipPerDay).sort();
+                const data = labels.map(date => ipPerDay[date].size);
+
+                const ctx = document.getElementById('pageVisitChart').getContext('2d');
+
+                // Destroy old chart if exists
+                if (pageVisitChartInstance) pageVisitChartInstance.destroy();
+
+                pageVisitChartInstance = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels,
+                        datasets: [{
+                            label: 'Unique Visitors (by IP)',
+                            data,
+                            backgroundColor: 'rgba(54, 162, 235, 0.7)',
+                            borderColor: 'rgba(54, 162, 235, 1)',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        // responsive: true,
+                        // maintainAspectRatio: false,
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                title: {
+                                    display: true,
+                                    text: 'Unique Visitors'
+                                }
+                            },
+                            x: {
+                                title: {
+                                    display: true,
+                                    text: 'Date'
+                                }
+                            }
+                        }
+                    }
+                });
             }
 
             function updateNewsStats() {
@@ -558,11 +771,37 @@
                     if (count > 1) returnCount++;
                 });
 
+
+
+                const totalVisits = data.length;
+                const uniqueIps = new Set(data.map(item => item.ip)).size;
+
+                const durations = data.map(item => item.duration_seconds ?? 1);
+                const maxTime = Math.max(...durations);
+                const minTime = Math.min(...durations);
+
+                // Bounce: durasi <= 3 detik
+                const bounceVisits = data.filter(item => (item.duration_seconds ?? 1) <= 3).length;
+
+                // Sticky time: rata-rata durasi non-bounce
+                const stickyData = data.filter(item => (item.duration_seconds ?? 1) > 3);
+                const stickyTime = stickyData.length ?
+                    stickyData.reduce((sum, item) => sum + (item.duration_seconds ?? 1), 0) / stickyData.length :
+                    0;
+
+                const facebookVisitors = data.filter(item => (item.referer || '').toLowerCase().includes(
+                    'facebook')).length;
+
+
+
                 const topIP = Object.entries(ipCount).sort((a, b) => b[1] - a[1])[0]?.[0] || '-';
                 const topPlatform = Object.entries(platformCount).sort((a, b) => b[1] - a[1])[0]?.[0] || '-';
 
                 document.getElementById('uniqueNewsVisitors').textContent = uniqueIPs.length;
                 document.getElementById('totalNewsVisits').textContent = total;
+                document.getElementById('bounceVisits').textContent =
+                    `${bounceVisits} (${Math.round((bounceVisits / totalVisits) * 100)}%)`;
+                document.getElementById('stickyTime').textContent = `${stickyTime.toFixed(2)} detik`;
                 document.getElementById('dominantNewsPlatform').textContent = topPlatform;
                 document.getElementById('totalDurationNews').textContent = totalDuration + 's';
                 document.getElementById('averageDurationNews').textContent = Math.round(totalDuration / (total ||
@@ -572,6 +811,10 @@
                     uniqueIPs.length) * 100) + '%' : '0%';
                 document.getElementById('bounceNews').textContent = total > 0 ? Math.round((bounceCount / total) *
                     100) + '%' : '0%';
+
+                document.getElementById('maxVisitTime').textContent = `${maxTime} detik`;
+                document.getElementById('minVisitTime').textContent = `${minTime} detik`;
+                document.getElementById('fbVisitors').textContent = `${facebookVisitors}`;
             }
 
             function updateUniqueVisitorsChart() {
@@ -858,6 +1101,11 @@
             // Inisialisasi tombol ekspor
             setupExportButton('exportNewsVisit', 'table-news-visit', 'news-visit-export');
             setupExportButton('exportPageVisit', 'table-page-visit', 'page-visit-export');
+
+
+
+
+            // updatePageVisitStats(pageVisits);
 
         });
     </script>
