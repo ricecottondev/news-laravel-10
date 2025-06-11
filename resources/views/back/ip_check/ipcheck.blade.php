@@ -185,24 +185,6 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {{-- @foreach ($newsVisits as $visit)
-                                <tr data-filter-id="{{ $visit->news_id }}" data-filter-date="{{ $visit->visited_at }}">
-                                    <td>{{ $visit->news_id }}</td>
-                                    <td>{{ $visit->ip }}</td>
-                                    <td>{{ Str::limit($visit->user_agent, 60) }}</td>
-                                    <td>{{ $visit->browser }}</td>
-                                    <td>{{ $visit->platform }}</td>
-                                    <td>{{ $visit->visited_at }}</td>
-                                    <td>{{ $visit->duration_seconds }}s</td>
-                                    <td>
-                                        @if ($visit->is_bot == 'Yes')
-                                            <span class="badge bg-danger">Bot</span>
-                                        @else
-                                            <span class="badge bg-success">Human</span>
-                                        @endif
-                                    </td>
-                                </tr>
-                            @endforeach --}}
                         </tbody>
                     </table>
                 </div>
@@ -329,24 +311,6 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {{-- @foreach ($pageVisits as $visit)
-                                <tr>
-                                    <td>{{ $visit->url }}</td>
-                                    <td>{{ $visit->ip }}</td>
-                                    <td>{{ Str::limit($visit->user_agent, 60) }}</td>
-                                    <td>{{ $visit->browser }}</td>
-                                    <td>{{ $visit->platform }}</td>
-                                    <td>{{ $visit->visited_at }}</td>
-                                    <td>{{ $visit->duration }}s</td>
-                                    <td>
-                                        @if ($visit->is_bot == 'Yes')
-                                            <span class="badge bg-danger">Bot</span>
-                                        @else
-                                            <span class="badge bg-success">Human</span>
-                                        @endif
-                                    </td>
-                                </tr>
-                            @endforeach --}}
                         </tbody>
                     </table>
                 </div>
@@ -1102,7 +1066,16 @@
             setupExportButton('exportNewsVisit', 'table-news-visit', 'news-visit-export');
             setupExportButton('exportPageVisit', 'table-page-visit', 'page-visit-export');
 
+            // first load charts for table page visit & news visit
+            updateNewsStats();
+            updateUniqueVisitorsChart();
+            updatePlatformPieChart();
 
+            const firstloadfilteredData = pageTable.rows({
+                search: 'applied'
+            }).data().toArray();
+            updatePageVisitStats(firstloadfilteredData);
+            updatePageVisitChart(firstloadfilteredData);
 
 
             // updatePageVisitStats(pageVisits);
