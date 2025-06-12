@@ -193,7 +193,7 @@
         <div class="card my-4">
             <div class="card-body">
                 <h2 class="mb-4">📄 Page Visits</h2>
-                <div class="row row-cols-1 row-cols-sm-4">
+                <div class="row row-cols-1 row-cols-sm-5">
                     <div class="col mb-4">
                         <input type="text" class="selector form-control" id="pagesStartDate"
                             placeholder="Pilih Tanggal Mulai">
@@ -295,7 +295,6 @@
                     </div>
                 </div>
 
-
                 <div class="table-responsive">
                     <table id="table-page-visit" class="table table-bordered table-striped">
                         <thead>
@@ -312,6 +311,149 @@
                         </thead>
                         <tbody>
                         </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="card my-4">
+            <div class="card-body">
+                <h2 class="mb-4">📄 Page X News Visits</h2>
+                <div class="row row-cols-1 row-cols-sm-3">
+                    <div class="col mb-4">
+                        <input type="text" class="selector form-control" id="mergeStartDate"
+                            placeholder="Pilih Tanggal Mulai">
+                    </div>
+                    <div class="col mb-4">
+                        <input type="text" class="selector form-control" id="mergeEndDate"
+                            placeholder="Pilih Tanggal Selesai">
+                    </div>
+                    <div class="col mb-4">
+                        <select class="form-select" id="mergeBotOrHumanFilter">
+                            <option value="">Pilih Bot Or Human</option>
+                            <option value="Yes">Bot</option>
+                            <option value="No">Human</option>
+                        </select>
+                    </div>
+                    <div class="col mb-4">
+                        <select class="form-select text-capitalize" id="mergeUrlFilter">
+                            <option value="">Pilih URL</option>
+                        </select>
+                    </div>
+                    <div class="col mb-4">
+                        <select class="form-select text-capitalize" id="mergeBrowserFilter">
+                            <option value="">Pilih Browser</option>
+                        </select>
+                    </div>
+                    <div class="col mb-4">
+                        <select class="form-select text-capitalize" id="mergePlatformFilter">
+                            <option value="">Pilih Platform</option>
+                        </select>
+                    </div>
+                    <div class="col mb-4">
+                        <button id="exportPageXNews" class="btn btn-primary w-100">
+                            <span id="spinner-btn" class="spinner-border spinner-border-sm me-1 d-none" role="status"
+                                aria-hidden="true"></span>
+                            <span class="btn-label">Export Excel</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12 mb-2">
+                        <div class="alert alert-info">
+                            <h4 class="mb-3">📈 Statistik Page x News Visits</h4>
+                            <ul class="list-group" id="global-stats">
+
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row g-4 mb-4" id="charts-section">
+                    <div class="col-6">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <h6 class="card-title">Jumlah Pengunjung Unik per Hari</h6>
+                                <canvas id="uniqueVisitorsPerDayChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <h6 class="card-title">Top 10 URL Terpopuler</h6>
+                                <canvas id="topUrlsChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <h6 class="card-title">Jumlah Total Kunjungan per Hari</h6>
+                                <canvas id="totalVisitsPerDayChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <h6 class="card-title">Jumlah Kunjungan per Jam</h6>
+                                <canvas id="visitsPerHourChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <h6 class="card-title">Distribusi Platform Pengguna</h6>
+                                <canvas id="platformDistributionChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <h6 class="card-title">Distribusi Browser Pengguna</h6>
+                                <canvas id="browserDistributionChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <h6 class="card-title">Distribusi Bot vs Human</h6>
+                                <canvas id="botVsHumanChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <h6 class="card-title">Jumlah Kunjungan Berdasarkan Referer</h6>
+                                <canvas id="refererDistributionChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="table-responsive">
+                    <table id="combined-table" class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>IP</th>
+                                <th>Visited At</th>
+                                <th>News Visited</th>
+                                <th>Page Visited</th>
+                                <th>News Duration</th>
+                                <th>Page Duration</th>
+                                <th>Bot Status</th>
+                                <th>Browser</th>
+                                <th>Platform</th>
+                                <th>Visited URLs</th>
+                            </tr>
+                        </thead>
+                        <tbody id="combined-body"></tbody>
                     </table>
                 </div>
             </div>
@@ -572,8 +714,6 @@
                     updatePageVisitChart(filteredData);
                 }, 0);
             }
-
-
 
             function refreshTable(type) {
                 const tableId = type === 'news' ? '#table-news-visit' : '#table-page-visit';
@@ -1073,6 +1213,7 @@
             // Inisialisasi tombol ekspor
             setupExportButton('exportNewsVisit', 'table-news-visit', 'news-visit-export');
             setupExportButton('exportPageVisit', 'table-page-visit', 'page-visit-export');
+            setupExportButton('exportPageXNews', 'combined-table', 'page-x-news-export');
 
             // first load charts for table page visit & news visit
             updateNewsStats();
@@ -1088,6 +1229,739 @@
 
             // updatePageVisitStats(pageVisits);
 
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const ipMap = {};
+
+            // Combine news and page visits
+            newsVisits.forEach(item => {
+                const ip = item.ip;
+                if (!ipMap[ip]) ipMap[ip] = {
+                    news: [],
+                    page: []
+                };
+                ipMap[ip].news.push(item);
+            });
+
+            pageVisits.forEach(item => {
+                const ip = item.ip;
+                if (!ipMap[ip]) ipMap[ip] = {
+                    news: [],
+                    page: []
+                };
+                ipMap[ip].page.push(item);
+            });
+
+            // Create combined data for the table
+            const combinedData = Object.entries(ipMap).map(([ip, data], index) => {
+                const visitedUrls = data.page.map(p => p.url);
+                const allVisitedAt = [
+                    ...data.news.map(n => n.visited_at),
+                    ...data.page.map(p => p.visited_at)
+                ].sort((a, b) => new Date(b) - new Date(a));
+
+                const accordionId = `accordion-${index}`;
+                const accordionHTML = `
+            <div class="accordion" id="${accordionId}">
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-${index}">
+                            ${allVisitedAt.length} visits
+                        </button>
+                    </h2>
+                    <div id="collapse-${index}" class="accordion-collapse collapse" data-bs-parent="#${accordionId}">
+                        <div class="accordion-body">
+                            <ul class="mb-0 list-group list-group-flush">
+                                ${allVisitedAt.map(d => `<li class="list-group-item">${new Date(d).toLocaleString()}</li>`).join('')}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+
+                return {
+                    ip,
+                    visitedAtAccordion: accordionHTML,
+                    newsVisited: data.news.length ? `✅ (${data.news.length})` : '-',
+                    pageVisited: data.page.length ? `✅ (${data.page.length})` : '-',
+                    newsDuration: data.news.reduce((sum, d) => sum + (parseInt(d.duration_seconds) || 0),
+                        0) + 's',
+                    pageDuration: data.page.reduce((sum, d) => sum + (parseInt(d.duration) || 0), 0) + 's',
+                    is_bot: (data.news[0]?.is_bot || data.page[0]?.is_bot || 'Unknown'),
+                    browser: (data.news[0]?.browser || data.page[0]?.browser || '-'),
+                    platform: (data.news[0]?.platform || data.page[0]?.platform || '-'),
+                    urls: visitedUrls,
+                    allVisitedAt
+                };
+            });
+
+            // Populate dropdowns
+            const urlSet = new Set(combinedData.flatMap(data => data.urls));
+            const browserSet = new Set(combinedData.map(data => data.browser).filter(b => b !== '-'));
+            const platformSet = new Set(combinedData.map(data => data.platform).filter(p => p !== '-'));
+
+            const urlSelect = document.getElementById('mergeUrlFilter');
+            const browserSelect = document.getElementById('mergeBrowserFilter');
+            const platformSelect = document.getElementById('mergePlatformFilter');
+
+            urlSet.forEach(url => {
+                const option = document.createElement('option');
+                option.value = url;
+                option.textContent = url;
+                urlSelect.appendChild(option);
+            });
+
+            browserSet.forEach(browser => {
+                const option = document.createElement('option');
+                option.value = browser;
+                option.textContent = browser;
+                browserSelect.appendChild(option);
+            });
+
+            platformSet.forEach(platform => {
+                const option = document.createElement('option');
+                option.value = platform;
+                option.textContent = platform;
+                platformSelect.appendChild(option);
+            });
+
+            // Initialize charts
+            const charts = {
+                uniqueVisitorsPerDay: new Chart(document.getElementById('uniqueVisitorsPerDayChart').getContext(
+                    '2d'), {
+                    type: 'bar'
+                }),
+                platformDistribution: new Chart(document.getElementById('platformDistributionChart').getContext(
+                    '2d'), {
+                    type: 'pie'
+                }),
+                browserDistribution: new Chart(document.getElementById('browserDistributionChart').getContext(
+                    '2d'), {
+                    type: 'pie'
+                }),
+                botVsHuman: new Chart(document.getElementById('botVsHumanChart').getContext('2d'), {
+                    type: 'pie'
+                }),
+                topUrls: new Chart(document.getElementById('topUrlsChart').getContext('2d'), {
+                    type: 'bar'
+                }),
+                totalVisitsPerDay: new Chart(document.getElementById('totalVisitsPerDayChart').getContext(
+                    '2d'), {
+                    type: 'line'
+                }),
+                visitsPerHour: new Chart(document.getElementById('visitsPerHourChart').getContext('2d'), {
+                    type: 'bar'
+                }),
+                refererDistribution: new Chart(document.getElementById('refererDistributionChart').getContext(
+                    '2d'), {
+                    type: 'doughnut'
+                }),
+                // deviceTypeDistribution: new Chart(document.getElementById('deviceTypeDistributionChart')
+                //     .getContext('2d'), {
+                //         type: 'pie'
+                //     }),
+                // statusCodeDistribution: new Chart(document.getElementById('statusCodeDistributionChart')
+                //     .getContext('2d'), {
+                //         type: 'bar'
+                //     })
+            };
+
+            // Function to update charts based on filtered data
+            function updateCharts() {
+                const startDate = document.getElementById('mergeStartDate').value;
+                const endDate = document.getElementById('mergeEndDate').value;
+                const botFilter = document.getElementById('mergeBotOrHumanFilter').value;
+                const urlFilter = document.getElementById('mergeUrlFilter').value;
+                const browserFilter = document.getElementById('mergeBrowserFilter').value;
+                const platformFilter = document.getElementById('mergePlatformFilter').value;
+
+                const start = startDate ? new Date(startDate) : null;
+                const end = endDate ? new Date(endDate) : null;
+
+                // Filter visits
+                const filteredNewsVisits = newsVisits.filter(item => {
+                    const visitedDate = new Date(item.visited_at);
+                    const datePass = (!start || visitedDate >= start) && (!end || visitedDate <= end);
+                    const botPass = !botFilter || item.is_bot === botFilter;
+                    const browserPass = !browserFilter || item.browser === browserFilter;
+                    const platformPass = !platformFilter || item.platform === platformFilter;
+                    return datePass && botPass && browserPass && platformPass;
+                });
+
+                const filteredPageVisits = pageVisits.filter(item => {
+                    const visitedDate = new Date(item.visited_at);
+                    const datePass = (!start || visitedDate >= start) && (!end || visitedDate <= end);
+                    const botPass = !botFilter || item.is_bot === botFilter;
+                    const urlPass = !urlFilter || item.url === urlFilter;
+                    const browserPass = !browserFilter || item.browser === browserFilter;
+                    const platformPass = !platformFilter || item.platform === platformFilter;
+                    return datePass && botPass && urlPass && browserPass && platformPass;
+                });
+
+                const allFilteredVisits = [...filteredNewsVisits, ...filteredPageVisits];
+
+                // Helper to get date string in YYYY-MM-DD
+                const getDateString = date => new Date(date).toISOString().split('T')[0];
+
+                // 1. Unique Visitors per Day (Bar Chart)
+                const uniqueVisitorsPerDay = {};
+                allFilteredVisits.forEach(v => {
+                    const date = getDateString(v.visited_at);
+                    uniqueVisitorsPerDay[date] = new Set([...(uniqueVisitorsPerDay[date] || []), v.ip]);
+                });
+                const uniqueVisitorsData = Object.entries(uniqueVisitorsPerDay)
+                    .map(([date, ips]) => ({
+                        date,
+                        count: ips.size
+                    }))
+                    .sort((a, b) => new Date(a.date) - new Date(b.date));
+                charts.uniqueVisitorsPerDay.data = {
+                    labels: uniqueVisitorsData.map(d => d.date),
+                    datasets: [{
+                        label: 'Pengunjung Unik',
+                        data: uniqueVisitorsData.map(d => d.count),
+                        backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1
+                    }]
+                };
+                charts.uniqueVisitorsPerDay.options = {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    }
+                };
+                charts.uniqueVisitorsPerDay.update();
+
+                // 2. Platform Distribution (Pie Chart)
+                const platformCounts = {};
+                allFilteredVisits.forEach(v => {
+                    const platform = v.platform || 'Unknown';
+                    platformCounts[platform] = (platformCounts[platform] || 0) + 1;
+                });
+                charts.platformDistribution.data = {
+                    labels: Object.keys(platformCounts),
+                    datasets: [{
+                        data: Object.values(platformCounts),
+                        backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF']
+                    }]
+                };
+                charts.platformDistribution.options = {
+                    plugins: {
+                        legend: {
+                            position: 'right'
+                        }
+                    }
+                };
+                charts.platformDistribution.update();
+
+                // 3. Browser Distribution (Pie Chart)
+                const browserCounts = {};
+                allFilteredVisits.forEach(v => {
+                    const browser = v.browser || 'Unknown';
+                    browserCounts[browser] = (browserCounts[browser] || 0) + 1;
+                });
+                charts.browserDistribution.data = {
+                    labels: Object.keys(browserCounts),
+                    datasets: [{
+                        data: Object.values(browserCounts),
+                        backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF']
+                    }]
+                };
+                charts.browserDistribution.options = {
+                    plugins: {
+                        legend: {
+                            position: 'right'
+                        }
+                    }
+                };
+                charts.browserDistribution.update();
+
+                // 4. Bot vs Human (Pie Chart)
+                const botVsHumanCounts = {
+                    Human: allFilteredVisits.filter(v => v.is_bot === 'No').length,
+                    Bot: allFilteredVisits.filter(v => v.is_bot === 'Yes').length
+                };
+                charts.botVsHuman.data = {
+                    labels: ['Human', 'Bot'],
+                    datasets: [{
+                        data: [botVsHumanCounts.Human, botVsHumanCounts.Bot],
+                        backgroundColor: ['#36A2EB', '#FF6384']
+                    }]
+                };
+                charts.botVsHuman.options = {
+                    plugins: {
+                        legend: {
+                            position: 'right'
+                        }
+                    }
+                };
+                charts.botVsHuman.update();
+
+                // 5. Top 10 URLs (Horizontal Bar Chart)
+                const urlCounts = {};
+                filteredPageVisits.forEach(p => {
+                    urlCounts[p.url] = (urlCounts[p.url] || 0) + 1;
+                });
+                const topUrls = Object.entries(urlCounts)
+                    .sort((a, b) => b[1] - a[1])
+                    .slice(0, 10);
+                charts.topUrls.data = {
+                    labels: topUrls.map(([url]) => url),
+                    datasets: [{
+                        label: 'Kunjungan',
+                        data: topUrls.map(([, count]) => count),
+                        backgroundColor: 'rgba(255, 99, 132, 0.5)',
+                        borderColor: 'rgba(255, 99, 132, 1)',
+                        borderWidth: 1
+                    }]
+                };
+                charts.topUrls.options = {
+                    indexAxis: 'y',
+                    scales: {
+                        x: {
+                            beginAtZero: true
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    }
+                };
+                charts.topUrls.update();
+
+                // 6. Total Visits per Day (Line Chart)
+                const totalVisitsPerDay = {};
+                allFilteredVisits.forEach(v => {
+                    const date = getDateString(v.visited_at);
+                    totalVisitsPerDay[date] = (totalVisitsPerDay[date] || 0) + 1;
+                });
+                const totalVisitsData = Object.entries(totalVisitsPerDay)
+                    .map(([date, count]) => ({
+                        date,
+                        count
+                    }))
+                    .sort((a, b) => new Date(a.date) - new Date(b.date));
+                charts.totalVisitsPerDay.data = {
+                    labels: totalVisitsData.map(d => d.date),
+                    datasets: [{
+                        label: 'Total Kunjungan',
+                        data: totalVisitsData.map(d => d.count),
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        fill: true
+                    }]
+                };
+                charts.totalVisitsPerDay.options = {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    }
+                };
+                charts.totalVisitsPerDay.update();
+
+                // 7. Visits per Hour (Bar Chart)
+                const visitsPerHour = Array(24).fill(0);
+                allFilteredVisits.forEach(v => {
+                    const hour = new Date(v.visited_at).getHours();
+                    visitsPerHour[hour]++;
+                });
+                charts.visitsPerHour.data = {
+                    labels: Array.from({
+                        length: 24
+                    }, (_, i) => `${i}:00`),
+                    datasets: [{
+                        label: 'Kunjungan',
+                        data: visitsPerHour,
+                        backgroundColor: 'rgba(153, 102, 255, 0.5)',
+                        borderColor: 'rgba(153, 102, 255, 1)',
+                        borderWidth: 1
+                    }]
+                };
+                charts.visitsPerHour.options = {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    }
+                };
+                charts.visitsPerHour.update();
+
+                // 8. Referer Distribution (Doughnut Chart)
+                const refererCounts = {};
+                allFilteredVisits.forEach(v => {
+                    const referer = v.referer || 'Unknown';
+                    refererCounts[referer] = (refererCounts[referer] || 0) + 1;
+                });
+                charts.refererDistribution.data = {
+                    labels: Object.keys(refererCounts),
+                    datasets: [{
+                        data: Object.values(refererCounts),
+                        backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF']
+                    }]
+                };
+                charts.refererDistribution.options = {
+                    plugins: {
+                        legend: {
+                            position: 'right'
+                        }
+                    }
+                };
+                charts.refererDistribution.update();
+
+                // 9. Device Type Distribution (Pie Chart)
+                // const deviceTypeCounts = {};
+                // allFilteredVisits.forEach(v => {
+                //     const deviceType = v.device_type || 'Unknown';
+                //     deviceTypeCounts[deviceType] = (deviceTypeCounts[deviceType] || 0) + 1;
+                // });
+                // charts.deviceTypeDistribution.data = {
+                //     labels: Object.keys(deviceTypeCounts),
+                //     datasets: [{
+                //         data: Object.values(deviceTypeCounts),
+                //         backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0']
+                //     }]
+                // };
+                // charts.deviceTypeDistribution.options = {
+                //     plugins: {
+                //         legend: {
+                //             position: 'right'
+                //         }
+                //     }
+                // };
+                // charts.deviceTypeDistribution.update();
+
+                // 10. Status Code Distribution (Bar Chart)
+                // const statusCodeCounts = {};
+                // allFilteredVisits.forEach(v => {
+                //     const status = v.status_code ? Math.floor(v.status_code / 100) + 'xx' : 'Unknown';
+                //     statusCodeCounts[status] = (statusCodeCounts[status] || 0) + 1;
+                // });
+                // charts.statusCodeDistribution.data = {
+                //     labels: Object.keys(statusCodeCounts),
+                //     datasets: [{
+                //         label: 'Kunjungan',
+                //         data: Object.values(statusCodeCounts),
+                //         backgroundColor: 'rgba(255, 159, 64, 0.5)',
+                //         borderColor: 'rgba(255, 159, 64, 1)',
+                //         borderWidth: 1
+                //     }]
+                // };
+                // charts.statusCodeDistribution.options = {
+                //     scales: {
+                //         y: {
+                //             beginAtZero: true
+                //         }
+                //     },
+                //     plugins: {
+                //         legend: {
+                //             display: false
+                //         }
+                //     }
+                // };
+                // charts.statusCodeDistribution.update();
+            }
+
+            // Function to update statistics
+            function updateStatistics() {
+                const startDate = document.getElementById('mergeStartDate').value;
+                const endDate = document.getElementById('mergeEndDate').value;
+                const botFilter = document.getElementById('mergeBotOrHumanFilter').value;
+                const urlFilter = document.getElementById('mergeUrlFilter').value;
+                const browserFilter = document.getElementById('mergeBrowserFilter').value;
+                const platformFilter = document.getElementById('mergePlatformFilter').value;
+
+                const start = startDate ? new Date(startDate) : null;
+                const end = endDate ? new Date(endDate) : null;
+
+                const filteredNewsVisits = newsVisits.filter(item => {
+                    const visitedDate = new Date(item.visited_at);
+                    const datePass = (!start || visitedDate >= start) && (!end || visitedDate <= end);
+                    const botPass = !botFilter || item.is_bot === botFilter;
+                    const browserPass = !browserFilter || item.browser === browserFilter;
+                    const platformPass = !platformFilter || item.platform === platformFilter;
+                    return datePass && botPass && browserPass && platformPass;
+                });
+
+                const filteredPageVisits = pageVisits.filter(item => {
+                    const visitedDate = new Date(item.visited_at);
+                    const datePass = (!start || visitedDate >= start) && (!end || visitedDate <= end);
+                    const botPass = !botFilter || item.is_bot === botFilter;
+                    const urlPass = !urlFilter || item.url === urlFilter;
+                    const browserPass = !browserFilter || item.browser === browserFilter;
+                    const platformPass = !platformFilter || item.platform === platformFilter;
+                    return datePass && botPass && urlPass && browserPass && platformPass;
+                });
+
+                const totalVisits = filteredNewsVisits.length + filteredPageVisits.length;
+                const uniqueIPs = new Set([...filteredNewsVisits.map(n => n.ip), ...filteredPageVisits.map(p => p
+                    .ip)]).size;
+                const uniqueURLs = new Set(filteredPageVisits.map(p => p.url)).size;
+                const humanVsBot = {
+                    human: [...filteredNewsVisits, ...filteredPageVisits].filter(v => v.is_bot === 'No').length,
+                    bot: [...filteredNewsVisits, ...filteredPageVisits].filter(v => v.is_bot === 'Yes').length
+                };
+                const avgVisitsPerIP = uniqueIPs > 0 ? (totalVisits / uniqueIPs).toFixed(2) : 0;
+                const uniqueDays = new Set([...filteredNewsVisits, ...filteredPageVisits].map(v => new Date(v
+                    .visited_at).toDateString())).size;
+                const avgVisitsPerDay = uniqueDays > 0 ? (totalVisits / uniqueDays).toFixed(2) : 0;
+
+                const ipVisitCounts = {};
+                [...filteredNewsVisits, ...filteredPageVisits].forEach(v => {
+                    ipVisitCounts[v.ip] = (ipVisitCounts[v.ip] || 0) + 1;
+                });
+                const topIPs = Object.entries(ipVisitCounts)
+                    .sort((a, b) => b[1] - a[1])
+                    .slice(0, 5)
+                    .map(([ip, count]) => ({
+                        ip,
+                        count
+                    }));
+
+                const urlVisitCounts = {};
+                filteredPageVisits.forEach(p => {
+                    urlVisitCounts[p.url] = (urlVisitCounts[p.url] || 0) + 1;
+                });
+                const topURLs = Object.entries(urlVisitCounts)
+                    .sort((a, b) => b[1] - a[1])
+                    .slice(0, 5)
+                    .map(([url, count]) => ({
+                        url,
+                        count
+                    }));
+
+                const statsContainer = document.getElementById('global-stats');
+                statsContainer.innerHTML = `
+                <li class="list-group-item d-flex justify-content-between">
+                    <span>Total Kunjungan:</span>
+                    <strong>${totalVisits}</strong>
+                </li>
+                <li class="list-group-item d-flex justify-content-between">
+                    <span>Total IP Unik:</span>
+                    <strong>${uniqueIPs}</strong>
+                </li>
+                <li class="list-group-item d-flex justify-content-between">
+                    <span>Total URL Unik:</span>
+                    <strong>${uniqueURLs}</strong>
+                </li>
+                <li class="list-group-item d-flex justify-content-between">
+                    <span>Human vs Bot:</span>
+                    <div>
+                        <div class="d-flex justify-content-between">
+                            <div><strong>Human: </strong></div>
+                            <div class="ms-3">${humanVsBot.human}</div>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <div><strong>Bot: </strong></div>
+                            <div class="ms-3">${humanVsBot.bot}</div>
+                        </div>
+                    </div>
+                </li>
+                <li class="list-group-item d-flex justify-content-between">
+                    <span>Rata-rata Kunjungan per IP:</span>
+                    <strong>${avgVisitsPerIP}</strong>
+                </li>
+                <li class="list-group-item d-flex justify-content-between">
+                    <span>Rata-rata Kunjungan per Hari:</span>
+                    <strong>${avgVisitsPerDay}</strong>
+                </li>
+                <li class="list-group-item d-flex justify-content-between">
+                    <span>IP dengan Kunjungan Terbanyak:</span>
+                    <div>
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                <th>Ip</th>
+                                <th>Visits</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            ${topIPs.length ? topIPs.map(ip => `<tr><td>${ip.ip}</td><td>${ip.count}</td></tr>`).join('') : '<tr><td></td><td></td><td></td></tr>'}
+                            </tbody>
+                        </table>
+                    </div>
+                </li>
+                <li class="list-group-item d-flex justify-content-between">
+                    <span>URL Terpopuler:</span>
+                    <div>
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                <th>Page</th>
+                                <th>Visits</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            ${topURLs.length ? topURLs.map(url => `<tr><td>${url.url}</td><td>${url.count}</td></tr>`).join('') : '<tr><td></td><td></td><td></td></tr>'}
+                            </tbody>
+                        </table>
+                    </div>
+                </li>
+                `;
+            }
+
+            // Initialize DataTable
+            const table = $('#combined-table').DataTable({
+                data: combinedData,
+                columns: [{
+                        data: 'ip'
+                    },
+                    {
+                        data: 'visitedAtAccordion',
+                        orderable: false,
+                        render: data => data
+                    },
+                    {
+                        data: 'newsVisited'
+                    },
+                    {
+                        data: 'pageVisited'
+                    },
+                    {
+                        data: 'newsDuration'
+                    },
+                    {
+                        data: 'pageDuration'
+                    },
+                    {
+                        data: 'is_bot',
+                        render: data => data === 'Yes' ?
+                            '<span class="badge bg-danger">Bot</span>' :
+                            '<span class="badge bg-success">Human</span>'
+                    },
+                    {
+                        data: 'browser'
+                    },
+                    {
+                        data: 'platform'
+                    },
+                    {
+                        data: null,
+                        render: function(data, type, row, meta) {
+                            const urlAccordionId = `url-accordion-${meta.row}`;
+                            const collapseId = `collapse-urls-${meta.row}`;
+                            if (!data.urls.length) return '-';
+                            const listItems = data.urls.map(url =>
+                                `<li class="list-group-item">${url}</li>`).join('');
+                            return `
+                        <div class="accordion" id="${urlAccordionId}">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#${collapseId}">
+                                        ${data.urls.length} visited URL(s)
+                                    </button>
+                                </h2>
+                                <div id="${collapseId}" class="accordion-collapse collapse" data-bs-parent="#${urlAccordionId}">
+                                    <div class="accordion-body p-0">
+                                        <ul class="list-group list-group-flush">${listItems}</ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                        }
+                    }
+                ]
+            });
+
+            // Date range filter
+            $.fn.dataTable.ext.search.push(function(settings, data, dataIndex) {
+                const startDate = document.getElementById('mergeStartDate').value;
+                const endDate = document.getElementById('mergeEndDate').value;
+                const rowData = combinedData[dataIndex];
+
+                if (!startDate && !endDate) return true;
+
+                const start = startDate ? new Date(startDate) : null;
+                const end = endDate ? new Date(endDate) : null;
+
+                const hasDateInRange = rowData.allVisitedAt.some(date => {
+                    const visitedDate = new Date(date);
+                    if (start && end) {
+                        return visitedDate >= start && visitedDate <= end;
+                    } else if (start) {
+                        return visitedDate >= start;
+                    } else if (end) {
+                        return visitedDate <= end;
+                    }
+                    return true;
+                });
+
+                return hasDateInRange;
+            });
+
+            // Apply filters
+            $('#mergeStartDate, #mergeEndDate').on('change', function() {
+                table.draw();
+            });
+
+            $('#mergeBotOrHumanFilter').on('change', function() {
+                const value = this.value;
+                var botfilter = 'Human'
+                if (value === 'Yes') {
+                    botfilter = 'Bot';
+                }
+                table.column(6).search(botfilter).draw();
+            });
+
+            $('#mergeUrlFilter').on('change', function() {
+                const value = this.value;
+                $.fn.dataTable.ext.search.push(function(settings, data, dataIndex) {
+                    if (!value) return true;
+                    return combinedData[dataIndex].urls.includes(value);
+                });
+                table.draw();
+                $.fn.dataTable.ext.search.pop();
+            });
+
+            $('#mergeBrowserFilter').on('change', function() {
+                const value = this.value;
+                table.column(7).search(value).draw();
+            });
+
+            $('#mergePlatformFilter').on('change', function() {
+                const value = this.value;
+                table.column(8).search(value).draw();
+            });
+
+            // Update charts and statistics on table draw
+            table.on('draw', function() {
+                updateCharts();
+                updateStatistics();
+            });
+
+            // Initialize date pickers
+            $('#mergeStartDate, #mergeEndDate').flatpickr({
+                dateFormat: 'Y-m-d',
+                onChange: function() {
+                    table.draw();
+                }
+            });
+
+            // Initial render
+            updateCharts();
+            updateStatistics();
         });
     </script>
 @endsection
