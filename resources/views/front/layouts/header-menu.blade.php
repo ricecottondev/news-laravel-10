@@ -1,22 +1,36 @@
 <div class="header-menu">
     <div class="menu-top bg-secondary">
         <div class="container-lg px-1 px-lg-3">
-            <div class="overflow-x-auto position-relative">
-
-                <div class="d-flex flex-nowrap text-capitalize column-gap-1 text-nowrap py-1 country-scroll"
-                    id="country-menu">
-                    <!-- Country menu items will be populated via JS -->
-                </div>
-
-            </div>
+            <div class="row g-0 py-1 align-items-center column-gap-2 align-items-md-stretch">
+                <div class="col">
+                    <div class="overflow-x-auto position-relative">
+                        <div class="d-flex flex-nowrap text-capitalize column-gap-1 text-nowrap country-scroll" id="country-menu">
+                            <!-- Country menu items will be populated via JS -->
+                        </div>
+                    </div>
+                </div><!-- end col -->
+                <div class="col col-md-auto">
+                    <div class="row g-0 h-100 column-gap-1 nav-combine">
+                        <div class="col">
+                            <a href="/history" class="btn btn-sm lh-sm w-100 h-100 d-flex align-items-center justify-content-center text-center btn-primary rounded-1 active">
+                                Why We Had to Build This?
+                            </a>
+                        </div><!-- end col -->
+                        <div class="col">
+                            <a href="/about" class="btn btn-sm lh-sm w-100 h-100 d-flex align-items-center justify-content-center text-center btn-primary rounded-1 active">
+                                The Anti-News Manifesto
+                            </a>
+                        </div><!-- end col -->
+                    </div><!-- end row -->
+                </div><!-- end col -->
+            </div><!-- end row -->
         </div>
     </div><!-- end menu top -->
     <div class="menu-bottom bg-black" id="category-section" style="display: none;">
         <div class="container-lg px-1 px-lg-3">
             <div class="overflow-x-auto position-relative">
 
-                <div class="d-flex flex-nowrap text-capitalize column-gap-1 text-nowrap py-1 category-scroll"
-                    id="category-menu">
+                <div class="d-flex flex-nowrap text-capitalize column-gap-1 text-nowrap py-1 category-scroll" id="category-menu">
                     <!-- Category menu items will be populated via JS -->
                 </div>
 
@@ -63,19 +77,18 @@
                         countryLink.href = `/${countryName}/news`;
                         // countryLink.textContent = country.country_name;
                         // countryLink.className = "btn btn-sm border-0 fw-medium shadow-none text-white";
-                        countryLink.className =
-                            "btn btn-sm border-0 shadow-none rounded-circle p-1 bg-transparent";
-                        countryLink.style.width = "40px";
-                        countryLink.style.height = "40px";
+                        countryLink.className = "btn btn-sm border-0 shadow-none p-1";
+                        // countryLink.style.width = "40px";
+                        // countryLink.style.height = "40px";
 
                         countryImg.src = `/assets/template3/asset/country/${countryName}.png`;
                         countryImg.alt = country.country_name;
-                        countryImg.className = "img-fluid rounded-circle object-fit-cover w-100 h-100";
+                        // countryImg.className = "img-fluid object-fit-cover w-100 h-100";
                         countryLink.dataset.countryId = country.id;
 
                         countryImg.src = `/assets/template3/asset/country/${countryName}.png`;
                         countryImg.alt = country.country_name;
-                        countryImg.className = "img-fluid rounded-circle object-fit-cover w-100 h-100";
+                        // countryImg.className = "img-fluid object-fit-cover w-100 h-100";
 
                         if (selectedCountry && countryName === selectedCountry.toLowerCase()) {
                             countryLink.classList.remove("text-white");
@@ -140,14 +153,13 @@
                                 `/${countryName}/newscategory/${encodeURIComponent(category.name)}`;
                             // categoryLink.textContent = category.name;
                             // categoryLink.className = "btn btn-sm border-0 fw-medium shadow-none text-white";
-                            categoryLink.className = "btn btn-sm border-0 shadow-none rounded-circle p-1 bg-transparent";
-                            categoryLink.style.width = "50px";
+                            categoryLink.className = "btn btn-sm border-0 shadow-none p-1";
+                            // categoryLink.style.width = "50px";
                             // categoryLink.style.height = "40px";
 
                             categoryImg.src = `/assets/template3/asset/category/${catName}.png`;
                             categoryImg.alt = category.name;
-                            categoryImg.className =
-                                "img-fluid rounded-circle object-fit-cover w-100";
+                            // categoryImg.className = "img-fluid object-fit-cover w-100";
 
                             if (preselectedCategory && decodeURIComponent(preselectedCategory)
                                 .toLowerCase() === category.name.toLowerCase()) {
@@ -166,14 +178,13 @@
                             miscLink.href = `/${countryName}/newscategory/MISC`;
                             // miscLink.textContent = "MISC";
                             // miscLink.className = "btn btn-sm border-0 shadow-none text-white";
-                            miscLink.className = "btn btn-sm border-0 shadow-none rounded-circle p-1 bg-transparent";
-                            miscLink.style.width = "50px";
+                            miscLink.className = "btn btn-sm border-0 shadow-none p-1";
+                            // miscLink.style.width = "50px";
                             // miscLink.style.height = "80px";
 
                             miscImg.src = `/assets/template3/asset/category/misc.png`;
                             miscImg.alt = 'misc';
-                            miscImg.className =
-                                "img-fluid rounded-circle object-fit-cover w-100";
+                            // miscImg.className = "img-fluid object-fit-cover w-100";
 
 
                             if (preselectedCategory && preselectedCategory.toLowerCase() === 'misc') {

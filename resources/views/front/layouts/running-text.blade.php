@@ -2,7 +2,7 @@
     <div class="container-lg px-0 px-lg-3">
         <div class="row flex-nowrap g-0">
             <div class="col col-auto">
-                <button class="btn btn-primary rounded-3 border-0 shadow-none" data-bs-toggle="modal"
+                <button class="btn btn-primary border-0 shadow-none" data-bs-toggle="modal"
                     data-bs-target="#modalFormTestimoni">
                     Roast Us Back
                 </button>

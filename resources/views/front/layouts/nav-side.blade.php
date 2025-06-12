@@ -1,12 +1,12 @@
-<ul class="nav flex-column row-gap-1">
+<ul class="nav nav-side flex-column row-gap-1">
    <li class="nav-item">
       <a href="/about" class="nav-link text-reset p-0 link-hover link-hover-underline">
-         <b class="fw-medium">About us</b>
+         <b class="fw-medium">The Anti-News Manifesto</b>
       </a>
    </li>
    <li class="nav-item">
       <a href="/history" class="nav-link text-reset p-0 link-hover link-hover-underline">
-         <b class="fw-medium">History</b>
+         <b class="fw-medium">Why We Had to Build This?</b>
       </a>
    </li>
    <li class="nav-item">
