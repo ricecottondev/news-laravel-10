@@ -9,8 +9,8 @@
                         </div>
                     </div>
                 </div><!-- end col -->
-                <div class="col col-lg-5">
-                    <div class="row g-0 h-100 column-gap-1">
+                <div class="col col-md-auto">
+                    <div class="row g-0 h-100 column-gap-1 nav-combine">
                         <div class="col">
                             <a href="" class="btn btn-sm lh-sm w-100 h-100 d-flex align-items-center justify-content-center text-center btn-primary rounded-1 active">
                                 The Anti-News Manifesto
