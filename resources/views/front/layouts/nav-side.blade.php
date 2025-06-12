@@ -6,7 +6,7 @@
    </li>
    <li class="nav-item">
       <a href="/history" class="nav-link text-reset p-0 link-hover link-hover-underline">
-         <b class="fw-medium">Why We Had to Build This</b>
+         <b class="fw-medium">Why We Had to Build This?</b>
       </a>
    </li>
    <li class="nav-item">
