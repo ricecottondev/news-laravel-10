@@ -141,14 +141,14 @@
                                     <strong>Bounce (≤3s):</strong> <span id="bounceVisits">0</span>
                                 </li>
                                 <li class="list-group-item d-flex justify-content-between">
-                                    <strong>Sticky Time (avg):</strong> <span id="stickyTime">0 detik</span>
+                                    <strong>Sticky Time (avg):</strong> <span id="stickyTime">0 s</span>
                                 </li>
 
                                 <li class="list-group-item d-flex justify-content-between">
-                                    <strong>Max Visit Time:</strong> <span id="maxVisitTime">0 detik</span>
+                                    <strong>Max Visit Time:</strong> <span id="maxVisitTime">0 s</span>
                                 </li>
                                 <li class="list-group-item d-flex justify-content-between">
-                                    <strong>Min Visit Time:</strong> <span id="minVisitTime">0 detik</span>
+                                    <strong>Min Visit Time:</strong> <span id="minVisitTime">0 s</span>
                                 </li>
                                 <li class="list-group-item d-flex justify-content-between">
                                     <strong>From Facebook:</strong> <span id="fbVisitors">0</span>
@@ -242,11 +242,11 @@
                                 </li>
                                 <li class="list-group-item d-flex justify-content-between">
                                     <span>Total Durasi Kunjungan:</span>
-                                    <strong id="page-total-duration">detik</strong>
+                                    <strong id="page-total-duration">s</strong>
                                 </li>
                                 <li class="list-group-item d-flex justify-content-between">
                                     <span>Durasi Rata-rata:</span>
-                                    <strong id="page-avg-duration">detik</strong>
+                                    <strong id="page-avg-duration">s</strong>
                                 </li>
                                 <li class="list-group-item d-flex justify-content-between">
                                     <span>IP Terbanyak:</span>
@@ -266,15 +266,15 @@
                                 </li>
                                 <li class="list-group-item d-flex justify-content-between">
                                     <span>Sticky Time (avg):</span>
-                                    <strong id="page-sticky-time"> detik</strong>
+                                    <strong id="page-sticky-time"> s</strong>
                                 </li>
                                 <li class="list-group-item d-flex justify-content-between">
                                     <span>Max Visit Time:</span>
-                                    <strong id="page-max-time">detik</strong>
+                                    <strong id="page-max-time">s</strong>
                                 </li>
                                 <li class="list-group-item d-flex justify-content-between">
                                     <span>Min Visit Time:</span>
-                                    <strong id="page-min-time">detik</strong>
+                                    <strong id="page-min-time">s</strong>
                                 </li>
                                 <li class="list-group-item d-flex justify-content-between">
                                     <span>Dari Facebook:</span>
@@ -597,6 +597,7 @@
                 let maxTime = 0;
                 let bounceCount = 0;
                 let facebookVisits = 0;
+                let returnCount = 0;
 
                 humanData.forEach(row => {
                     const d = row.duration ?? 1;
@@ -613,6 +614,10 @@
                     ipCounts[row.ip] = (ipCounts[row.ip] || 0) + 1;
                 });
 
+                Object.values(ipCounts).forEach(count => {
+                    if (count > 1) returnCount++;
+                });
+
                 const totalVisits = humanData.length;
                 const avgDuration = totalVisits ? totalDuration / totalVisits : 0;
                 const mostCommonIp = Object.entries(ipCounts).sort((a, b) => b[1] - a[1])[0]?.[0] || '-';
@@ -621,17 +626,20 @@
                 document.getElementById('page-unique-visitors').textContent = uniqueIps.length;
                 document.getElementById('page-total-visits').textContent = totalVisits;
                 document.getElementById('page-platform-dominant').textContent = dominantPlatform;
-                document.getElementById('page-total-duration').textContent = totalDuration;
-                document.getElementById('page-avg-duration').textContent = avgDuration.toFixed(2);
+                document.getElementById('page-total-duration').textContent = totalDuration + ' s';
+                document.getElementById('page-avg-duration').textContent = avgDuration.toFixed(2) + ' s';
                 document.getElementById('page-most-ip').textContent = mostCommonIp;
-                document.getElementById('page-return-visitor').textContent = ((totalVisits - uniqueIps.length) /
-                    uniqueIps.length * 100).toFixed(2);
-                document.getElementById('page-bounce-count').textContent = bounceCount;
+                document.getElementById('page-return-visitor').textContent = totalVisits > 0 ? Math.round((
+                    returnCount / uniqueIps.length) * 100) + '%' : '0%';
+                // document.getElementById('page-return-visitor').textContent = ((totalVisits - uniqueIps.length) /
+                //     uniqueIps.length * 100).toFixed(2) + '%';
+                document.getElementById('page-bounce-count').textContent =
+                    `${bounceCount} (${Math.round((bounceCount /totalVisits) * 100)}%)`;
                 document.getElementById('page-bounce-rate').textContent = (bounceCount / totalVisits * 100).toFixed(
-                    2);
-                document.getElementById('page-sticky-time').textContent = avgDuration.toFixed(2);
-                document.getElementById('page-max-time').textContent = maxTime;
-                document.getElementById('page-min-time').textContent = minTime;
+                    2) + '%';
+                document.getElementById('page-sticky-time').textContent = avgDuration.toFixed(2) + ' s';
+                document.getElementById('page-max-time').textContent = maxTime + ' s';
+                document.getElementById('page-min-time').textContent = minTime + ' s';
                 document.getElementById('page-facebook-count').textContent = facebookVisits;
 
                 // Chart Pie Platform
@@ -744,7 +752,7 @@
                 const maxTime = Math.max(...durations);
                 const minTime = Math.min(...durations);
 
-                // Bounce: durasi <= 3 detik
+                // Bounce: durasi <= 3 s
                 const bounceVisits = data.filter(item => (item.duration_seconds ?? 1) <= 3).length;
 
                 // Sticky time: rata-rata durasi non-bounce
@@ -765,19 +773,19 @@
                 document.getElementById('totalNewsVisits').textContent = total;
                 document.getElementById('bounceVisits').textContent =
                     `${bounceVisits} (${Math.round((bounceVisits / totalVisits) * 100)}%)`;
-                document.getElementById('stickyTime').textContent = `${stickyTime.toFixed(2)} detik`;
+                document.getElementById('stickyTime').textContent = `${stickyTime.toFixed(2)} s`;
                 document.getElementById('dominantNewsPlatform').textContent = topPlatform;
-                document.getElementById('totalDurationNews').textContent = totalDuration + 's';
+                document.getElementById('totalDurationNews').textContent = totalDuration + ' s';
                 document.getElementById('averageDurationNews').textContent = Math.round(totalDuration / (total ||
-                    1)) + 's';
+                    1)) + ' s';
                 document.getElementById('topNewsIP').textContent = topIP;
                 document.getElementById('returnRateNews').textContent = total > 0 ? Math.round((returnCount /
                     uniqueIPs.length) * 100) + '%' : '0%';
                 document.getElementById('bounceNews').textContent = total > 0 ? Math.round((bounceCount / total) *
                     100) + '%' : '0%';
 
-                document.getElementById('maxVisitTime').textContent = `${maxTime} detik`;
-                document.getElementById('minVisitTime').textContent = `${minTime} detik`;
+                document.getElementById('maxVisitTime').textContent = `${maxTime} s`;
+                document.getElementById('minVisitTime').textContent = `${minTime} s`;
                 document.getElementById('fbVisitors').textContent = `${facebookVisitors}`;
             }
 
