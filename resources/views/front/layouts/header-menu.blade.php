@@ -12,13 +12,13 @@
                 <div class="col col-md-auto">
                     <div class="row g-0 h-100 column-gap-1 nav-combine">
                         <div class="col">
-                            <a href="" class="btn btn-sm lh-sm w-100 h-100 d-flex align-items-center justify-content-center text-center btn-primary rounded-1 active">
-                                The Anti-News Manifesto
+                            <a href="/history" class="btn btn-sm lh-sm w-100 h-100 d-flex align-items-center justify-content-center text-center btn-primary rounded-1 active">
+                                Why We Had to Build This?
                             </a>
                         </div><!-- end col -->
                         <div class="col">
-                            <a href="" class="btn btn-sm lh-sm w-100 h-100 d-flex align-items-center justify-content-center text-center btn-primary rounded-1 active">
-                                Why We Had to Build This
+                            <a href="/about" class="btn btn-sm lh-sm w-100 h-100 d-flex align-items-center justify-content-center text-center btn-primary rounded-1 active">
+                                The Anti-News Manifesto
                             </a>
                         </div><!-- end col -->
                     </div><!-- end row -->
