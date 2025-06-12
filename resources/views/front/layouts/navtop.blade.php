@@ -11,21 +11,22 @@
                             <b class="fw-bold">FactaBot</b>
                         </h5>
                         <p class="text-uppercase mb-0 lh-1 text-warning">
-                            <small style="font-size: .65em;">Real news. Sharp jokes. Zero puppeteers</small>
+                            <small style="font-size: calc(.5em + .125vw);">Real news. Sharp jokes. Zero puppeteers</small>
                         </p>
                     </div>
                 </a>
             </h1>
         </div>
         <div class="flex-grow-1">
-            <div class="float-end d-flex flex-wrap gap-3 align-items-center">
+            <div class="float-end d-flex flex-nowrap gap-1 column-gap-lg-3 align-items-center">
+                <div>
+                    <small><span class="d-none d-lg-inline">2025,</span> June, 12</small>
+                </div>
                 <div class="d-none d-md-block">
 
                     <form action="/search" method="GET" class="d-flex">
                         <div class="input-group">
-                            <input type="search" name="q"
-                                class="form-control border-light border-end-0 shadow-none" placeholder="Snoop Around"
-                                required>
+                            <input type="search" name="q" class="form-control border-light border-end-0 shadow-none" placeholder="Snoop Around" required style="max-width: 20vw;">
                             <button class="btn btn-outline-light border-start-0 shadow-none">
                                 <i class="fas fa-search"></i>
                             </button>
@@ -40,12 +41,14 @@
                             <i class="fas fa-search"></i>
                         </button>
                     </div>
+
                 </div>
-                <a href="/login" class="btn btn-outline-light d-none d-md-block">
-                    Join the Roast
-                </a>
-                <button class="btn rounded-0 border-0 shadow-none p-3 p-lg-0" data-bs-toggle="offcanvas"
-                    data-bs-target="#sidebar">
+                <div class="d-none d-md-block">
+                    <a href="/login" class="btn btn-outline-light">
+                        Join the Roast
+                    </a>
+                </div>
+                <button class="btn rounded-0 border-0 shadow-none p-3 p-lg-0" data-bs-toggle="offcanvas" data-bs-target="#sidebar">
                     <i class="fas fa-bars fa-xl"></i>
                 </button>
             </div>
