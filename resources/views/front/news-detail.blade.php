@@ -25,7 +25,7 @@
                 <div class="col col-12 col-md-8">
                     <div class="row g-0 row-cols-1">
                         {{-- detail news start --}}
-                        <div class="col px-3">
+                        <div class="col px-3 mb-5">
                             <header>
 
                                 @if (strtoupper($news->color) == 'P')
@@ -135,41 +135,113 @@
                             </main>
                         </div>
 
-
-                        <div class="col px-3">
-                            <hr class="my-5">
-                            <h6 class="fw-bold mb-3">🧨 YOU MADE IT TO THE END. NOW WHAT?</h6>
-                            <div class="d-flex flex-wrap gap-2">G
-
-                                <!-- WhatsApp -->
-                                <a href="https://api.whatsapp.com/send?text={{ urlencode($news->title . ' - ' . route('front.news.show', $news->slug)) }}" class="btn btn-outline-success d-flex align-items-center gap-2 btn-sm" target="_blank" onclick="logShare({{ $news->id }}, 'whatsapp')">
-                                    <i class="fab fa-whatsapp fa-lg"></i> WhatsApp
-                                </a>
-
-                                <!-- Facebook -->
-                                <a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(route('front.news.show', $news->slug)) }}" class="btn btn-outline-primary d-flex align-items-center gap-2 btn-sm" target="_blank" onclick="logShare({{ $news->id }}, 'facebook')">
-                                    <i class="fab fa-facebook-f fa-lg"></i> Facebook
-                                </a>
-
-                                <!-- Twitter -->
-                                <a href="https://twitter.com/intent/tweet?url={{ urlencode(route('front.news.show', $news->slug)) }}&text={{ urlencode($news->title) }}" class="btn btn-outline-info d-flex align-items-center gap-2 btn-sm text-info" target="_blank" onclick="logShare({{ $news->id }}, 'twitter')">
-                                    <i class="fab fa-x-twitter fa-lg"></i> Twitter
-                                </a>
-
-                                <!-- Telegram -->
-                                <a href="https://t.me/share/url?url={{ urlencode(route('front.news.show', $news->slug)) }}&text={{ urlencode($news->title) }}" class="btn btn-outline-secondary d-flex align-items-center gap-2 btn-sm" target="_blank" onclick="logShare({{ $news->id }}, 'telegram')">
-                                    <i class="fab ta-telegram fa-lg"></i> Telegram
-                                </a>
-
-                                <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ urlencode(route('front.news.show', $news->slug)) }}" class="btn btn-outline-primary d-flex align-items-center gap-2 btn-sm" target="_blank" onclick="logShare({{ $news->id }}, 'linkedin')">
-                                    <i class="fab fa-linkedin-in fa-lg"></i> LinkedIn
-                                </a>
-
-                                <!-- Copy Link -->
-                                <button onclick="copyLink()" class="btn btn-outline-dark d-flex align-items-center gap-2 btn-sm">
-                                    <i class="bi bi-clipboard fs-5"></i> Copy Link
-                                </button>
-
+                        <div class="col px-3 pt-5 d-flex flex-column row-gap-4">
+                            <div>
+                                <h6 class="fw-bold mb-3">🧨 YOU MADE IT TO THE END. NOW WHAT?</h6>
+                                <div class="d-flex flex-wrap gap-2">G
+    
+                                    <!-- WhatsApp -->
+                                    <a href="https://api.whatsapp.com/send?text={{ urlencode($news->title . ' - ' . route('front.news.show', $news->slug)) }}" class="btn btn-outline-success d-flex align-items-center gap-2 btn-sm" target="_blank" onclick="logShare({{ $news->id }}, 'whatsapp')">
+                                        <i class="fab fa-whatsapp fa-lg"></i> WhatsApp
+                                    </a>
+    
+                                    <!-- Facebook -->
+                                    <a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(route('front.news.show', $news->slug)) }}" class="btn btn-outline-primary d-flex align-items-center gap-2 btn-sm" target="_blank" onclick="logShare({{ $news->id }}, 'facebook')">
+                                        <i class="fab fa-facebook-f fa-lg"></i> Facebook
+                                    </a>
+    
+                                    <!-- Twitter -->
+                                    <a href="https://twitter.com/intent/tweet?url={{ urlencode(route('front.news.show', $news->slug)) }}&text={{ urlencode($news->title) }}" class="btn btn-outline-info d-flex align-items-center gap-2 btn-sm text-info" target="_blank" onclick="logShare({{ $news->id }}, 'twitter')">
+                                        <i class="fab fa-x-twitter fa-lg"></i> Twitter
+                                    </a>
+    
+                                    <!-- Telegram -->
+                                    <a href="https://t.me/share/url?url={{ urlencode(route('front.news.show', $news->slug)) }}&text={{ urlencode($news->title) }}" class="btn btn-outline-secondary d-flex align-items-center gap-2 btn-sm" target="_blank" onclick="logShare({{ $news->id }}, 'telegram')">
+                                        <i class="fab ta-telegram fa-lg"></i> Telegram
+                                    </a>
+    
+                                    <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ urlencode(route('front.news.show', $news->slug)) }}" class="btn btn-outline-primary d-flex align-items-center gap-2 btn-sm" target="_blank" onclick="logShare({{ $news->id }}, 'linkedin')">
+                                        <i class="fab fa-linkedin-in fa-lg"></i> LinkedIn
+                                    </a>
+    
+                                    <!-- Copy Link -->
+                                    <button onclick="copyLink()" class="btn btn-outline-dark d-flex align-items-center gap-2 btn-sm">
+                                        <i class="bi bi-clipboard fs-5"></i> Copy Link
+                                    </button>
+    
+                                </div>
+                            </div>
+                            <div>
+                                <p>
+                                    Like that roast? Don't keep it to yourself. <button class="btn btn-outline-light btn-sm">Share <i class="fas fa-share"></i></button>
+                                </p>
+                            </div>
+                            <div>
+                                <h5 class="fs-reset">
+                                    Oi, be honest—what'd you reckon?
+                                </h5>
+                                <ul class="list-unstyled d-flex flex-column row-gap-2">
+                                    <li>
+                                        ☕️ <b class="fw-medium">Spiciness</b>&nbsp;:&nbsp;&nbsp;&nbsp;
+                                        <div class="form-check form-check-inline p-0 m-0">
+                                            <input type="radio" class="btn-check" name="options" id="option1" autocomplete="off">
+                                            <label class="btn btn-sm btn-outline-success" for="option1">Mild</label>
+                                        </div>
+                                        <div class="form-check form-check-inline p-0 m-0">
+                                            <input type="radio" class="btn-check" name="options" id="option2" autocomplete="off">
+                                            <label class="btn btn-sm btn-outline-warning" for="option2">Medium</label>
+                                        </div>
+                                        <div class="form-check form-check-inline p-0 m-0">
+                                            <input type="radio" class="btn-check" name="options" id="option3" autocomplete="off">
+                                            <label class="btn btn-sm btn-outline-danger" for="option3">Nuclear</label>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        ⌛ <b class="fw-medium">Length</b>&nbsp;:&nbsp;&nbsp;&nbsp;
+                                        <div class="form-check form-check-inline p-0 m-0">
+                                            <input type="radio" class="btn-check" name="options" id="option4" autocomplete="off">
+                                            <label class="btn btn-sm btn-outline-success" for="option4">Blink</label>
+                                        </div>
+                                        <div class="form-check form-check-inline p-0 m-0">
+                                            <input type="radio" class="btn-check" name="options" id="option5" autocomplete="off">
+                                            <label class="btn btn-sm btn-outline-warning" for="option5">Scroll</label>
+                                        </div>
+                                        <div class="form-check form-check-inline p-0 m-0">
+                                            <input type="radio" class="btn-check" name="options" id="option6" autocomplete="off">
+                                            <label class="btn btn-sm btn-outline-danger" for="option6">Scroll of Destiny</label>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        💀 <b class="fw-medium">Funny factor</b>&nbsp;:&nbsp;&nbsp;&nbsp;
+                                        <div class="form-check form-check-inline p-0 m-0">
+                                            <input type="radio" class="btn-check" name="options" id="option7" autocomplete="off">
+                                            <label class="btn btn-sm btn-outline-success" for="option7">Chuckle</label>
+                                        </div>
+                                        <div class="form-check form-check-inline p-0 m-0">
+                                            <input type="radio" class="btn-check" name="options" id="option8" autocomplete="off">
+                                            <label class="btn btn-sm btn-outline-warning" for="option8">Snort</label>
+                                        </div>
+                                        <div class="form-check form-check-inline p-0 m-0">
+                                            <input type="radio" class="btn-check" name="options" id="option9" autocomplete="off">
+                                            <label class="btn btn-sm btn-outline-danger" for="option9">Spat out my drink</label>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        🧠 <b class="fw-medium">Topic</b>&nbsp;:&nbsp;&nbsp;&nbsp;
+                                        <div class="form-check form-check-inline p-0 m-0">
+                                            <input type="radio" class="btn-check" name="options" id="option10" autocomplete="off">
+                                            <label class="btn btn-sm btn-outline-success" for="option10">Please never again</label>
+                                        </div>
+                                        <div class="form-check form-check-inline p-0 m-0">
+                                            <input type="radio" class="btn-check" name="options" id="option11" autocomplete="off">
+                                            <label class="btn btn-sm btn-outline-warning" for="option11">Meh</label>
+                                        </div>
+                                        <div class="form-check form-check-inline p-0 m-0">
+                                            <input type="radio" class="btn-check" name="options" id="option12" autocomplete="off">
+                                            <label class="btn btn-sm btn-outline-danger" for="option12">Banger</label>
+                                        </div>
+                                    </li>
+                                </ul>
                             </div>
                         </div>
 
