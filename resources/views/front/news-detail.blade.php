@@ -60,13 +60,11 @@
                                 @if ($news->image)
                                     <section>
                                         <div class="news-img position-relative">
-                                            <div class="news-action d-none">
-                                                <ul
-                                                    class="list-unstyled d-flex flex-nowrap justify-content-end flex-md-column mb-md-0">
+                                            <div class="news-action">
+                                                <ul class="list-unstyled d-flex flex-nowrap justify-content-end flex-md-column mb-md-0">
                                                     <li>
-                                                        <a href="#"
-                                                            class="text-reset text-decoration-none link-hover">
-                                                            <i class="fas fa-bookmark"></i>
+                                                        <a href="https://api.whatsapp.com/send?text=Australia%E2%80%99s+Identity+Crisis%3A+We%E2%80%99re+in+Asia%2C+Not+Texas%E2%80%94Deal+With+It+%F0%9F%87%A6%F0%9F%87%BA%E2%9E%A1%EF%B8%8F%F0%9F%8C%8F+-+http%3A%2F%2F192.168.6.229%3A8000%2Fnews%2Faustralias-identity-crisis-were-in-asia-not-texas-deal-with-it" class="text-reset text-decoration-none p-lg-4 link-hover">
+                                                            <i class="fab fa-whatsapp fa-lg"></i>
                                                         </a>
                                                     </li>
                                                     <li>
@@ -74,9 +72,8 @@
                                                         <hr class="m-0 d-none d-md-block">
                                                     </li>
                                                     <li>
-                                                        <a href="#"
-                                                            class="text-reset text-decoration-none link-hover">
-                                                            <i class="fas fa-reply"></i>
+                                                        <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2F192.168.6.229%3A8000%2Fnews%2Faustralias-identity-crisis-were-in-asia-not-texas-deal-with-it" class="text-reset text-decoration-none p-lg-4 link-hover">
+                                                            <i class="fab fa-facebook-f fa-lg"></i>
                                                         </a>
                                                     </li>
                                                     <li>
@@ -84,9 +81,8 @@
                                                         <hr class="m-0 d-none d-md-block">
                                                     </li>
                                                     <li>
-                                                        <a href="#"
-                                                            class="text-reset text-decoration-none link-hover">
-                                                            <i class="fas fa-share"></i>
+                                                        <a href="https://twitter.com/intent/tweet?url=http%3A%2F%2F192.168.6.229%3A8000%2Fnews%2Faustralias-identity-crisis-were-in-asia-not-texas-deal-with-it&text=Australia%E2%80%99s+Identity+Crisis%3A+We%E2%80%99re+in+Asia%2C+Not+Texas%E2%80%94Deal+With+It+%F0%9F%87%A6%F0%9F%87%BA%E2%9E%A1%EF%B8%8F%F0%9F%8C%8F" class="text-reset text-decoration-none p-lg-4 link-hover">
+                                                            <i class="fab fa-x-twitter fa-lg"></i>
                                                         </a>
                                                     </li>
                                                     <li>
@@ -94,22 +90,28 @@
                                                         <hr class="m-0 d-none d-md-block">
                                                     </li>
                                                     <li>
-                                                        <a href="#"
-                                                            class="text-reset text-decoration-none link-hover">
-                                                            <i class="fas fa-rss"></i>
+                                                        <a href="https://t.me/share/url?url=http%3A%2F%2F192.168.6.229%3A8000%2Fnews%2Faustralias-identity-crisis-were-in-asia-not-texas-deal-with-it&text=Australia%E2%80%99s+Identity+Crisis%3A+We%E2%80%99re+in+Asia%2C+Not+Texas%E2%80%94Deal+With+It+%F0%9F%87%A6%F0%9F%87%BA%E2%9E%A1%EF%B8%8F%F0%9F%8C%8F" class="text-reset text-decoration-none p-lg-4 link-hover">
+                                                            <i class="fab fa-telegram fa-lg"></i>
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <div class="vr h-100 mx-2 d-md-none"></div>
+                                                        <hr class="m-0 d-none d-md-block">
+                                                    </li>
+                                                    <li>
+                                                        <a href="https://www.linkedin.com/sharing/share-offsite/?url=http%3A%2F%2F192.168.6.229%3A8000%2Fnews%2Faustralias-identity-crisis-were-in-asia-not-texas-deal-with-it" class="text-reset text-decoration-none p-lg-4 link-hover">
+                                                            <i class="fab fa-linkedin-in fa-lg"></i>
                                                         </a>
                                                     </li>
                                                 </ul>
                                             </div>
                                             <div class="ratio ratio-1x1">
-                                                <img src="{{ asset('storage/' . $news->image) }}" class="object-fit-cover"
-                                                    alt="{{ $news->title }}">
+                                                <img src="{{ asset('storage/' . $news->image) }}" class="object-fit-cover" alt="{{ $news->title }}">
                                             </div>
                                             <p>
                                                 <small><small>
-                                                        Photographer by <b
-                                                            class="fw-bold text-reset link-hover-underline">Factabot</b>
-                                                    </small></small>
+                                                    Photographer by <b class="fw-bold text-reset link-hover-underline">Factabot</b>
+                                                </small></small>
                                             </p>
                                         </div>
                                     </section>
@@ -136,58 +138,40 @@
 
                         <div class="col px-3">
                             <hr class="my-5">
-                            <h6 class="fw-bold mb-2">🧨 YOU MADE IT TO THE END. NOW WHAT?</h6>
-                            <div class="d-flex flex-wrap gap-2">
+                            <h6 class="fw-bold mb-3">🧨 YOU MADE IT TO THE END. NOW WHAT?</h6>
+                            <div class="d-flex flex-wrap gap-2">G
 
                                 <!-- WhatsApp -->
-                                <a href="https://api.whatsapp.com/send?text={{ urlencode($news->title . ' - ' . route('front.news.show', $news->slug)) }}"
-                                    class="btn btn-outline-success d-flex align-items-center gap-2 btn-sm" target="_blank"
-                                    onclick="logShare({{ $news->id }}, 'whatsapp')">
-                                    <i class="bi bi-whatsapp fs-5"></i> WhatsApp
+                                <a href="https://api.whatsapp.com/send?text={{ urlencode($news->title . ' - ' . route('front.news.show', $news->slug)) }}" class="btn btn-outline-success d-flex align-items-center gap-2 btn-sm" target="_blank" onclick="logShare({{ $news->id }}, 'whatsapp')">
+                                    <i class="fab fa-whatsapp fa-lg"></i> WhatsApp
                                 </a>
 
                                 <!-- Facebook -->
-                                <a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(route('front.news.show', $news->slug)) }}"
-                                    class="btn btn-outline-primary d-flex align-items-center gap-2 btn-sm" target="_blank"
-                                    onclick="logShare({{ $news->id }}, 'facebook')">
-                                    <i class="bi bi-facebook fs-5"></i> Facebook
+                                <a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(route('front.news.show', $news->slug)) }}" class="btn btn-outline-primary d-flex align-items-center gap-2 btn-sm" target="_blank" onclick="logShare({{ $news->id }}, 'facebook')">
+                                    <i class="fab fa-facebook-f fa-lg"></i> Facebook
                                 </a>
 
                                 <!-- Twitter -->
-                                <a href="https://twitter.com/intent/tweet?url={{ urlencode(route('front.news.show', $news->slug)) }}&text={{ urlencode($news->title) }}"
-                                    class="btn btn-outline-info d-flex align-items-center gap-2 btn-sm text-info"
-                                    target="_blank"
-                                    onclick="logShare({{ $news->id }}, 'twitter')>
-                                <i class="bi
-                                    bi-twitter-x fs-5"></i> Twitter
+                                <a href="https://twitter.com/intent/tweet?url={{ urlencode(route('front.news.show', $news->slug)) }}&text={{ urlencode($news->title) }}" class="btn btn-outline-info d-flex align-items-center gap-2 btn-sm text-info" target="_blank" onclick="logShare({{ $news->id }}, 'twitter')">
+                                    <i class="fab fa-x-twitter fa-lg"></i> Twitter
                                 </a>
 
                                 <!-- Telegram -->
-                                <a href="https://t.me/share/url?url={{ urlencode(route('front.news.show', $news->slug)) }}&text={{ urlencode($news->title) }}"
-                                    class="btn btn-outline-secondary d-flex align-items-center gap-2 btn-sm" target="_blank"
-                                    onclick="logShare({{ $news->id }}, 'telegram')>
-                                <i class="bi
-                                    bi-telegram fs-5"></i> Telegram
+                                <a href="https://t.me/share/url?url={{ urlencode(route('front.news.show', $news->slug)) }}&text={{ urlencode($news->title) }}" class="btn btn-outline-secondary d-flex align-items-center gap-2 btn-sm" target="_blank" onclick="logShare({{ $news->id }}, 'telegram')">
+                                    <i class="fab ta-telegram fa-lg"></i> Telegram
                                 </a>
 
-                                <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ urlencode(route('front.news.show', $news->slug)) }}"
-                                    class="btn btn-outline-primary d-flex align-items-center gap-2 btn-sm" target="_blank"
-                                    onclick="logShare({{ $news->id }}, 'linkedin')>
-                                <i class="bi
-                                    bi-linkedin fs-5"></i> LinkedIn
+                                <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ urlencode(route('front.news.show', $news->slug)) }}" class="btn btn-outline-primary d-flex align-items-center gap-2 btn-sm" target="_blank" onclick="logShare({{ $news->id }}, 'linkedin')">
+                                    <i class="fab fa-linkedin-in fa-lg"></i> LinkedIn
                                 </a>
 
                                 <!-- Copy Link -->
-                                <button onclick="copyLink()"
-                                    class="btn btn-outline-dark d-flex align-items-center gap-2 btn-sm">
+                                <button onclick="copyLink()" class="btn btn-outline-dark d-flex align-items-center gap-2 btn-sm">
                                     <i class="bi bi-clipboard fs-5"></i> Copy Link
                                 </button>
+
                             </div>
                         </div>
-
-
-
-
 
                         {{-- detail news end --}}
                         <div class="col px-3 d-none d-md-block">
@@ -264,6 +248,20 @@
                 {{-- comment start --}}
                 <div class="col px-3 col-12 col-md">
                     <aside class="sidenav">
+                        <div class="subscribe">
+                            <p>
+                                “🚨 Daily Roast Drops – Subscribe Now”
+                            </p>
+                            <div class="form">
+                                <div class="input-group">
+                                    <input type="email" class="form-control rounded-0 border-light border-end-0 pe-0" placeholder="Your Email">
+                                    <button class="btn rounded-0 border-light border-start-0">
+                                        <i class="fas fa-envelope"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div><hr class="my-4"></div>
                         <div class="news-comment">
                             <header class="mb-3">
                                 <h5 class="fs-reset text-danger">
@@ -276,20 +274,18 @@
                                     <input type="hidden" name="parent_id" id="parent_id" value="">
 
                                     @guest
-                                        <input type="text" name="guest_name" class="form-control rounded-0 mb-2"
-                                            placeholder="Your Name" value="" required>
+                                        <input type="text" name="guest_name" class="form-control border-light rounded-0 mb-2" placeholder="Your Name" value="" required>
                                     @endguest
 
                                     <div class="form-group mb-2">
-                                        <textarea name="comment" rows="6" class="form-control rounded-0"
-                                            placeholder="Type your opinion about this news here.." required></textarea>
+                                        <textarea name="comment" rows="6" class="form-control border-light rounded-0" placeholder="Type your opinion about this news here.." required></textarea>
                                     </div>
                                     <div class="form-group">
                                         <button class="btn btn-outline-light rounded-0 w-100">SUBMIT</button>
                                     </div>
                                 </form>
 
-                                <hr class="opacity-100 border-3 my-4">
+                                <hr class="my-4">
                                 <ul class="list-group list-group-flush small">
                                     @foreach ($news->comments->where('parent_id', null) as $comment)
                                         <li class="list-group-item px-0">
