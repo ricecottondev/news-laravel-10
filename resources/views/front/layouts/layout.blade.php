@@ -28,11 +28,7 @@
         <script src="layout/running-text.js"></script> --}}
     </header>
     <main class="mb-5">
-
-
-
         @yield('content')
-
     </main>
 
     <div id="modalFormTestimoni" class="modal fade" tabindex="-1">
