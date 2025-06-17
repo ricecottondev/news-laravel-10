@@ -137,47 +137,47 @@
 
 					<div class="col px-3">
 						<hr class="my-5">
-						<div class="d-flex flex-column row-gap-4">
+						<div class="d-flex flex-column row-gap-5 small">
+
 							<div>
-								<h6 class="fw-bold mb-3">🧨 YOU MADE IT TO THE END. NOW WHAT?</h6>
-								<div class="d-flex flex-wrap gap-2">G
+								<h5 class="fw-bold mb-3">🧨 YOU MADE IT TO THE END. NOW WHAT?</h5>
+								<p>
+									Like that roast? Don't keep it to yourself.
+								</p>
+								<div class="d-flex flex-wrap gap-2">
 
 									<!-- WhatsApp -->
 									<a href="https://api.whatsapp.com/send?text={{ urlencode($news->title . ' - ' . route('front.news.show', $news->slug)) }}" class="btn btn-outline-success d-flex align-items-center gap-2 btn-sm" target="_blank" onclick="logShare({{ $news->id }}, 'whatsapp')">
-										<i class="fab fa-whatsapp fa-lg"></i> WhatsApp
+										<i class="fab fa-whatsapp fa-lg"></i> <span>WhatsApp</span>
 									</a>
 
 									<!-- Facebook -->
 									<a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(route('front.news.show', $news->slug)) }}" class="btn btn-outline-primary d-flex align-items-center gap-2 btn-sm" target="_blank" onclick="logShare({{ $news->id }}, 'facebook')">
-										<i class="fab fa-facebook-f fa-lg"></i> Facebook
+										<i class="fab fa-facebook-f fa-lg"></i> <span>Facebook</span>
 									</a>
 
 									<!-- Twitter -->
 									<a href="https://twitter.com/intent/tweet?url={{ urlencode(route('front.news.show', $news->slug)) }}&text={{ urlencode($news->title) }}" class="btn btn-outline-info d-flex align-items-center gap-2 btn-sm text-info" target="_blank" onclick="logShare({{ $news->id }}, 'twitter')">
-										<i class="fab fa-x-twitter fa-lg"></i> Twitter
+										<i class="fab fa-x-twitter fa-lg"></i> <span>Twitter</span>
 									</a>
 
 									<!-- Telegram -->
 									<a href="https://t.me/share/url?url={{ urlencode(route('front.news.show', $news->slug)) }}&text={{ urlencode($news->title) }}" class="btn btn-outline-secondary d-flex align-items-center gap-2 btn-sm" target="_blank" onclick="logShare({{ $news->id }}, 'telegram')">
-										<i class="fab ta-telegram fa-lg"></i> Telegram
+										<i class="fab ta-telegram fa-lg"></i> <span>Telegram</span>
 									</a>
 
 									<a href="https://www.linkedin.com/sharing/share-offsite/?url={{ urlencode(route('front.news.show', $news->slug)) }}" class="btn btn-outline-primary d-flex align-items-center gap-2 btn-sm" target="_blank" onclick="logShare({{ $news->id }}, 'linkedin')">
-										<i class="fab fa-linkedin-in fa-lg"></i> LinkedIn
+										<i class="fab fa-linkedin-in fa-lg"></i> <span>LinkedIn</span>
 									</a>
 
 									<!-- Copy Link -->
 									<button onclick="copyLink()" class="btn btn-outline-dark d-flex align-items-center gap-2 btn-sm">
-										<i class="bi bi-clipboard fs-5"></i> Copy Link
+										<i class="bi bi-clipboard fs-5"></i> <span>Copy Link</span>
 									</button>
 
 								</div>
 							</div>
-							<div>
-								<p>
-									Like that roast? Don't keep it to yourself. <button class="btn btn-outline-light btn-sm">Share <i class="fas fa-share"></i></button>
-								</p>
-							</div>
+
 							<div>
 								<h5 class="fs-reset">
 									Oi, be honest—what'd you reckon?
@@ -186,68 +186,108 @@
 									<li>
 										☕️ <b class="fw-medium">Spiciness</b>&nbsp;:&nbsp;&nbsp;&nbsp;
 										<div class="form-check form-check-inline p-0 m-0">
-											<input type="radio" class="btn-check" name="options" id="option1" autocomplete="off">
-											<label class="btn btn-sm btn-outline-success" for="option1">Mild</label>
+											<input type="radio" class="btn-check" name="newsSpiciness" id="spiciness1" autocomplete="off">
+											<label class="btn btn-sm btn-outline-success" for="spiciness1">Mild</label>
 										</div>
 										<div class="form-check form-check-inline p-0 m-0">
-											<input type="radio" class="btn-check" name="options" id="option2" autocomplete="off">
-											<label class="btn btn-sm btn-outline-warning" for="option2">Medium</label>
+											<input type="radio" class="btn-check" name="newsSpiciness" id="spiciness2" autocomplete="off">
+											<label class="btn btn-sm btn-outline-warning" for="spiciness2">Medium</label>
 										</div>
 										<div class="form-check form-check-inline p-0 m-0">
-											<input type="radio" class="btn-check" name="options" id="option3" autocomplete="off">
-											<label class="btn btn-sm btn-outline-danger" for="option3">Nuclear</label>
+											<input type="radio" class="btn-check" name="newsSpiciness" id="spiciness3" autocomplete="off">
+											<label class="btn btn-sm btn-outline-danger" for="spiciness3">Nuclear</label>
 										</div>
 									</li>
 									<li>
 										⌛ <b class="fw-medium">Length</b>&nbsp;:&nbsp;&nbsp;&nbsp;
 										<div class="form-check form-check-inline p-0 m-0">
-											<input type="radio" class="btn-check" name="options" id="option4" autocomplete="off">
-											<label class="btn btn-sm btn-outline-success" for="option4">Blink</label>
+											<input type="radio" class="btn-check" name="newsLength" id="length1" autocomplete="off">
+											<label class="btn btn-sm btn-outline-success" for="length1">Blink</label>
 										</div>
 										<div class="form-check form-check-inline p-0 m-0">
-											<input type="radio" class="btn-check" name="options" id="option5" autocomplete="off">
-											<label class="btn btn-sm btn-outline-warning" for="option5">Scroll</label>
+											<input type="radio" class="btn-check" name="newsLength" id="length2" autocomplete="off">
+											<label class="btn btn-sm btn-outline-warning" for="length2">Scroll</label>
 										</div>
 										<div class="form-check form-check-inline p-0 m-0">
-											<input type="radio" class="btn-check" name="options" id="option6" autocomplete="off">
-											<label class="btn btn-sm btn-outline-danger" for="option6">Scroll of Destiny</label>
+											<input type="radio" class="btn-check" name="newsLength" id="length3" autocomplete="off">
+											<label class="btn btn-sm btn-outline-danger" for="length3">Scroll of Destiny</label>
 										</div>
 									</li>
 									<li>
 										💀 <b class="fw-medium">Funny factor</b>&nbsp;:&nbsp;&nbsp;&nbsp;
 										<div class="form-check form-check-inline p-0 m-0">
-											<input type="radio" class="btn-check" name="options" id="option7" autocomplete="off">
-											<label class="btn btn-sm btn-outline-success" for="option7">Chuckle</label>
+											<input type="radio" class="btn-check" name="newsFunny" id="funny7" autocomplete="off">
+											<label class="btn btn-sm btn-outline-success" for="funny7">Chuckle</label>
 										</div>
 										<div class="form-check form-check-inline p-0 m-0">
-											<input type="radio" class="btn-check" name="options" id="option8" autocomplete="off">
-											<label class="btn btn-sm btn-outline-warning" for="option8">Snort</label>
+											<input type="radio" class="btn-check" name="newsFunny" id="funny8" autocomplete="off">
+											<label class="btn btn-sm btn-outline-warning" for="funny8">Snort</label>
 										</div>
 										<div class="form-check form-check-inline p-0 m-0">
-											<input type="radio" class="btn-check" name="options" id="option9" autocomplete="off">
-											<label class="btn btn-sm btn-outline-danger" for="option9">Spat out my drink</label>
+											<input type="radio" class="btn-check" name="newsFunny" id="funny9" autocomplete="off">
+											<label class="btn btn-sm btn-outline-danger" for="funny9">Spat out my drink</label>
 										</div>
 									</li>
 									<li>
 										🧠 <b class="fw-medium">Topic</b>&nbsp;:&nbsp;&nbsp;&nbsp;
 										<div class="form-check form-check-inline p-0 m-0">
-											<input type="radio" class="btn-check" name="options" id="option10" autocomplete="off">
-											<label class="btn btn-sm btn-outline-success" for="option10">Please never again</label>
+											<input type="radio" class="btn-check" name="newsTopic" id="topic10" autocomplete="off">
+											<label class="btn btn-sm btn-outline-success" for="topic10">Please never again</label>
 										</div>
 										<div class="form-check form-check-inline p-0 m-0">
-											<input type="radio" class="btn-check" name="options" id="option11" autocomplete="off">
-											<label class="btn btn-sm btn-outline-warning" for="option11">Meh</label>
+											<input type="radio" class="btn-check" name="newsTopic" id="topic11" autocomplete="off">
+											<label class="btn btn-sm btn-outline-warning" for="topic11">Meh</label>
 										</div>
 										<div class="form-check form-check-inline p-0 m-0">
-											<input type="radio" class="btn-check" name="options" id="option12" autocomplete="off">
-											<label class="btn btn-sm btn-outline-danger" for="option12">Banger</label>
+											<input type="radio" class="btn-check" name="newsTopic" id="topic12" autocomplete="off">
+											<label class="btn btn-sm btn-outline-danger" for="topic12">Banger</label>
 										</div>
 									</li>
 								</ul>
-								<button class="btn btn-primary px-4" data-bs-toggle="modal" data-bs-target="#modalRating">
+								<button class="btn btn-primary px-4" id="triggerModalRating" data-bs-toggle="modal" data-bs-target="#modalRating">
 									Send <i class="fas fa-paper-plane"></i>
 								</button>
 							</div>
+
+							<div>
+								<h5>
+									<b class="fw-bold">
+										Quick Poll or Emoji Slider
+									</b>
+								</h5>
+								<p>
+									How cooked is this situation?
+								</p>
+								<div class="mb-3">
+									<div class="form-check form-check-inline p-0 m-0">
+										<input type="radio" class="btn-check" name="newsPoll" id="poll1" autocomplete="off">
+										<label class="btn btn-sm btn-outline-success" for="poll1">🔥 Totally</label>
+									</div>
+									<div class="form-check form-check-inline p-0 m-0">
+										<input type="radio" class="btn-check" name="newsPoll" id="poll2" autocomplete="off">
+										<label class="btn btn-sm btn-outline-warning" for="poll2">😐 Mid</label>
+									</div>
+									<div class="form-check form-check-inline p-0 m-0">
+										<input type="radio" class="btn-check" name="newsPoll" id="poll3" autocomplete="off">
+										<label class="btn btn-sm btn-outline-danger" for="poll3">🥶 Frozen Peas</label>
+									</div>
+								</div>
+								<button class="btn btn-primary px-4">
+									Send <i class="fas fa-paper-plane"></i>
+								</button>
+							</div>
+
+							<div>
+								<h5>
+									<b class="fw-bold">
+										Don't Miss the Next Meltdown
+									</b>
+								</h5>
+								<p>
+									Subscribe if you enjoy rage, sarcasm, and the sound of democracy wheezing.
+								</p>
+							</div>
+
 						</div>
 					</div>
 
@@ -345,9 +385,25 @@
 					</div>
 					<div class="news-comment">
 						<header class="mb-3">
-							<h5 class="fs-reset text-danger">
-								<b class="fw-bold">COMMENT</b>
+							<h5 class="text-danger">
+								<b class="fw-bold">
+									Add your own punchline here
+								</b>
 							</h5>
+							<div>
+								<div class="form-check form-check-inline p-0 m-0">
+									<input type="radio" class="btn-check" name="newsEmoji" id="emoji1" autocomplete="off">
+									<label class="btn btn-sm btn-outline-success fs-4" for="emoji1">😀</label>
+								</div>
+								<div class="form-check form-check-inline p-0 m-0">
+									<input type="radio" class="btn-check" name="newsEmoji" id="emoji2" autocomplete="off">
+									<label class="btn btn-sm btn-outline-warning fs-4" for="emoji2">😮</label>
+								</div>
+								<div class="form-check form-check-inline p-0 m-0">
+									<input type="radio" class="btn-check" name="newsEmoji" id="emoji3" autocomplete="off">
+									<label class="btn btn-sm btn-outline-danger fs-4" for="emoji3">😠</label>
+								</div>
+							</div>
 						</header>
 						<main>
 							<form action="{{ route('news.comment', $news->id) }}" method="POST">
@@ -424,6 +480,12 @@
 			</div>
 		</div>
 	</div>
+</div>
+
+<div class="fixed-bottom end-0 m-3" style="left: unset;">
+	<button class="btn btn-lg btn-warning">
+		👀 Got a headline? Request a Roast
+	</button>
 </div>
 
 <script>
