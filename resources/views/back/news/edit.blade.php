@@ -277,11 +277,12 @@
                         dataType: 'json',
                         success: function(data) {
                             $.each(data, function(key, category) {
+                                if (category && category.id && category.name) {
                                 let selected = (category.id == selectedCategory) ? 'selected' :
                                     '';
                                 $('#category').append(
                                     `<option value="${category.id}" ${selected}>${category.name}</option>`
-                                );
+                                )};
                             });
                         },
                         error: function() {

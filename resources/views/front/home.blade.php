@@ -7,8 +7,8 @@
          <div
              class="source-news text-bg-warning text-center py-1 mb-3 d-md-flex flex-wrap align-items-md-center px-md-3 justify-content-md-center column-gap-md-4">
              <div>“We read everything — SMH, ABC, Nine, Seven, SBS, 10News, The Guardian, anyone who does journalism,
-                <u>even the ones behind paywalls</u> — and spin it into sarcasm faster than you can say ‘breaking’.”
-                </div>
+                 <u>even the ones behind paywalls</u> — and spin it into sarcasm faster than you can say ‘breaking’.”
+             </div>
              <div class="d-flex flex-nowrap justify-content-center gap-2 align-items-center d-none">
                  <div>
                      <img src="assets/template3/asset/img/abc-logo-v1.png" width="20" height="auto" alt=""
@@ -176,11 +176,11 @@
 
                          @foreach ($topnews->values()->chunk(3) as $index => $chunk)
                              @php $chunk = $chunk->values(); @endphp {{-- Reindex ulang tiap chunk --}}
-                             @if ((($index % 3) + 1) === 1)
+                             @if (($index % 3) + 1 === 1)
                                  @include('front.layouts.news1', ['items' => $chunk, 'index' => $index])
-                             @elseif ((($index % 3) + 1) === 2)
+                             @elseif (($index % 3) + 1 === 2)
                                  @include('front.layouts.news3', ['items' => $chunk, 'index' => $index])
-                             @elseif ((($index % 3) + 1) === 3)
+                             @elseif (($index % 3) + 1 === 3)
                                  @include('front.layouts.news2', ['items' => $chunk, 'index' => $index])
                              @endif
                          @endforeach
@@ -443,15 +443,19 @@
      </section>
 
      {{-- news by category --}}
-      {{-- <section>
+
+     <section>
+         {{-- @dump('subhanallah') --}}
          <div class="container-lg px-0">
 
-            <!-- news category -->
-            @include('front.layouts.news4-category')
-            @include('front.layouts.news4-category')
-            <!-- end news category -->
+             <!-- news category -->
+             @foreach ($categoryNews as $category => $newsList)
+                 @include('front.layouts.news4-category', ['category' => $category, 'items' => $newsList])
+             @endforeach
+             {{-- @include('front.layouts.news4-category') --}}
+             {{-- @include('front.layouts.news4-category') --}}
+             <!-- end news category -->
 
          </div><!-- end container -->
-      </section> --}}
-
+     </section>
  @endsection

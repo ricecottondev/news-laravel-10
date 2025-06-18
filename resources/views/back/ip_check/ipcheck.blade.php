@@ -335,6 +335,183 @@
                         </select>
                     </div>
                     <div class="col mb-4">
+                        <input type="text" class="selector form-control" id="mergeStartTime"
+                            placeholder="Pilih Jam Awal">
+                    </div>
+                    <div class="col mb-4">
+                        <input type="text" class="selector form-control" id="mergeEndTime"
+                            placeholder="Pilih Jam Akhir">
+                    </div>
+                    <div class="col mb-4">
+                        <select class="form-select text-capitalize" id="mergeCountryFilter">
+                            <option value="">Pilih Country</option>
+                        </select>
+                    </div>
+                    <div class="col mb-4">
+                        <select class="form-select text-capitalize" id="mergeUrlFilter">
+                            <option value="">Pilih URL</option>
+                        </select>
+                    </div>
+                    <div class="col mb-4">
+                        <select class="form-select text-capitalize" id="mergeBrowserFilter">
+                            <option value="">Pilih Browser</option>
+                        </select>
+                    </div>
+                    <div class="col mb-4">
+                        <select class="form-select text-capitalize" id="mergePlatformFilter">
+                            <option value="">Pilih Platform</option>
+                        </select>
+                    </div>
+                    <div class="col mb-4">
+                        <button id="exportPageXNews" class="btn btn-primary w-100">
+                            <span id="spinner-btn" class="spinner-border spinner-border-sm me-1 d-none" role="status"
+                                aria-hidden="true"></span>
+                            <span class="btn-label">Export Excel</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12 mb-2">
+                        <div class="alert alert-info">
+                            <h4 class="mb-3">📈 Statistik Page x News Visits</h4>
+                            <ul class="list-group" id="global-stats">
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row g-4 mb-4" id="charts-section">
+                    <div class="col-6">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <h6 class="card-title">Jumlah Pengunjung Unik per Hari</h6>
+                                <canvas id="uniqueVisitorsPerDayChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <h6 class="card-title">Top 10 URL Terpopuler</h6>
+                                <canvas id="topUrlsChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <h6 class="card-title">Jumlah Total Kunjungan per Hari</h6>
+                                <canvas id="totalVisitsPerDayChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <h6 class="card-title">Jumlah Kunjungan per Jam</h6>
+                                <canvas id="visitsPerHourChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <h6 class="card-title">Distribusi Bot vs Human</h6>
+                                <canvas id="botVsHumanChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <h6 class="card-title">Distribusi Negara</h6>
+                                <canvas id="countryDistributionChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <h6 class="card-title">Distribusi Platform Pengguna</h6>
+                                <canvas id="platformDistributionChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <h6 class="card-title">Distribusi Browser Pengguna</h6>
+                                <canvas id="browserDistributionChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-4 ">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <h6 class="card-title">Jumlah Kunjungan Berdasarkan Referer</h6>
+                                <canvas id="refererDistributionChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="table-responsive">
+                    <table id="combined-table" class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>IP</th>
+                                <th>Visited At</th>
+                                <th>News Visited</th>
+                                <th>Page Visited</th>
+                                <th>News Duration</th>
+                                <th>Page Duration</th>
+                                <th>Bot Status</th>
+                                <th>Browser</th>
+                                <th>Platform</th>
+                                <th>Country</th>
+                                <th>Visited URLs</th>
+                            </tr>
+                        </thead>
+                        <tbody id="combined-body"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        {{-- <div class="card my-4">
+            <div class="card-body">
+                <h2 class="mb-4">📄 Page X News Visits</h2>
+                <div class="row row-cols-1 row-cols-sm-3">
+                    <div class="col mb-4">
+                        <input type="text" class="selector form-control" id="mergeStartDate"
+                            placeholder="Pilih Tanggal Mulai">
+                    </div>
+                    <div class="col mb-4">
+                        <input type="text" class="selector form-control" id="mergeEndDate"
+                            placeholder="Pilih Tanggal Selesai">
+                    </div>
+                    <div class="col mb-4">
+                        <select class="form-select" id="mergeBotOrHumanFilter">
+                            <option value="">Pilih Bot Or Human</option>
+                            <option value="Yes">Bot</option>
+                            <option value="No">Human</option>
+                        </select>
+                    </div>
+                    <div class="col mb-4">
+                        <input type="text" class="selector form-control" id="mergeStartTime"
+                            placeholder="Pilih Jam Awal">
+                    </div>
+                    <div class="col mb-4">
+                        <input type="text" class="selector form-control" id="mergeEndTime"
+                            placeholder="Pilih Jam Akhir">
+                    </div>
+                    <div class="col mb-4">
+                        <select class="form-select text-capitalize" id="mergeCountryFilter">
+                            <option value="">Pilih Country</option>
+                        </select>
+                    </div>
+                    <div class="col mb-4">
                         <select class="form-select text-capitalize" id="mergeUrlFilter">
                             <option value="">Pilih URL</option>
                         </select>
@@ -457,7 +634,7 @@
                     </table>
                 </div>
             </div>
-        </div>
+        </div> --}}
     </div>
     <!-- Konversi data PHP ke JSON -->
     <script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
@@ -1232,7 +1409,338 @@
         });
     </script>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        const isoToCountryName = {
+            "AD": "Andorra",
+            "AE": "United Arab Emirates",
+            "AF": "Afghanistan",
+            "AG": "Antigua and Barbuda",
+            "AI": "Anguilla",
+            "AL": "Albania",
+            "AM": "Armenia",
+            "AO": "Angola",
+            "AQ": "Antarctica",
+            "AR": "Argentina",
+            "AS": "American Samoa",
+            "AT": "Austria",
+            "AU": "Australia",
+            "AW": "Aruba",
+            "AX": "Åland Islands",
+            "AZ": "Azerbaijan",
+            "BA": "Bosnia and Herzegovina",
+            "BB": "Barbados",
+            "BD": "Bangladesh",
+            "BE": "Belgium",
+            "BF": "Burkina Faso",
+            "BG": "Bulgaria",
+            "BH": "Bahrain",
+            "BI": "Burundi",
+            "BJ": "Benin",
+            "BL": "Saint Barthélemy",
+            "BM": "Bermuda",
+            "BN": "Brunei Darussalam",
+            "BO": "Bolivia",
+            "BQ": "Bonaire, Sint Eustatius and Saba",
+            "BR": "Brazil",
+            "BS": "Bahamas",
+            "BT": "Bhutan",
+            "BV": "Bouvet Island",
+            "BW": "Botswana",
+            "BY": "Belarus",
+            "BZ": "Belize",
+            "CA": "Canada",
+            "CC": "Cocos (Keeling) Islands",
+            "CD": "Congo, Democratic Republic of the",
+            "CF": "Central African Republic",
+            "CG": "Congo",
+            "CH": "Switzerland",
+            "CI": "Côte d'Ivoire",
+            "CK": "Cook Islands",
+            "CL": "Chile",
+            "CM": "Cameroon",
+            "CN": "China",
+            "CO": "Colombia",
+            "CR": "Costa Rica",
+            "CU": "Cuba",
+            "CV": "Cabo Verde",
+            "CW": "Curaçao",
+            "CX": "Christmas Island",
+            "CY": "Cyprus",
+            "CZ": "Czechia",
+            "DE": "Germany",
+            "DJ": "Djibouti",
+            "DK": "Denmark",
+            "DM": "Dominica",
+            "DO": "Dominican Republic",
+            "DZ": "Algeria",
+            "EC": "Ecuador",
+            "EE": "Estonia",
+            "EG": "Egypt",
+            "EH": "Western Sahara",
+            "ER": "Eritrea",
+            "ES": "Spain",
+            "ET": "Ethiopia",
+            "FI": "Finland",
+            "FJ": "Fiji",
+            "FK": "Falkland Islands (Malvinas)",
+            "FM": "Micronesia, Federated States of",
+            "FO": "Faroe Islands",
+            "FR": "France",
+            "GA": "Gabon",
+            "GB": "United Kingdom",
+            "GD": "Grenada",
+            "GE": "Georgia",
+            "GF": "French Guiana",
+            "GG": "Guernsey",
+            "GH": "Ghana",
+            "GI": "Gibraltar",
+            "GL": "Greenland",
+            "GM": "Gambia",
+            "GN": "Guinea",
+            "GP": "Guadeloupe",
+            "GQ": "Equatorial Guinea",
+            "GR": "Greece",
+            "GS": "South Georgia and the South Sandwich Islands",
+            "GT": "Guatemala",
+            "GU": "Guam",
+            "GW": "Guinea-Bissau",
+            "GY": "Guyana",
+            "HK": "Hong Kong",
+            "HM": "Heard Island and McDonald Islands",
+            "HN": "Honduras",
+            "HR": "Croatia",
+            "HT": "Haiti",
+            "HU": "Hungary",
+            "ID": "Indonesia",
+            "IE": "Ireland",
+            "IL": "Israel",
+            "IM": "Isle of Man",
+            "IN": "India",
+            "IO": "British Indian Ocean Territory",
+            "IQ": "Iraq",
+            "IR": "Iran, Islamic Republic of",
+            "IS": "Iceland",
+            "IT": "Italy",
+            "JE": "Jersey",
+            "JM": "Jamaica",
+            "JO": "Jordan",
+            "JP": "Japan",
+            "KE": "Kenya",
+            "KG": "Kyrgyzstan",
+            "KH": "Cambodia",
+            "KI": "Kiribati",
+            "KM": "Comoros",
+            "KN": "Saint Kitts and Nevis",
+            "KP": "Korea, Democratic People's Republic of",
+            "KR": "Korea, Republic of",
+            "KW": "Kuwait",
+            "KY": "Cayman Islands",
+            "KZ": "Kazakhstan",
+            "LA": "Lao People's Democratic Republic",
+            "LB": "Lebanon",
+            "LC": "Saint Lucia",
+            "LI": "Liechtenstein",
+            "LK": "Sri Lanka",
+            "LR": "Liberia",
+            "LS": "Lesotho",
+            "LT": "Lithuania",
+            "LU": "Luxembourg",
+            "LV": "Latvia",
+            "LY": "Libya",
+            "MA": "Morocco",
+            "MC": "Monaco",
+            "MD": "Moldova, Republic of",
+            "ME": "Montenegro",
+            "MF": "Saint Martin (French part)",
+            "MG": "Madagascar",
+            "MH": "Marshall Islands",
+            "MK": "North Macedonia",
+            "ML": "Mali",
+            "MM": "Myanmar",
+            "MN": "Mongolia",
+            "MO": "Macao",
+            "MP": "Northern Mariana Islands",
+            "MQ": "Martinique",
+            "MR": "Mauritania",
+            "MS": "Montserrat",
+            "MT": "Malta",
+            "MU": "Mauritius",
+            "MV": "Maldives",
+            "MW": "Malawi",
+            "MX": "Mexico",
+            "MY": "Malaysia",
+            "MZ": "Mozambique",
+            "NA": "Namibia",
+            "NC": "New Caledonia",
+            "NE": "Niger",
+            "NF": "Norfolk Island",
+            "NG": "Nigeria",
+            "NI": "Nicaragua",
+            "NL": "Netherlands",
+            "NO": "Norway",
+            "NP": "Nepal",
+            "NR": "Nauru",
+            "NU": "Niue",
+            "NZ": "New Zealand",
+            "OM": "Oman",
+            "PA": "Panama",
+            "PE": "Peru",
+            "PF": "French Polynesia",
+            "PG": "Papua New Guinea",
+            "PH": "Philippines",
+            "PK": "Pakistan",
+            "PL": "Poland",
+            "PM": "Saint Pierre and Miquelon",
+            "PN": "Pitcairn",
+            "PR": "Puerto Rico",
+            "PS": "Palestine, State of",
+            "PT": "Portugal",
+            "PW": "Palau",
+            "PY": "Paraguay",
+            "QA": "Qatar",
+            "RE": "Réunion",
+            "RO": "Romania",
+            "RS": "Serbia",
+            "RU": "Russia",
+            "RW": "Rwanda",
+            "SA": "Saudi Arabia",
+            "SB": "Solomon Islands",
+            "SC": "Seychelles",
+            "SD": "Sudan",
+            "SE": "Sweden",
+            "SG": "Singapore",
+            "SH": "Saint Helena, Ascension and Tristan da Cunha",
+            "SI": "Slovenia",
+            "SJ": "Svalbard and Jan Mayen",
+            "SK": "Slovakia",
+            "SL": "Sierra Leone",
+            "SM": "San Marino",
+            "SN": "Senegal",
+            "SO": "Somalia",
+            "SR": "Suriname",
+            "SS": "South Sudan",
+            "ST": "Sao Tome and Principe",
+            "SV": "El Salvador",
+            "SX": "Sint Maarten (Dutch part)",
+            "SY": "Syrian Arab Republic",
+            "SZ": "Eswatini",
+            "TC": "Turks and Caicos Islands",
+            "TD": "Chad",
+            "TF": "French Southern Territories",
+            "TG": "Togo",
+            "TH": "Thailand",
+            "TJ": "Tajikistan",
+            "TK": "Tokelau",
+            "TL": "Timor-Leste",
+            "TM": "Turkmenistan",
+            "TN": "Tunisia",
+            "TO": "Tonga",
+            "TR": "Turkey",
+            "TT": "Trinidad and Tobago",
+            "TV": "Tuvalu",
+            "TW": "Taiwan",
+            "TZ": "Tanzania, United Republic of",
+            "UA": "Ukraine",
+            "UG": "Uganda",
+            "UM": "United States Minor Outlying Islands",
+            "US": "United States",
+            "UY": "Uruguay",
+            "UZ": "Uzbekistan",
+            "VA": "Holy See",
+            "VC": "Saint Vincent and the Grenadines",
+            "VE": "Venezuela",
+            "VG": "Virgin Islands (British)",
+            "VI": "Virgin Islands (U.S.)",
+            "VN": "Viet Nam",
+            "VU": "Vanuatu",
+            "WF": "Wallis and Futuna",
+            "WS": "Samoa",
+            "YE": "Yemen",
+            "YT": "Mayotte",
+            "ZA": "South Africa",
+            "ZM": "Zambia",
+            "ZW": "Zimbabwe"
+        };
+
+        let ipCountryCache = new Map();
+        const loadCacheFromStorage = () => {
+            const storedCache = localStorage.getItem('ipCountryCache');
+            if (storedCache) {
+                const parsedCache = JSON.parse(storedCache);
+                ipCountryCache = new Map(Object.entries(parsedCache));
+            }
+        };
+
+        // Save cache to localStorage
+        const saveCacheToStorage = () => {
+            const cacheObject = Object.fromEntries(ipCountryCache);
+            localStorage.setItem('ipCountryCache', JSON.stringify(cacheObject));
+        };
+
+        // Initialize cache on script load
+        loadCacheFromStorage();
+
+        async function getCountryFromIP(ip) {
+            // Check cache first
+            if (ipCountryCache.has(ip)) {
+                return ipCountryCache.get(ip);
+            }
+
+            let country = 'Unknown';
+
+            // 1. ipapi.co
+            try {
+                const res1 = await fetch(`https://ipapi.co/${ip}/json/`);
+                if (res1.ok) {
+                    const data1 = await res1.json();
+                    if (data1?.country_name) {
+                        country = data1.country_name;
+                        ipCountryCache.set(ip, country);
+                        saveCacheToStorage(); // Save to localStorage after update
+                        return country;
+                    }
+                }
+            } catch (_) {}
+
+            // 2. ipwhois.io
+            try {
+                const res2 = await fetch(`https://ipwhois.app/json/${ip}`);
+                if (res2.ok) {
+                    const data2 = await res2.json();
+                    if (data2?.country) {
+                        country = data2.country;
+                        ipCountryCache.set(ip, country);
+                        saveCacheToStorage(); // Save to localStorage after update
+                        return country;
+                    }
+                }
+            } catch (_) {}
+
+            // 3. ipinfo.io (country = ISO code)
+            try {
+                const res3 = await fetch(`https://ipinfo.io/${ip}/json`);
+                if (res3.ok) {
+                    const data3 = await res3.json();
+                    if (data3?.country) {
+                        const iso = data3.country;
+                        country = isoToCountryName[iso] || 'Unknown';
+                        ipCountryCache.set(ip, country);
+                        saveCacheToStorage(); // Save to localStorage after update
+                        return country;
+                    }
+                }
+            } catch (_) {}
+
+            // Save 'Unknown' result to avoid repeated API calls for same IP
+            ipCountryCache.set(ip, country);
+            saveCacheToStorage(); // Save to localStorage after update
+            return country;
+        }
+
+        document.addEventListener('DOMContentLoaded', async function() {
+            // Fetch country data for all unique IPs upfront
+            const uniqueIPs = new Set([...newsVisits.map(n => n.ip), ...pageVisits.map(p => p.ip)]);
+            await Promise.all(Array.from(uniqueIPs).map(ip => getCountryFromIP(ip)));
+
             const ipMap = {};
 
             // Combine news and page visits
@@ -1240,18 +1748,26 @@
                 const ip = item.ip;
                 if (!ipMap[ip]) ipMap[ip] = {
                     news: [],
-                    page: []
+                    page: [],
+                    country: ipCountryCache.get(ip) || 'Unknown'
                 };
-                ipMap[ip].news.push(item);
+                ipMap[ip].news.push({
+                    ...item,
+                    country: ipMap[ip].country
+                });
             });
 
             pageVisits.forEach(item => {
                 const ip = item.ip;
                 if (!ipMap[ip]) ipMap[ip] = {
                     news: [],
-                    page: []
+                    page: [],
+                    country: ipCountryCache.get(ip) || 'Unknown'
                 };
-                ipMap[ip].page.push(item);
+                ipMap[ip].page.push({
+                    ...item,
+                    country: ipMap[ip].country
+                });
             });
 
             // Create combined data for the table
@@ -1264,35 +1780,37 @@
 
                 const accordionId = `accordion-${index}`;
                 const accordionHTML = `
-            <div class="accordion" id="${accordionId}">
-                <div class="accordion-item">
-                    <h2 class="accordion-header">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-${index}">
-                            ${allVisitedAt.length} visits
-                        </button>
-                    </h2>
-                    <div id="collapse-${index}" class="accordion-collapse collapse" data-bs-parent="#${accordionId}">
-                        <div class="accordion-body">
-                            <ul class="mb-0 list-group list-group-flush">
-                                ${allVisitedAt.map(d => `<li class="list-group-item">${new Date(d).toLocaleString()}</li>`).join('')}
-                            </ul>
+                <div class="accordion" id="${accordionId}">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-${index}">
+                                ${allVisitedAt.length} visits
+                            </button>
+                        </h2>
+                        <div id="collapse-${index}" class="accordion-collapse collapse" data-bs-parent="#${accordionId}">
+                            <div class="accordion-body">
+                                <ul class="mb-0 list-group list-group-flush">
+                                    ${allVisitedAt.map(d => `<li class="list-group-item">${new Date(d).toLocaleString()}</li>`).join('')}
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        `;
+            `;
 
                 return {
                     ip,
                     visitedAtAccordion: accordionHTML,
                     newsVisited: data.news.length ? `✅ (${data.news.length})` : '-',
                     pageVisited: data.page.length ? `✅ (${data.page.length})` : '-',
-                    newsDuration: data.news.reduce((sum, d) => sum + (parseInt(d.duration_seconds) || 0),
-                        0) + 's',
-                    pageDuration: data.page.reduce((sum, d) => sum + (parseInt(d.duration) || 0), 0) + 's',
+                    newsDuration: data.news.reduce((sum, d) => sum + (parseInt(d.duration_seconds) ||
+                        0), 0) + 's',
+                    pageDuration: data.page.reduce((sum, d) => sum + (parseInt(d.duration) || 0), 0) +
+                        's',
                     is_bot: (data.news[0]?.is_bot || data.page[0]?.is_bot || 'Unknown'),
                     browser: (data.news[0]?.browser || data.page[0]?.browser || '-'),
                     platform: (data.news[0]?.platform || data.page[0]?.platform || '-'),
+                    country: data.country,
                     urls: visitedUrls,
                     allVisitedAt
                 };
@@ -1302,10 +1820,12 @@
             const urlSet = new Set(combinedData.flatMap(data => data.urls));
             const browserSet = new Set(combinedData.map(data => data.browser).filter(b => b !== '-'));
             const platformSet = new Set(combinedData.map(data => data.platform).filter(p => p !== '-'));
+            const countrySet = new Set(combinedData.map(data => data.country).filter(c => c !== 'Unknown'));
 
             const urlSelect = document.getElementById('mergeUrlFilter');
             const browserSelect = document.getElementById('mergeBrowserFilter');
             const platformSelect = document.getElementById('mergePlatformFilter');
+            const countrySelect = document.getElementById('mergeCountryFilter');
 
             urlSet.forEach(url => {
                 const option = document.createElement('option');
@@ -1328,20 +1848,27 @@
                 platformSelect.appendChild(option);
             });
 
+            countrySet.forEach(country => {
+                const option = document.createElement('option');
+                option.value = country;
+                option.textContent = country;
+                countrySelect.appendChild(option);
+            });
+
             // Initialize charts
             const charts = {
-                uniqueVisitorsPerDay: new Chart(document.getElementById('uniqueVisitorsPerDayChart').getContext(
-                    '2d'), {
-                    type: 'bar'
-                }),
-                platformDistribution: new Chart(document.getElementById('platformDistributionChart').getContext(
-                    '2d'), {
-                    type: 'pie'
-                }),
-                browserDistribution: new Chart(document.getElementById('browserDistributionChart').getContext(
-                    '2d'), {
-                    type: 'pie'
-                }),
+                uniqueVisitorsPerDay: new Chart(document.getElementById('uniqueVisitorsPerDayChart')
+                    .getContext('2d'), {
+                        type: 'bar'
+                    }),
+                platformDistribution: new Chart(document.getElementById('platformDistributionChart')
+                    .getContext('2d'), {
+                        type: 'pie'
+                    }),
+                browserDistribution: new Chart(document.getElementById('browserDistributionChart')
+                    .getContext('2d'), {
+                        type: 'pie'
+                    }),
                 botVsHuman: new Chart(document.getElementById('botVsHumanChart').getContext('2d'), {
                     type: 'pie'
                 }),
@@ -1355,28 +1882,34 @@
                 visitsPerHour: new Chart(document.getElementById('visitsPerHourChart').getContext('2d'), {
                     type: 'bar'
                 }),
-                refererDistribution: new Chart(document.getElementById('refererDistributionChart').getContext(
-                    '2d'), {
-                    type: 'doughnut'
-                }),
-                // deviceTypeDistribution: new Chart(document.getElementById('deviceTypeDistributionChart')
-                //     .getContext('2d'), {
-                //         type: 'pie'
-                //     }),
-                // statusCodeDistribution: new Chart(document.getElementById('statusCodeDistributionChart')
-                //     .getContext('2d'), {
-                //         type: 'bar'
-                //     })
+                refererDistribution: new Chart(document.getElementById('refererDistributionChart')
+                    .getContext('2d'), {
+                        type: 'doughnut'
+                    }),
+                countryDistribution: new Chart(document.getElementById('countryDistributionChart')
+                    .getContext('2d'), {
+                        type: 'pie'
+                    })
             };
+
+            // Function to parse time in HH:mm format to minutes since midnight
+            function parseTime(timeStr) {
+                if (!timeStr) return null;
+                const [hours, minutes] = timeStr.split(':').map(Number);
+                return hours * 60 + minutes;
+            }
 
             // Function to update charts based on filtered data
             function updateCharts() {
                 const startDate = document.getElementById('mergeStartDate').value;
                 const endDate = document.getElementById('mergeEndDate').value;
+                const startTime = parseTime(document.getElementById('mergeStartTime').value);
+                const endTime = parseTime(document.getElementById('mergeEndTime').value);
                 const botFilter = document.getElementById('mergeBotOrHumanFilter').value;
                 const urlFilter = document.getElementById('mergeUrlFilter').value;
                 const browserFilter = document.getElementById('mergeBrowserFilter').value;
                 const platformFilter = document.getElementById('mergePlatformFilter').value;
+                const countryFilter = document.getElementById('mergeCountryFilter').value;
 
                 const start = startDate ? new Date(startDate) : null;
                 const end = endDate ? new Date(endDate) : null;
@@ -1385,23 +1918,47 @@
                 const filteredNewsVisits = newsVisits.filter(item => {
                     const visitedDate = new Date(item.visited_at);
                     const datePass = (!start || visitedDate >= start) && (!end || visitedDate <= end);
+                    const timePass = (startTime === null && endTime === null) ||
+                        ((startTime === null || visitedDate.getHours() * 60 + visitedDate
+                                .getMinutes() >= startTime) &&
+                            (endTime === null || visitedDate.getHours() * 60 + visitedDate
+                                .getMinutes() <= endTime));
                     const botPass = !botFilter || item.is_bot === botFilter;
                     const browserPass = !browserFilter || item.browser === browserFilter;
                     const platformPass = !platformFilter || item.platform === platformFilter;
-                    return datePass && botPass && browserPass && platformPass;
+                    const countryPass = !countryFilter || (ipCountryCache.get(item.ip) || 'Unknown') ===
+                        countryFilter;
+                    return datePass && timePass && botPass && browserPass && platformPass &&
+                        countryPass;
                 });
 
                 const filteredPageVisits = pageVisits.filter(item => {
                     const visitedDate = new Date(item.visited_at);
                     const datePass = (!start || visitedDate >= start) && (!end || visitedDate <= end);
+                    const timePass = (startTime === null && endTime === null) ||
+                        ((startTime === null || visitedDate.getHours() * 60 + visitedDate
+                                .getMinutes() >= startTime) &&
+                            (endTime === null || visitedDate.getHours() * 60 + visitedDate
+                                .getMinutes() <= endTime));
                     const botPass = !botFilter || item.is_bot === botFilter;
                     const urlPass = !urlFilter || item.url === urlFilter;
                     const browserPass = !browserFilter || item.browser === browserFilter;
                     const platformPass = !platformFilter || item.platform === platformFilter;
-                    return datePass && botPass && urlPass && browserPass && platformPass;
+                    const countryPass = !countryFilter || (ipCountryCache.get(item.ip) || 'Unknown') ===
+                        countryFilter;
+                    return datePass && timePass && botPass && urlPass && browserPass && platformPass &&
+                        countryPass;
                 });
 
-                const allFilteredVisits = [...filteredNewsVisits, ...filteredPageVisits];
+                const allFilteredVisits = [...filteredNewsVisits.map(v => ({
+                        ...v,
+                        country: ipCountryCache.get(v.ip) || 'Unknown'
+                    })),
+                    ...filteredPageVisits.map(v => ({
+                        ...v,
+                        country: ipCountryCache.get(v.ip) || 'Unknown'
+                    }))
+                ];
 
                 // Helper to get date string in YYYY-MM-DD
                 const getDateString = date => new Date(date).toISOString().split('T')[0];
@@ -1630,67 +2187,42 @@
                 };
                 charts.refererDistribution.update();
 
-                // 9. Device Type Distribution (Pie Chart)
-                // const deviceTypeCounts = {};
-                // allFilteredVisits.forEach(v => {
-                //     const deviceType = v.device_type || 'Unknown';
-                //     deviceTypeCounts[deviceType] = (deviceTypeCounts[deviceType] || 0) + 1;
-                // });
-                // charts.deviceTypeDistribution.data = {
-                //     labels: Object.keys(deviceTypeCounts),
-                //     datasets: [{
-                //         data: Object.values(deviceTypeCounts),
-                //         backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0']
-                //     }]
-                // };
-                // charts.deviceTypeDistribution.options = {
-                //     plugins: {
-                //         legend: {
-                //             position: 'right'
-                //         }
-                //     }
-                // };
-                // charts.deviceTypeDistribution.update();
-
-                // 10. Status Code Distribution (Bar Chart)
-                // const statusCodeCounts = {};
-                // allFilteredVisits.forEach(v => {
-                //     const status = v.status_code ? Math.floor(v.status_code / 100) + 'xx' : 'Unknown';
-                //     statusCodeCounts[status] = (statusCodeCounts[status] || 0) + 1;
-                // });
-                // charts.statusCodeDistribution.data = {
-                //     labels: Object.keys(statusCodeCounts),
-                //     datasets: [{
-                //         label: 'Kunjungan',
-                //         data: Object.values(statusCodeCounts),
-                //         backgroundColor: 'rgba(255, 159, 64, 0.5)',
-                //         borderColor: 'rgba(255, 159, 64, 1)',
-                //         borderWidth: 1
-                //     }]
-                // };
-                // charts.statusCodeDistribution.options = {
-                //     scales: {
-                //         y: {
-                //             beginAtZero: true
-                //         }
-                //     },
-                //     plugins: {
-                //         legend: {
-                //             display: false
-                //         }
-                //     }
-                // };
-                // charts.statusCodeDistribution.update();
+                // 9. Country Distribution (Pie Chart)
+                const countryCounts = {};
+                allFilteredVisits.forEach(v => {
+                    const country = v.country || 'Unknown';
+                    countryCounts[country] = (countryCounts[country] || 0) + 1;
+                });
+                charts.countryDistribution.data = {
+                    labels: Object.keys(countryCounts),
+                    datasets: [{
+                        data: Object.values(countryCounts),
+                        backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF',
+                            '#FF9F40'
+                        ]
+                    }]
+                };
+                charts.countryDistribution.options = {
+                    plugins: {
+                        legend: {
+                            position: 'right'
+                        }
+                    }
+                };
+                charts.countryDistribution.update();
             }
 
             // Function to update statistics
             function updateStatistics() {
                 const startDate = document.getElementById('mergeStartDate').value;
                 const endDate = document.getElementById('mergeEndDate').value;
+                const startTime = parseTime(document.getElementById('mergeStartTime').value);
+                const endTime = parseTime(document.getElementById('mergeEndTime').value);
                 const botFilter = document.getElementById('mergeBotOrHumanFilter').value;
                 const urlFilter = document.getElementById('mergeUrlFilter').value;
                 const browserFilter = document.getElementById('mergeBrowserFilter').value;
                 const platformFilter = document.getElementById('mergePlatformFilter').value;
+                const countryFilter = document.getElementById('mergeCountryFilter').value;
 
                 const start = startDate ? new Date(startDate) : null;
                 const end = endDate ? new Date(endDate) : null;
@@ -1698,29 +2230,47 @@
                 const filteredNewsVisits = newsVisits.filter(item => {
                     const visitedDate = new Date(item.visited_at);
                     const datePass = (!start || visitedDate >= start) && (!end || visitedDate <= end);
+                    const timePass = (startTime === null && endTime === null) ||
+                        ((startTime === null || visitedDate.getHours() * 60 + visitedDate
+                                .getMinutes() >= startTime) &&
+                            (endTime === null || visitedDate.getHours() * 60 + visitedDate
+                                .getMinutes() <= endTime));
                     const botPass = !botFilter || item.is_bot === botFilter;
                     const browserPass = !browserFilter || item.browser === browserFilter;
                     const platformPass = !platformFilter || item.platform === platformFilter;
-                    return datePass && botPass && browserPass && platformPass;
+                    const countryPass = !countryFilter || (ipCountryCache.get(item.ip) || 'Unknown') ===
+                        countryFilter;
+                    return datePass && timePass && botPass && browserPass && platformPass &&
+                        countryPass;
                 });
 
                 const filteredPageVisits = pageVisits.filter(item => {
                     const visitedDate = new Date(item.visited_at);
                     const datePass = (!start || visitedDate >= start) && (!end || visitedDate <= end);
+                    const timePass = (startTime === null && endTime === null) ||
+                        ((startTime === null || visitedDate.getHours() * 60 + visitedDate
+                                .getMinutes() >= startTime) &&
+                            (endTime === null || visitedDate.getHours() * 60 + visitedDate
+                                .getMinutes() <= endTime));
                     const botPass = !botFilter || item.is_bot === botFilter;
                     const urlPass = !urlFilter || item.url === urlFilter;
                     const browserPass = !browserFilter || item.browser === browserFilter;
                     const platformPass = !platformFilter || item.platform === platformFilter;
-                    return datePass && botPass && urlPass && browserPass && platformPass;
+                    const countryPass = !countryFilter || (ipCountryCache.get(item.ip) || 'Unknown') ===
+                        countryFilter;
+                    return datePass && timePass && botPass && urlPass && browserPass && platformPass &&
+                        countryPass;
                 });
 
                 const totalVisits = filteredNewsVisits.length + filteredPageVisits.length;
-                const uniqueIPs = new Set([...filteredNewsVisits.map(n => n.ip), ...filteredPageVisits.map(p => p
-                    .ip)]).size;
+                const uniqueIPs = new Set([...filteredNewsVisits.map(n => n.ip), ...filteredPageVisits.map(p =>
+                    p.ip)]).size;
                 const uniqueURLs = new Set(filteredPageVisits.map(p => p.url)).size;
                 const humanVsBot = {
-                    human: [...filteredNewsVisits, ...filteredPageVisits].filter(v => v.is_bot === 'No').length,
-                    bot: [...filteredNewsVisits, ...filteredPageVisits].filter(v => v.is_bot === 'Yes').length
+                    human: [...filteredNewsVisits, ...filteredPageVisits].filter(v => v.is_bot === 'No')
+                        .length,
+                    bot: [...filteredNewsVisits, ...filteredPageVisits].filter(v => v.is_bot === 'Yes')
+                        .length
                 };
                 const avgVisitsPerIP = uniqueIPs > 0 ? (totalVisits / uniqueIPs).toFixed(2) : 0;
                 const uniqueDays = new Set([...filteredNewsVisits, ...filteredPageVisits].map(v => new Date(v
@@ -1792,12 +2342,12 @@
                         <table class="table table-bordered">
                             <thead>
                                 <tr>
-                                <th>Ip</th>
-                                <th>Visits</th>
+                                    <th>Ip</th>
+                                    <th>Visits</th>
                                 </tr>
                             </thead>
                             <tbody>
-                            ${topIPs.length ? topIPs.map(ip => `<tr><td>${ip.ip}</td><td>${ip.count}</td></tr>`).join('') : '<tr><td></td><td></td><td></td></tr>'}
+                                ${topIPs.length ? topIPs.map(ip => `<tr><td>${ip.ip}</td><td>${ip.count}</td></tr>`).join('') : '<tr><td></td><td></td></tr>'}
                             </tbody>
                         </table>
                     </div>
@@ -1808,17 +2358,17 @@
                         <table class="table table-bordered">
                             <thead>
                                 <tr>
-                                <th>Page</th>
-                                <th>Visits</th>
+                                    <th>Page</th>
+                                    <th>Visits</th>
                                 </tr>
                             </thead>
                             <tbody>
-                            ${topURLs.length ? topURLs.map(url => `<tr><td>${url.url}</td><td>${url.count}</td></tr>`).join('') : '<tr><td></td><td></td><td></td></tr>'}
+                                ${topURLs.length ? topURLs.map(url => `<tr><td>${url.url}</td><td>${url.count}</td></tr>`).join('') : '<tr><td></td><td></td></tr>'}
                             </tbody>
                         </table>
                     </div>
                 </li>
-                `;
+            `;
             }
 
             // Initialize DataTable
@@ -1857,6 +2407,9 @@
                         data: 'platform'
                     },
                     {
+                        data: 'country'
+                    },
+                    {
                         data: null,
                         render: function(data, type, row, meta) {
                             const urlAccordionId = `url-accordion-${meta.row}`;
@@ -1865,60 +2418,67 @@
                             const listItems = data.urls.map(url =>
                                 `<li class="list-group-item">${url}</li>`).join('');
                             return `
-                        <div class="accordion" id="${urlAccordionId}">
-                            <div class="accordion-item">
-                                <h2 class="accordion-header">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#${collapseId}">
-                                        ${data.urls.length} visited URL(s)
-                                    </button>
-                                </h2>
-                                <div id="${collapseId}" class="accordion-collapse collapse" data-bs-parent="#${urlAccordionId}">
-                                    <div class="accordion-body p-0">
-                                        <ul class="list-group list-group-flush">${listItems}</ul>
+                            <div class="accordion" id="${urlAccordionId}">
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#${collapseId}">
+                                            ${data.urls.length} visited URL(s)
+                                        </button>
+                                    </h2>
+                                    <div id="${collapseId}" class="accordion-collapse collapse" data-bs-parent="#${urlAccordionId}">
+                                        <div class="accordion-body p-0">
+                                            <ul class="list-group list-group-flush">${listItems}</ul>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    `;
+                        `;
                         }
                     }
                 ]
             });
 
-            // Date range filter
+            // Date and time range filter
             $.fn.dataTable.ext.search.push(function(settings, data, dataIndex) {
                 const startDate = document.getElementById('mergeStartDate').value;
                 const endDate = document.getElementById('mergeEndDate').value;
+                const startTime = parseTime(document.getElementById('mergeStartTime').value);
+                const endTime = parseTime(document.getElementById('mergeEndTime').value);
+                const countryFilter = document.getElementById('mergeCountryFilter').value;
                 const rowData = combinedData[dataIndex];
 
-                if (!startDate && !endDate) return true;
+                if (!startDate && !endDate && startTime === null && endTime === null && !countryFilter)
+                    return true;
 
                 const start = startDate ? new Date(startDate) : null;
                 const end = endDate ? new Date(endDate) : null;
 
-                const hasDateInRange = rowData.allVisitedAt.some(date => {
+                const hasDateTimeInRange = rowData.allVisitedAt.some(date => {
                     const visitedDate = new Date(date);
-                    if (start && end) {
-                        return visitedDate >= start && visitedDate <= end;
-                    } else if (start) {
-                        return visitedDate >= start;
-                    } else if (end) {
-                        return visitedDate <= end;
-                    }
-                    return true;
+                    const datePass = (!start || visitedDate >= start) && (!end || visitedDate <=
+                        end);
+                    const timePass = (startTime === null && endTime === null) ||
+                        ((startTime === null || visitedDate.getHours() * 60 + visitedDate
+                                .getMinutes() >= startTime) &&
+                            (endTime === null || visitedDate.getHours() * 60 + visitedDate
+                                .getMinutes() <= endTime));
+                    const countryPass = !countryFilter || rowData.country === countryFilter;
+                    return datePass && timePass && countryPass;
                 });
 
-                return hasDateInRange;
+                return hasDateTimeInRange;
             });
 
             // Apply filters
-            $('#mergeStartDate, #mergeEndDate').on('change', function() {
-                table.draw();
-            });
+            $('#mergeStartDate, #mergeEndDate, #mergeStartTime, #mergeEndTime, #mergeCountryFilter').on(
+                'change',
+                function() {
+                    table.draw();
+                });
 
             $('#mergeBotOrHumanFilter').on('change', function() {
                 const value = this.value;
-                var botfilter = 'Human'
+                var botfilter = 'Human';
                 if (value === 'Yes') {
                     botfilter = 'Bot';
                 }
@@ -1945,15 +2505,30 @@
                 table.column(8).search(value).draw();
             });
 
+            $('#mergeCountryFilter').on('change', function() {
+                const value = this.value;
+                table.column(9).search(value).draw();
+            });
+
             // Update charts and statistics on table draw
             table.on('draw', function() {
                 updateCharts();
                 updateStatistics();
             });
 
-            // Initialize date pickers
+            // Initialize date and time pickers
             $('#mergeStartDate, #mergeEndDate').flatpickr({
                 dateFormat: 'Y-m-d',
+                onChange: function() {
+                    table.draw();
+                }
+            });
+
+            $('#mergeStartTime, #mergeEndTime').flatpickr({
+                enableTime: true,
+                noCalendar: true,
+                dateFormat: 'H:i',
+                time_24hr: true,
                 onChange: function() {
                     table.draw();
                 }
