@@ -415,12 +415,12 @@
 					</div>
 					<div class="news-comment">
 						<header class="mb-3">
-							<h5 class="text-danger">
+							{{-- <h5 class="text-danger">
 								<b class="fw-bold">
 									Add your own punchline here
 								</b>
-							</h5>
-							<div class="row gx-2">
+							</h5> --}}
+							{{-- <div class="row gx-2">
 								<div class="col">
 									<div class="form-check p-0 m-0">
 										<input type="radio" class="btn-check" name="newsEmoji" id="emoji1" autocomplete="off">
@@ -439,16 +439,44 @@
 										<label class="btn btn-sm btn-outline-danger fs-4 w-100" for="emoji3">😠</label>
 									</div>
 								</div>
-							</div>
+							</div> --}}
 						</header>
 						<main>
 							<form action="{{ route('news.comment', $news->id) }}" method="POST">
+
+                                   <div class="mb-3">
+        <h5 class="text-danger"><b class="fw-bold">Add your own punchline here</b></h5>
+        <div class="row gx-2">
+            <div class="col">
+                <div class="form-check p-0 m-0">
+                    <input type="radio" class="btn-check" name="emoji" id="emoji1" value="funny" autocomplete="off">
+                    <label class="btn btn-sm btn-outline-success fs-4 w-100" for="emoji1">😀</label>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-check p-0 m-0">
+                    <input type="radio" class="btn-check" name="emoji" id="emoji2" value="woke" autocomplete="off">
+                    <label class="btn btn-sm btn-outline-warning fs-4 w-100" for="emoji2">😮</label>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-check p-0 m-0">
+                    <input type="radio" class="btn-check" name="emoji" id="emoji3" value="mad" autocomplete="off">
+                    <label class="btn btn-sm btn-outline-danger fs-4 w-100" for="emoji3">😠</label>
+                </div>
+            </div>
+        </div>
+    </div>
+
 								@csrf
 								<input type="hidden" name="parent_id" id="parent_id" value="">
 
 								@guest
 								<input type="text" name="guest_name" class="form-control border-light rounded-0 mb-2" placeholder="Your Name" value="" required>
 								@endguest
+
+                                <!-- Emoji Pilihan -->
+
 
 								<div class="form-group mb-2">
 									<textarea name="comment" rows="6" class="form-control border-light rounded-0" placeholder="Type your opinion about this news here.." required></textarea>

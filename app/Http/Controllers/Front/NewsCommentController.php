@@ -16,6 +16,7 @@ class NewsCommentController extends Controller
             'comment' => 'required|string',
             'parent_id' => 'nullable|exists:news_comments,id',
             'guest_name' => auth()->check() ? 'nullable' : 'required|string|max:100',
+            'emoji' => 'nullable|string|max:200', // optional field
         ]);
 
         NewsComment::create([
@@ -24,6 +25,7 @@ class NewsCommentController extends Controller
             'news_id' => $newsId,
             'parent_id' => $request->parent_id,
             'comment' => $request->comment,
+            'emoji' => $request->emoji, // tambahkan ini
         ]);
 
         return redirect()->back()->with('success', 'Comment posted successfully.');
