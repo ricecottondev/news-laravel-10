@@ -206,7 +206,7 @@ class FrontHomeController extends Controller
             ->limit(33)
             ->get();
 
-            // dd($topnews->toArray());
+        // dd($topnews->toArray());
 
         $justinnews = News::with(['category', 'countriesCategoriesNews'])
             ->where('status', 'published')
@@ -233,6 +233,45 @@ class FrontHomeController extends Controller
         // dd($editorpicknews->toArray());
 
         // dd($topnews->toArray());
+
+
+        $defaultCountry = 'Australia';
+
+        // Ambil ID country Australia
+        $country = Country::where('country_name', $defaultCountry)->first();
+
+        if (!$country) {
+            abort(404, 'Country not found.');
+        }
+        // Ambil semua kategori yang punya berita untuk country tersebut
+        $categories = Category::whereHas('countriesCategoriesNews', function ($query) use ($country) {
+            $query->where('country_id', $country->id)
+                ->whereHas('news', function ($q) {
+                    $q->where('status', 'published');
+                });
+        })->get();
+
+        $categoryNews = [];
+
+        foreach ($categories as $category) {
+            $news = \App\Models\News::with(['countriesCategoriesNews'])
+                ->where('status', 'published')
+                ->whereHas('countriesCategoriesNews', function ($q) use ($country, $category) {
+                    $q->where('country_id', $country->id)
+                        ->where('category_id', $category->id);
+                })
+                ->orderByRaw('CASE WHEN `order` > 0 THEN 0 ELSE 1 END') // prioritaskan order 1-5
+                ->orderBy('order', 'asc')
+                ->orderBy('created_at', 'desc')
+                ->limit(4)
+                ->get();
+
+            if ($news->isNotEmpty()) {
+                $categoryNews[$category->name] = $news;
+            }
+        }
+
+        // dump($categoryNews);
 
         $news = News::where('status', 'published')->orderBy('id', 'desc')->limit(6)->get();
 
@@ -329,7 +368,7 @@ class FrontHomeController extends Controller
 
 
 
-        return view('front.home', compact("breaking_news", "topnews", "justinnews", "editorpicknews", "news", "today_news", "not_today_news", "groupedByCategory", "defaultCountry", "banner", "pathimg", "banner_status"));
+        return view('front.home', compact("categoryNews","breaking_news", "topnews", "justinnews", "editorpicknews", "news", "today_news", "not_today_news", "groupedByCategory", "defaultCountry", "banner", "pathimg", "banner_status"));
 
         dd("ini home");
         #Get Data Auth user
