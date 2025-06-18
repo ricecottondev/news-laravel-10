@@ -11,7 +11,7 @@ use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\Front\FrontSubscribesController;
 
 use App\Http\Controllers\Front\NewsCommentController;
-
+use App\Http\Controllers\Front\EmailSubscribeController;
 
 use App\Http\Controllers\WebsetupController;
 // use App\Http\Controllers\RoleController;
@@ -119,6 +119,7 @@ Route::post('/apibuilder', [ApiBuilderController::class, 'index'])->name('apibui
 
 
 
+Route::post('/emailsubscribe', [EmailSubscribeController::class, 'store'])->name('email.subscribe.store');
 
 
 //===================================================================================================front start===================================================================================================
@@ -157,6 +158,9 @@ Route::get('/subscribes', function () {
         return redirect()->route('login');
     }
 })->name('subscribe');
+
+
+
 
 Route::post('/checkout/session', [FrontSubscribesController::class, 'createCheckoutSession'])->name('checkout.session');
 Route::get('/success', function () {
