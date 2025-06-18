@@ -166,7 +166,7 @@
                                 document.querySelectorAll(".category-scroll a").forEach(a => a.classList
                                     .remove("active", "text-white"));
                                 // categoryLink.classList.remove("text-white");
-                                // categoryLink.classList.add("active", "text-dark");
+                                 categoryLink.classList.add("active", "text-dark");
                             }
                             categoryLink.appendChild(categoryImg);
                             categoryMenu.appendChild(categoryLink);
@@ -190,7 +190,7 @@
                             if (preselectedCategory && preselectedCategory.toLowerCase() === 'misc') {
                                 document.querySelectorAll(".category-scroll a").forEach(a => a.classList.remove(
                                     "active", "text-white"));
-                                // miscLink.classList.add("active", "text-dark");
+                                 miscLink.classList.add("active", "text-dark");
                             }
                             miscLink.appendChild(miscImg);
                             categoryMenu.appendChild(miscLink);
