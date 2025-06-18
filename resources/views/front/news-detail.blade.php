@@ -182,7 +182,7 @@
 								</div>
 							</div>
 
-							<div>
+							{{-- <div>
 								<h5 class="mb-3">
 									<b class="fw-bold">
 										Oi, be honest—what'd you reckon?
@@ -277,9 +277,9 @@
 								<button class="btn btn-primary px-4" id="triggerModalRating" data-bs-toggle="modal" data-bs-target="#modalRating">
 									Send <i class="fas fa-paper-plane"></i>
 								</button>
-							</div>
+							</div> --}}
 
-							<div>
+							{{-- <div>
 								<h5>
 									<b class="fw-bold">
 										Quick Poll or Emoji Slider
@@ -305,7 +305,7 @@
 								<button class="btn btn-primary px-4">
 									Send <i class="fas fa-paper-plane"></i>
 								</button>
-							</div>
+							</div> --}}
 
 							<div>
 								<h5>
