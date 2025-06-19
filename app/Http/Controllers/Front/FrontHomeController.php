@@ -263,7 +263,7 @@ class FrontHomeController extends Controller
                 ->orderByRaw('CASE WHEN `order` > 0 THEN 0 ELSE 1 END') // prioritaskan order 1-5
                 ->orderBy('order', 'asc')
                 ->orderBy('created_at', 'desc')
-                ->limit(4)
+                ->limit(9)
                 ->get();
 
             if ($news->isNotEmpty()) {

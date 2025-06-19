@@ -11,7 +11,7 @@ use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\Front\FrontSubscribesController;
 
 use App\Http\Controllers\Front\NewsCommentController;
-
+use App\Http\Controllers\Front\EmailSubscribeController;
 
 use App\Http\Controllers\WebsetupController;
 // use App\Http\Controllers\RoleController;
@@ -49,6 +49,8 @@ use App\Http\Controllers\Back\Subscribe\SubscribeController;
 use App\Http\Controllers\AccountDeletionController;
 
 use App\Http\Controllers\Front\ContributorSignupController;
+
+use App\Http\Controllers\Back\IpCheck\LogAdvertisementController;
 
 
 
@@ -119,6 +121,7 @@ Route::post('/apibuilder', [ApiBuilderController::class, 'index'])->name('apibui
 
 
 
+Route::post('/emailsubscribe', [EmailSubscribeController::class, 'store'])->name('email.subscribe.store');
 
 
 //===================================================================================================front start===================================================================================================
@@ -157,6 +160,9 @@ Route::get('/subscribes', function () {
         return redirect()->route('login');
     }
 })->name('subscribe');
+
+
+
 
 Route::post('/checkout/session', [FrontSubscribesController::class, 'createCheckoutSession'])->name('checkout.session');
 Route::get('/success', function () {
@@ -287,16 +293,21 @@ Route::group(['middleware' => ['auth']], function () {
 
 
     Route::resource('/back/blocked-ips', \App\Http\Controllers\Back\BlockedIps\BlockedIpController::class)->names('blocked-ips')
-    ->parameters(['blocked-ips' => 'blocked_ip']);
+        ->parameters(['blocked-ips' => 'blocked_ip']);
 
     Route::resource('/back/testimonials', \App\Http\Controllers\Back\Testimonial\TestimonialController::class)->names('testimonials')
-    ->parameters(['testimonials' => 'testimonial']);
+        ->parameters(['testimonials' => 'testimonial']);
 
     Route::prefix('back')->name('back.')->group(function () {
-    Route::resource('news-comments', \App\Http\Controllers\Back\News\NewsCommentController::class)->except(['create', 'store', 'show']);
-});
+        Route::resource('news-comments', \App\Http\Controllers\Back\News\NewsCommentController::class)->except(['create', 'store', 'show']);
+    });
 
-    Route::resource('/back/banner',BannerController::class);
+
+    Route::resource('/back/log-advertisement', LogAdvertisementController::class)->only(['index', 'store', 'destroy']);
+    // Route::post('/log-advertisement', [LogAdvertisementController::class, 'store']);
+    // Route::get('/log-advertisement', [LogAdvertisementController::class, 'index']);
+
+    Route::resource('/back/banner', BannerController::class);
     // Route::post('/back/scrapper', [ScrappingController::class, 'index'])->name('scrapper.index.post');
 
     Route::resource('back/permissions', PermissionsController::class);
