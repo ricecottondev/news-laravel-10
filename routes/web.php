@@ -50,6 +50,8 @@ use App\Http\Controllers\AccountDeletionController;
 
 use App\Http\Controllers\Front\ContributorSignupController;
 
+use App\Http\Controllers\Back\IpCheck\LogAdvertisementController;
+
 
 
 /*
@@ -291,16 +293,21 @@ Route::group(['middleware' => ['auth']], function () {
 
 
     Route::resource('/back/blocked-ips', \App\Http\Controllers\Back\BlockedIps\BlockedIpController::class)->names('blocked-ips')
-    ->parameters(['blocked-ips' => 'blocked_ip']);
+        ->parameters(['blocked-ips' => 'blocked_ip']);
 
     Route::resource('/back/testimonials', \App\Http\Controllers\Back\Testimonial\TestimonialController::class)->names('testimonials')
-    ->parameters(['testimonials' => 'testimonial']);
+        ->parameters(['testimonials' => 'testimonial']);
 
     Route::prefix('back')->name('back.')->group(function () {
-    Route::resource('news-comments', \App\Http\Controllers\Back\News\NewsCommentController::class)->except(['create', 'store', 'show']);
-});
+        Route::resource('news-comments', \App\Http\Controllers\Back\News\NewsCommentController::class)->except(['create', 'store', 'show']);
+    });
 
-    Route::resource('/back/banner',BannerController::class);
+
+    Route::resource('/back/log-advertisement', LogAdvertisementController::class)->only(['index', 'store', 'destroy']);
+    // Route::post('/log-advertisement', [LogAdvertisementController::class, 'store']);
+    // Route::get('/log-advertisement', [LogAdvertisementController::class, 'index']);
+
+    Route::resource('/back/banner', BannerController::class);
     // Route::post('/back/scrapper', [ScrappingController::class, 'index'])->name('scrapper.index.post');
 
     Route::resource('back/permissions', PermissionsController::class);
