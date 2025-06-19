@@ -3,8 +3,7 @@
 	{{-- Berita 1 --}}
 	@if (isset($items[0]))
 	<div class="col px-3 col-12">
-		<div class="news-item">
-			
+		<div class="news-item">			
 			<div class="card-news">
 				<p class="news-category">
 					@php
@@ -93,7 +92,6 @@
 					</div><!-- end col -->
 				</div><!-- end row -->
 			</div><!-- end card news -->
-
 		</div>
 	</div>
 	<div class="col col-12 px-md-3">
@@ -105,7 +103,6 @@
 	@if (isset($items[1]))
 	<div class="col px-3 col-12 col-md-7">
 		<div class="news-item">
-
 			<div class="card-news">
 				<p class="news-category">
 					@php
@@ -152,10 +149,10 @@
 				<!-- end news title -->
 				
 				<div class="row">
-					@if ($items[0]->image)
+					@if ($items[1]->image)
 					<div class="col col-12 col-md-4 news-img order-md-2">
 						<div class="ratio ratio-1x1 rounded overflow-hidden w-100">
-							<img src="{{ asset('storage/' . $items[0]->image) }}" class="object-fit-cover" alt="{{ $items[0]->title }}">
+							<img src="{{ asset('storage/' . $items[1]->image) }}" class="object-fit-cover" alt="{{ $items[1]->title }}">
 						</div>
 					</div><!-- end news image (kalau tidak ada image hapus bagian ini/ kasih class "d-none") -->
 					@endif
@@ -195,62 +192,6 @@
 					</div><!-- end col -->
 				</div><!-- end row -->
 			</div><!-- end card news -->
-
-			<div class="d-none">
-				<main>
-					<div class="row row-cols-1 {{ $items[1]->image ? 'row-cols-md-2' : 'row-cols-md-1' }}">
-						@if ($items[1]->image)
-						<div class="col order-md-2">
-							<div class="ratio ratio-1x1 news-img">
-								<img src="{{ asset('storage/' . $items[1]->image) }}" class="object-fit-cover"
-									alt="{{ $items[1]->title }}">
-							</div>
-						</div>
-						@endif
-						<div class="col order-md-1">
-							<p class="news-text {{ $items[1]->image ? 'elipsis-4' : 'elipsis-6' }}">
-								{{ Str::words(strip_tags($items[1]->short_desc), 50, '...') }}
-							</p>
-							<div class="news-time media small">
-								<div class="media-header">
-									@if (strtoupper($items[1]->color) == 'P')
-									<div class="ratio ratio-1x1 rounded-circle border border-2 border-danger"
-										style="width: 2rem;">
-										<img src="/assets/template3/asset/img/user/clara.jpg"
-											class="object-fit-cover" alt="">
-									</div>
-									@elseif (strtoupper($items[1]->color) == 'Y')
-									<div class="ratio ratio-1x1 rounded-circle border border-2 border-warning"
-										style="width: 2rem;">
-										<img src="/assets/template3/asset/img/user/lola.jpg"
-											class="object-fit-cover" alt="">
-									</div>
-									@else
-									<div class="ratio ratio-1x1 rounded-circle border border-2 border-white"
-										style="width: 2rem;">
-										<img src="/assets/template3/asset/img/user/phor.jpg"
-											class="object-fit-cover" alt="">
-									</div>
-									@endif
-								</div>
-								<div class="media-body">
-									<div class="mb-1"><small class="opacity-75">Author by</small>
-										@if (strtoupper($items[1]->color) == 'P')
-										<b class="fw-medium text-danger">Clara</b>
-										@elseif (strtoupper($items[1]->color) == 'Y')
-										<b class="fw-medium text-warning">Lola</b>
-										@else
-										<b class="fw-medium">Phor</b>
-										@endif
-									</div>
-									<div><small>{{ $items[1]->created_at->diffForHumans() }}</small></div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</main>
-			</div>
-			
 		</div>
 	</div>
 	<div class="col col-12 col-md-auto">
