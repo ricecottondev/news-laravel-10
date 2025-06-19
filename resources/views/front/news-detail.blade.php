@@ -206,7 +206,7 @@
 								</div>
 							</div>
 
-							<div>
+							{{-- <div>
 								<h5 class="mb-3">
 									<b class="fw-bold">
 										Oi, be honest—what'd you reckon?
@@ -298,10 +298,10 @@
 										</div><!-- end row -->
 									</li>
 								</ul>
-								<button class="btn btn-primary px-4" id="triggerModalRating" data-bs-toggle="modal" data-bs-target="#modalRating">
+								<button class="btn btn-warning px-4" id="triggerModalRating" data-bs-toggle="modal" data-bs-target="#modalRating">
 									Send <i class="fas fa-paper-plane"></i>
 								</button>
-							</div>
+							</div> --}}
 
 							<div>
 								<h5>
@@ -326,7 +326,7 @@
 										<label class="btn btn-sm btn-outline-danger" for="poll3">🥶 Frozen Peas</label>
 									</div>
 								</div>
-								<button class="btn btn-primary px-4">
+								<button class="btn btn-warning px-4">
 									Send <i class="fas fa-paper-plane"></i>
 								</button>
 							</div>
@@ -340,7 +340,7 @@
 								<p>
 									Subscribe if you enjoy rage, sarcasm, and the sound of democracy wheezing.
 								</p>
-								<button class="btn btn-primary">
+								<button class="btn btn-warning">
 									Hit me again (surprise me)
 								</button>
 							</div>
@@ -423,19 +423,6 @@
 			{{-- comment start --}}
 			<div class="col px-3 col-12 col-md">
 				<aside class="sidenav">
-					{{-- <div class="subscribe">
-						<p>
-							“🚨 Daily Roast Drops – Subscribe Now”
-						</p>
-						<div class="form">
-							<div class="input-group">
-								<input type="email" class="form-control rounded-0 border-light border-end-0 pe-0" placeholder="Your Email">
-								<button class="btn rounded-0 border-light border-start-0">
-									<i class="fas fa-envelope"></i>
-								</button>
-							</div>
-						</div>
-					</div> --}}
 
 					<div class="subscribe">
 						<p>
@@ -476,31 +463,6 @@
 					</div>
 					<div class="news-comment">
 						<header class="mb-3">
-							{{-- <h5 class="text-danger">
-								<b class="fw-bold">
-									Add your own punchline here
-								</b>
-							</h5> --}}
-							{{-- <div class="row gx-2">
-								<div class="col">
-									<div class="form-check p-0 m-0">
-										<input type="radio" class="btn-check" name="newsEmoji" id="emoji1" autocomplete="off">
-										<label class="btn btn-sm btn-outline-success fs-4 w-100" for="emoji1">😀</label>
-									</div>
-								</div>
-								<div class="col">
-									<div class="form-check p-0 m-0">
-										<input type="radio" class="btn-check" name="newsEmoji" id="emoji2" autocomplete="off">
-										<label class="btn btn-sm btn-outline-warning fs-4 w-100" for="emoji2">😮</label>
-									</div>
-								</div>
-								<div class="col">
-									<div class="form-check p-0 m-0">
-										<input type="radio" class="btn-check" name="newsEmoji" id="emoji3" autocomplete="off">
-										<label class="btn btn-sm btn-outline-danger fs-4 w-100" for="emoji3">😠</label>
-									</div>
-								</div>
-							</div> --}}
 						</header>
 						<main>
 							<form action="{{ route('news.comment', $news->id) }}" method="POST">
@@ -610,7 +572,7 @@
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-				<button type="button" class="btn btn-primary">Save changes</button>
+				<button type="button" class="btn btn-warning">Save changes</button>
 			</div>
 		</div>
 	</div>
@@ -644,7 +606,7 @@
 			</div>
 			<div class="modal-footer border-0">
 				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-				<button type="button" class="btn btn-primary">Send Request</button>
+				<button type="button" class="btn btn-warning">Send Request</button>
 			</div>
 		</div>
 	</div>
