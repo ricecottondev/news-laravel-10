@@ -77,75 +77,75 @@ class FrontHomeController extends Controller
 
 
         $countryGroups = [
-            'Asia' => [
+            'Asia'      => [
                 'Indonesia',
                 'Brunei Darussalam',
-                'Kamboja',
-                'Filipina',
-                'Singapura',
+                'Cambodia',
+                'Philippines',
+                'Singapore',
                 'Thailand',
                 'Timor Leste',
                 'Laos',
                 'Vietnam',
                 'Malaysia',
-                'Myanmar'
+                'Myanmar',
             ],
-            'USA' => ['USA'],
-            'China' => ['China'],
+            'USA'       => ['United States'],
+            'China'     => ['China'],
             'Australia' => ['Australia'],
-            'Europe' => [
+            'Europe'    => [
                 'Albania',
                 'Andorra',
                 'Armenia',
                 'Azerbaijan',
                 'Austria',
-                'Belanda',
+                'Netherlands',
                 'Belarus',
-                'Belgia',
+                'Belgium',
                 'Bosnia',
                 'Herzegovina',
                 'Bulgaria',
-                'Kroasia',
-                'Siprus',
-                'Ceko',
+                'Croatia',
+                'Cyprus',
+                'Czech Republic',
                 'Denmark',
                 'Estonia',
-                'Finlandia',
-                'Prancis',
+                'Finland',
+                'France',
                 'Georgia',
-                'Jerman',
-                'Yunani',
-                'Hungaria',
-                'Islandia',
-                'Irlandia',
-                'Italia',
+                'Germany',
+                'Greece',
+                'Hungary',
+                'Iceland',
+                'Ireland',
+                'Italy',
                 'Kazakhstan',
                 'Latvia',
                 'Liechtenstein',
-                'Lituania',
-                'Luksemburg',
-                'Makedonia Utara',
+                'Lithuania',
+                'Luxembourg',
+                'North Macedonia',
                 'Malta',
                 'Moldova',
-                'Monako',
+                'Monaco',
                 'Montenegro',
-                'Norwegia',
-                'Polandia',
+                'Norway',
+                'Poland',
                 'Portugal',
-                'Rumania',
-                'Rusia',
+                'Romania',
+                'Russia',
                 'San Marino',
                 'Serbia',
-                'Slowakia',
+                'Slovakia',
                 'Slovenia',
-                'Spanyol',
-                'Swedia',
-                'Swiss',
-                'Turki',
-                'Ukraina',
-                'UK',
-                'Vatikan'
-            ]
+                'Spain',
+                'Sweden',
+                'Switzerland',
+                'Turkey',
+                'Ukraine',
+                'United Kingdom',
+                'Vatican City',
+            ],
         ];
 
 
@@ -166,6 +166,7 @@ class FrontHomeController extends Controller
         $defaultCountry = $this->getDefaultcountry();
 
         // dd( $defaultCountry);
+        // dump( $defaultCountry);
 
         $breaking_news = News::where('status', 'published')
             ->where("is_breaking_news", 1)
@@ -191,8 +192,9 @@ class FrontHomeController extends Controller
 
         $topnews = News::with(['category', 'countriesCategoriesNews'])
             ->where('status', 'published')
-            ->whereHas('countriesCategoriesNews.country', function ($query) {
-                $query->where('country_name', 'Australia');
+            ->whereHas('countriesCategoriesNews.country', function ($query) use ($defaultCountry) {
+                $query->where('country_name', $defaultCountry);
+                // $query->where('country_name', 'Australia');
             })
             ->orderByRaw("
         CASE
@@ -211,8 +213,9 @@ class FrontHomeController extends Controller
         $justinnews = News::with(['category', 'countriesCategoriesNews'])
             ->where('status', 'published')
 
-            ->whereHas('countriesCategoriesNews.country', function ($query) {
-                $query->where('country_name', 'Australia');
+            ->whereHas('countriesCategoriesNews.country', function ($query) use ($defaultCountry) {
+                $query->where('country_name', $defaultCountry);
+                // $query->where('country_name', 'Australia');
             })
             ->orderBy('created_at', 'desc')
             ->orderBy('id', 'asc')
@@ -222,8 +225,9 @@ class FrontHomeController extends Controller
         $editorpicknews = News::with(['category', 'countriesCategoriesNews'])
             ->where('status', 'published')
             ->where('editor_choice', true) // Filter untuk berita pilihan editor
-            ->whereHas('countriesCategoriesNews.country', function ($query) {
-                $query->where('country_name', 'Australia');
+            ->whereHas('countriesCategoriesNews.country', function ($query) use ($defaultCountry) {
+                $query->where('country_name', $defaultCountry);
+                // $query->where('country_name', 'Australia');
             })
             ->orderBy('created_at', 'desc')
             ->orderBy('id', 'asc')
@@ -235,7 +239,7 @@ class FrontHomeController extends Controller
         // dd($topnews->toArray());
 
 
-        $defaultCountry = 'Australia';
+        // $defaultCountry = 'Australia';
 
         // Ambil ID country Australia
         $country = Country::where('country_name', $defaultCountry)->first();
@@ -425,12 +429,12 @@ class FrontHomeController extends Controller
 
 
         $countryGroups = [
-            'Asia' => [
+            'Asia'      => [
                 'Indonesia',
                 'Brunei Darussalam',
-                'Kamboja',
-                'Filipina',
-                'Singapura',
+                'Cambodia',
+                'Philippines',
+                'Singapore',
                 'Thailand',
                 'Timor Leste',
                 'Laos',
@@ -438,62 +442,62 @@ class FrontHomeController extends Controller
                 'Malaysia',
                 'Myanmar',
             ],
-            'USA' => ['USA'],
-            'China' => ['China'],
+            'USA'       => ['United States'],
+            'China'     => ['China'],
             'Australia' => ['Australia'],
-            'Europe' => [
+            'Europe'    => [
                 'Albania',
                 'Andorra',
                 'Armenia',
                 'Azerbaijan',
                 'Austria',
-                'Belanda',
+                'Netherlands',
                 'Belarus',
-                'Belgia',
+                'Belgium',
                 'Bosnia',
                 'Herzegovina',
                 'Bulgaria',
-                'Kroasia',
-                'Siprus',
-                'Ceko',
+                'Croatia',
+                'Cyprus',
+                'Czech Republic',
                 'Denmark',
                 'Estonia',
-                'Finlandia',
-                'Prancis',
+                'Finland',
+                'France',
                 'Georgia',
-                'Jerman',
-                'Yunani',
-                'Hungaria',
-                'Islandia',
-                'Irlandia',
-                'Italia',
+                'Germany',
+                'Greece',
+                'Hungary',
+                'Iceland',
+                'Ireland',
+                'Italy',
                 'Kazakhstan',
                 'Latvia',
                 'Liechtenstein',
-                'Lituania',
-                'Luksemburg',
-                'Makedonia Utara',
+                'Lithuania',
+                'Luxembourg',
+                'North Macedonia',
                 'Malta',
                 'Moldova',
-                'Monako',
+                'Monaco',
                 'Montenegro',
-                'Norwegia',
-                'Polandia',
+                'Norway',
+                'Poland',
                 'Portugal',
-                'Rumania',
-                'Rusia',
+                'Romania',
+                'Russia',
                 'San Marino',
                 'Serbia',
-                'Slowakia',
+                'Slovakia',
                 'Slovenia',
-                'Spanyol',
-                'Swedia',
-                'Swiss',
-                'Turki',
-                'Ukraina',
-                'UK',
-                'Vatikan'
-            ]
+                'Spain',
+                'Sweden',
+                'Switzerland',
+                'Turkey',
+                'Ukraine',
+                'United Kingdom',
+                'Vatican City',
+            ],
         ];
 
 
@@ -501,9 +505,9 @@ class FrontHomeController extends Controller
         // $detectedCountry = $location->country ?? '';
 
         $detectedCountry = $country; // Ganti dengan cara Anda mendeteksi negara
-        $detectedCountry = 'Australia';
+        // $detectedCountry = 'Australia';
         // Cek apakah termasuk dalam kelompok
-        $defaultCountry = 'Australia'; // default fallback
+        // $defaultCountry = 'Australia'; // default fallback
         foreach ($countryGroups as $group => $countries) {
             if (in_array($detectedCountry, $countries)) {
                 $defaultCountry = $group;
