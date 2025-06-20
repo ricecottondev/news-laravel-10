@@ -41,6 +41,10 @@
 
 @push('scripts')
     <script>
+        const phpCountryCategory = "{{ isset($defaultCountry) ? $defaultCountry : 'australia' }}";
+        // console.log('====================================');
+        // console.log(phpCountryCategory);
+        // console.log('====================================');
         document.addEventListener("DOMContentLoaded", function() {
             const countryApiUrl = "/api/getAllCountry";
             const categoryApiUrl = "/api/get-categories/";
@@ -61,7 +65,7 @@
                 selectedCountry = urlParts[1];
             }
 
-            if (!selectedCountry) selectedCountry = "australia";
+            if (!selectedCountry) selectedCountry = phpCountryCategory;
             if (!selectedCategory) selectedCategory = "breaking news";
 
             fetch(countryApiUrl)
