@@ -447,11 +447,21 @@
                         </div>
                     </div>
 
-                    <div class="col-4 ">
+                    <div class="col-4">
                         <div class="card h-100">
                             <div class="card-body">
                                 <h6 class="card-title">Jumlah Kunjungan Berdasarkan Referer</h6>
                                 <canvas id="refererDistributionChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <h6 class="card-title">Visualisasi Jumlah Kunjungan IP per Tanggal dan Jam</h6>
+
+                                <canvas id="ipBubbleChart"></canvas>
                             </div>
                         </div>
                     </div>
@@ -1563,6 +1573,7 @@
             "MR": "Mauritania",
             "MS": "Montserrat",
             "MT": "Malta",
+            "MT": "Malta",
             "MU": "Mauritius",
             "MV": "Maldives",
             "MW": "Malawi",
@@ -1670,24 +1681,19 @@
             }
         };
 
-        // Save cache to localStorage
         const saveCacheToStorage = () => {
             const cacheObject = Object.fromEntries(ipCountryCache);
             localStorage.setItem('ipCountryCache', JSON.stringify(cacheObject));
         };
 
-        // Initialize cache on script load
         loadCacheFromStorage();
 
         async function getCountryFromIP(ip) {
-            // Check cache first
             if (ipCountryCache.has(ip)) {
                 return ipCountryCache.get(ip);
             }
 
             let country = 'Unknown';
-
-            // 1. ipapi.co
             try {
                 const res1 = await fetch(`https://ipapi.co/${ip}/json/`);
                 if (res1.ok) {
@@ -1695,13 +1701,12 @@
                     if (data1?.country_name) {
                         country = data1.country_name;
                         ipCountryCache.set(ip, country);
-                        saveCacheToStorage(); // Save to localStorage after update
+                        saveCacheToStorage();
                         return country;
                     }
                 }
             } catch (_) {}
 
-            // 2. ipwhois.io
             try {
                 const res2 = await fetch(`https://ipwhois.app/json/${ip}`);
                 if (res2.ok) {
@@ -1709,13 +1714,12 @@
                     if (data2?.country) {
                         country = data2.country;
                         ipCountryCache.set(ip, country);
-                        saveCacheToStorage(); // Save to localStorage after update
+                        saveCacheToStorage();
                         return country;
                     }
                 }
             } catch (_) {}
 
-            // 3. ipinfo.io (country = ISO code)
             try {
                 const res3 = await fetch(`https://ipinfo.io/${ip}/json`);
                 if (res3.ok) {
@@ -1724,26 +1728,22 @@
                         const iso = data3.country;
                         country = isoToCountryName[iso] || 'Unknown';
                         ipCountryCache.set(ip, country);
-                        saveCacheToStorage(); // Save to localStorage after update
+                        saveCacheToStorage();
                         return country;
                     }
                 }
             } catch (_) {}
 
-            // Save 'Unknown' result to avoid repeated API calls for same IP
             ipCountryCache.set(ip, country);
-            saveCacheToStorage(); // Save to localStorage after update
+            saveCacheToStorage();
             return country;
         }
 
         document.addEventListener('DOMContentLoaded', async function() {
-            // Fetch country data for all unique IPs upfront
             const uniqueIPs = new Set([...newsVisits.map(n => n.ip), ...pageVisits.map(p => p.ip)]);
             await Promise.all(Array.from(uniqueIPs).map(ip => getCountryFromIP(ip)));
 
             const ipMap = {};
-
-            // Combine news and page visits
             newsVisits.forEach(item => {
                 const ip = item.ip;
                 if (!ipMap[ip]) ipMap[ip] = {
@@ -1770,34 +1770,29 @@
                 });
             });
 
-            // Create combined data for the table
             const combinedData = Object.entries(ipMap).map(([ip, data], index) => {
                 const visitedUrls = data.page.map(p => p.url);
-                const allVisitedAt = [
-                    ...data.news.map(n => n.visited_at),
-                    ...data.page.map(p => p.visited_at)
-                ].sort((a, b) => new Date(b) - new Date(a));
-
+                const allVisitedAt = [...data.news.map(n => n.visited_at), ...data.page.map(p => p
+                    .visited_at)].sort((a, b) => new Date(b) - new Date(a));
                 const accordionId = `accordion-${index}`;
                 const accordionHTML = `
-                <div class="accordion" id="${accordionId}">
-                    <div class="accordion-item">
-                        <h2 class="accordion-header">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-${index}">
-                                ${allVisitedAt.length} visits
-                            </button>
-                        </h2>
-                        <div id="collapse-${index}" class="accordion-collapse collapse" data-bs-parent="#${accordionId}">
-                            <div class="accordion-body">
-                                <ul class="mb-0 list-group list-group-flush">
-                                    ${allVisitedAt.map(d => `<li class="list-group-item">${new Date(d).toLocaleString()}</li>`).join('')}
-                                </ul>
+                    <div class="accordion" id="${accordionId}">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-${index}">
+                                    ${allVisitedAt.length} visits
+                                </button>
+                            </h2>
+                            <div id="collapse-${index}" class="accordion-collapse collapse" data-bs-parent="#${accordionId}">
+                                <div class="accordion-body">
+                                    <ul class="mb-0 list-group list-group-flush">
+                                        ${allVisitedAt.map(d => `<li class="list-group-item">${new Date(d).toLocaleString()}</li>`).join('')}
+                                    </ul>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            `;
-
+                `;
                 return {
                     ip,
                     visitedAtAccordion: accordionHTML,
@@ -1816,7 +1811,6 @@
                 };
             });
 
-            // Populate dropdowns
             const urlSet = new Set(combinedData.flatMap(data => data.urls));
             const browserSet = new Set(combinedData.map(data => data.browser).filter(b => b !== '-'));
             const platformSet = new Set(combinedData.map(data => data.platform).filter(p => p !== '-'));
@@ -1855,7 +1849,20 @@
                 countrySelect.appendChild(option);
             });
 
-            // Initialize charts
+            // Generate random colors for IPs
+            const ipColors = {};
+            const generateColor = () => {
+                const letters = '0123456789ABCDEF';
+                let color = '#';
+                for (let i = 0; i < 6; i++) {
+                    color += letters[Math.floor(Math.random() * 16)];
+                }
+                return color;
+            };
+            uniqueIPs.forEach(ip => {
+                ipColors[ip] = generateColor();
+            });
+
             const charts = {
                 uniqueVisitorsPerDay: new Chart(document.getElementById('uniqueVisitorsPerDayChart')
                     .getContext('2d'), {
@@ -1889,17 +1896,18 @@
                 countryDistribution: new Chart(document.getElementById('countryDistributionChart')
                     .getContext('2d'), {
                         type: 'pie'
-                    })
+                    }),
+                ipOverlaping: new Chart(document.getElementById('ipBubbleChart').getContext('2d'), {
+                    type: 'bubble'
+                })
             };
 
-            // Function to parse time in HH:mm format to minutes since midnight
             function parseTime(timeStr) {
                 if (!timeStr) return null;
                 const [hours, minutes] = timeStr.split(':').map(Number);
                 return hours * 60 + minutes;
             }
 
-            // Function to update charts based on filtered data
             function updateCharts() {
                 const startDate = document.getElementById('mergeStartDate').value;
                 const endDate = document.getElementById('mergeEndDate').value;
@@ -1914,7 +1922,6 @@
                 const start = startDate ? new Date(startDate) : null;
                 const end = endDate ? new Date(endDate) : null;
 
-                // Filter visits
                 const filteredNewsVisits = newsVisits.filter(item => {
                     const visitedDate = new Date(item.visited_at);
                     const datePass = (!start || visitedDate >= start) && (!end || visitedDate <= end);
@@ -1960,7 +1967,6 @@
                     }))
                 ];
 
-                // Helper to get date string in YYYY-MM-DD
                 const getDateString = date => new Date(date).toISOString().split('T')[0];
 
                 // 1. Unique Visitors per Day (Bar Chart)
@@ -2069,9 +2075,7 @@
                 filteredPageVisits.forEach(p => {
                     urlCounts[p.url] = (urlCounts[p.url] || 0) + 1;
                 });
-                const topUrls = Object.entries(urlCounts)
-                    .sort((a, b) => b[1] - a[1])
-                    .slice(0, 10);
+                const topUrls = Object.entries(urlCounts).sort((a, b) => b[1] - a[1]).slice(0, 10);
                 charts.topUrls.data = {
                     labels: topUrls.map(([url]) => url),
                     datasets: [{
@@ -2210,9 +2214,98 @@
                     }
                 };
                 charts.countryDistribution.update();
+
+                // 10. IP Overlapping (Bubble Chart)
+                const ipActivity = {};
+                allFilteredVisits.forEach(v => {
+                    const date = getDateString(v.visited_at);
+                    const hour = new Date(v.visited_at).getHours();
+                    const key = `${v.ip}-${date}-${hour}`;
+                    if (!ipActivity[key]) {
+                        ipActivity[key] = {
+                            ip: v.ip,
+                            date,
+                            hour,
+                            count: 0
+                        };
+                    }
+                    ipActivity[key].count++;
+                });
+
+                const bubbleData = Object.values(ipActivity).map(item => ({
+                    x: item.date,
+                    y: item.hour,
+                    r: item.count === 1 ? 5 : Math.min(5 + (item.count - 1) * 3,
+                    20), // 1 visit = 5, scales up by 3 per additional visit, capped at 20
+                    ip: item.ip
+                }));
+
+
+                // Create datasets for each unique IP
+                const datasets = Array.from(uniqueIPs).map(ip => ({
+                    label: ip,
+                    data: bubbleData.filter(d => d.ip === ip).map(d => ({
+                        x: d.x,
+                        y: d.y,
+                        r: d.r
+                    })),
+                    backgroundColor: ipColors[ip] + '80', // Add opacity for overlap visibility
+                    borderColor: ipColors[ip],
+                    borderWidth: 1
+                })).filter(dataset => dataset.data.length > 0); // Only include IPs with data
+
+                console.log('====================================');
+                console.log(datasets.length);
+                console.log('====================================');
+                charts.ipOverlaping.data = {
+                    datasets
+                };
+                charts.ipOverlaping.options = {
+                    scales: {
+                        x: {
+                            type: 'category',
+                            title: {
+                                display: true,
+                                text: 'Tanggal'
+                            },
+                            labels: [...new Set(bubbleData.map(d => d.x))]
+                            .sort() // Ensure unique, sorted dates
+                        },
+                        y: {
+                            min: 0,
+                            max: 23,
+                            ticks: {
+                                stepSize: 1
+                            },
+                            title: {
+                                display: true,
+                                text: 'Jam'
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false,
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: context => {
+                                    const {
+                                        x,
+                                        y,
+                                        r
+                                    } = context.raw;
+                                    const visits = r === 5 ? 1 : Math.round((r - 5) / 3 +
+                                    1); // Reverse calculate visits
+                                    return `IP: ${context.dataset.label}, Date: ${x}, Hour: ${y}, Visits: ${visits}`;
+                                }
+                            }
+                        }
+                    }
+                };
+                charts.ipOverlaping.update();
             }
 
-            // Function to update statistics
             function updateStatistics() {
                 const startDate = document.getElementById('mergeStartDate').value;
                 const endDate = document.getElementById('mergeEndDate').value;
@@ -2281,97 +2374,94 @@
                 [...filteredNewsVisits, ...filteredPageVisits].forEach(v => {
                     ipVisitCounts[v.ip] = (ipVisitCounts[v.ip] || 0) + 1;
                 });
-                const topIPs = Object.entries(ipVisitCounts)
-                    .sort((a, b) => b[1] - a[1])
-                    .slice(0, 5)
-                    .map(([ip, count]) => ({
-                        ip,
-                        count
-                    }));
+                const topIPs = Object.entries(ipVisitCounts).sort((a, b) => b[1] - a[1]).slice(0, 5).map(([ip,
+                    count
+                ]) => ({
+                    ip,
+                    count
+                }));
 
                 const urlVisitCounts = {};
                 filteredPageVisits.forEach(p => {
                     urlVisitCounts[p.url] = (urlVisitCounts[p.url] || 0) + 1;
                 });
-                const topURLs = Object.entries(urlVisitCounts)
-                    .sort((a, b) => b[1] - a[1])
-                    .slice(0, 5)
-                    .map(([url, count]) => ({
-                        url,
-                        count
-                    }));
+                const topURLs = Object.entries(urlVisitCounts).sort((a, b) => b[1] - a[1]).slice(0, 5).map(([
+                    url, count
+                ]) => ({
+                    url,
+                    count
+                }));
 
                 const statsContainer = document.getElementById('global-stats');
                 statsContainer.innerHTML = `
-                <li class="list-group-item d-flex justify-content-between">
-                    <span>Total Kunjungan:</span>
-                    <strong>${totalVisits}</strong>
-                </li>
-                <li class="list-group-item d-flex justify-content-between">
-                    <span>Total IP Unik:</span>
-                    <strong>${uniqueIPs}</strong>
-                </li>
-                <li class="list-group-item d-flex justify-content-between">
-                    <span>Total URL Unik:</span>
-                    <strong>${uniqueURLs}</strong>
-                </li>
-                <li class="list-group-item d-flex justify-content-between">
-                    <span>Human vs Bot:</span>
-                    <div>
-                        <div class="d-flex justify-content-between">
-                            <div><strong>Human: </strong></div>
-                            <div class="ms-3">${humanVsBot.human}</div>
+                    <li class="list-group-item d-flex justify-content-between">
+                        <span>Total Kunjungan:</span>
+                        <strong>${totalVisits}</strong>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between">
+                        <span>Total IP Unik:</span>
+                        <strong>${uniqueIPs}</strong>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between">
+                        <span>Total URL Unik:</span>
+                        <strong>${uniqueURLs}</strong>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between">
+                        <span>Human vs Bot:</span>
+                        <div>
+                            <div class="d-flex justify-content-between">
+                                <div><strong>Human: </strong></div>
+                                <div class="ms-3">${humanVsBot.human}</div>
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <div><strong>Bot: </strong></div>
+                                <div class="ms-3">${humanVsBot.bot}</div>
+                            </div>
                         </div>
-                        <div class="d-flex justify-content-between">
-                            <div><strong>Bot: </strong></div>
-                            <div class="ms-3">${humanVsBot.bot}</div>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between">
+                        <span>Rata-rata Kunjungan per IP:</span>
+                        <strong>${avgVisitsPerIP}</strong>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between">
+                        <span>Rata-rata Kunjungan per Hari:</span>
+                        <strong>${avgVisitsPerDay}</strong>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between">
+                        <span>IP dengan Kunjungan Terbanyak:</span>
+                        <div>
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Ip</th>
+                                        <th>Visits</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    ${topIPs.length ? topIPs.map(ip => `<tr><td>${ip.ip}</td><td>${ip.count}</td></tr>`).join('') : '<tr><td></td><td></td></tr>'}
+                                </tbody>
+                            </table>
                         </div>
-                    </div>
-                </li>
-                <li class="list-group-item d-flex justify-content-between">
-                    <span>Rata-rata Kunjungan per IP:</span>
-                    <strong>${avgVisitsPerIP}</strong>
-                </li>
-                <li class="list-group-item d-flex justify-content-between">
-                    <span>Rata-rata Kunjungan per Hari:</span>
-                    <strong>${avgVisitsPerDay}</strong>
-                </li>
-                <li class="list-group-item d-flex justify-content-between">
-                    <span>IP dengan Kunjungan Terbanyak:</span>
-                    <div>
-                        <table class="table table-bordered">
-                            <thead>
-                                <tr>
-                                    <th>Ip</th>
-                                    <th>Visits</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                ${topIPs.length ? topIPs.map(ip => `<tr><td>${ip.ip}</td><td>${ip.count}</td></tr>`).join('') : '<tr><td></td><td></td></tr>'}
-                            </tbody>
-                        </table>
-                    </div>
-                </li>
-                <li class="list-group-item d-flex justify-content-between">
-                    <span>URL Terpopuler:</span>
-                    <div>
-                        <table class="table table-bordered">
-                            <thead>
-                                <tr>
-                                    <th>Page</th>
-                                    <th>Visits</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                ${topURLs.length ? topURLs.map(url => `<tr><td>${url.url}</td><td>${url.count}</td></tr>`).join('') : '<tr><td></td><td></td></tr>'}
-                            </tbody>
-                        </table>
-                    </div>
-                </li>
-            `;
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between">
+                        <span>URL Terpopuler:</span>
+                        <div>
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Page</th>
+                                        <th>Visits</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    ${topURLs.length ? topURLs.map(url => `<tr><td>${url.url}</td><td>${url.count}</td></tr>`).join('') : '<tr><td></td><td></td></tr>'}
+                                </tbody>
+                            </table>
+                        </div>
+                    </li>
+                `;
             }
 
-            // Initialize DataTable
             const table = $('#combined-table').DataTable({
                 data: combinedData,
                 columns: [{
@@ -2418,27 +2508,26 @@
                             const listItems = data.urls.map(url =>
                                 `<li class="list-group-item">${url}</li>`).join('');
                             return `
-                            <div class="accordion" id="${urlAccordionId}">
-                                <div class="accordion-item">
-                                    <h2 class="accordion-header">
-                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#${collapseId}">
-                                            ${data.urls.length} visited URL(s)
-                                        </button>
-                                    </h2>
-                                    <div id="${collapseId}" class="accordion-collapse collapse" data-bs-parent="#${urlAccordionId}">
-                                        <div class="accordion-body p-0">
-                                            <ul class="list-group list-group-flush">${listItems}</ul>
+                                <div class="accordion" id="${urlAccordionId}">
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header">
+                                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#${collapseId}">
+                                                ${data.urls.length} visited URL(s)
+                                            </button>
+                                        </h2>
+                                        <div id="${collapseId}" class="accordion-collapse collapse" data-bs-parent="#${urlAccordionId}">
+                                            <div class="accordion-body p-0">
+                                                <ul class="list-group list-group-flush">${listItems}</ul>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        `;
+                            `;
                         }
                     }
                 ]
             });
 
-            // Date and time range filter
             $.fn.dataTable.ext.search.push(function(settings, data, dataIndex) {
                 const startDate = document.getElementById('mergeStartDate').value;
                 const endDate = document.getElementById('mergeEndDate').value;
@@ -2469,7 +2558,6 @@
                 return hasDateTimeInRange;
             });
 
-            // Apply filters
             $('#mergeStartDate, #mergeEndDate, #mergeStartTime, #mergeEndTime, #mergeCountryFilter').on(
                 'change',
                 function() {
@@ -2510,13 +2598,11 @@
                 table.column(9).search(value).draw();
             });
 
-            // Update charts and statistics on table draw
             table.on('draw', function() {
                 updateCharts();
                 updateStatistics();
             });
 
-            // Initialize date and time pickers
             $('#mergeStartDate, #mergeEndDate').flatpickr({
                 dateFormat: 'Y-m-d',
                 onChange: function() {
@@ -2534,7 +2620,6 @@
                 }
             });
 
-            // Initial render
             updateCharts();
             updateStatistics();
         });
