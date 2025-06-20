@@ -349,13 +349,13 @@ class FrontNewsController extends Controller
         $country = $homeController->getDefaultcountry();
         $defaultCountry = $country;
 
-         $news = News::with(['category', 'countriesCategoriesNews'])
+        $news = News::with(['category', 'countriesCategoriesNews'])
             ->where('status', 'published')
 
             ->whereHas('countriesCategoriesNews.country', function ($query) use ($countryname) {
                 $query->where('country_name', $countryname);
             })
-            ->orderByRaw('CASE WHEN `order` > 0 THEN 0 ELSE 1 END') // Prioritaskan order > 0
+            ->orderByRaw('CASE WHEN `order` > 0 AND DATE(created_at) = ? THEN 0 ELSE 1 END',[now()]) // Prioritaskan order > 0
             ->orderBy('order', 'asc') // Prioritaskan dari 1 - 5
             ->orderBy('created_at', 'desc')
             ->orderBy('id', 'asc')
