@@ -265,8 +265,9 @@ class FrontHomeController extends Controller
                         ->where('category_id', $category->id);
                 })
                 ->orderByRaw('CASE WHEN `order` > 0 THEN 0 ELSE 1 END') // prioritaskan order 1-5
-                ->orderBy('order', 'asc')
                 ->orderBy('created_at', 'desc')
+                // ->orderBy('order', 'asc')
+
                 ->limit(9)
                 ->get();
 
