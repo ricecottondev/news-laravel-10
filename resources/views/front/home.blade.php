@@ -6,9 +6,16 @@
      <section class="pt-1">
          <div
              class="source-news text-bg-warning text-center py-1 mb-3 d-md-flex flex-wrap align-items-md-center px-md-3 justify-content-md-center column-gap-md-4">
-             <div>“We read everything — SMH, ABC, Nine, Seven, SBS, 10News, The Guardian, anyone who does journalism,
-                 <u>even the ones behind paywalls</u> — and spin it into sarcasm faster than you can say ‘breaking’.”
-             </div>
+             @if ($defaultCountry=="USA")
+                 <div class="text-nowrap">“We read everything — CNN, Fox News, MSNBC, The New York Times, The Washington Post,
+                     anyone who does journalism, <u>even the ones behind paywalls</u> — and spin it into sarcasm faster than
+                     you can say ‘breaking’.”</div>
+             @else
+                    <div class="text-nowrap">“We read everything — ABC, The Guardian, SBS News, 7News, 9News, 10News, SMH,
+                        anyone who does journalism, <u>even the ones behind paywalls</u> — and spin it into sarcasm faster than
+                        you can say ‘breaking’.”</div>
+             @endif
+
              <div class="d-flex flex-nowrap justify-content-center gap-2 align-items-center d-none">
                  <div>
                      <img src="assets/template3/asset/img/abc-logo-v1.png" width="20" height="auto" alt=""
