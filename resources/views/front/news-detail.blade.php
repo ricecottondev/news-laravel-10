@@ -60,52 +60,35 @@
 							<section>
 								<div class="news-img position-relative">
 									<div class="news-action">
-										<ul
-											class="list-unstyled d-flex flex-nowrap justify-content-end flex-md-column mb-md-0">
+										<ul class="list-unstyled d-flex flex-column">
 											<li>
 												<a href="https://api.whatsapp.com/send?text=Australia%E2%80%99s+Identity+Crisis%3A+We%E2%80%99re+in+Asia%2C+Not+Texas%E2%80%94Deal+With+It+%F0%9F%87%A6%F0%9F%87%BA%E2%9E%A1%EF%B8%8F%F0%9F%8C%8F+-+http%3A%2F%2F192.168.6.229%3A8000%2Fnews%2Faustralias-identity-crisis-were-in-asia-not-texas-deal-with-it"
-													class="text-reset text-decoration-none p-lg-4 link-hover">
-													<i class="fab fa-whatsapp fa-lg"></i>
+													class="text-reset text-decoration-none link-hover">
+													<i class="fab fa-whatsapp"></i>
 												</a>
-											</li>
-											<li>
-												<div class="vr h-100 mx-2 d-md-none"></div>
-												<hr class="m-0 d-none d-md-block">
 											</li>
 											<li>
 												<a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2F192.168.6.229%3A8000%2Fnews%2Faustralias-identity-crisis-were-in-asia-not-texas-deal-with-it"
-													class="text-reset text-decoration-none p-lg-4 link-hover">
-													<i class="fab fa-facebook-f fa-lg"></i>
+													class="text-reset text-decoration-none link-hover">
+													<i class="fab fa-facebook-f"></i>
 												</a>
-											</li>
-											<li>
-												<div class="vr h-100 mx-2 d-md-none"></div>
-												<hr class="m-0 d-none d-md-block">
 											</li>
 											<li>
 												<a href="https://twitter.com/intent/tweet?url=http%3A%2F%2F192.168.6.229%3A8000%2Fnews%2Faustralias-identity-crisis-were-in-asia-not-texas-deal-with-it&text=Australia%E2%80%99s+Identity+Crisis%3A+We%E2%80%99re+in+Asia%2C+Not+Texas%E2%80%94Deal+With+It+%F0%9F%87%A6%F0%9F%87%BA%E2%9E%A1%EF%B8%8F%F0%9F%8C%8F"
-													class="text-reset text-decoration-none p-lg-4 link-hover">
-													<i class="fab fa-x-twitter fa-lg"></i>
+													class="text-reset text-decoration-none link-hover">
+													<i class="fab fa-x-twitter"></i>
 												</a>
-											</li>
-											<li>
-												<div class="vr h-100 mx-2 d-md-none"></div>
-												<hr class="m-0 d-none d-md-block">
 											</li>
 											<li>
 												<a href="https://t.me/share/url?url=http%3A%2F%2F192.168.6.229%3A8000%2Fnews%2Faustralias-identity-crisis-were-in-asia-not-texas-deal-with-it&text=Australia%E2%80%99s+Identity+Crisis%3A+We%E2%80%99re+in+Asia%2C+Not+Texas%E2%80%94Deal+With+It+%F0%9F%87%A6%F0%9F%87%BA%E2%9E%A1%EF%B8%8F%F0%9F%8C%8F"
-													class="text-reset text-decoration-none p-lg-4 link-hover">
-													<i class="fab fa-telegram fa-lg"></i>
+													class="text-reset text-decoration-none link-hover">
+													<i class="fab fa-telegram"></i>
 												</a>
 											</li>
 											<li>
-												<div class="vr h-100 mx-2 d-md-none"></div>
-												<hr class="m-0 d-none d-md-block">
-											</li>
-											<li>
 												<a href="https://www.linkedin.com/sharing/share-offsite/?url=http%3A%2F%2F192.168.6.229%3A8000%2Fnews%2Faustralias-identity-crisis-were-in-asia-not-texas-deal-with-it"
-													class="text-reset text-decoration-none p-lg-4 link-hover">
-													<i class="fab fa-linkedin-in fa-lg"></i>
+													class="text-reset text-decoration-none link-hover">
+													<i class="fab fa-linkedin-in"></i>
 												</a>
 											</li>
 										</ul>
@@ -167,34 +150,34 @@
 									<a href="https://api.whatsapp.com/send?text={{ urlencode($news->title . ' - ' . route('front.news.show', $news->slug)) }}"
 										class="btn btn-outline-success d-flex align-items-center gap-2 btn-sm"
 										target="_blank" onclick="logShare({{ $news->id }}, 'whatsapp')">
-										<i class="fab fa-whatsapp fa-lg"></i> <span>WhatsApp</span>
+										<i class="fab fa-whatsapp"></i> <span>WhatsApp</span>
 									</a>
 
 									<!-- Facebook -->
 									<a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(route('front.news.show', $news->slug)) }}"
 										class="btn btn-outline-primary d-flex align-items-center gap-2 btn-sm"
 										target="_blank" onclick="logShare({{ $news->id }}, 'facebook')">
-										<i class="fab fa-facebook-f fa-lg"></i> <span>Facebook</span>
+										<i class="fab fa-facebook-f"></i> <span>Facebook</span>
 									</a>
 
 									<!-- Twitter -->
 									<a href="https://twitter.com/intent/tweet?url={{ urlencode(route('front.news.show', $news->slug)) }}&text={{ urlencode($news->title) }}"
 										class="btn btn-outline-info d-flex align-items-center gap-2 btn-sm text-info"
 										target="_blank" onclick="logShare({{ $news->id }}, 'twitter')">
-										<i class="fab fa-x-twitter fa-lg"></i> <span>Twitter</span>
+										<i class="fab fa-x-twitter"></i> <span>Twitter</span>
 									</a>
 
 									<!-- Telegram -->
 									<a href="https://t.me/share/url?url={{ urlencode(route('front.news.show', $news->slug)) }}&text={{ urlencode($news->title) }}"
 										class="btn btn-outline-secondary d-flex align-items-center gap-2 btn-sm"
 										target="_blank" onclick="logShare({{ $news->id }}, 'telegram')">
-										<i class="fab ta-telegram fa-lg"></i> <span>Telegram</span>
+										<i class="fab ta-telegram"></i> <span>Telegram</span>
 									</a>
 
 									<a href="https://www.linkedin.com/sharing/share-offsite/?url={{ urlencode(route('front.news.show', $news->slug)) }}"
 										class="btn btn-outline-primary d-flex align-items-center gap-2 btn-sm"
 										target="_blank" onclick="logShare({{ $news->id }}, 'linkedin')">
-										<i class="fab fa-linkedin-in fa-lg"></i> <span>LinkedIn</span>
+										<i class="fab fa-linkedin-in"></i> <span>LinkedIn</span>
 									</a>
 
 									<!-- Copy Link -->
@@ -345,7 +328,12 @@
 								</button>
 							</div>
 
+							<div class="d-md-none">
+								@include('front.layouts.subscribe')
+							</div>
+
 						</div>
+						<hr class="my-5 d-md-none">
 					</div>
 
 					{{-- detail news end --}}
@@ -424,41 +412,11 @@
 			<div class="col px-3 col-12 col-md">
 				<aside class="sidenav">
 
-					<div class="subscribe">
-						<p>
-							“🚨 Daily Roast Drops – Subscribe Now”
-						</p>
-
-						@if (session('success'))
-						<div class="alert alert-success small py-2 my-2">
-							{{ session('success') }}
-						</div>
-						@endif
-
-						@if ($errors->any())
-						<div class="alert alert-danger small py-2 my-2">
-							@foreach ($errors->all() as $error)
-							<div>{{ $error }}</div>
-							@endforeach
-						</div>
-						@endif
-
-						<div class="form">
-							<form action="{{ route('email.subscribe.store') }}" method="POST">
-								@csrf
-								<div class="input-group">
-									<input type="email" name="email"
-										class="form-control rounded-0 border-light border-end-0 pe-0"
-										placeholder="Your Email" required>
-									<button class="btn rounded-0 border-light border-start-0">
-										<i class="fas fa-envelope"></i>
-									</button>
-								</div>
-							</form>
-						</div>
+					<div class="d-none d-md-block">
+						@include('front.layouts.subscribe')
 					</div>
 
-					<div>
+					<div class="d-none d-md-block">
 						<hr class="my-4">
 					</div>
 					<div class="news-comment">
