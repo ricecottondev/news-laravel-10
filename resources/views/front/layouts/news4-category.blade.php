@@ -180,7 +180,7 @@
 						<li class="more-item">
 							<a href="{{ route('front.news.show', $item->slug) }}"
 								class="text-reset link-hover link-hover-underline">
-								<b class="fw-bold text-uppercase">{{ $item->slug ?? '' }}</b> -
+                                    <b class="fw-bold">{{ $item->title ?? '' }}</b> -
 								{{ Str::words(strip_tags($item->short_desc), 35, '...') }}
 							</a>
 						</li>
