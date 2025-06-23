@@ -5,17 +5,24 @@
  @section('content')
      <section class="pt-1">
          <div
-             class="source-news text-bg-warning text-center py-1 mb-3 d-md-flex flex-wrap align-items-md-center px-md-3 justify-content-md-center column-gap-md-4">
-             @if ($defaultCountry=="USA")
-                 <div class="text-nowrap">“We read everything — CNN, Fox News, MSNBC, The New York Times, The Washington Post,
+             class="source-news text-bg-warning text-center py-1 mb-3 d-md-flex flex-wrap align-items-md-center justify-content-md-center column-gap-md-4">
+
+
+             @if ($defaultCountry == 'USA')
+                 <div class="container-lg">“We read everything — CNN, Fox News, MSNBC, The New York Times, The Washington
+                     Post,
                      anyone who does journalism, <u>even the ones behind paywalls</u> — and spin it into sarcasm faster than
                      you can say ‘breaking’.”</div>
              @else
-                    <div class="text-nowrap">“We read everything — ABC, The Guardian, SBS News, 7News, 9News, 10News, SMH,
-                        anyone who does journalism, <u>even the ones behind paywalls</u> — and spin it into sarcasm faster than
-                        you can say ‘breaking’.”</div>
+                 <div class="container-lg">“We read everything — ABC, The Guardian, SBS News, 7News, 9News, 10News, SMH,
+                     anyone who does journalism, <u>even the ones behind paywalls</u> — and spin it into sarcasm faster than
+                     you can say ‘breaking’.”</div>
              @endif
 
+             {{-- <div class="container-lg">“We read everything — SMH, ABC, Nine, Seven, SBS, 10News, The Guardian, anyone who
+                 does journalism,
+                 <u>even the ones behind paywalls</u> — and spin it into sarcasm faster than you can say ‘breaking’.”
+             </div> --}}
              <div class="d-flex flex-nowrap justify-content-center gap-2 align-items-center d-none">
                  <div>
                      <img src="assets/template3/asset/img/abc-logo-v1.png" width="20" height="auto" alt=""
@@ -152,16 +159,16 @@
              <div class="row g-0">
                  <div class="col col-12 col-md-8">
                      @php
-                         //  $withImage = $topnews->filter(fn($item) => $item->image)->values();
-                         //  $noImage = $topnews->filter(fn($item) => !$item->image)->values();
-                         //  $withImageIndex = 0;
-                         //  $noImageIndex = 0;
+                         // $withImage = $topnews->filter(fn($item) => $item->image)->values();
+                         // $noImage = $topnews->filter(fn($item) => !$item->image)->values();
+                         // $withImageIndex = 0;
+                         // $noImageIndex = 0;
                          $layoutStep = 1;
                      @endphp
                      <!-- news -->
                      <div class="news">
                          @php
-                             //  $chunks = $topnews->chunk(3);
+                             // $chunks = $topnews->chunk(3);
                          @endphp
 
                          {{-- @php
@@ -178,7 +185,7 @@
                          @endif --}}
 
                          @php
-                             //  $chunks = $topnews->chunk(3);
+                             // $chunks = $topnews->chunk(3);
                          @endphp
 
                          @foreach ($topnews->values()->chunk(3) as $index => $chunk)
