@@ -75,6 +75,8 @@
                     <img src="{{ url('') }}/images/about_us_1.png" class="img-fluid about-image" alt="Factabot Image">
                 </div>
                 <div class="col-md-6">
+
+                    <h4 class="fw-semibold mt-3">News is broken by design</h4>
                     <p>Once upon a headline, three regular guys—no trust funds, no media empires, no PR teams—were sitting around, scrolling through their feeds, and realizing something unsettling: depending on where you got your news, you were living in a different universe.</p>
 
                     <p>One app says the world is on fire. Another swears it’s all fake. One outlet worships a politician like a rock star, the other paints them as a villain. Same story. Different spin. Who’s lying? Who’s winning? Spoiler: not us.</p>
