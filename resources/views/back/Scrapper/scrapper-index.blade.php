@@ -45,7 +45,7 @@
 
                                 <form method="GET" action="{{ route('scrapper.index') }}">
                                     <div class="form-group mb-3 mt-3">
-                                        <label><strong>Give me a website link, I will scrape the headers.</strong></label>
+                                        <label><strong>Give me a website link, I will scrape the content.</strong></label>
                                         <input type="text" name="url" class="form-control mt-3"
                                             value="{{ request('url') }}" placeholder="https://example.com" />
                                     </div>
@@ -142,21 +142,25 @@
 
                                                 @foreach ($data['ordered_text'] as $item)
                                                     {{-- @if (!empty($item['title']) && !empty($item['summary']) && !empty($item['source']) && !empty($item['topic']) && !empty($item['date'])) --}}
-                                                    <div class="mb-4 p-3 border rounded shadow-sm bg-white">
-                                                        <a href="{{ $item['url'] }}" target="_blank">
-                                                            <h4 class="font-bold text-lg mb-1 text-blue-800">
-                                                                {{ $item['title'] }}</h4>
-                                                            <p class="text-gray-700 mb-2">{{ $item['summary'] }}</p>
-                                                            <p class="text-sm text-gray-500">
-                                                                <strong>Sumber:</strong> {{ $item['source'] }} |
-                                                                <strong>Topik:</strong> {{ $item['topic'] }} |
-                                                                <strong>Tanggal:</strong> {{ $item['date'] }}
-                                                            </p>
+                                                    <div class="alert {!! $item['alert'] !!}">
+                                                        <div class="mb-4 p-3 border rounded shadow-sm bg-white">
+                                                            <a href="{{ $item['url'] }}" target="_blank">
+                                                                <h4 class="font-bold text-lg mb-1 text-blue-800">
+                                                                    {{ $item['title'] }}</h4>
+                                                                <p class="text-gray-700 mb-2">{{ $item['summary'] }}</p>
+                                                                <p class="text-sm text-gray-500">
+                                                                    <strong>Sumber:</strong> {{ $item['source'] }} |
+                                                                    <strong>Topik:</strong> {{ $item['topic'] }} |
+                                                                    <strong>Tanggal:</strong> {{ $item['date'] }}
+                                                                </p>
 
-                                                            <p class="text-sm text-gray-500" style="text-align: justify;">
-                                                                {{ $item['sublink'] }}
-                                                            </p>
-                                                        </a>
+                                                                <p class="text-sm text-gray-500"
+                                                                    style="text-align: justify;">
+                                                                    {{ $item['content'] }}
+                                                                </p>
+                                                            </a>
+                                                        </div>
+                                                        <h3>{{ $item['message'] }}</h3>
                                                     </div>
                                                     {{-- @endif --}}
                                                 @endforeach
@@ -180,7 +184,7 @@
     </div>
     <script>
         document.getElementById('btn-export-excel').addEventListener('click', function() {
-            fetch('{{ route("export.excel") }}', {
+            fetch('{{ route('export.excel') }}', {
                     method: 'GET',
                     headers: {
                         'X-Requested-With': 'XMLHttpRequest',
