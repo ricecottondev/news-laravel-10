@@ -382,6 +382,14 @@
                 </div>
 
                 <div class="row g-4 mb-4" id="charts-section">
+                    <div class="col-12">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <h6 class="card-title">Pengunjung per Hari</h6>
+                                <canvas id="allVisitorsPerDayChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
                     <div class="col-6">
                         <div class="card h-100">
                             <div class="card-body">
@@ -489,162 +497,7 @@
                 </div>
             </div>
         </div>
-        {{-- <div class="card my-4">
-            <div class="card-body">
-                <h2 class="mb-4">📄 Page X News Visits</h2>
-                <div class="row row-cols-1 row-cols-sm-3">
-                    <div class="col mb-4">
-                        <input type="text" class="selector form-control" id="mergeStartDate"
-                            placeholder="Pilih Tanggal Mulai">
-                    </div>
-                    <div class="col mb-4">
-                        <input type="text" class="selector form-control" id="mergeEndDate"
-                            placeholder="Pilih Tanggal Selesai">
-                    </div>
-                    <div class="col mb-4">
-                        <select class="form-select" id="mergeBotOrHumanFilter">
-                            <option value="">Pilih Bot Or Human</option>
-                            <option value="Yes">Bot</option>
-                            <option value="No">Human</option>
-                        </select>
-                    </div>
-                    <div class="col mb-4">
-                        <input type="text" class="selector form-control" id="mergeStartTime"
-                            placeholder="Pilih Jam Awal">
-                    </div>
-                    <div class="col mb-4">
-                        <input type="text" class="selector form-control" id="mergeEndTime"
-                            placeholder="Pilih Jam Akhir">
-                    </div>
-                    <div class="col mb-4">
-                        <select class="form-select text-capitalize" id="mergeCountryFilter">
-                            <option value="">Pilih Country</option>
-                        </select>
-                    </div>
-                    <div class="col mb-4">
-                        <select class="form-select text-capitalize" id="mergeUrlFilter">
-                            <option value="">Pilih URL</option>
-                        </select>
-                    </div>
-                    <div class="col mb-4">
-                        <select class="form-select text-capitalize" id="mergeBrowserFilter">
-                            <option value="">Pilih Browser</option>
-                        </select>
-                    </div>
-                    <div class="col mb-4">
-                        <select class="form-select text-capitalize" id="mergePlatformFilter">
-                            <option value="">Pilih Platform</option>
-                        </select>
-                    </div>
-                    <div class="col mb-4">
-                        <button id="exportPageXNews" class="btn btn-primary w-100">
-                            <span id="spinner-btn" class="spinner-border spinner-border-sm me-1 d-none" role="status"
-                                aria-hidden="true"></span>
-                            <span class="btn-label">Export Excel</span>
-                        </button>
-                    </div>
-                </div>
 
-                <div class="row">
-                    <div class="col-12 mb-2">
-                        <div class="alert alert-info">
-                            <h4 class="mb-3">📈 Statistik Page x News Visits</h4>
-                            <ul class="list-group" id="global-stats">
-
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row g-4 mb-4" id="charts-section">
-                    <div class="col-6">
-                        <div class="card h-100">
-                            <div class="card-body">
-                                <h6 class="card-title">Jumlah Pengunjung Unik per Hari</h6>
-                                <canvas id="uniqueVisitorsPerDayChart"></canvas>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-6">
-                        <div class="card h-100">
-                            <div class="card-body">
-                                <h6 class="card-title">Top 10 URL Terpopuler</h6>
-                                <canvas id="topUrlsChart"></canvas>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-6">
-                        <div class="card h-100">
-                            <div class="card-body">
-                                <h6 class="card-title">Jumlah Total Kunjungan per Hari</h6>
-                                <canvas id="totalVisitsPerDayChart"></canvas>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-6">
-                        <div class="card h-100">
-                            <div class="card-body">
-                                <h6 class="card-title">Jumlah Kunjungan per Jam</h6>
-                                <canvas id="visitsPerHourChart"></canvas>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-3">
-                        <div class="card h-100">
-                            <div class="card-body">
-                                <h6 class="card-title">Distribusi Platform Pengguna</h6>
-                                <canvas id="platformDistributionChart"></canvas>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-3">
-                        <div class="card h-100">
-                            <div class="card-body">
-                                <h6 class="card-title">Distribusi Browser Pengguna</h6>
-                                <canvas id="browserDistributionChart"></canvas>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-3">
-                        <div class="card h-100">
-                            <div class="card-body">
-                                <h6 class="card-title">Distribusi Bot vs Human</h6>
-                                <canvas id="botVsHumanChart"></canvas>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-3">
-                        <div class="card h-100">
-                            <div class="card-body">
-                                <h6 class="card-title">Jumlah Kunjungan Berdasarkan Referer</h6>
-                                <canvas id="refererDistributionChart"></canvas>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-
-                <div class="table-responsive">
-                    <table id="combined-table" class="table table-bordered table-striped">
-                        <thead>
-                            <tr>
-                                <th>IP</th>
-                                <th>Visited At</th>
-                                <th>News Visited</th>
-                                <th>Page Visited</th>
-                                <th>News Duration</th>
-                                <th>Page Duration</th>
-                                <th>Bot Status</th>
-                                <th>Browser</th>
-                                <th>Platform</th>
-                                <th>Visited URLs</th>
-                            </tr>
-                        </thead>
-                        <tbody id="combined-body"></tbody>
-                    </table>
-                </div>
-            </div>
-        </div> --}}
     </div>
     <!-- Konversi data PHP ke JSON -->
     <script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
@@ -1899,6 +1752,9 @@
                     }),
                 ipOverlaping: new Chart(document.getElementById('ipBubbleChart').getContext('2d'), {
                     type: 'bubble'
+                }),
+                allVisitorsPerDayChart: new Chart(document.getElementById('allVisitorsPerDayChart'), {
+                    type: 'bar'
                 })
             };
 
@@ -2236,7 +2092,7 @@
                     x: item.date,
                     y: item.hour,
                     r: item.count === 1 ? 5 : Math.min(5 + (item.count - 1) * 3,
-                    20), // 1 visit = 5, scales up by 3 per additional visit, capped at 20
+                        20), // 1 visit = 5, scales up by 3 per additional visit, capped at 20
                     ip: item.ip
                 }));
 
@@ -2269,7 +2125,7 @@
                                 text: 'Tanggal'
                             },
                             labels: [...new Set(bubbleData.map(d => d.x))]
-                            .sort() // Ensure unique, sorted dates
+                                .sort() // Ensure unique, sorted dates
                         },
                         y: {
                             min: 0,
@@ -2296,7 +2152,7 @@
                                         r
                                     } = context.raw;
                                     const visits = r === 5 ? 1 : Math.round((r - 5) / 3 +
-                                    1); // Reverse calculate visits
+                                        1); // Reverse calculate visits
                                     return `IP: ${context.dataset.label}, Date: ${x}, Hour: ${y}, Visits: ${visits}`;
                                 }
                             }
@@ -2304,6 +2160,46 @@
                     }
                 };
                 charts.ipOverlaping.update();
+
+                // 11. All Visitors per Day (Bar Chart)
+                const allVisitorsPerDay = {};
+                allFilteredVisits.forEach(v => {
+                    const date = getDateString(v.visited_at);
+                    allVisitorsPerDay[date] = (allVisitorsPerDay[date] || 0) + 1;
+                });
+                const allVisitorsData = Object.entries(allVisitorsPerDay)
+                    .map(([date, count]) => ({
+                        date,
+                        count
+                    }))
+                    .sort((a, b) => new Date(a.date) - new Date(b.date));
+                charts.allVisitorsPerDayChart.data = {
+                    labels: allVisitorsData.map(d => d.date),
+                    datasets: [{
+                        label: 'Semua Pengunjung',
+                        data: allVisitorsData.map(d => d.count),
+                        backgroundColor: 'rgba(255, 159, 64, 0.5)',
+                        borderColor: 'rgba(255, 159, 64, 1)',
+                        borderWidth: 1
+                    }]
+                };
+                charts.allVisitorsPerDayChart.options = {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        title: {
+                            display: true,
+                            text: 'Semua Pengunjung per Hari'
+                        }
+                    }
+                };
+                charts.allVisitorsPerDayChart.update();
             }
 
             function updateStatistics() {
