@@ -1,5 +1,7 @@
 @extends('back.layouts.layout')
 @section('content')
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.6.0/nouislider.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.6.0/nouislider.min.js"></script>
     <div class="container">
         <h1 class="my-10">IP Checker</h1>
         <div class="card my-4">
@@ -341,6 +343,16 @@
                     <div class="col mb-4">
                         <input type="text" class="selector form-control" id="mergeEndTime"
                             placeholder="Pilih Jam Akhir">
+                    </div>
+                    <div class="col mb-4">
+                        <label for="durationRange" class="form-label">Visit Duration Range (seconds)</label>
+                        <div id="durationRange" class="mb-2"></div>
+                        <div class="d-flex justify-content-between">
+                            <span id="durationMinLabel">0s</span>
+                            <span id="durationMaxLabel">0s</span>
+                        </div>
+                        <input type="hidden" id="mergeMinDuration" value="0">
+                        <input type="hidden" id="mergeMaxDuration" value="0">
                     </div>
                     <div class="col mb-4">
                         <select class="form-select text-capitalize" id="mergeCountryFilter">
@@ -1629,23 +1641,23 @@
                     .visited_at)].sort((a, b) => new Date(b) - new Date(a));
                 const accordionId = `accordion-${index}`;
                 const accordionHTML = `
-                    <div class="accordion" id="${accordionId}">
-                        <div class="accordion-item">
-                            <h2 class="accordion-header">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-${index}">
-                                    ${allVisitedAt.length} visits
-                                </button>
-                            </h2>
-                            <div id="collapse-${index}" class="accordion-collapse collapse" data-bs-parent="#${accordionId}">
-                                <div class="accordion-body">
-                                    <ul class="mb-0 list-group list-group-flush">
-                                        ${allVisitedAt.map(d => `<li class="list-group-item">${new Date(d).toLocaleString()}</li>`).join('')}
-                                    </ul>
-                                </div>
-                            </div>
+            <div class="accordion" id="${accordionId}">
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-${index}">
+                            ${allVisitedAt.length} visits
+                        </button>
+                    </h2>
+                    <div id="collapse-${index}" class="accordion-collapse collapse" data-bs-parent="#${accordionId}">
+                        <div class="accordion-body">
+                            <ul class="mb-0 list-group list-group-flush">
+                                ${allVisitedAt.map(d => `<li class="list-group-item">${new Date(d).toLocaleString()}</li>`).join('')}
+                            </ul>
                         </div>
                     </div>
-                `;
+                </div>
+            </div>
+        `;
                 return {
                     ip,
                     visitedAtAccordion: accordionHTML,
@@ -1716,6 +1728,31 @@
                 ipColors[ip] = generateColor();
             });
 
+            // Initialize noUISlider for duration range
+            const maxDuration = Math.max(
+                ...combinedData.map(data =>
+                    Math.max(
+                        parseInt(data.newsDuration) || 0,
+                        parseInt(data.pageDuration) || 0
+                    )
+                )
+            );
+            const durationSlider = document.getElementById('durationRange');
+            noUiSlider.create(durationSlider, {
+                start: [0, maxDuration || 1000],
+                connect: true,
+                range: {
+                    'min': 0,
+                    'max': maxDuration || 1000
+                },
+                step: 1,
+                format: {
+                    to: value => Math.round(value),
+                    from: value => Number(value)
+                }
+            });
+
+
             const charts = {
                 uniqueVisitorsPerDay: new Chart(document.getElementById('uniqueVisitorsPerDayChart')
                     .getContext('2d'), {
@@ -1774,6 +1811,8 @@
                 const browserFilter = document.getElementById('mergeBrowserFilter').value;
                 const platformFilter = document.getElementById('mergePlatformFilter').value;
                 const countryFilter = document.getElementById('mergeCountryFilter').value;
+                const minDuration = parseInt(document.getElementById('mergeMinDuration').value) || 0;
+                const maxDuration = parseInt(document.getElementById('mergeMaxDuration').value) || Infinity;
 
                 const start = startDate ? new Date(startDate) : null;
                 const end = endDate ? new Date(endDate) : null;
@@ -1783,16 +1822,18 @@
                     const datePass = (!start || visitedDate >= start) && (!end || visitedDate <= end);
                     const timePass = (startTime === null && endTime === null) ||
                         ((startTime === null || visitedDate.getHours() * 60 + visitedDate
-                                .getMinutes() >= startTime) &&
+                            .getMinutes() >= startTime) &&
                             (endTime === null || visitedDate.getHours() * 60 + visitedDate
-                                .getMinutes() <= endTime));
+                            .getMinutes() <= endTime));
                     const botPass = !botFilter || item.is_bot === botFilter;
                     const browserPass = !browserFilter || item.browser === browserFilter;
                     const platformPass = !platformFilter || item.platform === platformFilter;
                     const countryPass = !countryFilter || (ipCountryCache.get(item.ip) || 'Unknown') ===
                         countryFilter;
+                    const durationPass = (parseInt(item.duration_seconds) || 0) >= minDuration && (
+                        parseInt(item.duration_seconds) || 0) <= maxDuration;
                     return datePass && timePass && botPass && browserPass && platformPass &&
-                        countryPass;
+                        countryPass && durationPass;
                 });
 
                 const filteredPageVisits = pageVisits.filter(item => {
@@ -1800,17 +1841,19 @@
                     const datePass = (!start || visitedDate >= start) && (!end || visitedDate <= end);
                     const timePass = (startTime === null && endTime === null) ||
                         ((startTime === null || visitedDate.getHours() * 60 + visitedDate
-                                .getMinutes() >= startTime) &&
+                            .getMinutes() >= startTime) &&
                             (endTime === null || visitedDate.getHours() * 60 + visitedDate
-                                .getMinutes() <= endTime));
+                            .getMinutes() <= endTime));
                     const botPass = !botFilter || item.is_bot === botFilter;
                     const urlPass = !urlFilter || item.url === urlFilter;
                     const browserPass = !browserFilter || item.browser === browserFilter;
                     const platformPass = !platformFilter || item.platform === platformFilter;
                     const countryPass = !countryFilter || (ipCountryCache.get(item.ip) || 'Unknown') ===
                         countryFilter;
+                    const durationPass = (parseInt(item.duration) || 0) >= minDuration && (parseInt(item
+                        .duration) || 0) <= maxDuration;
                     return datePass && timePass && botPass && urlPass && browserPass && platformPass &&
-                        countryPass;
+                        countryPass && durationPass;
                 });
 
                 const allFilteredVisits = [...filteredNewsVisits.map(v => ({
@@ -2091,13 +2134,10 @@
                 const bubbleData = Object.values(ipActivity).map(item => ({
                     x: item.date,
                     y: item.hour,
-                    r: item.count === 1 ? 5 : Math.min(5 + (item.count - 1) * 3,
-                        20), // 1 visit = 5, scales up by 3 per additional visit, capped at 20
+                    r: item.count === 1 ? 5 : Math.min(5 + (item.count - 1) * 3, 20),
                     ip: item.ip
                 }));
 
-
-                // Create datasets for each unique IP
                 const datasets = Array.from(uniqueIPs).map(ip => ({
                     label: ip,
                     data: bubbleData.filter(d => d.ip === ip).map(d => ({
@@ -2105,14 +2145,11 @@
                         y: d.y,
                         r: d.r
                     })),
-                    backgroundColor: ipColors[ip] + '80', // Add opacity for overlap visibility
+                    backgroundColor: ipColors[ip] + '80',
                     borderColor: ipColors[ip],
                     borderWidth: 1
-                })).filter(dataset => dataset.data.length > 0); // Only include IPs with data
+                })).filter(dataset => dataset.data.length > 0);
 
-                console.log('====================================');
-                console.log(datasets.length);
-                console.log('====================================');
                 charts.ipOverlaping.data = {
                     datasets
                 };
@@ -2124,8 +2161,7 @@
                                 display: true,
                                 text: 'Tanggal'
                             },
-                            labels: [...new Set(bubbleData.map(d => d.x))]
-                                .sort() // Ensure unique, sorted dates
+                            labels: [...new Set(bubbleData.map(d => d.x))].sort()
                         },
                         y: {
                             min: 0,
@@ -2141,7 +2177,7 @@
                     },
                     plugins: {
                         legend: {
-                            display: false,
+                            display: false
                         },
                         tooltip: {
                             callbacks: {
@@ -2151,8 +2187,7 @@
                                         y,
                                         r
                                     } = context.raw;
-                                    const visits = r === 5 ? 1 : Math.round((r - 5) / 3 +
-                                        1); // Reverse calculate visits
+                                    const visits = r === 5 ? 1 : Math.round((r - 5) / 3 + 1);
                                     return `IP: ${context.dataset.label}, Date: ${x}, Hour: ${y}, Visits: ${visits}`;
                                 }
                             }
@@ -2212,6 +2247,8 @@
                 const browserFilter = document.getElementById('mergeBrowserFilter').value;
                 const platformFilter = document.getElementById('mergePlatformFilter').value;
                 const countryFilter = document.getElementById('mergeCountryFilter').value;
+                const minDuration = parseInt(document.getElementById('mergeMinDuration').value) || 0;
+                const maxDuration = parseInt(document.getElementById('mergeMaxDuration').value) || Infinity;
 
                 const start = startDate ? new Date(startDate) : null;
                 const end = endDate ? new Date(endDate) : null;
@@ -2221,16 +2258,18 @@
                     const datePass = (!start || visitedDate >= start) && (!end || visitedDate <= end);
                     const timePass = (startTime === null && endTime === null) ||
                         ((startTime === null || visitedDate.getHours() * 60 + visitedDate
-                                .getMinutes() >= startTime) &&
+                            .getMinutes() >= startTime) &&
                             (endTime === null || visitedDate.getHours() * 60 + visitedDate
-                                .getMinutes() <= endTime));
+                            .getMinutes() <= endTime));
                     const botPass = !botFilter || item.is_bot === botFilter;
                     const browserPass = !browserFilter || item.browser === browserFilter;
                     const platformPass = !platformFilter || item.platform === platformFilter;
                     const countryPass = !countryFilter || (ipCountryCache.get(item.ip) || 'Unknown') ===
                         countryFilter;
+                    const durationPass = (parseInt(item.duration_seconds) || 0) >= minDuration && (
+                        parseInt(item.duration_seconds) || 0) <= maxDuration;
                     return datePass && timePass && botPass && browserPass && platformPass &&
-                        countryPass;
+                        countryPass && durationPass;
                 });
 
                 const filteredPageVisits = pageVisits.filter(item => {
@@ -2238,17 +2277,19 @@
                     const datePass = (!start || visitedDate >= start) && (!end || visitedDate <= end);
                     const timePass = (startTime === null && endTime === null) ||
                         ((startTime === null || visitedDate.getHours() * 60 + visitedDate
-                                .getMinutes() >= startTime) &&
+                            .getMinutes() >= startTime) &&
                             (endTime === null || visitedDate.getHours() * 60 + visitedDate
-                                .getMinutes() <= endTime));
+                            .getMinutes() <= endTime));
                     const botPass = !botFilter || item.is_bot === botFilter;
                     const urlPass = !urlFilter || item.url === urlFilter;
                     const browserPass = !browserFilter || item.browser === browserFilter;
                     const platformPass = !platformFilter || item.platform === platformFilter;
                     const countryPass = !countryFilter || (ipCountryCache.get(item.ip) || 'Unknown') ===
                         countryFilter;
+                    const durationPass = (parseInt(item.duration) || 0) >= minDuration && (parseInt(item
+                        .duration) || 0) <= maxDuration;
                     return datePass && timePass && botPass && urlPass && browserPass && platformPass &&
-                        countryPass;
+                        countryPass && durationPass;
                 });
 
                 const totalVisits = filteredNewsVisits.length + filteredPageVisits.length;
@@ -2290,72 +2331,72 @@
 
                 const statsContainer = document.getElementById('global-stats');
                 statsContainer.innerHTML = `
-                    <li class="list-group-item d-flex justify-content-between">
-                        <span>Total Kunjungan:</span>
-                        <strong>${totalVisits}</strong>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between">
-                        <span>Total IP Unik:</span>
-                        <strong>${uniqueIPs}</strong>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between">
-                        <span>Total URL Unik:</span>
-                        <strong>${uniqueURLs}</strong>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between">
-                        <span>Human vs Bot:</span>
-                        <div>
-                            <div class="d-flex justify-content-between">
-                                <div><strong>Human: </strong></div>
-                                <div class="ms-3">${humanVsBot.human}</div>
-                            </div>
-                            <div class="d-flex justify-content-between">
-                                <div><strong>Bot: </strong></div>
-                                <div class="ms-3">${humanVsBot.bot}</div>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between">
-                        <span>Rata-rata Kunjungan per IP:</span>
-                        <strong>${avgVisitsPerIP}</strong>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between">
-                        <span>Rata-rata Kunjungan per Hari:</span>
-                        <strong>${avgVisitsPerDay}</strong>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between">
-                        <span>IP dengan Kunjungan Terbanyak:</span>
-                        <div>
-                            <table class="table table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th>Ip</th>
-                                        <th>Visits</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    ${topIPs.length ? topIPs.map(ip => `<tr><td>${ip.ip}</td><td>${ip.count}</td></tr>`).join('') : '<tr><td></td><td></td></tr>'}
-                                </tbody>
-                            </table>
-                        </div>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between">
-                        <span>URL Terpopuler:</span>
-                        <div>
-                            <table class="table table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th>Page</th>
-                                        <th>Visits</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    ${topURLs.length ? topURLs.map(url => `<tr><td>${url.url}</td><td>${url.count}</td></tr>`).join('') : '<tr><td></td><td></td></tr>'}
-                                </tbody>
-                            </table>
-                        </div>
-                    </li>
-                `;
+            <li class="list-group-item d-flex justify-content-between">
+                <span>Total Kunjungan:</span>
+                <strong>${totalVisits}</strong>
+            </li>
+            <li class="list-group-item d-flex justify-content-between">
+                <span>Total IP Unik:</span>
+                <strong>${uniqueIPs}</strong>
+            </li>
+            <li class="list-group-item d-flex justify-content-between">
+                <span>Total URL Unik:</span>
+                <strong>${uniqueURLs}</strong>
+            </li>
+            <li class="list-group-item d-flex justify-content-between">
+                <span>Human vs Bot:</span>
+                <div>
+                    <div class="d-flex justify-content-between">
+                        <div><strong>Human: </strong></div>
+                        <div class="ms-3">${humanVsBot.human}</div>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <div><strong>Bot: </strong></div>
+                        <div class="ms-3">${humanVsBot.bot}</div>
+                    </div>
+                </div>
+            </li>
+            <li class="list-group-item d-flex justify-content-between">
+                <span>Rata-rata Kunjungan per IP:</span>
+                <strong>${avgVisitsPerIP}</strong>
+            </li>
+            <li class="list-group-item d-flex justify-content-between">
+                <span>Rata-rata Kunjungan per Hari:</span>
+                <strong>${avgVisitsPerDay}</strong>
+            </li>
+            <li class="list-group-item d-flex justify-content-between">
+                <span>IP dengan Kunjungan Terbanyak:</span>
+                <div>
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Ip</th>
+                                <th>Visits</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${topIPs.length ? topIPs.map(ip => `<tr><td>${ip.ip}</td><td>${ip.count}</td></tr>`).join('') : '<tr><td></td><td></td></tr>'}
+                        </tbody>
+                    </table>
+                </div>
+            </li>
+            <li class="list-group-item d-flex justify-content-between">
+                <span>URL Terpopuler:</span>
+                <div>
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Page</th>
+                                <th>Visits</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${topURLs.length ? topURLs.map(url => `<tr><td>${url.url}</td><td>${url.count}</td></tr>`).join('') : '<tr><td></td><td></td></tr>'}
+                        </tbody>
+                    </table>
+                </div>
+            </li>
+        `;
             }
 
             const table = $('#combined-table').DataTable({
@@ -2404,21 +2445,21 @@
                             const listItems = data.urls.map(url =>
                                 `<li class="list-group-item">${url}</li>`).join('');
                             return `
-                                <div class="accordion" id="${urlAccordionId}">
-                                    <div class="accordion-item">
-                                        <h2 class="accordion-header">
-                                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#${collapseId}">
-                                                ${data.urls.length} visited URL(s)
-                                            </button>
-                                        </h2>
-                                        <div id="${collapseId}" class="accordion-collapse collapse" data-bs-parent="#${urlAccordionId}">
-                                            <div class="accordion-body p-0">
-                                                <ul class="list-group list-group-flush">${listItems}</ul>
-                                            </div>
-                                        </div>
+                        <div class="accordion" id="${urlAccordionId}">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#${collapseId}">
+                                        ${data.urls.length} visited URL(s)
+                                    </button>
+                                </h2>
+                                <div id="${collapseId}" class="accordion-collapse collapse" data-bs-parent="#${urlAccordionId}">
+                                    <div class="accordion-body p-0">
+                                        <ul class="list-group list-group-flush">${listItems}</ul>
                                     </div>
                                 </div>
-                            `;
+                            </div>
+                        </div>
+                    `;
                         }
                     }
                 ]
@@ -2430,18 +2471,25 @@
                 const startTime = parseTime(document.getElementById('mergeStartTime').value);
                 const endTime = parseTime(document.getElementById('mergeEndTime').value);
                 const countryFilter = document.getElementById('mergeCountryFilter').value;
+                const minDuration = parseInt(document.getElementById('mergeMinDuration').value) || 0;
+                const maxDuration = parseInt(document.getElementById('mergeMaxDuration').value) ||
+                    Infinity;
                 const rowData = combinedData[dataIndex];
 
-                if (!startDate && !endDate && startTime === null && endTime === null && !countryFilter)
+                if (!startDate && !endDate && startTime === null && endTime === null && !
+                    countryFilter && minDuration === 0 && maxDuration === Infinity) {
                     return true;
+                }
 
-                const start = startDate ? new Date(startDate) : null;
-                const end = endDate ? new Date(endDate) : null;
+                const newsDuration = parseInt(rowData.newsDuration) || 0;
+                const pageDuration = parseInt(rowData.pageDuration) || 0;
+                const durationPass = (newsDuration >= minDuration && newsDuration <= maxDuration) ||
+                    (pageDuration >= minDuration && pageDuration <= maxDuration);
 
                 const hasDateTimeInRange = rowData.allVisitedAt.some(date => {
                     const visitedDate = new Date(date);
-                    const datePass = (!start || visitedDate >= start) && (!end || visitedDate <=
-                        end);
+                    const datePass = (!startDate || visitedDate >= new Date(startDate)) && (!
+                        endDate || visitedDate <= new Date(endDate));
                     const timePass = (startTime === null && endTime === null) ||
                         ((startTime === null || visitedDate.getHours() * 60 + visitedDate
                                 .getMinutes() >= startTime) &&
@@ -2451,7 +2499,7 @@
                     return datePass && timePass && countryPass;
                 });
 
-                return hasDateTimeInRange;
+                return hasDateTimeInRange && durationPass;
             });
 
             $('#mergeStartDate, #mergeEndDate, #mergeStartTime, #mergeEndTime, #mergeCountryFilter').on(
@@ -2514,6 +2562,14 @@
                 onChange: function() {
                     table.draw();
                 }
+            });
+
+            durationSlider.noUiSlider.on('update', function(values, handle) {
+                document.getElementById('durationMinLabel').textContent = values[0] + 's';
+                document.getElementById('durationMaxLabel').textContent = values[1] + 's';
+                document.getElementById('mergeMinDuration').value = values[0];
+                document.getElementById('mergeMaxDuration').value = values[1];
+                table.draw();
             });
 
             updateCharts();
