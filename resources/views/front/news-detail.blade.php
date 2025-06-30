@@ -323,9 +323,10 @@
 								<p>
 									Subscribe if you enjoy rage, sarcasm, and the sound of democracy wheezing.
 								</p>
-								<button class="btn btn-warning">
-									Hit me again (surprise me)
-								</button>
+
+                                <a href="{{ route('front.news.show', ['slug' => $slugrandomsimilarnews]) }}" target="_blank" class="btn btn-warning">
+                                    Hit me again (surprise me)
+                                </a>
 							</div>
 
 							<div class="d-md-none">

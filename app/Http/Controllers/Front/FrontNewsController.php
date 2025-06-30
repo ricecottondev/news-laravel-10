@@ -169,6 +169,52 @@ class FrontNewsController extends Controller
 
         //  dd($promotednews);
 
+        $currentNews = News::where('slug', $slug)->firstOrFail();
+
+        $keywords = explode(' ', $currentNews->title);
+
+        // Langkah 1: Cari berita serupa berdasarkan keyword
+        $randomSimilar = News::where('id', '!=', $currentNews->id)
+            ->where('status', 'published')
+            ->where(function ($query) use ($keywords) {
+                foreach ($keywords as $word) {
+                    $query->orWhere('title', 'LIKE', "%{$word}%");
+                }
+            })
+            ->orderByDesc('created_at')
+            ->inRandomOrder()
+            ->first();
+
+        // Langkah 2: Jika tidak ditemukan, cari berdasarkan category
+        if (!$randomSimilar) {
+            $categoryId = $currentNews->countriesCategoriesNews->first()?->category_id;
+
+            $randomSimilar = News::where('id', '!=', $currentNews->id)
+                ->where('status', 'published')
+                ->whereHas('countriesCategoriesNews', function ($query) use ($categoryId) {
+                    $query->where('category_id', $categoryId);
+                })
+                ->orderByDesc('created_at')
+                ->inRandomOrder()
+                ->first();
+        }
+
+
+
+        $slugrandomsimilarnews = $randomSimilar->slug;
+
+        if ($randomSimilar) {
+
+            return view('front.news-detail', compact(
+                "promotednews",
+                "news",
+                'suggestedNews',
+                'processedContent',
+                'slugrandomsimilarnews'
+            ));
+        }
+
+
         return view('front.news-detail', compact("promotednews", "news", 'suggestedNews', 'processedContent'));
     }
 
@@ -355,7 +401,7 @@ class FrontNewsController extends Controller
             ->whereHas('countriesCategoriesNews.country', function ($query) use ($countryname) {
                 $query->where('country_name', $countryname);
             })
-            ->orderByRaw('CASE WHEN `order` > 0 AND DATE(created_at) = ? THEN 0 ELSE 1 END',[now()]) // Prioritaskan order > 0
+            ->orderByRaw('CASE WHEN `order` > 0 AND DATE(created_at) = ? THEN 0 ELSE 1 END', [now()]) // Prioritaskan order > 0
             ->orderBy('order', 'asc') // Prioritaskan dari 1 - 5
             ->orderBy('created_at', 'desc')
             ->orderBy('id', 'asc')
