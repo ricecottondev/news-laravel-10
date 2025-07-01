@@ -15,6 +15,7 @@ use App\Http\Controllers\Front\FrontHomeController;
 use App\Models\NewsVisit;
 use Jenssegers\Agent\Agent;
 use Illuminate\Support\Carbon;
+use App\Models\RequestNews;
 
 class FrontNewsController extends Controller
 {
@@ -488,5 +489,25 @@ class FrontNewsController extends Controller
 
 
         return view('front.news-search', compact('news', 'query', 'justinnews', 'editorpicknews'));
+    }
+
+    public function storeRequestNews(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email',
+            'request' => 'required|string',
+        ]);
+
+        RequestNews::create([
+            'name' => $request->input('name'),
+            'email' => $request->input('email'),
+            'request' => $request->input('request'), // ✅ INI BENAR
+            'status' => 'request',
+            'notes' => null,
+        ]);
+
+
+        return response()->json(['success' => true, 'message' => 'Request berita berhasil dikirim.']);
     }
 }
