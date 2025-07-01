@@ -1562,7 +1562,7 @@
 
             let country = 'Unknown';
             try {
-                const res1 = await fetch(`https://ipapi.co/${ip}/json/`);
+                const res1 = await fetch(`https://ipwhois.app/json/${ip}`);
                 if (res1.ok) {
                     const data1 = await res1.json();
                     if (data1?.country_name) {
@@ -1575,7 +1575,7 @@
             } catch (_) {}
 
             try {
-                const res2 = await fetch(`https://ipwhois.app/json/${ip}`);
+                const res2 = await fetch(`https://ipapi.co/${ip}/json/`);
                 if (res2.ok) {
                     const data2 = await res2.json();
                     if (data2?.country) {
