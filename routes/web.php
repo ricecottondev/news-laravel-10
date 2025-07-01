@@ -139,6 +139,8 @@ Route::get('/news/{slug}', [FrontNewsController::class, 'show'])->name('front.ne
 Route::get('/newscategory/{category}', [FrontNewsController::class, 'shownewsbycategory'])->name('front.news.shownewsbycategory');
 
 Route::post('/request-news', [FrontNewsController::class, 'storeRequestNews'])->name('front.request.news');
+Route::post('/store-news-rating', [FrontNewsController::class, 'storeNewsRating'])->name('front.news.rating');
+
 
 
 Route::get('/{country}/newscategory/{category}', [FrontNewsController::class, 'shownewsbycategoryandCountry'])->name('front.news.shownewsbycategoryandCountry');

@@ -190,125 +190,133 @@
                                 </div>
 
                                 <div>
-                                    <h5 class="mb-3">
-                                        <b class="fw-bold">
-                                            Oi, be honest—what'd you reckon?
-                                        </b>
-                                    </h5>
-                                    <ul class="list-unstyled d-flex flex-column row-gap-3 row-gap-md-2">
-                                        <li>
-                                            <div class="row row-gap-2 gx-md-0 align-items-md-center">
-                                                <div class="col col-12 col-md-auto">
-                                                    ☕️ <b class="fw-medium">Spiciness</b>&nbsp;:&nbsp;&nbsp;&nbsp;
-                                                </div><!-- end col -->
-                                                <div class="col">
-                                                    <div class="form-check form-check-inline p-0 m-0">
-                                                        <input type="radio" class="btn-check" name="newsSpiciness"
-                                                            id="spiciness1" autocomplete="off">
-                                                        <label class="btn btn-sm btn-outline-success"
-                                                            for="spiciness1">Mild</label>
+                                    <form id="formNewsRating">
+                                        <input type="hidden" name="news_id" value="{{ $news->id }}">
+
+                                        <h5 class="mb-3">
+                                            <b class="fw-bold">Oi, be honest—what'd you reckon?</b>
+                                        </h5>
+
+                                        <ul class="list-unstyled d-flex flex-column row-gap-3 row-gap-md-2">
+
+                                            {{-- Spiciness --}}
+                                            <li>
+                                                <div class="row row-gap-2 gx-md-0 align-items-md-center">
+                                                    <div class="col col-12 col-md-auto">☕️ <b
+                                                            class="fw-medium">Spiciness</b> :</div>
+                                                    <div class="col">
+                                                        <div class="form-check form-check-inline p-0 m-0">
+                                                            <input type="radio" class="btn-check" name="spiciness"
+                                                                id="spiciness1" value="mild" autocomplete="off">
+                                                            <label class="btn btn-sm btn-outline-success"
+                                                                for="spiciness1">Mild</label>
+                                                        </div>
+                                                        <div class="form-check form-check-inline p-0 m-0">
+                                                            <input type="radio" class="btn-check" name="spiciness"
+                                                                id="spiciness2" value="medium" autocomplete="off">
+                                                            <label class="btn btn-sm btn-outline-warning"
+                                                                for="spiciness2">Medium</label>
+                                                        </div>
+                                                        <div class="form-check form-check-inline p-0 m-0">
+                                                            <input type="radio" class="btn-check" name="spiciness"
+                                                                id="spiciness3" value="nuclear" autocomplete="off">
+                                                            <label class="btn btn-sm btn-outline-danger"
+                                                                for="spiciness3">Nuclear</label>
+                                                        </div>
                                                     </div>
-                                                    <div class="form-check form-check-inline p-0 m-0">
-                                                        <input type="radio" class="btn-check" name="newsSpiciness"
-                                                            id="spiciness2" autocomplete="off">
-                                                        <label class="btn btn-sm btn-outline-warning"
-                                                            for="spiciness2">Medium</label>
+                                                </div>
+                                            </li>
+
+                                            {{-- Length --}}
+                                            <li>
+                                                <div class="row row-gap-2 gx-md-0 align-items-md-center">
+                                                    <div class="col col-12 col-md-auto">⌛ <b class="fw-medium">Length</b>
+                                                        :</div>
+                                                    <div class="col">
+                                                        <div class="form-check form-check-inline p-0 m-0">
+                                                            <input type="radio" class="btn-check" name="length"
+                                                                id="length1" value="blink" autocomplete="off">
+                                                            <label class="btn btn-sm btn-outline-success"
+                                                                for="length1">Blink</label>
+                                                        </div>
+                                                        <div class="form-check form-check-inline p-0 m-0">
+                                                            <input type="radio" class="btn-check" name="length"
+                                                                id="length2" value="scroll" autocomplete="off">
+                                                            <label class="btn btn-sm btn-outline-warning"
+                                                                for="length2">Scroll</label>
+                                                        </div>
+                                                        <div class="form-check form-check-inline p-0 m-0">
+                                                            <input type="radio" class="btn-check" name="length"
+                                                                id="length3" value="scroll_of_destiny"
+                                                                autocomplete="off">
+                                                            <label class="btn btn-sm btn-outline-danger"
+                                                                for="length3">Scroll of Destiny</label>
+                                                        </div>
                                                     </div>
-                                                    <div class="form-check form-check-inline p-0 m-0">
-                                                        <input type="radio" class="btn-check" name="newsSpiciness"
-                                                            id="spiciness3" autocomplete="off">
-                                                        <label class="btn btn-sm btn-outline-danger"
-                                                            for="spiciness3">Nuclear</label>
+                                                </div>
+                                            </li>
+
+                                            {{-- Funny --}}
+                                            <li>
+                                                <div class="row row-gap-2 gx-md-0 align-items-md-center">
+                                                    <div class="col col-12 col-md-auto">💀 <b class="fw-medium">Funny
+                                                            Factor</b> :</div>
+                                                    <div class="col">
+                                                        <div class="form-check form-check-inline p-0 m-0">
+                                                            <input type="radio" class="btn-check" name="funny"
+                                                                id="funny1" value="chuckle" autocomplete="off">
+                                                            <label class="btn btn-sm btn-outline-success"
+                                                                for="funny1">Chuckle</label>
+                                                        </div>
+                                                        <div class="form-check form-check-inline p-0 m-0">
+                                                            <input type="radio" class="btn-check" name="funny"
+                                                                id="funny2" value="snort" autocomplete="off">
+                                                            <label class="btn btn-sm btn-outline-warning"
+                                                                for="funny2">Snort</label>
+                                                        </div>
+                                                        <div class="form-check form-check-inline p-0 m-0">
+                                                            <input type="radio" class="btn-check" name="funny"
+                                                                id="funny3" value="spat" autocomplete="off">
+                                                            <label class="btn btn-sm btn-outline-danger"
+                                                                for="funny3">Spat out my drink</label>
+                                                        </div>
                                                     </div>
-                                                </div><!-- end col -->
-                                            </div><!-- end row -->
-                                        </li>
-                                        <li>
-                                            <div class="row row-gap-2 gx-md-0 align-items-md-center">
-                                                <div class="col col-12 col-md-auto">
-                                                    ⌛ <b class="fw-medium">Length</b>&nbsp;:&nbsp;&nbsp;&nbsp;
-                                                </div><!-- end col -->
-                                                <div class="col">
-                                                    <div class="form-check form-check-inline p-0 m-0">
-                                                        <input type="radio" class="btn-check" name="newsLength"
-                                                            id="length1" autocomplete="off">
-                                                        <label class="btn btn-sm btn-outline-success"
-                                                            for="length1">Blink</label>
+                                                </div>
+                                            </li>
+
+                                            {{-- Topic --}}
+                                            <li>
+                                                <div class="row row-gap-2 gx-md-0 align-items-md-center">
+                                                    <div class="col col-12 col-md-auto">🧠 <b class="fw-medium">Topic</b>
+                                                        :</div>
+                                                    <div class="col">
+                                                        <div class="form-check form-check-inline p-0 m-0">
+                                                            <input type="radio" class="btn-check" name="topic"
+                                                                id="topic1" value="never_again" autocomplete="off">
+                                                            <label class="btn btn-sm btn-outline-success"
+                                                                for="topic1">Please never again</label>
+                                                        </div>
+                                                        <div class="form-check form-check-inline p-0 m-0">
+                                                            <input type="radio" class="btn-check" name="topic"
+                                                                id="topic2" value="meh" autocomplete="off">
+                                                            <label class="btn btn-sm btn-outline-warning"
+                                                                for="topic2">Meh</label>
+                                                        </div>
+                                                        <div class="form-check form-check-inline p-0 m-0">
+                                                            <input type="radio" class="btn-check" name="topic"
+                                                                id="topic3" value="banger" autocomplete="off">
+                                                            <label class="btn btn-sm btn-outline-danger"
+                                                                for="topic3">Banger</label>
+                                                        </div>
                                                     </div>
-                                                    <div class="form-check form-check-inline p-0 m-0">
-                                                        <input type="radio" class="btn-check" name="newsLength"
-                                                            id="length2" autocomplete="off">
-                                                        <label class="btn btn-sm btn-outline-warning"
-                                                            for="length2">Scroll</label>
-                                                    </div>
-                                                    <div class="form-check form-check-inline p-0 m-0">
-                                                        <input type="radio" class="btn-check" name="newsLength"
-                                                            id="length3" autocomplete="off">
-                                                        <label class="btn btn-sm btn-outline-danger" for="length3">Scroll
-                                                            of Destiny</label>
-                                                    </div>
-                                                </div><!-- end col -->
-                                            </div><!-- end row -->
-                                        </li>
-                                        <li>
-                                            <div class="row row-gap-2 gx-md-0 align-items-md-center">
-                                                <div class="col col-12 col-md-auto">
-                                                    💀 <b class="fw-medium">Funny factor</b>&nbsp;:&nbsp;&nbsp;&nbsp;
-                                                </div><!-- end col -->
-                                                <div class="col">
-                                                    <div class="form-check form-check-inline p-0 m-0">
-                                                        <input type="radio" class="btn-check" name="newsFunny"
-                                                            id="funny7" autocomplete="off">
-                                                        <label class="btn btn-sm btn-outline-success"
-                                                            for="funny7">Chuckle</label>
-                                                    </div>
-                                                    <div class="form-check form-check-inline p-0 m-0">
-                                                        <input type="radio" class="btn-check" name="newsFunny"
-                                                            id="funny8" autocomplete="off">
-                                                        <label class="btn btn-sm btn-outline-warning"
-                                                            for="funny8">Snort</label>
-                                                    </div>
-                                                    <div class="form-check form-check-inline p-0 m-0">
-                                                        <input type="radio" class="btn-check" name="newsFunny"
-                                                            id="funny9" autocomplete="off">
-                                                        <label class="btn btn-sm btn-outline-danger" for="funny9">Spat
-                                                            out my drink</label>
-                                                    </div>
-                                                </div><!-- end col -->
-                                            </div><!-- end row -->
-                                        </li>
-                                        <li>
-                                            <div class="row row-gap-2 gx-md-0 align-items-md-center">
-                                                <div class="col col-12 col-md-auto">
-                                                    🧠 <b class="fw-medium">Topic</b>&nbsp;:&nbsp;&nbsp;&nbsp;
-                                                </div><!-- end col -->
-                                                <div class="col">
-                                                    <div class="form-check form-check-inline p-0 m-0">
-                                                        <input type="radio" class="btn-check" name="newsTopic"
-                                                            id="topic10" autocomplete="off">
-                                                        <label class="btn btn-sm btn-outline-success"
-                                                            for="topic10">Please never again</label>
-                                                    </div>
-                                                    <div class="form-check form-check-inline p-0 m-0">
-                                                        <input type="radio" class="btn-check" name="newsTopic"
-                                                            id="topic11" autocomplete="off">
-                                                        <label class="btn btn-sm btn-outline-warning"
-                                                            for="topic11">Meh</label>
-                                                    </div>
-                                                    <div class="form-check form-check-inline p-0 m-0">
-                                                        <input type="radio" class="btn-check" name="newsTopic"
-                                                            id="topic12" autocomplete="off">
-                                                        <label class="btn btn-sm btn-outline-danger"
-                                                            for="topic12">Banger</label>
-                                                    </div>
-                                                </div><!-- end col -->
-                                            </div><!-- end row -->
-                                        </li>
-                                    </ul>
-                                    <button class="btn btn-warning px-4" id="triggerModalRating" data-bs-toggle="modal"
-                                        data-bs-target="#modalRating">
-                                        Send <i class="fas fa-paper-plane"></i>
-                                    </button>
+                                                </div>
+                                            </li>
+                                        </ul>
+
+                                        <button type="submit" class="btn btn-warning px-4 mt-3">
+                                            Send <i class="fas fa-paper-plane"></i>
+                                        </button>
+                                    </form>
                                 </div>
 
                                 <div>
@@ -620,6 +628,32 @@
                     }
                 })
                 .catch(err => alert("Terjadi kesalahan."));
+        });
+    </script>
+
+    <script>
+        document.getElementById('formNewsRating').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const formData = new FormData(this);
+
+            fetch("/store-news-rating", {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success) {
+                        alert(data.message);
+                        this.reset();
+                    } else {
+                        alert("Gagal mengirim rating.");
+                    }
+                })
+                .catch(err => {
+                    console.error(err);
+                    alert("Terjadi kesalahan.");
+                });
         });
     </script>
 

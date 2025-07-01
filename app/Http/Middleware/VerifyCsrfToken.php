@@ -17,6 +17,7 @@ class VerifyCsrfToken extends Middleware
         '/track-duration',
         '/track-page-duration',
         '/log-share',
-        '/request-news'
+        '/request-news',
+        '/store-news-rating'
     ];
 }

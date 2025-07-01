@@ -17,6 +17,9 @@ use Jenssegers\Agent\Agent;
 use Illuminate\Support\Carbon;
 use App\Models\RequestNews;
 
+use App\Models\NewsRating;
+
+
 class FrontNewsController extends Controller
 {
 
@@ -509,5 +512,29 @@ class FrontNewsController extends Controller
 
 
         return response()->json(['success' => true, 'message' => 'Request berita berhasil dikirim.']);
+    }
+
+
+    public function storeNewsRating(Request $request)
+    {
+        $request->validate([
+            'news_id' => 'required|exists:news,id',
+            'spiciness' => 'required|in:mild,medium,nuclear',
+            'length' => 'required|in:blink,scroll,scroll_of_destiny',
+            'funny' => 'required|in:chuckle,snort,spat',
+            'topic' => 'required|in:never_again,meh,banger',
+        ]);
+
+        NewsRating::create([
+            'news_id' => $request->news_id,
+            'spiciness' => $request->spiciness,
+            'length' => $request->length,
+            'funny' => $request->funny,
+            'topic' => $request->topic,
+            'ip_address' => $request->ip(),
+            'user_agent' => $request->header('User-Agent'),
+        ]);
+
+        return response()->json(['success' => true, 'message' => 'Rating berhasil disimpan.']);
     }
 }
