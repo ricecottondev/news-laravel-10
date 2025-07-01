@@ -615,15 +615,20 @@
                                         @if ($loop->first)
                                             <li class="list-group-item px-0">
                                                 <div class="news-item">
+                                                    @if ($epn->image)
                                                     <header>
                                                         <div class="ratio ratio-4x3 news-img">
-                                                            <img src="" class="object-fit-cover" alt="">
+                                                            <img src="{{ asset('storage/' . $epn->image) }}"
+                                                                class="object-fit-cover" alt="">
                                                         </div>
                                                     </header>
+                                                    @endif
                                                     <main>
-                                                        <p class="news-category">
-                                                            <small><b class="fw-bold">Politic</b> Donald Trump</small>
-                                                        </p>
+                                                        <br>
+                                                        {{-- <p class="news-category">
+                                                             <small><b
+                                                                     class="fw-bold">{{ strtoupper($categoryName) }}</b></small>
+                                                         </p> --}}
                                                         @if (strtoupper($epn->color) == 'P')
                                                             <h5 class="news-title fs-5 text-danger">
                                                             @elseif (strtoupper($epn->color) == 'Y')

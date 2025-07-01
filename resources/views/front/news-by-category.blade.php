@@ -225,18 +225,23 @@
                                         @if ($loop->first)
                                             <li class="list-group-item px-0">
                                                 <div class="news-item">
+                                                    @if ($epn->image)
                                                     <header>
                                                         <div class="ratio ratio-4x3 news-img">
-                                                            <img src="" class="object-fit-cover" alt="">
+                                                            <img src="{{ asset('storage/' . $epn->image) }}"
+                                                                class="object-fit-cover" alt="">
                                                         </div>
                                                     </header>
+                                                    @endif
                                                     <main>
-                                                        <p class="news-category">
-                                                            <small><b class="fw-bold">Politic</b> Donald Trump</small>
-                                                        </p>
-                                                        @if ($epn->color == 'P')
+                                                        <br>
+                                                        {{-- <p class="news-category">
+                                                             <small><b
+                                                                     class="fw-bold">{{ strtoupper($categoryName) }}</b></small>
+                                                         </p> --}}
+                                                        @if (strtoupper($epn->color) == 'P')
                                                             <h5 class="news-title fs-5 text-danger">
-                                                            @elseif ($epn->color == 'Y')
+                                                            @elseif (strtoupper($epn->color) == 'Y')
                                                                 <h5 class="news-title fs-5 text-warning">
                                                                 @else
                                                                     <h5 class="news-title fs-5">
@@ -251,14 +256,36 @@
                                                         </h5>
                                                         <div class="news-time media small">
                                                             <div class="media-header">
-                                                                <div class="ratio ratio-1x1 rounded-circle"
-                                                                    style="width: 2rem;">
-                                                                </div>
+                                                                @if (strtoupper($epn->color) == 'P')
+                                                                    <div class="ratio ratio-1x1 rounded-circle border border-2 border-danger"
+                                                                        style="width: 2rem;">
+                                                                        <img src="/assets/template3/asset/img/user/clara.jpg"
+                                                                            class="object-fit-cover" alt="">
+                                                                    </div>
+                                                                @elseif (strtoupper($epn->color) == 'Y')
+                                                                    <div class="ratio ratio-1x1 rounded-circle border border-2 border-warning"
+                                                                        style="width: 2rem;">
+                                                                        <img src="/assets/template3/asset/img/user/lola.jpg"
+                                                                            class="object-fit-cover" alt="">
+                                                                    </div>
+                                                                @else
+                                                                    <div class="ratio ratio-1x1 rounded-circle border border-2 border-white"
+                                                                        style="width: 2rem;">
+                                                                        <img src="/assets/template3/asset/img/user/phor.jpg"
+                                                                            class="object-fit-cover" alt="">
+                                                                    </div>
+                                                                @endif
                                                             </div>
                                                             <div class="media-body">
                                                                 <div class="mb-1"><small class="opacity-75">Author
-                                                                        by</small> <b
-                                                                        class="fw-medium">{{ $epn->author }}</b>
+                                                                        by</small>
+                                                                    @if (strtoupper($epn->color) == 'P')
+                                                                        <b class="fw-medium text-danger">Clara</b>
+                                                                    @elseif (strtoupper($epn->color) == 'Y')
+                                                                        <b class="fw-medium text-warning">Lola</b>
+                                                                    @else
+                                                                        <b class="fw-medium">Phor</b>
+                                                                    @endif
                                                                 </div>
                                                                 <div>
                                                                     <small>{{ $epn->created_at->diffForHumans() }}</small>
