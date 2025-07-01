@@ -41,474 +41,476 @@
                 </table>
             </div>
         </div>
-        <div class="card my-4">
-            <div class="card-body">
-                <h2 class="mb-4">📰 News Visits</h2>
-                {{-- <div class="row row-cols-1 row-cols-sm-5">
-                    <div class="col mb-4">
-                        <select class="form-select" id="newsYearFilter">
-                            <option value="">Pilih Tahun</option>
-                        </select>
-                    </div>
-                    <div class="col mb-4">
-                        <select class="form-select" id="newsMonthFilter">
-                            <option value="">Pilih Bulan</option>
-                        </select>
-                    </div>
-                    <div class="col mb-4">
-                        <select class="form-select" id="newsDayFilter">
-                            <option value="">Pilih Tanggal</option>
-                        </select>
-                    </div>
-                    <div class="col mb-4">
-                        <select class="form-select" id="newsBotOrHumanFilter">
-                            <option value="">Pilih Bot Or Human</option>
-                            <option value="Yes">Bot</option>
-                            <option value="No">Human</option>
-                        </select>
-                    </div>
-                    <div class="col mb-4">
-                        <button id="exportNewsVisit" class="btn btn-primary w-100">
-                            <span id="spinner-btn" class="spinner-border spinner-border-sm me-1 d-none" role="status"
-                                aria-hidden="true"></span>
-                            <span class="btn-label">Export Excel</span>
-                        </button>
+        <style>
+            .nav-link {
+                background: #efefef !important;
+            }
 
-                    </div>
-                </div> --}}
-                <div class="row row-cols-1 row-cols-sm-4">
-                    <div class="col mb-4">
-                        <input type="text" class="selector form-control" id="newsStartDate"
-                            placeholder="Pilih Tanggal Mulai">
-                    </div>
-                    <div class="col mb-4">
-                        <input type="text" class="selector form-control" id="newsEndDate"
-                            placeholder="Pilih Tanggal Selesai">
-                    </div>
-                    <div class="col mb-4">
-                        <select class="form-select" id="newsBotOrHumanFilter">
-                            <option value="">Pilih Bot Or Human</option>
-                            <option value="Yes">Bot</option>
-                            <option value="No">Human</option>
-                        </select>
-                    </div>
-                    <div class="col mb-4">
-                        <button id="exportNewsVisit" class="btn btn-primary w-100">
-                            <span id="spinner-btn" class="spinner-border spinner-border-sm me-1 d-none" role="status"
-                                aria-hidden="true"></span>
-                            <span class="btn-label">Export Excel</span>
-                        </button>
+            .nav-link.active {
+                background: #ffffff !important;
+            }
+        </style>
+        <div class=" my-4">
+            <ul class="nav nav-tabs bg-active-light fs-3" id="myTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane"
+                        type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">News
+                        Visits</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane"
+                        type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">Page
+                        Visits</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact-tab-pane"
+                        type="button" role="tab" aria-controls="contact-tab-pane" aria-selected="false">Page X News
+                        Visits</button>
+                </li>
+            </ul>
+            <div class="tab-content card" id="myTabContent">
+                <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab"
+                    tabindex="0">
+                    <div class="card my-4">
+                        <div class="card-body">
+                            <h2 class="mb-4">📰 News Visits</h2>
+                            <div class="row row-cols-1 row-cols-sm-4">
+                                <div class="col mb-4">
+                                    <input type="text" class="selector form-control" id="newsStartDate"
+                                        placeholder="Pilih Tanggal Mulai">
+                                </div>
+                                <div class="col mb-4">
+                                    <input type="text" class="selector form-control" id="newsEndDate"
+                                        placeholder="Pilih Tanggal Selesai">
+                                </div>
+                                <div class="col mb-4">
+                                    <select class="form-select" id="newsBotOrHumanFilter">
+                                        <option value="">Pilih Bot Or Human</option>
+                                        <option value="Yes">Bot</option>
+                                        <option value="No">Human</option>
+                                    </select>
+                                </div>
+                                <div class="col mb-4">
+                                    <button id="exportNewsVisit" class="btn btn-primary w-100">
+                                        <span id="spinner-btn" class="spinner-border spinner-border-sm me-1 d-none"
+                                            role="status" aria-hidden="true"></span>
+                                        <span class="btn-label">Export Excel</span>
+                                    </button>
 
-                    </div>
-                </div>
+                                </div>
+                            </div>
 
-                <div class="row">
-                    <div class="col-12 mb-2">
-                        <div class="alert alert-info">
-                            <h4>📈 Stats - News Visits</h4>
-                            <ul class="list-group">
-                                <li class="list-group-item d-flex justify-content-between">
-                                    <span>Jumlah Pengunjung Unik (IP):</span>
-                                    <strong id="uniqueNewsVisitors">0</strong>
-                                </li>
-                                <li class="list-group-item d-flex justify-content-between">
-                                    <span>Total Kunjungan:</span>
-                                    <strong id="totalNewsVisits">0</strong>
-                                </li>
-                                <li class="list-group-item d-flex justify-content-between">
-                                    <span>Platform Dominan:</span>
-                                    <strong id="dominantNewsPlatform">-</strong>
-                                </li>
-                                <li class="list-group-item d-flex justify-content-between">
-                                    <span>Total Durasi Kunjungan:</span>
-                                    <strong id="totalDurationNews">0s</strong>
-                                </li>
-                                <li class="list-group-item d-flex justify-content-between">
-                                    <span>Durasi Rata-rata:</span>
-                                    <strong id="averageDurationNews">0s</strong>
-                                </li>
-                                <li class="list-group-item d-flex justify-content-between">
-                                    <span>IP yang Paling Sering Muncul:</span>
-                                    <strong id="topNewsIP">-</strong>
-                                </li>
-                                <li class="list-group-item d-flex justify-content-between">
-                                    <span>Return Visitor Rate:</span>
-                                    <strong id="returnRateNews">0%</strong>
-                                </li>
-                                <li class="list-group-item d-flex justify-content-between">
-                                    <span>Bounce-like Behavior:</span>
-                                    <strong id="bounceNews">0%</strong>
-                                </li>
-                                <li class="list-group-item d-flex justify-content-between">
-                                    <strong>Bounce (≤3s):</strong> <span id="bounceVisits">0</span>
-                                </li>
-                                <li class="list-group-item d-flex justify-content-between">
-                                    <strong>Sticky Time (avg):</strong> <span id="stickyTime">0 s</span>
-                                </li>
-
-                                <li class="list-group-item d-flex justify-content-between">
-                                    <strong>Max Visit Time:</strong> <span id="maxVisitTime">0 s</span>
-                                </li>
-                                <li class="list-group-item d-flex justify-content-between">
-                                    <strong>Min Visit Time:</strong> <span id="minVisitTime">0 s</span>
-                                </li>
-                                <li class="list-group-item d-flex justify-content-between">
-                                    <strong>From Facebook:</strong> <span id="fbVisitors">0</span>
-                                </li>
-                            </ul>
+                            <div class="row">
+                                <div class="col-12 mb-2">
+                                    <div class="alert alert-info">
+                                        <h4>📈 Stats - News Visits</h4>
+                                        <ul class="list-group">
+                                            <li class="list-group-item d-flex justify-content-between">
+                                                <span>Jumlah Pengunjung Unik (IP):</span>
+                                                <strong id="uniqueNewsVisitors">0</strong>
+                                            </li>
+                                            <li class="list-group-item d-flex justify-content-between">
+                                                <span>Total Kunjungan:</span>
+                                                <strong id="totalNewsVisits">0</strong>
+                                            </li>
+                                            <li class="list-group-item d-flex justify-content-between">
+                                                <span>Platform Dominan:</span>
+                                                <strong id="dominantNewsPlatform">-</strong>
+                                            </li>
+                                            <li class="list-group-item d-flex justify-content-between">
+                                                <span>Total Durasi Kunjungan:</span>
+                                                <strong id="totalDurationNews">0s</strong>
+                                            </li>
+                                            <li class="list-group-item d-flex justify-content-between">
+                                                <span>Durasi Rata-rata:</span>
+                                                <strong id="averageDurationNews">0s</strong>
+                                            </li>
+                                            <li class="list-group-item d-flex justify-content-between">
+                                                <span>IP yang Paling Sering Muncul:</span>
+                                                <strong id="topNewsIP">-</strong>
+                                            </li>
+                                            <li class="list-group-item d-flex justify-content-between">
+                                                <span>Return Visitor Rate:</span>
+                                                <strong id="returnRateNews">0%</strong>
+                                            </li>
+                                            <li class="list-group-item d-flex justify-content-between">
+                                                <span>Bounce-like Behavior:</span>
+                                                <strong id="bounceNews">0%</strong>
+                                            </li>
+                                            <li class="list-group-item d-flex justify-content-between">
+                                                <strong>Bounce (≤3s):</strong> <span id="bounceVisits">0</span>
+                                            </li>
+                                            <li class="list-group-item d-flex justify-content-between">
+                                                <strong>Sticky Time (avg):</strong> <span id="stickyTime">0 s</span>
+                                            </li>
+                                            <li class="list-group-item d-flex justify-content-between">
+                                                <strong>Max Visit Time:</strong> <span id="maxVisitTime">0 s</span>
+                                            </li>
+                                            <li class="list-group-item d-flex justify-content-between">
+                                                <strong>Min Visit Time:</strong> <span id="minVisitTime">0 s</span>
+                                            </li>
+                                            <li class="list-group-item d-flex justify-content-between">
+                                                <strong>From Facebook:</strong> <span id="fbVisitors">0</span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-9 mb-4">
+                                    <h4 class="mb-3">📊 Diagram Pengunjung Unik per Hari</h4>
+                                    <canvas id="uniqueVisitorsChart" height="100"></canvas>
+                                </div>
+                                <div class="col-3 mb-4">
+                                    <h4 class="mb-3">📊 Diagram Platform Pengguna</h4>
+                                    <canvas id="platformPieChart" height="100"></canvas>
+                                </div>
+                            </div>
+                            <div class="table-responsive">
+                                <table id="table-news-visit" class="table table-bordered table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>News ID</th>
+                                            <th>IP</th>
+                                            <th>User Agent</th>
+                                            <th>Browser</th>
+                                            <th>Platform</th>
+                                            <th>Visited At</th>
+                                            <th>Duration</th>
+                                            <th>Bot?</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-9 mb-4">
-                        <h4 class="mb-3">📊 Diagram Pengunjung Unik per Hari</h4>
-                        <canvas id="uniqueVisitorsChart" height="100"></canvas>
-                    </div>
-                    <div class="col-3 mb-4">
-                        <h4 class="mb-3">📊 Diagram Platform Pengguna</h4>
-                        <canvas id="platformPieChart" height="100"></canvas>
-                    </div>
-
                 </div>
+                <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab"
+                    tabindex="0">
+                    <div class="card my-4">
+                        <div class="card-body">
+                            <h2 class="mb-4">📄 Page Visits</h2>
+                            <div class="row row-cols-1 row-cols-sm-5">
+                                <div class="col mb-4">
+                                    <input type="text" class="selector form-control" id="pagesStartDate"
+                                        placeholder="Pilih Tanggal Mulai">
+                                </div>
+                                <div class="col mb-4">
+                                    <input type="text" class="selector form-control" id="pagesEndDate"
+                                        placeholder="Pilih Tanggal Selesai">
+                                </div>
+                                <div class="col mb-4">
+                                    <select class="form-select" id="pagesBotOrHumanFilter">
+                                        <option value="">Pilih Bot Or Human</option>
+                                        <option value="Yes">Bot</option>
+                                        <option value="No">Human</option>
+                                    </select>
+                                </div>
+                                <div class="col mb-4">
+                                    <select class="form-select text-capitalize" id="pageUrlFilter">
+                                        <option value="">Pilih URL</option>
+                                    </select>
+                                </div>
+                                <div class="col mb-4">
+                                    <button id="exportPageVisit" class="btn btn-primary w-100">
+                                        <span id="spinner-btn" class="spinner-border spinner-border-sm me-1 d-none"
+                                            role="status" aria-hidden="true"></span>
+                                        <span class="btn-label">Export Excel</span>
+                                    </button>
+                                </div>
+                            </div>
 
+                            <div class="row">
+                                <div class="col-12 mb-2">
+                                    <div class="alert alert-info">
+                                        <h4 class="mb-3">📈 Statistik Page Visits</h4>
+                                        <ul class="list-group">
+                                            <li class="list-group-item d-flex justify-content-between">
+                                                <span>Jumlah Pengunjung Unik (IP):</span>
+                                                <strong id="page-unique-visitors"></strong>
+                                            </li>
+                                            <li class="list-group-item d-flex justify-content-between">
+                                                <span>Total Kunjungan:</span>
+                                                <strong id="page-total-visits"></strong>
+                                            </li>
+                                            <li class="list-group-item d-flex justify-content-between">
+                                                <span>Platform Dominan:</span>
+                                                <strong id="page-platform-dominant"></strong>
+                                            </li>
+                                            <li class="list-group-item d-flex justify-content-between">
+                                                <span>Total Durasi Kunjungan:</span>
+                                                <strong id="page-total-duration">s</strong>
+                                            </li>
+                                            <li class="list-group-item d-flex justify-content-between">
+                                                <span>Durasi Rata-rata:</span>
+                                                <strong id="page-avg-duration">s</strong>
+                                            </li>
+                                            <li class="list-group-item d-flex justify-content-between">
+                                                <span>IP Terbanyak:</span>
+                                                <strong id="page-most-ip"></strong>
+                                            </li>
+                                            <li class="list-group-item d-flex justify-content-between">
+                                                <span>Return Visitor Rate:</span>
+                                                <strong id="page-return-visitor">%</strong>
+                                            </li>
+                                            <li class="list-group-item d-flex justify-content-between">
+                                                <span>Bounce (≤3s):</span>
+                                                <strong id="page-bounce-count"></strong>
+                                            </li>
+                                            <li class="list-group-item d-flex justify-content-between">
+                                                <span>Bounce Rate:</span>
+                                                <strong id="page-bounce-rate">%</strong>
+                                            </li>
+                                            <li class="list-group-item d-flex justify-content-between">
+                                                <span>Sticky Time (avg):</span>
+                                                <strong id="page-sticky-time"> s</strong>
+                                            </li>
+                                            <li class="list-group-item d-flex justify-content-between">
+                                                <span>Max Visit Time:</span>
+                                                <strong id="page-max-time">s</strong>
+                                            </li>
+                                            <li class="list-group-item d-flex justify-content-between">
+                                                <span>Min Visit Time:</span>
+                                                <strong id="page-min-time">s</strong>
+                                            </li>
+                                            <li class="list-group-item d-flex justify-content-between">
+                                                <span>Dari Facebook:</span>
+                                                <strong id="page-facebook-count"></strong>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
 
+                                <div class="col-9 mb-4">
+                                    <h4 class="text-center">📈 Diagram Pengunjung Unik per Hari</h4>
+                                    <canvas id="pageVisitChart" height="100"></canvas>
+                                </div>
 
+                                <div class="col-3 mb-4">
+                                    <h4 class="mb-3">📊 Diagram Platform Pengguna</h4>
+                                    <canvas id="pagePlatformPie" height="100"></canvas>
+                                </div>
+                            </div>
 
-                <div class="table-responsive">
-                    <table id="table-news-visit" class="table table-bordered table-striped">
-                        <thead>
-                            <tr>
-                                <th>News ID</th>
-                                <th>IP</th>
-                                <th>User Agent</th>
-                                <th>Browser</th>
-                                <th>Platform</th>
-                                <th>Visited At</th>
-                                <th>Duration</th>
-                                <th>Bot?</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        </tbody>
-                    </table>
+                            <div class="table-responsive">
+                                <table id="table-page-visit" class="table table-bordered table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th style="width: 10%">URL</th>
+                                            <th>IP</th>
+                                            <th>User Agent</th>
+                                            <th>Browser</th>
+                                            <th>Platform</th>
+                                            <th>Visited At</th>
+                                            <th>Duration</th>
+                                            <th>Bot?</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="contact-tab-pane" role="tabpanel" aria-labelledby="contact-tab"
+                    tabindex="0">
+                    <div class="card my-4">
+                        <div class="card-body">
+                            <h2 class="mb-4">📄 Page X News Visits</h2>
+                            <div class="row row-cols-1 row-cols-sm-3">
+                                <div class="col mb-4">
+                                    <input type="text" class="selector form-control" id="mergeStartDate"
+                                        placeholder="Pilih Tanggal Mulai">
+                                </div>
+                                <div class="col mb-4">
+                                    <input type="text" class="selector form-control" id="mergeEndDate"
+                                        placeholder="Pilih Tanggal Selesai">
+                                </div>
+                                <div class="col mb-4">
+                                    <select class="form-select" id="mergeBotOrHumanFilter">
+                                        <option value="">Pilih Bot Or Human</option>
+                                        <option value="Yes">Bot</option>
+                                        <option value="No">Human</option>
+                                    </select>
+                                </div>
+                                <div class="col mb-4">
+                                    <input type="text" class="selector form-control" id="mergeStartTime"
+                                        placeholder="Pilih Jam Awal">
+                                </div>
+                                <div class="col mb-4">
+                                    <input type="text" class="selector form-control" id="mergeEndTime"
+                                        placeholder="Pilih Jam Akhir">
+                                </div>
+                                <div class="col mb-4">
+                                    <label for="durationRange" class="form-label">Visit Duration Range (seconds)</label>
+                                    <div id="durationRange" class="mb-2"></div>
+                                    <div class="d-flex justify-content-between">
+                                        <span id="durationMinLabel">0s</span>
+                                        <span id="durationMaxLabel">0s</span>
+                                    </div>
+                                    <input type="hidden" id="mergeMinDuration" value="0">
+                                    <input type="hidden" id="mergeMaxDuration" value="0">
+                                </div>
+                                <div class="col mb-4">
+                                    <select class="form-select text-capitalize" id="mergeCountryFilter">
+                                        <option value="">Pilih Country</option>
+                                    </select>
+                                </div>
+                                <div class="col mb-4">
+                                    <select class="form-select text-capitalize" id="mergeUrlFilter">
+                                        <option value="">Pilih URL</option>
+                                    </select>
+                                </div>
+                                <div class="col mb-4">
+                                    <select class="form-select text-capitalize" id="mergeBrowserFilter">
+                                        <option value="">Pilih Browser</option>
+                                    </select>
+                                </div>
+                                <div class="col mb-4">
+                                    <select class="form-select text-capitalize" id="mergePlatformFilter">
+                                        <option value="">Pilih Platform</option>
+                                    </select>
+                                </div>
+                                <div class="col mb-4">
+                                    <button id="exportPageXNews" class="btn btn-primary w-100">
+                                        <span id="spinner-btn" class="spinner-border spinner-border-sm me-1 d-none"
+                                            role="status" aria-hidden="true"></span>
+                                        <span class="btn-label">Export Excel</span>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-12 mb-2">
+                                    <div class="alert alert-info">
+                                        <h4 class="mb-3">📈 Statistik Page x News Visits</h4>
+                                        <ul class="list-group" id="global-stats">
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row g-4 mb-4" id="charts-section">
+                                <div class="col-12">
+                                    <div class="card h-100">
+                                        <div class="card-body">
+                                            <h6 class="card-title">Pengunjung per Hari</h6>
+                                            <canvas id="allVisitorsPerDayChart"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="card h-100">
+                                        <div class="card-body">
+                                            <h6 class="card-title">Jumlah Pengunjung Unik per Hari</h6>
+                                            <canvas id="uniqueVisitorsPerDayChart"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="card h-100">
+                                        <div class="card-body">
+                                            <h6 class="card-title">Top 10 URL Terpopuler</h6>
+                                            <canvas id="topUrlsChart"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="card h-100">
+                                        <div class="card-body">
+                                            <h6 class="card-title">Jumlah Total Kunjungan per Hari</h6>
+                                            <canvas id="totalVisitsPerDayChart"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="card h-100">
+                                        <div class="card-body">
+                                            <h6 class="card-title">Jumlah Kunjungan per Jam</h6>
+                                            <canvas id="visitsPerHourChart"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="card h-100">
+                                        <div class="card-body">
+                                            <h6 class="card-title">Distribusi Bot vs Human</h6>
+                                            <canvas id="botVsHumanChart"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="card h-100">
+                                        <div class="card-body">
+                                            <h6 class="card-title">Distribusi Negara</h6>
+                                            <canvas id="countryDistributionChart"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="card h-100">
+                                        <div class="card-body">
+                                            <h6 class="card-title">Distribusi Platform Pengguna</h6>
+                                            <canvas id="platformDistributionChart"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="card h-100">
+                                        <div class="card-body">
+                                            <h6 class="card-title">Distribusi Browser Pengguna</h6>
+                                            <canvas id="browserDistributionChart"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-4">
+                                    <div class="card h-100">
+                                        <div class="card-body">
+                                            <h6 class="card-title">Jumlah Kunjungan Berdasarkan Referer</h6>
+                                            <canvas id="refererDistributionChart"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {{-- <div class="col-12">
+                                    <div class="card h-100">
+                                        <div class="card-body">
+                                            <h6 class="card-title">Visualisasi Jumlah Kunjungan IP per Tanggal dan Jam</h6>
+
+                                            <canvas id="ipBubbleChart"></canvas>
+                                        </div>
+                                    </div>
+                                </div> --}}
+                            </div>
+
+                            <div class="table-responsive">
+                                <table id="combined-table" class="table table-bordered table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>IP</th>
+                                            <th>Visited At</th>
+                                            <th>News Visited</th>
+                                            <th>Page Visited</th>
+                                            <th>News Duration</th>
+                                            <th>Page Duration</th>
+                                            <th>Bot Status</th>
+                                            <th>Browser</th>
+                                            <th>Platform</th>
+                                            <th>Country</th>
+                                            <th>Visited URLs</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="combined-body"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="card my-4">
-            <div class="card-body">
-                <h2 class="mb-4">📄 Page Visits</h2>
-                <div class="row row-cols-1 row-cols-sm-5">
-                    <div class="col mb-4">
-                        <input type="text" class="selector form-control" id="pagesStartDate"
-                            placeholder="Pilih Tanggal Mulai">
-                    </div>
-                    <div class="col mb-4">
-                        <input type="text" class="selector form-control" id="pagesEndDate"
-                            placeholder="Pilih Tanggal Selesai">
-                    </div>
-                    <div class="col mb-4">
-                        <select class="form-select" id="pagesBotOrHumanFilter">
-                            <option value="">Pilih Bot Or Human</option>
-                            <option value="Yes">Bot</option>
-                            <option value="No">Human</option>
-                        </select>
-                    </div>
-                    <div class="col mb-4">
-                        <select class="form-select text-capitalize" id="pageUrlFilter">
-                            <option value="">Pilih URL</option>
-                        </select>
-                    </div>
-                    <div class="col mb-4">
-                        <button id="exportPageVisit" class="btn btn-primary w-100">
-                            <span id="spinner-btn" class="spinner-border spinner-border-sm me-1 d-none" role="status"
-                                aria-hidden="true"></span>
-                            <span class="btn-label">Export Excel</span>
-                        </button>
-                    </div>
-                </div>
 
-                <div class="row">
-                    <div class="col-12 mb-2">
-                        <div class="alert alert-info">
-                            <h4 class="mb-3">📈 Statistik Page Visits</h4>
-                            <ul class="list-group">
-                                <li class="list-group-item d-flex justify-content-between">
-                                    <span>Jumlah Pengunjung Unik (IP):</span>
-                                    <strong id="page-unique-visitors"></strong>
-                                </li>
-                                <li class="list-group-item d-flex justify-content-between">
-                                    <span>Total Kunjungan:</span>
-                                    <strong id="page-total-visits"></strong>
-                                </li>
-                                <li class="list-group-item d-flex justify-content-between">
-                                    <span>Platform Dominan:</span>
-                                    <strong id="page-platform-dominant"></strong>
-                                </li>
-                                <li class="list-group-item d-flex justify-content-between">
-                                    <span>Total Durasi Kunjungan:</span>
-                                    <strong id="page-total-duration">s</strong>
-                                </li>
-                                <li class="list-group-item d-flex justify-content-between">
-                                    <span>Durasi Rata-rata:</span>
-                                    <strong id="page-avg-duration">s</strong>
-                                </li>
-                                <li class="list-group-item d-flex justify-content-between">
-                                    <span>IP Terbanyak:</span>
-                                    <strong id="page-most-ip"></strong>
-                                </li>
-                                <li class="list-group-item d-flex justify-content-between">
-                                    <span>Return Visitor Rate:</span>
-                                    <strong id="page-return-visitor">%</strong>
-                                </li>
-                                <li class="list-group-item d-flex justify-content-between">
-                                    <span>Bounce (≤3s):</span>
-                                    <strong id="page-bounce-count"></strong>
-                                </li>
-                                <li class="list-group-item d-flex justify-content-between">
-                                    <span>Bounce Rate:</span>
-                                    <strong id="page-bounce-rate">%</strong>
-                                </li>
-                                <li class="list-group-item d-flex justify-content-between">
-                                    <span>Sticky Time (avg):</span>
-                                    <strong id="page-sticky-time"> s</strong>
-                                </li>
-                                <li class="list-group-item d-flex justify-content-between">
-                                    <span>Max Visit Time:</span>
-                                    <strong id="page-max-time">s</strong>
-                                </li>
-                                <li class="list-group-item d-flex justify-content-between">
-                                    <span>Min Visit Time:</span>
-                                    <strong id="page-min-time">s</strong>
-                                </li>
-                                <li class="list-group-item d-flex justify-content-between">
-                                    <span>Dari Facebook:</span>
-                                    <strong id="page-facebook-count"></strong>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div class="col-9 mb-4">
-                        <h4 class="text-center">📈 Diagram Pengunjung Unik per Hari</h4>
-                        <canvas id="pageVisitChart" height="100"></canvas>
-                    </div>
-
-                    <div class="col-3 mb-4">
-                        <h4 class="mb-3">📊 Diagram Platform Pengguna</h4>
-                        <canvas id="pagePlatformPie" height="100"></canvas>
-                    </div>
-                </div>
-
-                <div class="table-responsive">
-                    <table id="table-page-visit" class="table table-bordered table-striped">
-                        <thead>
-                            <tr>
-                                <th style="width: 10%">URL</th>
-                                <th>IP</th>
-                                <th>User Agent</th>
-                                <th>Browser</th>
-                                <th>Platform</th>
-                                <th>Visited At</th>
-                                <th>Duration</th>
-                                <th>Bot?</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-        <div class="card my-4">
-            <div class="card-body">
-                <h2 class="mb-4">📄 Page X News Visits</h2>
-                <div class="row row-cols-1 row-cols-sm-3">
-                    <div class="col mb-4">
-                        <input type="text" class="selector form-control" id="mergeStartDate"
-                            placeholder="Pilih Tanggal Mulai">
-                    </div>
-                    <div class="col mb-4">
-                        <input type="text" class="selector form-control" id="mergeEndDate"
-                            placeholder="Pilih Tanggal Selesai">
-                    </div>
-                    <div class="col mb-4">
-                        <select class="form-select" id="mergeBotOrHumanFilter">
-                            <option value="">Pilih Bot Or Human</option>
-                            <option value="Yes">Bot</option>
-                            <option value="No">Human</option>
-                        </select>
-                    </div>
-                    <div class="col mb-4">
-                        <input type="text" class="selector form-control" id="mergeStartTime"
-                            placeholder="Pilih Jam Awal">
-                    </div>
-                    <div class="col mb-4">
-                        <input type="text" class="selector form-control" id="mergeEndTime"
-                            placeholder="Pilih Jam Akhir">
-                    </div>
-                    <div class="col mb-4">
-                        <label for="durationRange" class="form-label">Visit Duration Range (seconds)</label>
-                        <div id="durationRange" class="mb-2"></div>
-                        <div class="d-flex justify-content-between">
-                            <span id="durationMinLabel">0s</span>
-                            <span id="durationMaxLabel">0s</span>
-                        </div>
-                        <input type="hidden" id="mergeMinDuration" value="0">
-                        <input type="hidden" id="mergeMaxDuration" value="0">
-                    </div>
-                    <div class="col mb-4">
-                        <select class="form-select text-capitalize" id="mergeCountryFilter">
-                            <option value="">Pilih Country</option>
-                        </select>
-                    </div>
-                    <div class="col mb-4">
-                        <select class="form-select text-capitalize" id="mergeUrlFilter">
-                            <option value="">Pilih URL</option>
-                        </select>
-                    </div>
-                    <div class="col mb-4">
-                        <select class="form-select text-capitalize" id="mergeBrowserFilter">
-                            <option value="">Pilih Browser</option>
-                        </select>
-                    </div>
-                    <div class="col mb-4">
-                        <select class="form-select text-capitalize" id="mergePlatformFilter">
-                            <option value="">Pilih Platform</option>
-                        </select>
-                    </div>
-                    <div class="col mb-4">
-                        <button id="exportPageXNews" class="btn btn-primary w-100">
-                            <span id="spinner-btn" class="spinner-border spinner-border-sm me-1 d-none" role="status"
-                                aria-hidden="true"></span>
-                            <span class="btn-label">Export Excel</span>
-                        </button>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-12 mb-2">
-                        <div class="alert alert-info">
-                            <h4 class="mb-3">📈 Statistik Page x News Visits</h4>
-                            <ul class="list-group" id="global-stats">
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row g-4 mb-4" id="charts-section">
-                    <div class="col-12">
-                        <div class="card h-100">
-                            <div class="card-body">
-                                <h6 class="card-title">Pengunjung per Hari</h6>
-                                <canvas id="allVisitorsPerDayChart"></canvas>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-6">
-                        <div class="card h-100">
-                            <div class="card-body">
-                                <h6 class="card-title">Jumlah Pengunjung Unik per Hari</h6>
-                                <canvas id="uniqueVisitorsPerDayChart"></canvas>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-6">
-                        <div class="card h-100">
-                            <div class="card-body">
-                                <h6 class="card-title">Top 10 URL Terpopuler</h6>
-                                <canvas id="topUrlsChart"></canvas>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-6">
-                        <div class="card h-100">
-                            <div class="card-body">
-                                <h6 class="card-title">Jumlah Total Kunjungan per Hari</h6>
-                                <canvas id="totalVisitsPerDayChart"></canvas>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-6">
-                        <div class="card h-100">
-                            <div class="card-body">
-                                <h6 class="card-title">Jumlah Kunjungan per Jam</h6>
-                                <canvas id="visitsPerHourChart"></canvas>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-6">
-                        <div class="card h-100">
-                            <div class="card-body">
-                                <h6 class="card-title">Distribusi Bot vs Human</h6>
-                                <canvas id="botVsHumanChart"></canvas>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-6">
-                        <div class="card h-100">
-                            <div class="card-body">
-                                <h6 class="card-title">Distribusi Negara</h6>
-                                <canvas id="countryDistributionChart"></canvas>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-4">
-                        <div class="card h-100">
-                            <div class="card-body">
-                                <h6 class="card-title">Distribusi Platform Pengguna</h6>
-                                <canvas id="platformDistributionChart"></canvas>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-4">
-                        <div class="card h-100">
-                            <div class="card-body">
-                                <h6 class="card-title">Distribusi Browser Pengguna</h6>
-                                <canvas id="browserDistributionChart"></canvas>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-4">
-                        <div class="card h-100">
-                            <div class="card-body">
-                                <h6 class="card-title">Jumlah Kunjungan Berdasarkan Referer</h6>
-                                <canvas id="refererDistributionChart"></canvas>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-12">
-                        <div class="card h-100">
-                            <div class="card-body">
-                                <h6 class="card-title">Visualisasi Jumlah Kunjungan IP per Tanggal dan Jam</h6>
-
-                                <canvas id="ipBubbleChart"></canvas>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="table-responsive">
-                    <table id="combined-table" class="table table-bordered table-striped">
-                        <thead>
-                            <tr>
-                                <th>IP</th>
-                                <th>Visited At</th>
-                                <th>News Visited</th>
-                                <th>Page Visited</th>
-                                <th>News Duration</th>
-                                <th>Page Duration</th>
-                                <th>Bot Status</th>
-                                <th>Browser</th>
-                                <th>Platform</th>
-                                <th>Country</th>
-                                <th>Visited URLs</th>
-                            </tr>
-                        </thead>
-                        <tbody id="combined-body"></tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
 
     </div>
     <!-- Konversi data PHP ke JSON -->
@@ -1560,7 +1562,7 @@
 
             let country = 'Unknown';
             try {
-                const res1 = await fetch(`https://ipapi.co/${ip}/json/`);
+                const res1 = await fetch(`https://ipwhois.app/json/${ip}`);
                 if (res1.ok) {
                     const data1 = await res1.json();
                     if (data1?.country_name) {
@@ -1573,7 +1575,7 @@
             } catch (_) {}
 
             try {
-                const res2 = await fetch(`https://ipwhois.app/json/${ip}`);
+                const res2 = await fetch(`https://ipapi.co/${ip}/json/`);
                 if (res2.ok) {
                     const data2 = await res2.json();
                     if (data2?.country) {
@@ -1787,9 +1789,9 @@
                     .getContext('2d'), {
                         type: 'pie'
                     }),
-                ipOverlaping: new Chart(document.getElementById('ipBubbleChart').getContext('2d'), {
-                    type: 'bubble'
-                }),
+                // ipOverlaping: new Chart(document.getElementById('ipBubbleChart').getContext('2d'), {
+                //     type: 'bubble'
+                // }),
                 allVisitorsPerDayChart: new Chart(document.getElementById('allVisitorsPerDayChart'), {
                     type: 'bar'
                 })
@@ -1822,9 +1824,9 @@
                     const datePass = (!start || visitedDate >= start) && (!end || visitedDate <= end);
                     const timePass = (startTime === null && endTime === null) ||
                         ((startTime === null || visitedDate.getHours() * 60 + visitedDate
-                            .getMinutes() >= startTime) &&
+                                .getMinutes() >= startTime) &&
                             (endTime === null || visitedDate.getHours() * 60 + visitedDate
-                            .getMinutes() <= endTime));
+                                .getMinutes() <= endTime));
                     const botPass = !botFilter || item.is_bot === botFilter;
                     const browserPass = !browserFilter || item.browser === browserFilter;
                     const platformPass = !platformFilter || item.platform === platformFilter;
@@ -1841,9 +1843,9 @@
                     const datePass = (!start || visitedDate >= start) && (!end || visitedDate <= end);
                     const timePass = (startTime === null && endTime === null) ||
                         ((startTime === null || visitedDate.getHours() * 60 + visitedDate
-                            .getMinutes() >= startTime) &&
+                                .getMinutes() >= startTime) &&
                             (endTime === null || visitedDate.getHours() * 60 + visitedDate
-                            .getMinutes() <= endTime));
+                                .getMinutes() <= endTime));
                     const botPass = !botFilter || item.is_bot === botFilter;
                     const urlPass = !urlFilter || item.url === urlFilter;
                     const browserPass = !browserFilter || item.browser === browserFilter;
@@ -2114,87 +2116,87 @@
                 };
                 charts.countryDistribution.update();
 
-                // 10. IP Overlapping (Bubble Chart)
-                const ipActivity = {};
-                allFilteredVisits.forEach(v => {
-                    const date = getDateString(v.visited_at);
-                    const hour = new Date(v.visited_at).getHours();
-                    const key = `${v.ip}-${date}-${hour}`;
-                    if (!ipActivity[key]) {
-                        ipActivity[key] = {
-                            ip: v.ip,
-                            date,
-                            hour,
-                            count: 0
-                        };
-                    }
-                    ipActivity[key].count++;
-                });
+                // 10. IP Overlapping (Bubble Chart) ====================
+                // const ipActivity = {};
+                // allFilteredVisits.forEach(v => {
+                //     const date = getDateString(v.visited_at);
+                //     const hour = new Date(v.visited_at).getHours();
+                //     const key = `${v.ip}-${date}-${hour}`;
+                //     if (!ipActivity[key]) {
+                //         ipActivity[key] = {
+                //             ip: v.ip,
+                //             date,
+                //             hour,
+                //             count: 0
+                //         };
+                //     }
+                //     ipActivity[key].count++;
+                // });
 
-                const bubbleData = Object.values(ipActivity).map(item => ({
-                    x: item.date,
-                    y: item.hour,
-                    r: item.count === 1 ? 5 : Math.min(5 + (item.count - 1) * 3, 20),
-                    ip: item.ip
-                }));
+                // const bubbleData = Object.values(ipActivity).map(item => ({
+                //     x: item.date,
+                //     y: item.hour,
+                //     r: item.count === 1 ? 5 : Math.min(5 + (item.count - 1) * 3, 20),
+                //     ip: item.ip
+                // }));
 
-                const datasets = Array.from(uniqueIPs).map(ip => ({
-                    label: ip,
-                    data: bubbleData.filter(d => d.ip === ip).map(d => ({
-                        x: d.x,
-                        y: d.y,
-                        r: d.r
-                    })),
-                    backgroundColor: ipColors[ip] + '80',
-                    borderColor: ipColors[ip],
-                    borderWidth: 1
-                })).filter(dataset => dataset.data.length > 0);
+                // const datasets = Array.from(uniqueIPs).map(ip => ({
+                //     label: ip,
+                //     data: bubbleData.filter(d => d.ip === ip).map(d => ({
+                //         x: d.x,
+                //         y: d.y,
+                //         r: d.r
+                //     })),
+                //     backgroundColor: ipColors[ip] + '80',
+                //     borderColor: ipColors[ip],
+                //     borderWidth: 1
+                // })).filter(dataset => dataset.data.length > 0);
 
-                charts.ipOverlaping.data = {
-                    datasets
-                };
-                charts.ipOverlaping.options = {
-                    scales: {
-                        x: {
-                            type: 'category',
-                            title: {
-                                display: true,
-                                text: 'Tanggal'
-                            },
-                            labels: [...new Set(bubbleData.map(d => d.x))].sort()
-                        },
-                        y: {
-                            min: 0,
-                            max: 23,
-                            ticks: {
-                                stepSize: 1
-                            },
-                            title: {
-                                display: true,
-                                text: 'Jam'
-                            }
-                        }
-                    },
-                    plugins: {
-                        legend: {
-                            display: false
-                        },
-                        tooltip: {
-                            callbacks: {
-                                label: context => {
-                                    const {
-                                        x,
-                                        y,
-                                        r
-                                    } = context.raw;
-                                    const visits = r === 5 ? 1 : Math.round((r - 5) / 3 + 1);
-                                    return `IP: ${context.dataset.label}, Date: ${x}, Hour: ${y}, Visits: ${visits}`;
-                                }
-                            }
-                        }
-                    }
-                };
-                charts.ipOverlaping.update();
+                // charts.ipOverlaping.data = {
+                //     datasets
+                // };
+                // charts.ipOverlaping.options = {
+                //     scales: {
+                //         x: {
+                //             type: 'category',
+                //             title: {
+                //                 display: true,
+                //                 text: 'Tanggal'
+                //             },
+                //             labels: [...new Set(bubbleData.map(d => d.x))].sort()
+                //         },
+                //         y: {
+                //             min: 0,
+                //             max: 23,
+                //             ticks: {
+                //                 stepSize: 1
+                //             },
+                //             title: {
+                //                 display: true,
+                //                 text: 'Jam'
+                //             }
+                //         }
+                //     },
+                //     plugins: {
+                //         legend: {
+                //             display: false
+                //         },
+                //         tooltip: {
+                //             callbacks: {
+                //                 label: context => {
+                //                     const {
+                //                         x,
+                //                         y,
+                //                         r
+                //                     } = context.raw;
+                //                     const visits = r === 5 ? 1 : Math.round((r - 5) / 3 + 1);
+                //                     return `IP: ${context.dataset.label}, Date: ${x}, Hour: ${y}, Visits: ${visits}`;
+                //                 }
+                //             }
+                //         }
+                //     }
+                // };
+                // charts.ipOverlaping.update();
 
                 // 11. All Visitors per Day (Bar Chart)
                 const allVisitorsPerDay = {};
@@ -2258,9 +2260,9 @@
                     const datePass = (!start || visitedDate >= start) && (!end || visitedDate <= end);
                     const timePass = (startTime === null && endTime === null) ||
                         ((startTime === null || visitedDate.getHours() * 60 + visitedDate
-                            .getMinutes() >= startTime) &&
+                                .getMinutes() >= startTime) &&
                             (endTime === null || visitedDate.getHours() * 60 + visitedDate
-                            .getMinutes() <= endTime));
+                                .getMinutes() <= endTime));
                     const botPass = !botFilter || item.is_bot === botFilter;
                     const browserPass = !browserFilter || item.browser === browserFilter;
                     const platformPass = !platformFilter || item.platform === platformFilter;
@@ -2277,9 +2279,9 @@
                     const datePass = (!start || visitedDate >= start) && (!end || visitedDate <= end);
                     const timePass = (startTime === null && endTime === null) ||
                         ((startTime === null || visitedDate.getHours() * 60 + visitedDate
-                            .getMinutes() >= startTime) &&
+                                .getMinutes() >= startTime) &&
                             (endTime === null || visitedDate.getHours() * 60 + visitedDate
-                            .getMinutes() <= endTime));
+                                .getMinutes() <= endTime));
                     const botPass = !botFilter || item.is_bot === botFilter;
                     const urlPass = !urlFilter || item.url === urlFilter;
                     const browserPass = !browserFilter || item.browser === browserFilter;
@@ -2358,11 +2360,11 @@
             </li>
             <li class="list-group-item d-flex justify-content-between">
                 <span>Rata-rata Kunjungan per IP:</span>
-                <strong>${avgVisitsPerIP}</strong>
+                <strong>${Math.floor(avgVisitsPerIP)} visit </strong>
             </li>
             <li class="list-group-item d-flex justify-content-between">
                 <span>Rata-rata Kunjungan per Hari:</span>
-                <strong>${avgVisitsPerDay}</strong>
+                <strong>${Math.floor(avgVisitsPerDay)} visit</strong>
             </li>
             <li class="list-group-item d-flex justify-content-between">
                 <span>IP dengan Kunjungan Terbanyak:</span>
@@ -2564,13 +2566,37 @@
                 }
             });
 
+            function debounce(func, wait) {
+                let timeout;
+                return function executedFunction(...args) {
+                    const later = () => {
+                        clearTimeout(timeout);
+                        func(...args);
+                    };
+                    clearTimeout(timeout);
+                    timeout = setTimeout(later, wait);
+                };
+            }
+
+            const debouncedTableDraw = debounce(function() {
+                table.draw();
+            }, 1500);
+
             durationSlider.noUiSlider.on('update', function(values, handle) {
                 document.getElementById('durationMinLabel').textContent = values[0] + 's';
                 document.getElementById('durationMaxLabel').textContent = values[1] + 's';
                 document.getElementById('mergeMinDuration').value = values[0];
                 document.getElementById('mergeMaxDuration').value = values[1];
-                table.draw();
+                debouncedTableDraw();
             });
+
+            // durationSlider.noUiSlider.on('update', function(values, handle) {
+            //     document.getElementById('durationMinLabel').textContent = values[0] + 's';
+            //     document.getElementById('durationMaxLabel').textContent = values[1] + 's';
+            //     document.getElementById('mergeMinDuration').value = values[0];
+            //     document.getElementById('mergeMaxDuration').value = values[1];
+            //     table.draw();
+            // });
 
             updateCharts();
             updateStatistics();
