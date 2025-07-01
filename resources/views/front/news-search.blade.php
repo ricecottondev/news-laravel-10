@@ -5,8 +5,6 @@
 
     <section class="pt-1">
 
-
-
         <hr class="mt-0">
     </section>
     <section>
@@ -56,23 +54,27 @@
                                         <div class="news-item">
                                             <header>
                                                 <p class="news-category">
-                                                    <small><b class="fw-bold">{{ $news1->category->name ?? '-' }}</b>
-                                                        {{ $news1->author }}</small>
+                                                    @php
+                                                        $categoryName =
+                                                            $news1->countriesCategoriesNews->first()?->category
+                                                                ?->name ?? 'No Category';
+                                                    @endphp
+                                                    <small><b class="fw-bold">{{ $categoryName ?? '-' }}</b></small>
                                                 </p>
-                                                @if ($news1->color == 'P')
+                                                @if (strtoupper($news1->color) == 'P')
                                                     <h5 class="news-title hot-news text-danger">
-                                                    @elseif ($news1->color == 'Y')
+                                                    @elseif (strtoupper($news1->color) == 'Y')
                                                         <h5 class="news-title hot-news text-warning">
                                                         @else
                                                             <h5 class="news-title hot-news">
                                                 @endif
                                                 {{-- <h5 class="news-title hot-news text-warning"> --}}
-                                                    <b class="fw-bold">
-                                                        <a href="{{ route('front.news.show', $news1->slug) }}"
-                                                            class="text-reset link-hover-underline">
-                                                            {{ $news1->title }}
-                                                        </a>
-                                                    </b>
+                                                <b class="fw-bold">
+                                                    <a href="{{ route('front.news.show', $news1->slug) }}"
+                                                        class="text-reset link-hover-underline">
+                                                        {{ $news1->title }}
+                                                    </a>
+                                                </b>
                                                 </h5>
                                             </header>
                                             <main>
@@ -88,13 +90,37 @@
                                                             {{ Str::words(strip_tags($news1->content), 30, '...') }}</p>
                                                         <div class="news-time media small">
                                                             <div class="media-header">
-                                                                <div class="ratio ratio-1x1 rounded-circle"
-                                                                    style="width: 2rem;"></div>
+                                                                @if (strtoupper($news1->color) == 'P')
+                                                                    <div class="ratio ratio-1x1 rounded-circle border border-2 border-danger"
+                                                                        style="width: 2rem;">
+                                                                        <img src="/assets/template3/asset/img/user/clara.jpg"
+                                                                            class="object-fit-cover" alt="">
+                                                                    </div>
+                                                                @elseif (strtoupper($news1->color) == 'Y')
+                                                                    <div class="ratio ratio-1x1 rounded-circle border border-2 border-warning"
+                                                                        style="width: 2rem;">
+                                                                        <img src="/assets/template3/asset/img/user/lola.jpg"
+                                                                            class="object-fit-cover" alt="">
+                                                                    </div>
+                                                                @else
+                                                                    <div class="ratio ratio-1x1 rounded-circle border border-2 border-white"
+                                                                        style="width: 2rem;">
+                                                                        <img src="/assets/template3/asset/img/user/phor.jpg"
+                                                                            class="object-fit-cover" alt="">
+                                                                    </div>
+                                                                @endif
                                                             </div>
                                                             <div class="media-body">
                                                                 <div class="mb-1"><small class="opacity-75">Author
-                                                                        by</small> <b
-                                                                        class="fw-medium">{{ $news1->author }}</b></div>
+                                                                        by</small>
+                                                                    @if (strtoupper($news1->color) == 'P')
+                                                                        <b class="fw-medium text-danger">Clara</b>
+                                                                    @elseif (strtoupper($news1->color) == 'Y')
+                                                                        <b class="fw-medium text-warning">Lola</b>
+                                                                    @else
+                                                                        <b class="fw-medium">Phor</b>
+                                                                    @endif
+                                                                </div>
                                                                 <div>
                                                                     <small>{{ $news1->created_at->diffForHumans() }}</small>
                                                                 </div>
@@ -117,23 +143,27 @@
                                             <div class="news-item">
                                                 <header>
                                                     <p class="news-category">
-                                                        <small><b class="fw-bold">{{ $news2->category->name ?? '-' }}</b>
-                                                            {{ $news2->author }}</small>
+                                                        @php
+                                                            $categoryName =
+                                                                $news2->countriesCategoriesNews->first()?->category
+                                                                    ?->name ?? 'No Category';
+                                                        @endphp
+                                                        <small><b class="fw-bold">{{ $categoryName ?? '-' }}</b></small>
                                                     </p>
-                                                    @if ($news2->color == 'P')
-                                                                         <h5 class="news-title  text-danger">
-                                                                         @elseif ($news2->color == 'Y')
-                                                                             <h5 class="news-title text-warning">
-                                                                             @else
-                                                                                 <h5 class="news-title">
-                                                                     @endif
+                                                    @if (strtoupper($news2->color) == 'P')
+                                                        <h5 class="news-title  text-danger">
+                                                        @elseif (strtoupper($news2->color) == 'Y')
+                                                            <h5 class="news-title text-warning">
+                                                            @else
+                                                                <h5 class="news-title">
+                                                    @endif
                                                     {{-- <h5 class="news-title"> --}}
-                                                        <b class="fw-bold">
-                                                            <a href="{{ route('front.news.show', $news2->slug) }}"
-                                                                class="text-reset link-hover-underline">
-                                                                {{ $news2->title }}
-                                                            </a>
-                                                        </b>
+                                                    <b class="fw-bold">
+                                                        <a href="{{ route('front.news.show', $news2->slug) }}"
+                                                            class="text-reset link-hover-underline">
+                                                            {{ $news2->title }}
+                                                        </a>
+                                                    </b>
                                                     </h5>
                                                 </header>
                                                 <main>
@@ -150,13 +180,36 @@
                                                             </p>
                                                             <div class="news-time media small">
                                                                 <div class="media-header">
-                                                                    <div class="ratio ratio-1x1 rounded-circle"
-                                                                        style="width: 2rem;"></div>
+                                                                    @if (strtoupper($news2->color) == 'P')
+                                                                        <div class="ratio ratio-1x1 rounded-circle border border-2 border-danger"
+                                                                            style="width: 2rem;">
+                                                                            <img src="/assets/template3/asset/img/user/clara.jpg"
+                                                                                class="object-fit-cover" alt="">
+                                                                        </div>
+                                                                    @elseif (strtoupper($news2->color) == 'Y')
+                                                                        <div class="ratio ratio-1x1 rounded-circle border border-2 border-warning"
+                                                                            style="width: 2rem;">
+                                                                            <img src="/assets/template3/asset/img/user/lola.jpg"
+                                                                                class="object-fit-cover" alt="">
+                                                                        </div>
+                                                                    @else
+                                                                        <div class="ratio ratio-1x1 rounded-circle border border-2 border-white"
+                                                                            style="width: 2rem;">
+                                                                            <img src="/assets/template3/asset/img/user/phor.jpg"
+                                                                                class="object-fit-cover" alt="">
+                                                                        </div>
+                                                                    @endif
                                                                 </div>
                                                                 <div class="media-body">
                                                                     <div class="mb-1"><small class="opacity-75">Author
-                                                                            by</small> <b
-                                                                            class="fw-medium">{{ $news2->author }}</b>
+                                                                            by</small>
+                                                                        @if (strtoupper($news2->color) == 'P')
+                                                                            <b class="fw-medium text-danger">Clara</b>
+                                                                        @elseif (strtoupper($news2->color) == 'Y')
+                                                                            <b class="fw-medium text-warning">Lola</b>
+                                                                        @else
+                                                                            <b class="fw-medium">Phor</b>
+                                                                        @endif
                                                                     </div>
                                                                     <div>
                                                                         <small>{{ $news2->created_at->diffForHumans() }}</small>
@@ -182,23 +235,27 @@
                                             <div class="news-item">
                                                 <header>
                                                     <p class="news-category">
-                                                        <small><b class="fw-bold">{{ $news3->category->name ?? '-' }}</b>
-                                                            {{ $news3->author }}</small>
+                                                        @php
+                                                            $categoryName =
+                                                                $news3->countriesCategoriesNews->first()?->category
+                                                                    ?->name ?? 'No Category';
+                                                        @endphp
+                                                        <small><b class="fw-bold">{{ $categoryName ?? '-' }}</b></small>
                                                     </p>
-                                                    @if ($news3->color == 'P')
-                                                                         <h5 class="news-title  text-danger">
-                                                                         @elseif ($news3->color == 'Y')
-                                                                             <h5 class="news-title text-warning">
-                                                                             @else
-                                                                                 <h5 class="news-title">
-                                                                     @endif
+                                                    @if (strtoupper($news3->color) == 'P')
+                                                        <h5 class="news-title  text-danger">
+                                                        @elseif (strtoupper($news3->color) == 'Y')
+                                                            <h5 class="news-title text-warning">
+                                                            @else
+                                                                <h5 class="news-title">
+                                                    @endif
                                                     {{-- <h5 class="news-title"> --}}
-                                                        <b class="fw-bold">
-                                                            <a href="{{ route('front.news.show', $news3->slug) }}"
-                                                                class="text-reset link-hover-underline">
-                                                                {{ $news3->title }}
-                                                            </a>
-                                                        </b>
+                                                    <b class="fw-bold">
+                                                        <a href="{{ route('front.news.show', $news3->slug) }}"
+                                                            class="text-reset link-hover-underline">
+                                                            {{ $news3->title }}
+                                                        </a>
+                                                    </b>
                                                     </h5>
                                                 </header>
                                                 <main>
@@ -206,13 +263,36 @@
                                                         {{ Str::words(strip_tags($news3->content), 25, '...') }}</p>
                                                     <div class="news-time media small">
                                                         <div class="media-header">
-                                                            <div class="ratio ratio-1x1 rounded-circle"
-                                                                style="width: 2rem;"></div>
+                                                            @if (strtoupper($news3->color) == 'P')
+                                                                <div class="ratio ratio-1x1 rounded-circle border border-2 border-danger"
+                                                                    style="width: 2rem;">
+                                                                    <img src="/assets/template3/asset/img/user/clara.jpg"
+                                                                        class="object-fit-cover" alt="">
+                                                                </div>
+                                                            @elseif (strtoupper($news3->color) == 'Y')
+                                                                <div class="ratio ratio-1x1 rounded-circle border border-2 border-warning"
+                                                                    style="width: 2rem;">
+                                                                    <img src="/assets/template3/asset/img/user/lola.jpg"
+                                                                        class="object-fit-cover" alt="">
+                                                                </div>
+                                                            @else
+                                                                <div class="ratio ratio-1x1 rounded-circle border border-2 border-white"
+                                                                    style="width: 2rem;">
+                                                                    <img src="/assets/template3/asset/img/user/phor.jpg"
+                                                                        class="object-fit-cover" alt="">
+                                                                </div>
+                                                            @endif
                                                         </div>
                                                         <div class="media-body">
                                                             <div class="mb-1"><small class="opacity-75">Author
                                                                     by</small>
-                                                                <b class="fw-medium">{{ $news3->author }}</b>
+                                                                @if (strtoupper($news3->color) == 'P')
+                                                                    <b class="fw-medium text-danger">Clara</b>
+                                                                @elseif (strtoupper($news3->color) == 'Y')
+                                                                    <b class="fw-medium text-warning">Lola</b>
+                                                                @else
+                                                                    <b class="fw-medium">Phor</b>
+                                                                @endif
                                                             </div>
                                                             <div><small>{{ $news3->created_at->diffForHumans() }}</small>
                                                             </div>
@@ -258,12 +338,16 @@
                                             <div class="news-item">
                                                 <header>
                                                     <p class="news-category">
-                                                        <small><b class="fw-bold">{{ $main->category->name ?? '-' }}</b>
-                                                            {{ $main->author }}</small>
+                                                        @php
+                                                            $categoryName =
+                                                                $main->countriesCategoriesNews->first()?->category
+                                                                    ?->name ?? 'No Category';
+                                                        @endphp
+                                                        <small><b class="fw-bold">{{ $categoryName ?? '-' }}</b></small>
                                                     </p>
-                                                    @if ($main->color == 'P')
+                                                    @if (strtoupper($main->color) == 'P')
                                                         <h5 class="news-title  text-danger">
-                                                        @elseif ($main->color == 'Y')
+                                                        @elseif (strtoupper($main->color) == 'Y')
                                                             <h5 class="news-title text-warning">
                                                             @else
                                                                 <h5 class="news-title">
@@ -291,13 +375,36 @@
                                                             </p>
                                                             <div class="news-time media small">
                                                                 <div class="media-header">
-                                                                    <div class="ratio ratio-1x1 rounded-circle"
-                                                                        style="width: 2rem;"></div>
+                                                                    @if (strtoupper($main->color) == 'P')
+                                                                        <div class="ratio ratio-1x1 rounded-circle border border-2 border-danger"
+                                                                            style="width: 2rem;">
+                                                                            <img src="/assets/template3/asset/img/user/clara.jpg"
+                                                                                class="object-fit-cover" alt="">
+                                                                        </div>
+                                                                    @elseif (strtoupper($main->color) == 'Y')
+                                                                        <div class="ratio ratio-1x1 rounded-circle border border-2 border-warning"
+                                                                            style="width: 2rem;">
+                                                                            <img src="/assets/template3/asset/img/user/lola.jpg"
+                                                                                class="object-fit-cover" alt="">
+                                                                        </div>
+                                                                    @else
+                                                                        <div class="ratio ratio-1x1 rounded-circle border border-2 border-white"
+                                                                            style="width: 2rem;">
+                                                                            <img src="/assets/template3/asset/img/user/phor.jpg"
+                                                                                class="object-fit-cover" alt="">
+                                                                        </div>
+                                                                    @endif
                                                                 </div>
                                                                 <div class="media-body">
                                                                     <div class="mb-1"><small class="opacity-75">Author
-                                                                            by</small> <b
-                                                                            class="fw-medium">{{ $main->author }}</b>
+                                                                            by</small>
+                                                                        @if (strtoupper($main->color) == 'P')
+                                                                            <b class="fw-medium text-danger">Clara</b>
+                                                                        @elseif (strtoupper($main->color) == 'Y')
+                                                                            <b class="fw-medium text-warning">Lola</b>
+                                                                        @else
+                                                                            <b class="fw-medium">Phor</b>
+                                                                        @endif
                                                                     </div>
                                                                     <div>
                                                                         <small>{{ $main->created_at->diffForHumans() }}</small>
@@ -321,13 +428,17 @@
                                                             <div class="news-item">
                                                                 <header>
                                                                     <p class="news-category">
+                                                                        @php
+                                                                            $categoryName =
+                                                                                $news->countriesCategoriesNews->first()
+                                                                                    ?->category?->name ?? 'No Category';
+                                                                        @endphp
                                                                         <small><b
-                                                                                class="fw-bold">{{ $news->category->name ?? '-' }}</b>
-                                                                            {{ $news->author }}</small>
+                                                                                class="fw-bold">{{ $categoryName ?? '-' }}</b></small>
                                                                     </p>
-                                                                    @if ($news->color == 'P')
+                                                                    @if (strtoupper($news->color) == 'P')
                                                                         <h5 class="news-title  text-danger">
-                                                                        @elseif ($news->color == 'Y')
+                                                                        @elseif (strtoupper($news->color) == 'Y')
                                                                             <h5 class="news-title text-warning">
                                                                             @else
                                                                                 <h5 class="news-title">
@@ -347,14 +458,41 @@
                                                                     </p>
                                                                     <div class="news-time media small">
                                                                         <div class="media-header">
-                                                                            <div class="ratio ratio-1x1 rounded-circle"
-                                                                                style="width: 2rem;"></div>
+                                                                            @if (strtoupper($news->color) == 'P')
+                                                                                <div class="ratio ratio-1x1 rounded-circle border border-2 border-danger"
+                                                                                    style="width: 2rem;">
+                                                                                    <img src="/assets/template3/asset/img/user/clara.jpg"
+                                                                                        class="object-fit-cover"
+                                                                                        alt="">
+                                                                                </div>
+                                                                            @elseif (strtoupper($news->color) == 'Y')
+                                                                                <div class="ratio ratio-1x1 rounded-circle border border-2 border-warning"
+                                                                                    style="width: 2rem;">
+                                                                                    <img src="/assets/template3/asset/img/user/lola.jpg"
+                                                                                        class="object-fit-cover"
+                                                                                        alt="">
+                                                                                </div>
+                                                                            @else
+                                                                                <div class="ratio ratio-1x1 rounded-circle border border-2 border-white"
+                                                                                    style="width: 2rem;">
+                                                                                    <img src="/assets/template3/asset/img/user/phor.jpg"
+                                                                                        class="object-fit-cover"
+                                                                                        alt="">
+                                                                                </div>
+                                                                            @endif
                                                                         </div>
                                                                         <div class="media-body">
                                                                             <div class="mb-1"><small
                                                                                     class="opacity-75">Author by</small>
-                                                                                <b
-                                                                                    class="fw-medium">{{ $news->author }}</b>
+                                                                                @if (strtoupper($news->color) == 'P')
+                                                                                    <b
+                                                                                        class="fw-medium text-danger">Clara</b>
+                                                                                @elseif (strtoupper($news->color) == 'Y')
+                                                                                    <b
+                                                                                        class="fw-medium text-warning">Lola</b>
+                                                                                @else
+                                                                                    <b class="fw-medium">Phor</b>
+                                                                                @endif
                                                                             </div>
                                                                             <div>
                                                                                 <small>{{ $news->created_at->diffForHumans() }}</small>
@@ -486,9 +624,9 @@
                                                         <p class="news-category">
                                                             <small><b class="fw-bold">Politic</b> Donald Trump</small>
                                                         </p>
-                                                        @if ($epn->color == 'P')
+                                                        @if (strtoupper($epn->color) == 'P')
                                                             <h5 class="news-title fs-5 text-danger">
-                                                            @elseif ($epn->color == 'Y')
+                                                            @elseif (strtoupper($epn->color) == 'Y')
                                                                 <h5 class="news-title fs-5 text-warning">
                                                                 @else
                                                                     <h5 class="news-title">
@@ -503,14 +641,36 @@
                                                         </h5>
                                                         <div class="news-time media small">
                                                             <div class="media-header">
-                                                                <div class="ratio ratio-1x1 rounded-circle"
-                                                                    style="width: 2rem;">
-                                                                </div>
+                                                                @if (strtoupper($epn->color) == 'P')
+                                                                    <div class="ratio ratio-1x1 rounded-circle border border-2 border-danger"
+                                                                        style="width: 2rem;">
+                                                                        <img src="/assets/template3/asset/img/user/clara.jpg"
+                                                                            class="object-fit-cover" alt="">
+                                                                    </div>
+                                                                @elseif (strtoupper($epn->color) == 'Y')
+                                                                    <div class="ratio ratio-1x1 rounded-circle border border-2 border-warning"
+                                                                        style="width: 2rem;">
+                                                                        <img src="/assets/template3/asset/img/user/lola.jpg"
+                                                                            class="object-fit-cover" alt="">
+                                                                    </div>
+                                                                @else
+                                                                    <div class="ratio ratio-1x1 rounded-circle border border-2 border-white"
+                                                                        style="width: 2rem;">
+                                                                        <img src="/assets/template3/asset/img/user/phor.jpg"
+                                                                            class="object-fit-cover" alt="">
+                                                                    </div>
+                                                                @endif
                                                             </div>
                                                             <div class="media-body">
                                                                 <div class="mb-1"><small class="opacity-75">Author
-                                                                        by</small> <b
-                                                                        class="fw-medium">{{ $epn->author }}</b>
+                                                                        by</small>
+                                                                    @if (strtoupper($epn->color) == 'P')
+                                                                        <b class="fw-medium text-danger">Clara</b>
+                                                                    @elseif (strtoupper($epn->color) == 'Y')
+                                                                        <b class="fw-medium text-warning">Lola</b>
+                                                                    @else
+                                                                        <b class="fw-medium">Phor</b>
+                                                                    @endif
                                                                 </div>
                                                                 <div>
                                                                     <small>{{ $epn->created_at->diffForHumans() }}</small>
@@ -529,9 +689,9 @@
                                                                 <small><small><b class="fw-bold">Politic</b> Donald
                                                                         Trump</small></small>
                                                             </p>
-                                                            @if ($epn->color == 'P')
+                                                            @if (strtoupper($epn->color) == 'P')
                                                                 <h5 class="news-title fs-6 text-danger">
-                                                                @elseif ($epn->color == 'Y')
+                                                                @elseif (strtoupper($epn->color) == 'Y')
                                                                     <h5 class="news-title fs-6 text-warning">
                                                                     @else
                                                                         <h5 class="news-title">
