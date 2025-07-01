@@ -9,12 +9,12 @@
             <thead class="table-dark">
                 <tr>
                     <th>#</th>
-                    <th>Nama</th>
+                    <th>Name</th>
                     <th>Email</th>
                     <th>Request</th>
                     <th>Status</th>
                     <th>Notes</th>
-                    <th>Waktu</th>
+                    <th>Date Time</th>
                 </tr>
             </thead>
             <tbody>

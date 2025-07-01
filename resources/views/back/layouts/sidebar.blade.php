@@ -219,6 +219,56 @@
                     <!--end:Menu link-->
                 </div>
 
+
+                <div class="menu-item">
+                    <!--begin:Menu link-->
+                    <a class="menu-link" href="{{ url('back/news/request-news') }}">
+                        <span class="menu-icon">
+                            <i class="ki-duotone ki-square-brackets fs-2">
+                                <span class="path1"></span>
+                                <span class="path2"></span>
+                            </i>
+                        </span>
+                        <span class="menu-title">Request News
+                             <span class="badge bg-active-light text-white ms-2">New</span>
+                        </span>
+                    </a>
+                    <!--end:Menu link-->
+                </div>
+
+                <div class="menu-item">
+                    <!--begin:Menu link-->
+                    <a class="menu-link" href="{{ url('back/news/ratings') }}">
+                        <span class="menu-icon">
+                            <i class="ki-duotone ki-square-brackets fs-2">
+                                <span class="path1"></span>
+                                <span class="path2"></span>
+                            </i>
+                        </span>
+                        <span class="menu-title">News Rating
+                             <span class="badge bg-active-light text-white ms-2">New</span>
+                        </span>
+                    </a>
+                    <!--end:Menu link-->
+                </div>
+
+                <div class="menu-item">
+                    <!--begin:Menu link-->
+                    <a class="menu-link" href="{{ url('back/news/polls') }}">
+                        <span class="menu-icon">
+                            <i class="ki-duotone ki-square-brackets fs-2">
+                                <span class="path1"></span>
+                                <span class="path2"></span>
+                            </i>
+                        </span>
+                        <span class="menu-title">News Poll
+                             <span class="badge bg-active-light text-white ms-2">New</span>
+                        </span>
+                    </a>
+                    <!--end:Menu link-->
+                </div>
+
+
                 <div class="menu-item">
                     <!--begin:Menu link-->
                     <a class="menu-link" href="{{ url('/back/chat-gpt') }}">

@@ -256,9 +256,13 @@ Route::post('/back/news/update-status', [BackNewsController::class, 'updateStatu
 Route::post('/back/news/{id}/toggle-editor-choice', [BackNewsController::class, 'toggleEditorChoice']);
 
 Route::get('/back/news/request-news', [BackNewsController::class, 'indexRequestNews'])->name('back.news.request-news');
+Route::get('/back/news/ratings', [BackNewsController::class, 'indexNewsRatings'])->name('back.news.ratings');
 
 
 Route::get('back/news-visits', [NewsVisitController::class, 'index'])->name('admin.news.visits');
+
+Route::get('/back/news/polls', [BackNewsController::class, 'indexNewsPolls'])->name('back.news.polls');
+
 
 Route::post('loginas', [UserController::class, 'loginas'])->name('users.loginas');
 Route::get('loginas', [UserController::class, 'loginas'])->name('users.loginas');

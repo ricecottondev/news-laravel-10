@@ -16,6 +16,8 @@ use App\Imports\NewsImport;
 use App\Models\News;
 
 use App\Models\RequestNews;
+use App\Models\NewsRating;
+use App\Models\NewsPoll;
 
 
 class BackNewsController extends Controller
@@ -357,5 +359,19 @@ class BackNewsController extends Controller
         $requests = RequestNews::orderBy('created_at', 'desc')->paginate(20);
 
         return view('back.news.request-news', compact('requests'));
+    }
+
+    public function indexNewsRatings()
+    {
+        $ratings = NewsRating::with('news')->orderBy('created_at', 'desc')->paginate(20);
+
+        return view('back.news.news-ratings', compact('ratings'));
+    }
+
+    public function indexNewsPolls()
+    {
+        $polls = NewsPoll::with('news')->orderBy('created_at', 'desc')->paginate(20);
+
+        return view('back.news.news-polls', compact('polls'));
     }
 }
