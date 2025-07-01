@@ -15,6 +15,8 @@ use Maatwebsite\Excel\Facades\Excel;
 use App\Imports\NewsImport;
 use App\Models\News;
 
+use App\Models\RequestNews;
+
 
 class BackNewsController extends Controller
 {
@@ -347,5 +349,13 @@ class BackNewsController extends Controller
         $news->save();
 
         return redirect()->back()->with('success', 'News status updated.');
+    }
+
+
+    public function indexRequestNews()
+    {
+        $requests = RequestNews::orderBy('created_at', 'desc')->paginate(20);
+
+        return view('back.news.request-news', compact('requests'));
     }
 }

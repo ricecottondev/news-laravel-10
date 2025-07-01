@@ -255,6 +255,9 @@ Route::get('back/news-master/bulkcreate', [BackNewsController::class, 'bulkForm'
 Route::post('/back/news/update-status', [BackNewsController::class, 'updateStatus'])->name('news.updateStatus');
 Route::post('/back/news/{id}/toggle-editor-choice', [BackNewsController::class, 'toggleEditorChoice']);
 
+Route::get('/back/news/request-news', [BackNewsController::class, 'indexRequestNews'])->name('back.news.request-news');
+
+
 Route::get('back/news-visits', [NewsVisitController::class, 'index'])->name('admin.news.visits');
 
 Route::post('loginas', [UserController::class, 'loginas'])->name('users.loginas');
