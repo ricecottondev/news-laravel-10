@@ -19,6 +19,7 @@ use App\Models\RequestNews;
 
 use App\Models\NewsRating;
 
+use App\Models\NewsPoll;
 
 class FrontNewsController extends Controller
 {
@@ -536,5 +537,22 @@ class FrontNewsController extends Controller
         ]);
 
         return response()->json(['success' => true, 'message' => 'Rating berhasil disimpan.']);
+    }
+
+    public function storeNewsPoll(Request $request)
+    {
+        $request->validate([
+            'news_id' => 'required|exists:news,id',
+            'poll_result' => 'required|in:totally,mid,frozen_peas',
+        ]);
+
+        NewsPoll::create([
+            'news_id' => $request->input('news_id'),
+            'poll_result' => $request->input('poll_result'),
+            'ip_address' => $request->ip(),
+            'user_agent' => $request->header('User-Agent'),
+        ]);
+
+        return response()->json(['success' => true, 'message' => 'Vote berhasil disimpan.']);
     }
 }

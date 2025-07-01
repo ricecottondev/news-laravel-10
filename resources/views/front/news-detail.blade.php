@@ -320,36 +320,37 @@
                                 </div>
 
                                 <div>
-                                    <h5>
-                                        <b class="fw-bold">
-                                            Quick Poll or Emoji Slider
-                                        </b>
-                                    </h5>
-                                    <p>
-                                        How cooked is this situation?
-                                    </p>
-                                    <div class="mb-3">
-                                        <div class="form-check form-check-inline p-0 m-0">
-                                            <input type="radio" class="btn-check" name="newsPoll" id="poll1"
-                                                autocomplete="off">
-                                            <label class="btn btn-sm btn-outline-success" for="poll1">🔥
-                                                Totally</label>
+                                    <form id="formNewsPoll">
+                                        <input type="hidden" name="news_id" value="{{ $news->id }}">
+
+                                        <h5><b class="fw-bold">Quick Poll or Emoji Slider</b></h5>
+                                        <p>How cooked is this situation?</p>
+
+                                        <div class="mb-3">
+                                            <div class="form-check form-check-inline p-0 m-0">
+                                                <input type="radio" class="btn-check" name="poll_result"
+                                                    id="poll1" value="totally" autocomplete="off">
+                                                <label class="btn btn-sm btn-outline-success" for="poll1">🔥
+                                                    Totally</label>
+                                            </div>
+                                            <div class="form-check form-check-inline p-0 m-0">
+                                                <input type="radio" class="btn-check" name="poll_result"
+                                                    id="poll2" value="mid" autocomplete="off">
+                                                <label class="btn btn-sm btn-outline-warning" for="poll2">😐
+                                                    Mid</label>
+                                            </div>
+                                            <div class="form-check form-check-inline p-0 m-0">
+                                                <input type="radio" class="btn-check" name="poll_result"
+                                                    id="poll3" value="frozen_peas" autocomplete="off">
+                                                <label class="btn btn-sm btn-outline-danger" for="poll3">🥶 Frozen
+                                                    Peas</label>
+                                            </div>
                                         </div>
-                                        <div class="form-check form-check-inline p-0 m-0">
-                                            <input type="radio" class="btn-check" name="newsPoll" id="poll2"
-                                                autocomplete="off">
-                                            <label class="btn btn-sm btn-outline-warning" for="poll2">😐 Mid</label>
-                                        </div>
-                                        <div class="form-check form-check-inline p-0 m-0">
-                                            <input type="radio" class="btn-check" name="newsPoll" id="poll3"
-                                                autocomplete="off">
-                                            <label class="btn btn-sm btn-outline-danger" for="poll3">🥶 Frozen
-                                                Peas</label>
-                                        </div>
-                                    </div>
-                                    <button class="btn btn-warning px-4">
-                                        Send <i class="fas fa-paper-plane"></i>
-                                    </button>
+
+                                        <button type="submit" class="btn btn-warning px-4">
+                                            Send <i class="fas fa-paper-plane"></i>
+                                        </button>
+                                    </form>
                                 </div>
 
                                 <div>
@@ -656,6 +657,33 @@
                 });
         });
     </script>
+
+    <script>
+        document.getElementById('formNewsPoll').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const formData = new FormData(this);
+
+            fetch("/store-news-poll", {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success) {
+                        alert(data.message);
+                        this.reset();
+                    } else {
+                        alert("Gagal mengirim polling.");
+                    }
+                })
+                .catch(err => {
+                    console.error(err);
+                    alert("Terjadi kesalahan.");
+                });
+        });
+    </script>
+
 
     <script>
         function logShare(newsId, platform) {

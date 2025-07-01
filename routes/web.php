@@ -140,6 +140,7 @@ Route::get('/newscategory/{category}', [FrontNewsController::class, 'shownewsbyc
 
 Route::post('/request-news', [FrontNewsController::class, 'storeRequestNews'])->name('front.request.news');
 Route::post('/store-news-rating', [FrontNewsController::class, 'storeNewsRating'])->name('front.news.rating');
+Route::post('/store-news-poll', [FrontNewsController::class, 'storeNewsPoll'])->name('front.news.poll');
 
 
 
