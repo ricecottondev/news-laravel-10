@@ -138,6 +138,9 @@ Route::get('/news', [FrontNewsController::class, 'index'])->middleware('limit.ne
 Route::get('/news/{slug}', [FrontNewsController::class, 'show'])->name('front.news.show');
 Route::get('/newscategory/{category}', [FrontNewsController::class, 'shownewsbycategory'])->name('front.news.shownewsbycategory');
 
+Route::post('/request-news', [FrontNewsController::class, 'storeRequestNews'])->name('front.request.news');
+
+
 Route::get('/{country}/newscategory/{category}', [FrontNewsController::class, 'shownewsbycategoryandCountry'])->name('front.news.shownewsbycategoryandCountry');
 Route::get('/{country}/news', [FrontNewsController::class, 'shownewsbyCountry'])->name('front.news.shownewsbyCountry');
 
