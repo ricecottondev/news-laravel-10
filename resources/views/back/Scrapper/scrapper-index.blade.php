@@ -118,7 +118,7 @@
 
                                 <div class="container">
                                     <h2 class="mb-4">Hasil Scraping</h2>
-
+                                    {{-- @dump($data) --}}
                                     @if (isset($error))
                                         <div class="alert alert-danger">
                                             {{ $error }}
@@ -135,13 +135,7 @@
                                                     </svg> Export Excel</button>
                                             </div>
                                             <div class="card-body px-0">
-
-                                                {{-- @foreach ($data['ordered_text'] as $line)
-                                                    <p>{{ $line }}</p>
-                                                @endforeach --}}
-
                                                 @foreach ($data['ordered_text'] as $item)
-                                                    {{-- @if (!empty($item['title']) && !empty($item['summary']) && !empty($item['source']) && !empty($item['topic']) && !empty($item['date'])) --}}
                                                     <div class="alert {!! $item['alert'] !!}">
                                                         <div class="mb-4 p-3 border rounded shadow-sm bg-white">
                                                             <a href="{{ $item['url'] }}" target="_blank">
@@ -162,7 +156,6 @@
                                                         </div>
                                                         <h3>{{ $item['message'] }}</h3>
                                                     </div>
-                                                    {{-- @endif --}}
                                                 @endforeach
 
                                             </div>

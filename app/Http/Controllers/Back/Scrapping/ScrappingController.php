@@ -18,7 +18,8 @@ class ScrappingController extends Controller
         $data = null;
 
         if ($request->has('url')) {
-            $data = $this->scrapperFulltext($request->url);
+            // $data     = $this->scrapperFulltext($request->url);
+            $data = $this->checkLinkBeforeScrapping($request->url);
             // $data = $this->scrapper($request->url);
         }
 
@@ -82,111 +83,222 @@ class ScrappingController extends Controller
         }
     }
 
-    // public function scrapper($url)
-    // {
-    //     $client = new Client();
-    //     $client->setServerParameter('HTTP_USER_AGENT', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)');
+    public function checkLinkBeforeScrapping($url)
+    {
+        // Parse URL untuk mendapatkan host/domain
+        $parsedUrl = parse_url($url, PHP_URL_HOST);
 
-    //     try {
-    //         $crawler = $client->request('GET', $url);
+        if ($parsedUrl === 'www.abc.net.au') {
+            $data = $this->scrapperFulltext($url);
+        } elseif ($parsedUrl === 'www.bloomberg.com') {
+            $data = 'Bloomberg';
+        } elseif ($parsedUrl === 'edition.cnn.com') {
+            $data = $this->scrapperFulltextCNN($url);
+        } else {
+            $data = 'Unknown';
+        }
 
-    //         $headings = [
-    //             'title' => [],
-    //             'h1' => [],
-    //             'h2' => [],
-    //             'h3' => [],
-    //             'P' => [],
-    //             'a' => [],
-    //             'src' => [],
-    //             // 'div' => [],
-    //         ];
-    //         $arrkeys = array_keys($headings);
+        return $data;
+    }
 
-    //         foreach ($arrkeys as $tag) {
-    //             $crawler->filter($tag)->each(function ($node) use (&$headings, $tag) {
-    //                 $headings[$tag][] = $node->text();
-    //             });
-    //         }
+    public function scrapperFulltextCNN($url)
+    {
+        $client = new Client();
+        $client->setServerParameter('HTTP_USER_AGENT', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)');
 
-    //         return $headings;
-    //     } catch (\Exception $e) {
-    //         return [
-    //             'error' => 'Gagal mengambil data: ' . $e->getMessage(),
-    //         ];
-    //     }
-    // }
+        try {
+            $crawler = $client->request('GET', $url);
 
-    // public function scrapperFulltext($url)
-    // {
-    //     $client = new Client();
-    //     $client->setServerParameter('HTTP_USER_AGENT', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)');
+            $articles = [];
 
-    //     try {
-    //         $crawler = $client->request('GET', $url);
+            // Filter tag <a> dengan class container__link--type-article
+            $crawler->filter('a.container__link--type-article')->each(function ($node) use (&$articles) {
+                // Ambil URL dari atribut href
+                $href = $node->attr('href');
 
-    //         // Ambil semua teks dalam satu string
-    //         $fullText = null;
-    //         // $fullText = $crawler->text();
+                // Pastikan URL lengkap
+                if ($href && ! str_starts_with($href, 'http')) {
+                    $href = 'https://edition.cnn.com' . $href;
+                }
+                // dump($href);
+                // Ambil title dari span dengan class container__headline-text
+                $title = $node->filter('span.container__headline-text')->count() > 0
+                ? trim($node->filter('span.container__headline-text')->text())
+                : '';
 
-    //         // Daftar tag yang ingin dikecualikan
-    //         $excludedTags = [
-    //             'html',
-    //             'body',
-    //             'header',
-    //             'footer',
-    //             'script',
-    //             'style',
-    //             'meta',
-    //             'link',
-    //             'head',
-    //             'noscript'
-    //         ];
+                // Validasi bahwa href dan title tidak kosong
+                if ($href && $title) {
+                    $articleContent = $this->scrapeArticleContentCNN($href);
+                    $articles[]     = $articleContent;
+                    if (! isset($articleContent['error'])) {
+                    }
+                }
+            });
 
-    //         // Kelompokkan teks berdasarkan tag
-    //         $groupedByTag = [];
+            return [
+                'ordered_text' => $articles,
+            ];
+        } catch (\Exception $e) {
+            return [
+                'error' => 'Gagal mengambil data: ' . $e->getMessage(),
+            ];
+        }
+    }
 
-    //         $crawler->filterXPath('//*')->each(function ($node) use (&$groupedByTag, $excludedTags) {
-    //             $tag = $node->nodeName();
-    //             $text = trim($node->text());
+    public function scrapeArticleContentCNN($url)
+    {
+        $client = new Client();
+        $client->setServerParameter('HTTP_USER_AGENT', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)');
 
-    //             // Skip tag tertentu
-    //             if (in_array($tag, $excludedTags)) return;
+        try {
+            $crawler = $client->request('GET', $url);
 
-    //             if ($text !== '') {
-    //                 $groupedByTag[$tag][] = $text;
-    //             }
+            // Ambil title dari h1 dengan class headline__text atau vossi-headline-text
+            $title = $crawler->filter('h1.headline__text, h1.vossi-headline-text')->count() > 0
+            ? trim($crawler->filter('h1.headline__text, h1.vossi-headline-text')->text())
+            : '';
 
-    //             // Tangani khusus untuk <a> dan <img>
-    //             if ($tag === 'a') {
-    //                 $href = $node->attr('href');
-    //                 if ($href) {
-    //                     $groupedByTag['a_href'][] = $href;
-    //                 }
-    //             }
+            // Ambil summary dari dua tag <p> pertama dengan class vossi-paragraph
+            $summary    = '';
+            $paragraphs = $crawler->filter('p.vossi-paragraph')->slice(0, 2);
+            $paragraphs->each(function ($node) use (&$summary) {
+                $text = trim($node->text());
+                if ($text) {
+                    $summary .= htmlspecialchars($text, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') . ' ';
+                }
+            });
+            $summary = trim($summary);
 
-    //             if ($tag === 'img') {
-    //                 $src = $node->attr('src');
-    //                 if ($src) {
-    //                     $groupedByTag['img_src'][] = $src;
-    //                 }
-    //             }
-    //         });
+            // Ambil topic dari tag <a> dengan class breadcrumb__parent-link atau vossi-breadcrumb__parent-link
+            $topic = $crawler->filter('a.breadcrumb__parent-link, a.vossi-breadcrumb__parent-link')->count() > 0
+            ? trim($crawler->filter('a.breadcrumb__parent-link, a.vossi-breadcrumb__parent-link')->text())
+            : '';
 
-    //         // Hilangkan duplikat
-    //         foreach ($groupedByTag as $tag => $texts) {
-    //             $groupedByTag[$tag] = array_values(array_unique($texts));
-    //         }
+            // Ambil date dari div dengan class vossi-timestamp dan format ke YYYY-MM-DD
+            // $date = $crawler->filter('div.vossi-timestamp')->count() > 0
+            // ? trim($crawler->filter('div.vossi-timestamp')->text())
+            // : '';
+            // $date = $date ? Carbon::parse($date)->format('Y-m-d') : '';
 
-    //         return [
-    //             'full_text' => $fullText,
-    //             'grouped_by_tag' => $groupedByTag,
-    //         ];
-    //     } catch (\Exception $e) {
-    //         return [
-    //             'error' => 'Gagal mengambil data: ' . $e->getMessage(),
-    //         ];
-    //     }
-    // }
+            $date = '';
+            if ($crawler->filter('div.vossi-timestamp')->count() > 0) {
+                try {
+                    $rawDate = trim($crawler->filter('div.vossi-timestamp')->text());
+                    // Clean the "Published" prefix and normalize the format
+                    $cleanDate = preg_replace('/^(Published|Updated)\s*/i', '', $rawDate);
+                    // Map EDT to a valid timezone identifier
+                    $cleanDate = str_replace('EDT', 'America/New_York', $cleanDate);
+                    $date      = Carbon::parse($cleanDate, 'America/New_York')->format('Y-m-d');
+                } catch (\Exception $e) {
+                    $date = '';
+                }
+            }
+
+            // Ambil content dari semua tag <p> dengan class vossi-paragraph
+            $content = '';
+            $crawler->filter('p.vossi-paragraph')->each(function ($node) use (&$content) {
+                $text = trim($node->text());
+                if ($text) {
+                    $content .= htmlspecialchars($text, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') . "\n";
+                }
+            });
+            $content = trim($content);
+
+            // Tentukan source menggunakan fungsi checkLinkBeforeScrapping
+            $source = "CNN";
+
+            // Array untuk menyimpan hasil artikel
+            $articles = [];
+
+            // Validasi data sebelum menyimpan ke database
+            if ($title && $summary && $source && $topic && $url && $date) {
+                try {
+                    // $sublink = self::getSubLink($url);
+
+                    // Simpan artikel ke database
+                    ArticleScraping::create([
+                        'title'   => $title,
+                        'summary' => $summary,
+                        'source'  => $source,
+                        'topic'   => $topic,
+                        'date'    => $date,
+                        'url'     => $url,
+                        'content' => $content, // Gunakan content, bukan sublink
+                    ]);
+
+                    // Tambahkan artikel dengan alert-success
+                    $articles = [
+                        'title'   => $title,
+                        'summary' => $summary,
+                        'source'  => $source,
+                        'topic'   => $topic,
+                        'date'    => $date,
+                        'url'     => $url,
+                        'content' => $content,
+                        'alert'   => 'alert-success',
+                        'message' => 'Successfully inserted into database',
+                    ];
+                } catch (\Illuminate\Database\QueryException $e) {
+                    // Tangani error, misalnya duplikasi URL
+                    $errorMessage = 'Failed to insert into database';
+                    if ($e->getCode() == 23000) { // Kode error untuk constraint unik
+                        $errorMessage = 'Failed to insert: Duplicate URL';
+                    } else {
+                        $errorMessage .= ': ' . $e->getMessage();
+                    }
+
+                    $articles = [
+                        'title'   => $title,
+                        'summary' => $summary,
+                        'source'  => $source,
+                        'topic'   => $topic,
+                        'date'    => $date,
+                        'url'     => $url,
+                        'content' => $content,
+                        'alert'   => 'alert-danger',
+                        'message' => $errorMessage,
+                    ];
+                } catch (\Exception $e) {
+                    // Tangani error lain (misalnya, format tanggal salah)
+                    $articles = [
+                        'title'   => $title,
+                        'summary' => $summary,
+                        'source'  => $source,
+                        'topic'   => $topic,
+                        'date'    => $date,
+                        'url'     => $url,
+                        'content' => $content,
+                        'alert'   => 'alert-danger',
+                        'message' => 'Failed to insert: ' . $e->getMessage(),
+                    ];
+                }
+            } else {
+                // Jika data tidak lengkap
+                $articles = [
+                    'title'   => $title,
+                    'summary' => $summary,
+                    'source'  => $source,
+                    'topic'   => $topic,
+                    'date'    => $date,
+                    'url'     => $url,
+                    'content' => $content,
+                    'alert'   => 'alert-danger',
+                    'message' => 'Incomplete data for insertion',
+                ];
+            }
+
+            // return [
+            //     'articles' => $articles,
+            // ];
+            return $articles;
+
+        } catch (\Exception $e) {
+            return [
+                'error' => 'Gagal mengambil data: ' . $e->getMessage(),
+            ];
+        }
+
+    }
 
     public function scrapperFulltext($url)
     {
@@ -241,6 +353,8 @@ class ScrappingController extends Controller
 
                 // Navigasi dan tautan
                 // 'a',
+                // 'ul',
+                // 'li',
 
                 // Struktur halaman
                 'html',
@@ -445,16 +559,6 @@ class ScrappingController extends Controller
                 }
                 // dump($topic);
                 if ($title && $summary && $source && $topic && $url) {
-                    // $sublink = self::getSubLink($url);
-                    // $articles[] = [
-                    //     'title'   => $title,
-                    //     'summary' => $summary,
-                    //     'source'  => $source,
-                    //     'topic'   => $topic,
-                    //     'date'    => $date,
-                    //     'url'     => $url,
-                    //     'content' => $sublink,
-                    // ];
                     try {
                         $sublink = self::getSubLink($url);
 
