@@ -94,11 +94,206 @@ class ScrappingController extends Controller
             $data = 'Bloomberg';
         } elseif ($parsedUrl === 'edition.cnn.com') {
             $data = $this->scrapperFulltextCNN($url);
+        } elseif ($parsedUrl === 'www.news.com.au') {
+            $data = $this->scrapperFulltextNewsComAu($url);
+            // $data = 'https://www.news.com.au/';
         } else {
             $data = 'Unknown';
         }
-
+        // dd($parsedUrl,$data);
         return $data;
+    }
+
+    public function scrapperFulltextNewsComAu($url)
+    {
+        $client = new Client();
+        $client->setServerParameter('HTTP_USER_AGENT', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)');
+
+        try {
+            $crawler  = $client->request('GET', $url);
+            $articles = [];
+            $baseHost = parse_url($url, PHP_URL_HOST);
+
+            // Filter tag <a> dengan class storyblock_title_link
+            $crawler->filter('a.storyblock_title_link')->each(function ($node) use (&$articles, $baseHost) {
+                // Ambil URL dari atribut href
+                $href = $node->attr('href');
+
+                // Pastikan URL lengkap
+                if ($href && ! str_starts_with($href, 'http')) {
+                    $href = 'https://www.news.com.au' . ltrim($href, '/');
+                }
+
+                // Validasi host sama atau mirip dan tidak mengandung #video
+                $hrefHost = parse_url($href, PHP_URL_HOST);
+                if ($hrefHost && (str_contains($hrefHost, 'news.com.au') || $hrefHost === $baseHost) && ! str_ends_with($href, '#video')) {
+                    // Ambil teks langsung dari node
+                    $title = trim($node->text());
+
+                    // Validasi href dan title tidak kosong
+                    if ($href && $title) {
+                        $articleContent = $this->scrapeArticleContentNewsComAu($href);
+                        $articles[]     = $articleContent;
+                    }
+                }
+            });
+
+            return [
+                'ordered_text' => $articles,
+            ];
+        } catch (\Exception $e) {
+            return [
+                'error' => 'Gagal mengambil data: ' . $e->getMessage(),
+            ];
+        }
+    }
+
+    public function scrapeArticleContentNewsComAu($url)
+    {
+        $client = new Client();
+        $client->setServerParameter('HTTP_USER_AGENT', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)');
+
+        try {
+            $crawler = $client->request('GET', $url);
+
+            // Ambil title dari div#story-heading > h1#story-headline
+            $title = $crawler->filter('h1#story-headline')->count() > 0
+            ? trim($crawler->filter('h1#story-headline')->text())
+            : '';
+
+            // Ambil summary dari div#story-heading > p#story-intro
+            $summary = $crawler->filter('p#story-intro')->count() > 0
+            ? trim($crawler->filter('p#story-intro')->text())
+            : '';
+
+            // Ambil topic dari ul#breadcrumbs > li:first-child
+            $topic = $crawler->filter('ul#breadcrumbs li.breadcrumbs_li:first-child a.breadcrumbs_li_a')->count() > 0
+            ? trim($crawler->filter('ul#breadcrumbs li.breadcrumbs_li:first-child a.breadcrumbs_li_a')->text())
+            : '';
+
+            // Ambil date dari div#story-heading > div#source > section > div#publish-date
+            $date = '';
+            if ($crawler->filter('div#publish-date')->count() > 0) {
+                try {
+                    $rawDate = trim($crawler->filter('div#publish-date')->text());
+                    // Hapus prefix seperti "Published" atau "Updated" dan normalisasi timezone
+                    $cleanDate = preg_replace('/^(Published|Updated)\s*/i', '', $rawDate);
+                    $cleanDate = str_replace(['EDT', 'EST'], 'America/New_York', $cleanDate);
+                    // Coba parsing dengan beberapa format yang mungkin
+                    $date = Carbon::createFromFormat('F j, Y - g:iA', $cleanDate, 'America/New_York');
+                    if ($date === false) {
+                        // Coba format lain jika gagal
+                        $date = Carbon::createFromFormat('F j, Y - g:i A', $cleanDate, 'America/New_York');
+                    }
+                    $date = $date ? $date->format('Y-m-d H:i:s') : '';
+                } catch (\Exception $e) {
+                    $date = '';
+                }
+            }
+
+            // Ambil content dari div#story-body > div#story-primary > p
+            $content = '';
+            if ($crawler->filter('div#story-body div#story-primary p')->count() > 0) {
+                $crawler->filter('div#story-body div#story-primary p')->each(function ($node) use (&$content) {
+                    $text = trim($node->text());
+                    if ($text) {
+                        $content .= htmlspecialchars($text, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') . "\n";
+                    }
+                });
+            } else {
+                // Jika tidak ada, ambil dari div.story-body-nodes > p
+                $crawler->filter('div.story-body-nodes p')->each(function ($node) use (&$content) {
+                    $text = trim($node->text());
+                    if ($text) {
+                        $content .= htmlspecialchars($text, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') . "\n";
+                    }
+                });
+            }
+            $content = trim($content);
+
+            // Tentukan source
+            $source = 'NewsComAu';
+
+            // Array untuk menyimpan hasil artikel
+            $articles = [];
+
+            // Validasi data sebelum menyimpan ke database
+            if ($title && $summary && $source && $topic && $url && $date) {
+                try {
+                    ArticleScraping::create([
+                        'title'   => $title,
+                        'summary' => $summary,
+                        'source'  => $source,
+                        'topic'   => $topic,
+                        'date'    => $date,
+                        'url'     => $url,
+                        'content' => $content,
+                    ]);
+
+                    $articles = [
+                        'title'   => $title,
+                        'summary' => $summary,
+                        'source'  => $source,
+                        'topic'   => $topic,
+                        'date'    => $date,
+                        'url'     => $url,
+                        'content' => $content,
+                        'alert'   => 'alert-success',
+                        'message' => 'Successfully inserted into database',
+                    ];
+                } catch (\Illuminate\Database\QueryException $e) {
+                    $errorMessage = 'Failed to insert into database';
+                    if ($e->getCode() == 23000) {
+                        $errorMessage = 'Failed to insert: Duplicate URL';
+                    } else {
+                        $errorMessage .= ': ' . $e->getMessage();
+                    }
+
+                    $articles = [
+                        'title'   => $title,
+                        'summary' => $summary,
+                        'source'  => $source,
+                        'topic'   => $topic,
+                        'date'    => $date,
+                        'url'     => $url,
+                        'content' => $content,
+                        'alert'   => 'alert-warning',
+                        'message' => $errorMessage,
+                    ];
+                } catch (\Exception $e) {
+                    $articles = [
+                        'title'   => $title,
+                        'summary' => $summary,
+                        'source'  => $source,
+                        'topic'   => $topic,
+                        'date'    => $date,
+                        'url'     => $url,
+                        'content' => $content,
+                        'alert'   => 'alert-warning',
+                        'message' => 'Failed to insert: ' . $e->getMessage(),
+                    ];
+                }
+            } else {
+                $articles = [
+                    'title'   => $title,
+                    'summary' => $summary,
+                    'source'  => $source,
+                    'topic'   => $topic,
+                    'date'    => $date,
+                    'url'     => $url,
+                    'content' => $content,
+                    'alert'   => 'alert-danger',
+                    'message' => 'Incomplete data to Insert, Or this is not an Article',
+                ];
+            }
+
+            return $articles;
+
+        } catch (\Exception $e) {
+            return [
+                'error' => 'Gagal mengambil data: ' . $e->getMessage(),
+            ];
+        }
     }
 
     public function scrapperFulltextCNN($url)
