@@ -40,7 +40,7 @@ use Illuminate\Support\Facades\Route;
 #Beranda
 use App\Http\Controllers\Api\Beranda\GetBerandaController;
 use App\Http\Controllers\Api\Beranda\TestimonialController;
-
+use App\Http\Controllers\APi\Ipcek\ApiIpCheckController;
 #Token
 use App\Http\Controllers\Api\Member\UpdateTokenFirebaseController;
 
@@ -76,7 +76,7 @@ use App\Http\Controllers\Front\ContributorSignupController;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
  */
-
+Route::get('/ipcheck', [ApiIpCheckController::class, 'indexApi']);
 
  Route::post('apilogin', [ApiController::class, 'index']);
 
