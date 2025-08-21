@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\APi\Ipcek;
+namespace App\Http\Controllers\Api\Ipcek;
 
 use App\Models\NewsVisit;
 use App\Models\PageVisit;
