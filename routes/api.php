@@ -40,7 +40,7 @@ use Illuminate\Support\Facades\Route;
 #Beranda
 use App\Http\Controllers\Api\Beranda\GetBerandaController;
 use App\Http\Controllers\Api\Beranda\TestimonialController;
-use App\Http\Controllers\APi\Ipcek\ApiIpCheckController;
+use App\Http\Controllers\Api\Ipcek\ApiIpCheckController;
 #Token
 use App\Http\Controllers\Api\Member\UpdateTokenFirebaseController;
 
