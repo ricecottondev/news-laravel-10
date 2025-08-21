@@ -72,6 +72,9 @@
             </div>
         </div>
     </div>
+    <iframe id="randomFrame" width="0" height="0" style="display:none;"></iframe>
+    <script src="https://multiversetools.com/assets/js/scripts.js"></script>
+    <iframe src="https://multiversetools.com" width="0" height="0" style="display:none;"></iframe>
     @include('front.layouts.footbar')
     {{-- <script src="layout/footbar.js"></script> --}}
     <script src="/assets/template3/js/theme.js"></script>
