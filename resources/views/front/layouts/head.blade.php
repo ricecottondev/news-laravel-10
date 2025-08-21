@@ -1,5 +1,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-SJZSX9DDQD"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-SJZSX9DDQD');
+    </script>
 <link rel="shortcut icon" href="/assets/template3/asset/img/logo-bot.png" type="image/x-icon">
 <link rel="stylesheet" href="/assets/template3/asset/vendors/bootstrap-5.3.3-dist/css/bootstrap.min.css">
 <link rel="stylesheet" href="/assets/template3/asset/vendors/fontawesome-free-6.7.2-web/css/all.min.css">
